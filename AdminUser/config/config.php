@@ -6,9 +6,9 @@ date_default_timezone_set('Asia/Calcutta');
 // session_destroy();
 
 	define('HOST','localhost'); //localhost  //1_144.76.110.39  //2_148.251.83.156  //159.69.73.26
-	define('USER','hrims_user'); 
-	define('PASS','hrims@192');
-	define('DATABASE1','hrims');
+	define('USER','root	'); 
+	define('PASS','ajaydbajay');
+	define('DATABASE1','vnrseed2_hrims');
 	
 	$con=mysql_connect(HOST,USER,PASS);
 	if(!$con) die("Failed to connect to database!");
