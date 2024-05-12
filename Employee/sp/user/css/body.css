@@ -1,0 +1,104 @@
+.body
+{ background-color:#586738;
+  font-family:Verdana;
+  font-size:12px;
+  font-size-adjust:inherit;
+  letter-spacing:normal;
+  margin-top:05px;}
+.table
+{ width:100%;
+  height:auto;
+  border:0;
+  margin-top:0px;
+  margin-left:0px;
+  margin-right:0px;}
+.menutable
+{ width:100%;
+  height:auto;
+  border:0;
+  margin-top:0px;} 
+
+.tdTital
+{ color:#00254A;
+  font-size:16px;
+  font-family:Georgia;} 
+    
+.td
+{ color:#462E5A;
+  font-size:12px;
+  width:200px;
+  font-family:Verdana;}
+  
+.td1
+{ color:#000000;
+  font-size:12px;
+  font-family:Verdana;
+  height:15px;}
+   
+.tdTextbox
+{ color:#000000;
+  background-color:#FFFFFF;
+  font-size:11px;
+  font-family:Verdana;
+  width:180px;
+  height:20px;} 
+  
+.tdbutton
+{ color:#000000;
+  font-size:11px;
+  font-family:Verdana;
+  width:100px;
+  height:25px;}   
+   
+/*.form {
+  width: 45em;
+  margin: 0 auto;
+  padding: 10px 10px;
+  overflow: auto;
+  color: #3e4a49;
+   background-color:#EBEAF2;
+  border-radius: 5px;
+  box-shadow: 0 0 .5em rgba(0, 0, 0, .8);
+  border-style:outset; }
+*/
+
+
+.form {
+  margin: 0 auto;
+  padding: 10px 10px;
+  overflow: auto;
+  background-color:#DFDCED;
+  border-radius: 5px;
+  box-shadow: 0 0 .5em rgba(0, 0, 0, .8);
+  border-style:outset;
+}
+
+.form1 {
+  width: 50em;
+  margin: 0 auto;
+  padding: 10px 10px;
+  overflow: auto;
+  color: #3e4a49;
+  background-color:#E9E9D1;
+  border-radius: 5px;
+  box-shadow: 0 0 .5em rgba(0, 0, 0, .8);
+  border-style:outset;
+}
+
+.form2 {
+  width: 60em;
+  margin: 0 auto;
+  padding: 10px 10px;
+  overflow: auto;
+  color: #3e4a49;
+  background-color:#E9E9D1;
+  border-radius: 5px;
+  box-shadow: 0 0 .5em rgba(0, 0, 0, .8);
+  border-style:outset;
+  
+}
+.heading {font-family:Times New Roman; color:#FFFFAE; font-size:18px; font-weight:bold;}
+
+.font { color:#000000; font-family:Georgia; font-size:11px; width:100px;} .font4 { color:#1FAD34; font-family:Georgia; font-size:13px; height:10px;}.span {display:none; font-family:Courier New; font-size:14px; }.span1{display:block; font-family:Courier New; font-size:14px; }.fontButton { color:#009393; font-family:Georgia; font-size:13px; background-color:#808000;}.CalenderButton {background-image:url(images/CalenderBtn.jpeg); width:16px; height:16px; background-color:#E0DBE3; border-color:#FFFFFF;}
+.All{font-size:11px; height:18px;} .All_10{font-size:11px; height:18px; width:10px;}.All_20{font-size:11px; height:18px; width:20px;} .All_30{font-size:11px; height:18px; width:30px;}
+.All_50{font-size:11px; height:18px; width:50px;} .All_60{font-size:11px; height:18px; width:60px;}.All_70{font-size:11px; height:18px; width:70px;}.All_80{font-size:11px; height:18px; width:80px;} .All_90{font-size:11px; height:18px; width:90px;}.All_100{font-size:11px; height:18px; width:100px;} .All_120{font-size:11px; height:18px; width:120px;} .All_125{font-size:11px; height:18px; width:125px;} .All_140{font-size:11px; height:18px; width:140px;} .All_148{font-size:11px; height:18px; width:148px;} .All_150{font-size:11px; height:18px; width:150px;} .All_180{font-size:11px; height:18px; width:180px;} .All_200{font-size:11px; height:18px; width:200px;} .All_220{font-size:11px; height:18px; width:220px;} .All_250{font-size:11px; height:18px; width:250px;} .All_300{font-size:11px; height:18px; width:300px;} .All_400{font-size:11px; height:18px; width:400px;} .All_500{font-size:11px; height:18px; width:500px;}

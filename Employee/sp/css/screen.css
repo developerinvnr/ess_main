@@ -1,0 +1,16 @@
+#myslides {
+	width: 370px;
+	height: 220px;
+    padding: 0;  
+    margin:  0 auto;  
+} 
+ 
+#myslides img {  
+    padding: 1px;  
+    border:  0px;  
+    background-color: #7a6189;
+    width: 698px;
+    height: 237px;
+    top:  0; 
+    left: 0 
+}

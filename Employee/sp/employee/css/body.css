@@ -1,0 +1,115 @@
+.body
+{ background-color:#586738;
+  font-family:Verdana;
+  font-size:12px;
+  font-size-adjust:inherit;
+  letter-spacing:normal;
+  margin-top:05px;
+  margin: 0 auto;
+  /*
+  min-width: 960px;
+  max-width: 1280px;
+  margin: 0 auto;
+  width: expression(document.body.clientWidth < 961? "960px" : document.body.clientWidth > 1281? "1280px" : "auto");
+  */
+  }
+.table
+{ width:100%;
+  height:auto;
+  border:0;
+  margin-top:0px;
+  margin-left:0px;
+  margin-right:0px;}
+.menutable
+{ width:100%;
+  height:auto;
+  border:0;
+  margin-top:0px;} 
+
+.tdTital
+{ color:#00254A;
+  font-size:18px;
+  font-family:Georgia, "Times New Roman", Times, serif;} 
+    
+.td
+{ color:#462E5A;
+  font-size:12px;
+  width:200px;
+  font-family:Verdana;}
+  
+.td1
+{ color:#000000;
+  font-size:12px;
+  font-family:Verdana;
+  height:15px;}
+   
+.tdTextbox
+{ color:#000000;
+  background-color:#FFFFFF;
+  font-size:11px;
+  font-family:Verdana;
+  width:180px;
+  height:20px;}   
+  
+
+  
+.tdbutton
+{ color:#000000;
+  font-size:11px;
+  font-family:Verdana;
+  width:100px;
+  height:25px;}   
+   
+.form {
+  width: 45em;
+  margin: 0 auto;
+  padding: 10px 10px;
+  overflow: auto;
+  color: #3e4a49;
+  /* background-color:#EBEAF2;
+  border-radius: 5px;
+  box-shadow: 0 0 .5em rgba(0, 0, 0, .8);
+  border-style:outset;
+*/
+}
+
+.form1 {
+  width: 45em;
+  margin: 0 auto;
+  padding: 10px 10px;
+  overflow: auto;
+  color: #3e4a49;
+  background-color:#E9E9D1;
+  border-radius: 5px;
+  box-shadow: 0 0 .5em rgba(0, 0, 0, .8);
+  border-style:outset;
+}
+
+.form2 {
+  width: 50em;
+  margin: 0 auto;
+  padding: 10px 10px;
+  overflow: auto;
+  color: #3e4a49;
+  background-color:#E9E9D1;
+  border-radius: 5px;
+  box-shadow: 0 0 .5em rgba(0, 0, 0, .8);
+  border-style:outset;
+}
+
+.form3 {
+  width: 60em;
+  margin: 0 auto;
+  padding: 10px 10px;
+  overflow: auto;
+  color: #3e4a49;
+  background-color:#E9E9D1;
+  border-radius: 5px;
+  box-shadow: 0 0 .5em rgba(0, 0, 0, .8);
+  border-style:outset;
+  
+}
+
+.heading {font-family:Times New Roman; color:#423F87; font-size:18px; font-weight:bold;}
+.heading2 {font-family:Times New Roman; color:#FFFFAE; font-size:18px; font-weight:bold;}
+

@@ -1,0 +1,68 @@
+/* CSS Document */
+.th{ font-family:Times New Roman;font-size:12px;height:25px;text-align:center;color:#FFFFFF;background-color:#7a6189;font-weight:bold; }
+.tdl{ font-family:Times New Roman;font-size:12px;text-align:left; }
+.tdc{ font-family:Times New Roman;font-size:12px;text-align:center; }
+.tdr{ font-family:Times New Roman;font-size:12px;text-align:right; }
+.tdinput{ font-family:Times New Roman;font-size:14px;text-align:center;width:100%; border:hidden; }
+.tdinputl{ font-family:Times New Roman;font-size:14px;text-align:left;width:100%; border:hidden; }
+.tdinp{ font-family:Times New Roman;font-size:12px;text-align:center;width:100%;border:hidden; }
+.tdinpl{ font-family:Times New Roman;font-size:12px;text-align:left;width:100%;border:hidden; }
+.tdsel{ font-family:Times New Roman;font-size:14px;text-align:left;width:100%;}
+.inner_table{height:500px;overflow-y:auto;width:auto;}
+.font {color:#000; font-family:Times New Roman; font-size:12px;}.Input{font-family:"Times New Roman", Times, serif; font-size:14px; height:22px;border-style:hidden; border-bottom-color:#FFFFFF; border-left-color:#FFFFFF; border-right-color:#FFFFFF; border-top-color:#FFFFFF; border:0;}.CalenderButton {background-image:url(images/CalenderBtn.jpeg); width:16px; height:16px; background-color:#E0DBE3; border-color:#FFFFFF;} .font1 { font-family:Georgia; font-size:11px; height:14px; } .font2 { font-size:11px;width:260px;height:18px;}.fontButton { background-color:#7a6189; color:#009393; font-family:Georgia; font-size:13px;} .TableHead { font-family:Times New Roman; color:#FFFFFF; font-size:15px; }.TableHead1 { font-family:Times New Roman; color:#000000; background-color:#FFFFFF; font-size:13px; overflow:hidden; } .InputText {font-family:Times New Roman; font-size:12px; width:100px; height:19px; }.head{font-family:Times New Roman;font-size:14px;font-weight:bold;}.data{font-family:Times New Roman;font-size:13px;text-transform:uppercase;}.CalenderButton {background-image:url(images/CalenderBtn.jpeg); width:16px; height:16px; background-color:#E0DBE3; border-color:#FFFFFF;}
+
+.fhead{color:#000;font-family:Times New Roman;font-size:14px;font-weight:bold;text-align:center;}
+.fbody{color:#000;font-family:Times New Roman;font-size:14px;}
+.fbodyc{color:#000;font-family:Times New Roman;font-size:14px;text-align:center;}
+.input{font-family:Times New Roman;font-size:14px;}
+.fhead2{color:#000;font-family:Times New Roman;font-size:12px;font-weight:bold;text-align:center;}
+.fbody2{color:#000;font-family:Times New Roman;font-size:14px;}
+.sbutton{ font-family:Times New Roman;font-size:15px; height:28px;}
+.CalenderButton {background-image:url(images/CalenderBtn.jpeg); width:16px; height:16px; background-color:#E0DBE3; border-color:#FFFFFF;} .fontButton { background-color:#7a6189; color:#009393; font-family:Georgia; font-size:14px;} .TableHead { font-family:Times New Roman; color:#FFFFFF; font-size:15px; }.TableHead1 { font-family:Times New Roman; color:#000000; background-color:#FFFFFF; font-size:13px; overflow:hidden; } .InputText {font-family:Times New Roman; font-size:12px; width:100px; height:19px; } .Input2a{font-family:Times New Roman; height:22px;font-weight:bold; font-size:12px;text-align:center;}.Inputa{font-family:"Times New Roman", Times, serif; font-size:12px; height:22px;border-style:hidden; border-bottom-color:#FFFFFF; border-left-color:#FFFFFF; border-right-color:#FFFFFF; border-top-color:#FFFFFF; border:0;}
+
+.Input2{font-family:Times New Roman; height:22px;border-style:hidden; border-bottom-color:#EEF0AA; border-left-color:#EEF0AA; border-right-color:#EEF0AA; border-top-color:#EEF0AA; border:0;background-color:#EEF0AA; font-weight:bold;}
+.Input2a{font-family:Times New Roman; height:22px;font-weight:bold; font-size:12px;text-align:center;}.Inputa{font-family:"Times New Roman", Times, serif; font-size:14px; height:22px;border-style:hidden; border-bottom-color:#FFFFFF; border-left-color:#FFFFFF; border-right-color:#FFFFFF; border-top-color:#FFFFFF; border:1;}
+.Inputar{font-family:"Times New Roman", Times, serif; font-size:14px;border-style:hidden;border-bottom-color:#FFFFFF; border-left-color:#FFFFFF; border-right-color:#FFFFFF; border-top-color:#FFFFFF; border:0;background-color:#FFFFFF;}
+.Inputar2{font-family:"Times New Roman", Times, serif; font-size:14px;border-style:hidden;border-bottom-color:#FFFFFF; border-left-color:#FFFFFF; border-right-color:#FFFFFF; border-top-color:#FFFFFF; border:1;}
+
+.msg_g{ font-family:Times New Roman;font-size:18px;font-weight:bold;color:#006600;}
+.msg_r{ font-family:Times New Roman;font-size:18px;font-weight:bold;color:#E80000;}
+.msg_y{ font-family:Times New Roman;font-size:18px;font-weight:bold;color:#FFFF79;}
+.msg_b{ font-family:Times New Roman;font-size:18px;font-weight:bold;color:#0075EA;}
+
+.formh{font-family:Times New Roman;font-size:18px;font-weight:bold;color:#00468C;}
+.formb{font-family:Times New Roman;font-size:16px;font-weight:bold;color:#0231EE;}
+.formw{font-family:Times New Roman;font-size:16px;font-weight:bold;color:#FFFFFF;}
+.forma{font-family:Times New Roman;font-size:16px;font-weight:bold;color:#9732A3;}
+.formc{font-family:Times New Roman;font-size:16px;font-weight:bold;color:#006400;}
+
+.blink_me { animation: blinker 1s linear infinite; }
+@keyframes blinker {  50% { opacity: 0; } }
+<!--<span class="blink_me"></span>-->
+
+.head{color:#000;font-family:Times New Roman;font-size:18px;font-weight:bold;}
+.bdy{color:#00376F;font-family:Times New Roman;font-size:18px;}
+.h{color:#000;font-family:Times New Roman;font-size:15px;font-weight:bold;text-align:center;}
+.hl{color:#000;font-family:Times New Roman;font-size:15px;font-weight:bold;}
+.b{color:#000;font-family:Times New Roman;font-size:15px;text-align:center;}
+.bl{color:#000;font-family:Times New Roman;font-size:15px;}
+.body2{font-family:Times New Roman;font-size:18px;color:#0000FF;}
+
+.tr1{text-align:center;font-family:Georgia;font-size:12px;width:50px;background-color:#FFFFA8;}
+.tr2{text-align:center;font-family:Georgia;font-size:12px;width:50px;background-color:#FFFFFF;}
+.tr3{text-align:center;font-family:Georgia;font-size:12px;width:50px;background-color:#FF80FF;}
+.tr4{text-align:center;font-family:Georgia;font-size:12px;width:50px;background-color:#4AA5FF;}
+.tr5{text-align:center;font-family:Georgia;font-size:12px;width:50px;background-color:#93FF93;}
+.tr6{text-align:center;font-family:Georgia;font-size:12px;width:50px;background-color:#FFA953;}
+
+
+/*.td1{ text-align:center;font-family:Times New Roman;color:#FFFFFF;font-size:14px; }*/
+.td2{ text-align:center;font-family:Times New Roman;font-size:12px; }
+.td3{ font-family:Times New Roman;font-size:12px; }
+.tdd{ text-align:center;font-family:Times New Roman;color:#000;font-size:14px; }
+.tddr{ text-align:right;font-family:Times New Roman;color:#000;font-size:14px; }
+
+.rinput{font-family:Times New Roman;font-weight:bold;color:#9F0000;font-size:15px;text-align:center;height:21px;}
+.tdll{ font-family:Times New Roman;font-size:14px;text-align:left; }
+.tdcc{ font-family:Times New Roman;font-size:14px;text-align:center; }
+.tdrr{ font-family:Times New Roman;font-size:14px;text-align:right; }

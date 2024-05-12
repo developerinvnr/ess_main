@@ -1,0 +1,10 @@
+[01-Feb-2021 10:36:22 Asia/Kolkata] PHP Deprecated:  mysql_connect(): The mysql extension is deprecated and will be removed in the future: use mysqli or PDO instead in /home/vnrseed2/public_html/hrims/AdminUser/config/config.php on line 13
+[01-Feb-2021 10:36:22 Asia/Kolkata] PHP Notice:  Undefined variable: email_message in /home/vnrseed2/public_html/hrims/AdminUser/CornMail/Kra1Mail.php on line 16
+[02-Feb-2021 10:11:09 Asia/Kolkata] PHP Deprecated:  mysql_connect(): The mysql extension is deprecated and will be removed in the future: use mysqli or PDO instead in /home/vnrseed2/public_html/hrims/AdminUser/config/config.php on line 13
+[02-Feb-2021 10:11:09 Asia/Kolkata] PHP Notice:  Undefined variable: array_empAnn in /home/vnrseed2/public_html/hrims/AdminUser/CornMail/Birth1Mail.php on line 29
+[02-Feb-2021 10:11:09 Asia/Kolkata] PHP Warning:  implode(): Invalid arguments passed in /home/vnrseed2/public_html/hrims/AdminUser/CornMail/Birth1Mail.php on line 29
+[02-Feb-2021 10:11:09 Asia/Kolkata] PHP Notice:  Undefined variable: email_message in /home/vnrseed2/public_html/hrims/AdminUser/CornMail/Birth1Mail.php on line 35
+[02-Feb-2021 10:15:01 Asia/Kolkata] PHP Deprecated:  mysql_connect(): The mysql extension is deprecated and will be removed in the future: use mysqli or PDO instead in /home/vnrseed2/public_html/hrims/AdminUser/config/config.php on line 13
+[02-Feb-2021 10:15:01 Asia/Kolkata] PHP Notice:  Undefined variable: array_empAnn in /home/vnrseed2/public_html/hrims/AdminUser/CornMail/Birth1Mail.php on line 29
+[02-Feb-2021 10:15:01 Asia/Kolkata] PHP Warning:  implode(): Invalid arguments passed in /home/vnrseed2/public_html/hrims/AdminUser/CornMail/Birth1Mail.php on line 29
+[02-Feb-2021 10:15:01 Asia/Kolkata] PHP Notice:  Undefined variable: email_message in /home/vnrseed2/public_html/hrims/AdminUser/CornMail/Birth1Mail.php on line 35

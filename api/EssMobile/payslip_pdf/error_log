@@ -1,0 +1,141 @@
+[01-Feb-2022 10:53:49 Asia/Kolkata] PHP Notice:  Undefined index: empid in /home/vnrseed2/public_html/hrims/api/EssMobile/payslip_pdf/investment.php on line 10
+[01-Feb-2022 10:53:49 Asia/Kolkata] PHP Notice:  Undefined index: comid in /home/vnrseed2/public_html/hrims/api/EssMobile/payslip_pdf/investment.php on line 11
+[01-Feb-2022 15:32:47 Asia/Kolkata] PHP Parse error:  syntax error, unexpected '.' in /home/vnrseed2/public_html/hrims/api/EssMobile/payslip_pdf/investment.php on line 65
+[01-Feb-2022 15:32:49 Asia/Kolkata] PHP Parse error:  syntax error, unexpected '.' in /home/vnrseed2/public_html/hrims/api/EssMobile/payslip_pdf/investment.php on line 65
+[01-Feb-2022 15:32:51 Asia/Kolkata] PHP Parse error:  syntax error, unexpected '.' in /home/vnrseed2/public_html/hrims/api/EssMobile/payslip_pdf/investment.php on line 65
+[01-Feb-2022 15:32:52 Asia/Kolkata] PHP Parse error:  syntax error, unexpected '.' in /home/vnrseed2/public_html/hrims/api/EssMobile/payslip_pdf/investment.php on line 65
+[01-Feb-2022 15:33:24 Asia/Kolkata] PHP Parse error:  syntax error, unexpected '.' in /home/vnrseed2/public_html/hrims/api/EssMobile/payslip_pdf/investment.php on line 65
+[01-Feb-2022 15:33:25 Asia/Kolkata] PHP Parse error:  syntax error, unexpected '.' in /home/vnrseed2/public_html/hrims/api/EssMobile/payslip_pdf/investment.php on line 65
+[01-Feb-2022 15:33:45 Asia/Kolkata] PHP Parse error:  syntax error, unexpected '.' in /home/vnrseed2/public_html/hrims/api/EssMobile/payslip_pdf/investment.php on line 66
+[01-Feb-2022 15:33:46 Asia/Kolkata] PHP Parse error:  syntax error, unexpected '.' in /home/vnrseed2/public_html/hrims/api/EssMobile/payslip_pdf/investment.php on line 66
+[01-Feb-2022 15:33:48 Asia/Kolkata] PHP Parse error:  syntax error, unexpected '.' in /home/vnrseed2/public_html/hrims/api/EssMobile/payslip_pdf/investment.php on line 66
+[01-Feb-2022 15:33:49 Asia/Kolkata] PHP Parse error:  syntax error, unexpected '.' in /home/vnrseed2/public_html/hrims/api/EssMobile/payslip_pdf/investment.php on line 66
+[01-Feb-2022 15:57:36 Asia/Kolkata] PHP Notice:  Undefined index: comid in /home/vnrseed2/public_html/hrims/api/EssMobile/payslip_pdf/investment.php on line 26
+[01-Feb-2022 15:57:36 Asia/Kolkata] PHP Warning:  mysqli_fetch_array() expects parameter 1 to be mysqli_result, boolean given in /home/vnrseed2/public_html/hrims/api/EssMobile/payslip_pdf/investment.php on line 31
+[01-Feb-2022 15:57:36 Asia/Kolkata] PHP Notice:  Undefined index: HRA in /home/vnrseed2/public_html/hrims/api/EssMobile/payslip_pdf/investment.php on line 65
+[01-Feb-2022 16:00:32 Asia/Kolkata] PHP Notice:  Undefined index: format in /home/vnrseed2/public_html/hrims/api/EssMobile/payslip_pdf/investment.php on line 27
+[01-Feb-2022 16:10:49 Asia/Kolkata] PHP Notice:  Undefined index: HRA in /home/vnrseed2/public_html/hrims/api/EssMobile/payslip_pdf/investment.php on line 66
+[01-Feb-2022 16:11:06 Asia/Kolkata] PHP Notice:  Undefined index: HRA in /home/vnrseed2/public_html/hrims/api/EssMobile/payslip_pdf/investment.php on line 66
+[02-Feb-2022 14:05:31 Asia/Kolkata] PHP Notice:  Undefined index: format in /home/vnrseed2/public_html/hrims/api/EssMobile/payslip_pdf/investment_declaration.php on line 23
+[02-Feb-2022 14:05:35 Asia/Kolkata] PHP Notice:  Undefined index: format in /home/vnrseed2/public_html/hrims/api/EssMobile/payslip_pdf/investment_declaration.php on line 23
+[02-Feb-2022 14:05:39 Asia/Kolkata] PHP Notice:  Undefined index: format in /home/vnrseed2/public_html/hrims/api/EssMobile/payslip_pdf/investment_declaration.php on line 23
+[02-Feb-2022 14:35:46 Asia/Kolkata] PHP Notice:  Undefined index: Regime in /home/vnrseed2/public_html/hrims/api/EssMobile/payslip_pdf/investment_declaration.php on line 32
+[02-Feb-2022 14:35:46 Asia/Kolkata] PHP Notice:  Undefined index: CorNPS in /home/vnrseed2/public_html/hrims/api/EssMobile/payslip_pdf/investment_declaration.php on line 290
+[02-Feb-2022 14:35:46 Asia/Kolkata] PHP Notice:  Undefined index: Inv_Date in /home/vnrseed2/public_html/hrims/api/EssMobile/payslip_pdf/investment_declaration.php on line 305
+[02-Feb-2022 14:35:46 Asia/Kolkata] PHP Notice:  Undefined index: Inv_Place in /home/vnrseed2/public_html/hrims/api/EssMobile/payslip_pdf/investment_declaration.php on line 309
+[02-Feb-2022 14:36:20 Asia/Kolkata] PHP Notice:  Undefined index: Regime in /home/vnrseed2/public_html/hrims/api/EssMobile/payslip_pdf/investment_declaration.php on line 32
+[02-Feb-2022 14:36:20 Asia/Kolkata] PHP Notice:  Undefined index: CorNPS in /home/vnrseed2/public_html/hrims/api/EssMobile/payslip_pdf/investment_declaration.php on line 290
+[02-Feb-2022 14:36:20 Asia/Kolkata] PHP Notice:  Undefined index: Inv_Date in /home/vnrseed2/public_html/hrims/api/EssMobile/payslip_pdf/investment_declaration.php on line 305
+[02-Feb-2022 14:36:20 Asia/Kolkata] PHP Notice:  Undefined index: Inv_Place in /home/vnrseed2/public_html/hrims/api/EssMobile/payslip_pdf/investment_declaration.php on line 309
+[12-Feb-2022 14:43:16 Asia/Kolkata] PHP Notice:  Undefined index: Inv_Date in /home/vnrseed2/public_html/hrims/api/EssMobile/payslip_pdf/investment.php on line 348
+[12-Feb-2022 14:43:16 Asia/Kolkata] PHP Notice:  Undefined index: Inv_Place in /home/vnrseed2/public_html/hrims/api/EssMobile/payslip_pdf/investment.php on line 352
+[25-May-2022 20:42:14 Asia/Kolkata] PHP Notice:  Undefined index: format in /home/vnrseed2/public_html/hrims/api/EssMobile/payslip_pdf/investment.php on line 23
+[25-May-2022 20:42:14 Asia/Kolkata] PHP Notice:  Undefined index: Inv_Date in /home/vnrseed2/public_html/hrims/api/EssMobile/payslip_pdf/investment.php on line 348
+[25-May-2022 20:42:14 Asia/Kolkata] PHP Notice:  Undefined index: Inv_Place in /home/vnrseed2/public_html/hrims/api/EssMobile/payslip_pdf/investment.php on line 352
+[25-May-2022 20:42:23 Asia/Kolkata] PHP Notice:  Undefined index: format in /home/vnrseed2/public_html/hrims/api/EssMobile/payslip_pdf/investment.php on line 23
+[25-May-2022 20:42:23 Asia/Kolkata] PHP Notice:  Undefined index: Inv_Date in /home/vnrseed2/public_html/hrims/api/EssMobile/payslip_pdf/investment.php on line 348
+[25-May-2022 20:42:23 Asia/Kolkata] PHP Notice:  Undefined index: Inv_Place in /home/vnrseed2/public_html/hrims/api/EssMobile/payslip_pdf/investment.php on line 352
+[25-May-2022 20:42:29 Asia/Kolkata] PHP Notice:  Undefined index: format in /home/vnrseed2/public_html/hrims/api/EssMobile/payslip_pdf/investment.php on line 23
+[25-May-2022 20:42:29 Asia/Kolkata] PHP Notice:  Undefined index: Inv_Date in /home/vnrseed2/public_html/hrims/api/EssMobile/payslip_pdf/investment.php on line 348
+[25-May-2022 20:42:29 Asia/Kolkata] PHP Notice:  Undefined index: Inv_Place in /home/vnrseed2/public_html/hrims/api/EssMobile/payslip_pdf/investment.php on line 352
+[25-May-2022 20:42:32 Asia/Kolkata] PHP Notice:  Undefined index: format in /home/vnrseed2/public_html/hrims/api/EssMobile/payslip_pdf/investment.php on line 23
+[25-May-2022 20:42:32 Asia/Kolkata] PHP Notice:  Undefined index: Inv_Date in /home/vnrseed2/public_html/hrims/api/EssMobile/payslip_pdf/investment.php on line 348
+[25-May-2022 20:42:32 Asia/Kolkata] PHP Notice:  Undefined index: Inv_Place in /home/vnrseed2/public_html/hrims/api/EssMobile/payslip_pdf/investment.php on line 352
+[25-May-2022 20:42:42 Asia/Kolkata] PHP Notice:  Undefined index: format in /home/vnrseed2/public_html/hrims/api/EssMobile/payslip_pdf/investment.php on line 23
+[25-May-2022 20:48:27 Asia/Kolkata] PHP Notice:  Undefined index: value in /home/vnrseed2/public_html/hrims/api/EssMobile/payslip_pdf/index.php on line 6
+[25-May-2022 20:48:27 Asia/Kolkata] PHP Notice:  Undefined index: month in /home/vnrseed2/public_html/hrims/api/EssMobile/payslip_pdf/index.php on line 8
+[25-May-2022 20:48:27 Asia/Kolkata] PHP Notice:  Undefined index: year in /home/vnrseed2/public_html/hrims/api/EssMobile/payslip_pdf/index.php on line 9
+[25-May-2022 20:48:27 Asia/Kolkata] PHP Fatal error:  Call to a member function format() on boolean in /home/vnrseed2/public_html/hrims/api/EssMobile/payslip_pdf/index.php on line 13
+[25-May-2022 20:51:04 Asia/Kolkata] PHP Notice:  Undefined index: Name in /home/vnrseed2/public_html/hrims/api/EssMobile/payslip_pdf/index.php on line 44
+[25-May-2022 20:51:04 Asia/Kolkata] PHP Notice:  Undefined index: State in /home/vnrseed2/public_html/hrims/api/EssMobile/payslip_pdf/index.php on line 48
+[25-May-2022 20:51:04 Asia/Kolkata] PHP Notice:  Undefined index: Department in /home/vnrseed2/public_html/hrims/api/EssMobile/payslip_pdf/index.php on line 50
+[25-May-2022 20:51:04 Asia/Kolkata] PHP Notice:  Undefined index: Grade in /home/vnrseed2/public_html/hrims/api/EssMobile/payslip_pdf/index.php on line 54
+[25-May-2022 20:51:04 Asia/Kolkata] PHP Notice:  Undefined index: Designation in /home/vnrseed2/public_html/hrims/api/EssMobile/payslip_pdf/index.php on line 56
+[25-May-2022 20:51:04 Asia/Kolkata] PHP Notice:  Undefined index: HeadQuarter in /home/vnrseed2/public_html/hrims/api/EssMobile/payslip_pdf/index.php on line 60
+[25-May-2022 20:51:04 Asia/Kolkata] PHP Notice:  Undefined index: Gender in /home/vnrseed2/public_html/hrims/api/EssMobile/payslip_pdf/index.php on line 62
+[25-May-2022 20:51:04 Asia/Kolkata] PHP Notice:  Undefined index: DOB in /home/vnrseed2/public_html/hrims/api/EssMobile/payslip_pdf/index.php on line 66
+[25-May-2022 20:51:04 Asia/Kolkata] PHP Notice:  Undefined index: DOJ in /home/vnrseed2/public_html/hrims/api/EssMobile/payslip_pdf/index.php on line 68
+[25-May-2022 20:51:04 Asia/Kolkata] PHP Notice:  Undefined index: PF_Ac_No. in /home/vnrseed2/public_html/hrims/api/EssMobile/payslip_pdf/index.php on line 70
+[25-May-2022 20:51:04 Asia/Kolkata] PHP Notice:  Undefined index: Bank_Ac_No. in /home/vnrseed2/public_html/hrims/api/EssMobile/payslip_pdf/index.php on line 74
+[25-May-2022 20:51:04 Asia/Kolkata] PHP Notice:  Undefined index: BankName in /home/vnrseed2/public_html/hrims/api/EssMobile/payslip_pdf/index.php on line 76
+[25-May-2022 20:51:04 Asia/Kolkata] PHP Notice:  Undefined index: PAN No in /home/vnrseed2/public_html/hrims/api/EssMobile/payslip_pdf/index.php on line 78
+[25-May-2022 20:51:04 Asia/Kolkata] PHP Notice:  Undefined index: TotalDay in /home/vnrseed2/public_html/hrims/api/EssMobile/payslip_pdf/index.php on line 82
+[25-May-2022 20:51:04 Asia/Kolkata] PHP Notice:  Undefined index: PaidDay in /home/vnrseed2/public_html/hrims/api/EssMobile/payslip_pdf/index.php on line 84
+[25-May-2022 20:51:04 Asia/Kolkata] PHP Notice:  Undefined index: Absent in /home/vnrseed2/public_html/hrims/api/EssMobile/payslip_pdf/index.php on line 86
+[25-May-2022 20:51:04 Asia/Kolkata] PHP Notice:  Undefined index: ListOfEarnings in /home/vnrseed2/public_html/hrims/api/EssMobile/payslip_pdf/index.php on line 103
+[25-May-2022 20:51:04 Asia/Kolkata] PHP Notice:  Undefined index: ListOfEarnings in /home/vnrseed2/public_html/hrims/api/EssMobile/payslip_pdf/index.php on line 107
+[25-May-2022 20:51:04 Asia/Kolkata] PHP Notice:  Undefined index: ListOfEarnings in /home/vnrseed2/public_html/hrims/api/EssMobile/payslip_pdf/index.php on line 109
+[25-May-2022 20:51:04 Asia/Kolkata] PHP Notice:  Undefined index: ListOfEarnings in /home/vnrseed2/public_html/hrims/api/EssMobile/payslip_pdf/index.php on line 112
+[25-May-2022 20:51:04 Asia/Kolkata] PHP Notice:  Undefined index: ListOfEarnings in /home/vnrseed2/public_html/hrims/api/EssMobile/payslip_pdf/index.php on line 115
+[25-May-2022 20:51:04 Asia/Kolkata] PHP Notice:  Undefined index: ListOfEarnings in /home/vnrseed2/public_html/hrims/api/EssMobile/payslip_pdf/index.php on line 118
+[25-May-2022 20:51:04 Asia/Kolkata] PHP Notice:  Undefined index: ListOfEarnings in /home/vnrseed2/public_html/hrims/api/EssMobile/payslip_pdf/index.php on line 121
+[25-May-2022 20:51:04 Asia/Kolkata] PHP Notice:  Undefined index: ListOfEarnings in /home/vnrseed2/public_html/hrims/api/EssMobile/payslip_pdf/index.php on line 124
+[25-May-2022 20:51:04 Asia/Kolkata] PHP Notice:  Undefined index: ListOfEarnings in /home/vnrseed2/public_html/hrims/api/EssMobile/payslip_pdf/index.php on line 127
+[25-May-2022 20:51:04 Asia/Kolkata] PHP Notice:  Undefined index: ListOfEarnings in /home/vnrseed2/public_html/hrims/api/EssMobile/payslip_pdf/index.php on line 130
+[25-May-2022 20:51:04 Asia/Kolkata] PHP Notice:  Undefined index: ListOfEarnings in /home/vnrseed2/public_html/hrims/api/EssMobile/payslip_pdf/index.php on line 133
+[25-May-2022 20:51:04 Asia/Kolkata] PHP Notice:  Undefined index: ListOfEarnings in /home/vnrseed2/public_html/hrims/api/EssMobile/payslip_pdf/index.php on line 136
+[25-May-2022 20:51:04 Asia/Kolkata] PHP Notice:  Undefined index: ListOfEarnings in /home/vnrseed2/public_html/hrims/api/EssMobile/payslip_pdf/index.php on line 139
+[25-May-2022 20:51:04 Asia/Kolkata] PHP Notice:  Undefined index: ListOfEarnings in /home/vnrseed2/public_html/hrims/api/EssMobile/payslip_pdf/index.php on line 142
+[25-May-2022 20:51:04 Asia/Kolkata] PHP Notice:  Undefined index: ListOfEarnings in /home/vnrseed2/public_html/hrims/api/EssMobile/payslip_pdf/index.php on line 145
+[25-May-2022 20:51:04 Asia/Kolkata] PHP Notice:  Undefined index: ListOfEarnings in /home/vnrseed2/public_html/hrims/api/EssMobile/payslip_pdf/index.php on line 148
+[25-May-2022 20:51:04 Asia/Kolkata] PHP Notice:  Undefined index: ListOfEarnings in /home/vnrseed2/public_html/hrims/api/EssMobile/payslip_pdf/index.php on line 151
+[25-May-2022 20:51:04 Asia/Kolkata] PHP Notice:  Undefined index: ListOfEarnings in /home/vnrseed2/public_html/hrims/api/EssMobile/payslip_pdf/index.php on line 154
+[25-May-2022 20:51:04 Asia/Kolkata] PHP Notice:  Undefined index: ListOfEarnings in /home/vnrseed2/public_html/hrims/api/EssMobile/payslip_pdf/index.php on line 157
+[25-May-2022 20:51:04 Asia/Kolkata] PHP Notice:  Undefined index: ListOfEarnings in /home/vnrseed2/public_html/hrims/api/EssMobile/payslip_pdf/index.php on line 160
+[25-May-2022 20:51:04 Asia/Kolkata] PHP Notice:  Undefined index: ListOfEarnings in /home/vnrseed2/public_html/hrims/api/EssMobile/payslip_pdf/index.php on line 163
+[25-May-2022 20:51:04 Asia/Kolkata] PHP Notice:  Undefined index: ListOfEarnings in /home/vnrseed2/public_html/hrims/api/EssMobile/payslip_pdf/index.php on line 166
+[25-May-2022 20:51:04 Asia/Kolkata] PHP Notice:  Undefined index: ListOfEarnings in /home/vnrseed2/public_html/hrims/api/EssMobile/payslip_pdf/index.php on line 169
+[25-May-2022 20:51:04 Asia/Kolkata] PHP Notice:  Undefined index: ListOfEarnings in /home/vnrseed2/public_html/hrims/api/EssMobile/payslip_pdf/index.php on line 172
+[25-May-2022 20:51:04 Asia/Kolkata] PHP Notice:  Undefined index: ListOfEarnings in /home/vnrseed2/public_html/hrims/api/EssMobile/payslip_pdf/index.php on line 175
+[25-May-2022 20:51:04 Asia/Kolkata] PHP Notice:  Undefined index: ListOfEarnings in /home/vnrseed2/public_html/hrims/api/EssMobile/payslip_pdf/index.php on line 178
+[25-May-2022 20:51:04 Asia/Kolkata] PHP Notice:  Undefined index: ListOfEarnings in /home/vnrseed2/public_html/hrims/api/EssMobile/payslip_pdf/index.php on line 181
+[25-May-2022 20:51:04 Asia/Kolkata] PHP Notice:  Undefined index: ListOfEarnings in /home/vnrseed2/public_html/hrims/api/EssMobile/payslip_pdf/index.php on line 184
+[25-May-2022 20:51:04 Asia/Kolkata] PHP Notice:  Undefined index: ListOfEarnings in /home/vnrseed2/public_html/hrims/api/EssMobile/payslip_pdf/index.php on line 187
+[25-May-2022 20:51:04 Asia/Kolkata] PHP Notice:  Undefined index: ListOfEarnings in /home/vnrseed2/public_html/hrims/api/EssMobile/payslip_pdf/index.php on line 190
+[25-May-2022 20:51:04 Asia/Kolkata] PHP Notice:  Undefined index: ListOfEarnings in /home/vnrseed2/public_html/hrims/api/EssMobile/payslip_pdf/index.php on line 193
+[25-May-2022 20:51:04 Asia/Kolkata] PHP Notice:  Undefined index: ListOfEarnings in /home/vnrseed2/public_html/hrims/api/EssMobile/payslip_pdf/index.php on line 196
+[25-May-2022 20:51:04 Asia/Kolkata] PHP Notice:  Undefined index: ListOfEarnings in /home/vnrseed2/public_html/hrims/api/EssMobile/payslip_pdf/index.php on line 199
+[25-May-2022 20:51:04 Asia/Kolkata] PHP Notice:  Undefined index: ListOfEarnings in /home/vnrseed2/public_html/hrims/api/EssMobile/payslip_pdf/index.php on line 202
+[25-May-2022 20:51:04 Asia/Kolkata] PHP Notice:  Undefined index: ListOfEarnings in /home/vnrseed2/public_html/hrims/api/EssMobile/payslip_pdf/index.php on line 205
+[25-May-2022 20:51:04 Asia/Kolkata] PHP Notice:  Undefined index: ListOfEarnings in /home/vnrseed2/public_html/hrims/api/EssMobile/payslip_pdf/index.php on line 208
+[25-May-2022 20:51:04 Asia/Kolkata] PHP Notice:  Undefined index: ListOfEarnings in /home/vnrseed2/public_html/hrims/api/EssMobile/payslip_pdf/index.php on line 211
+[25-May-2022 20:51:04 Asia/Kolkata] PHP Notice:  Undefined index: ListOfEarnings in /home/vnrseed2/public_html/hrims/api/EssMobile/payslip_pdf/index.php on line 214
+[25-May-2022 20:51:04 Asia/Kolkata] PHP Notice:  Undefined index: ListOfEarnings in /home/vnrseed2/public_html/hrims/api/EssMobile/payslip_pdf/index.php on line 217
+[25-May-2022 20:51:04 Asia/Kolkata] PHP Notice:  Undefined index: ListOfEarnings in /home/vnrseed2/public_html/hrims/api/EssMobile/payslip_pdf/index.php on line 220
+[25-May-2022 20:51:04 Asia/Kolkata] PHP Notice:  Undefined index: ListOfDeductions in /home/vnrseed2/public_html/hrims/api/EssMobile/payslip_pdf/index.php on line 236
+[25-May-2022 20:51:04 Asia/Kolkata] PHP Notice:  Undefined index: ListOfDeductions in /home/vnrseed2/public_html/hrims/api/EssMobile/payslip_pdf/index.php on line 239
+[25-May-2022 20:51:04 Asia/Kolkata] PHP Notice:  Undefined index: ListOfDeductions in /home/vnrseed2/public_html/hrims/api/EssMobile/payslip_pdf/index.php on line 242
+[25-May-2022 20:51:04 Asia/Kolkata] PHP Notice:  Undefined index: ListOfDeductions in /home/vnrseed2/public_html/hrims/api/EssMobile/payslip_pdf/index.php on line 245
+[25-May-2022 20:51:04 Asia/Kolkata] PHP Notice:  Undefined index: ListOfDeductions in /home/vnrseed2/public_html/hrims/api/EssMobile/payslip_pdf/index.php on line 248
+[25-May-2022 20:51:04 Asia/Kolkata] PHP Notice:  Undefined index: ListOfDeductions in /home/vnrseed2/public_html/hrims/api/EssMobile/payslip_pdf/index.php on line 251
+[25-May-2022 20:51:04 Asia/Kolkata] PHP Notice:  Undefined index: ListOfDeductions in /home/vnrseed2/public_html/hrims/api/EssMobile/payslip_pdf/index.php on line 254
+[25-May-2022 20:51:04 Asia/Kolkata] PHP Notice:  Undefined index: ListOfDeductions in /home/vnrseed2/public_html/hrims/api/EssMobile/payslip_pdf/index.php on line 257
+[25-May-2022 20:51:04 Asia/Kolkata] PHP Notice:  Undefined index: ListOfDeductions in /home/vnrseed2/public_html/hrims/api/EssMobile/payslip_pdf/index.php on line 260
+[25-May-2022 20:51:04 Asia/Kolkata] PHP Notice:  Undefined index: ListOfDeductions in /home/vnrseed2/public_html/hrims/api/EssMobile/payslip_pdf/index.php on line 263
+[25-May-2022 20:51:04 Asia/Kolkata] PHP Notice:  Undefined index: ListOfDeductions in /home/vnrseed2/public_html/hrims/api/EssMobile/payslip_pdf/index.php on line 266
+[25-May-2022 20:51:04 Asia/Kolkata] PHP Notice:  Undefined index: ListOfDeductions in /home/vnrseed2/public_html/hrims/api/EssMobile/payslip_pdf/index.php on line 269
+[25-May-2022 20:51:04 Asia/Kolkata] PHP Notice:  Undefined index: ListOfDeductions in /home/vnrseed2/public_html/hrims/api/EssMobile/payslip_pdf/index.php on line 272
+[25-May-2022 20:51:04 Asia/Kolkata] PHP Notice:  Undefined index: ListOfDeductions in /home/vnrseed2/public_html/hrims/api/EssMobile/payslip_pdf/index.php on line 275
+[25-May-2022 20:51:04 Asia/Kolkata] PHP Notice:  Undefined index: ListOfDeductions in /home/vnrseed2/public_html/hrims/api/EssMobile/payslip_pdf/index.php on line 278
+[25-May-2022 20:51:04 Asia/Kolkata] PHP Notice:  Undefined index: ListOfDeductions in /home/vnrseed2/public_html/hrims/api/EssMobile/payslip_pdf/index.php on line 281
+[25-May-2022 20:51:04 Asia/Kolkata] PHP Notice:  Undefined index: ListOfDeductions in /home/vnrseed2/public_html/hrims/api/EssMobile/payslip_pdf/index.php on line 284
+[25-May-2022 20:51:04 Asia/Kolkata] PHP Notice:  Undefined index: ListOfDeductions in /home/vnrseed2/public_html/hrims/api/EssMobile/payslip_pdf/index.php on line 287
+[25-May-2022 20:51:04 Asia/Kolkata] PHP Notice:  Undefined index: ListOfEarnings in /home/vnrseed2/public_html/hrims/api/EssMobile/payslip_pdf/index.php on line 298
+[25-May-2022 20:51:04 Asia/Kolkata] PHP Notice:  Undefined index: ListOfEarnings in /home/vnrseed2/public_html/hrims/api/EssMobile/payslip_pdf/index.php on line 313
+[25-May-2022 20:51:04 Asia/Kolkata] PHP Notice:  Undefined index: ListOfEarnings in /home/vnrseed2/public_html/hrims/api/EssMobile/payslip_pdf/index.php on line 316
+[25-May-2022 20:51:04 Asia/Kolkata] PHP Notice:  Undefined index: ListOfEarnings in /home/vnrseed2/public_html/hrims/api/EssMobile/payslip_pdf/index.php on line 319
+[25-May-2022 20:51:04 Asia/Kolkata] PHP Notice:  Undefined index: ListOfEarnings in /home/vnrseed2/public_html/hrims/api/EssMobile/payslip_pdf/index.php on line 322
+[25-May-2022 20:51:04 Asia/Kolkata] PHP Notice:  Undefined index: ListOfEarnings in /home/vnrseed2/public_html/hrims/api/EssMobile/payslip_pdf/index.php on line 325
+[25-May-2022 20:51:04 Asia/Kolkata] PHP Notice:  Undefined index: ListOfEarnings in /home/vnrseed2/public_html/hrims/api/EssMobile/payslip_pdf/index.php on line 328
+[25-May-2022 20:51:04 Asia/Kolkata] PHP Notice:  Undefined index: ListOfEarnings in /home/vnrseed2/public_html/hrims/api/EssMobile/payslip_pdf/index.php on line 331
+[25-May-2022 20:51:04 Asia/Kolkata] PHP Notice:  Undefined index: ListOfEarnings in /home/vnrseed2/public_html/hrims/api/EssMobile/payslip_pdf/index.php on line 334
+[25-May-2022 20:51:04 Asia/Kolkata] PHP Notice:  Undefined index: ListOfEarnings in /home/vnrseed2/public_html/hrims/api/EssMobile/payslip_pdf/index.php on line 337
+[25-May-2022 20:51:04 Asia/Kolkata] PHP Notice:  Undefined index: ListOfEarnings in /home/vnrseed2/public_html/hrims/api/EssMobile/payslip_pdf/index.php on line 340
+[25-May-2022 20:51:04 Asia/Kolkata] PHP Notice:  Undefined index: ListOfEarnings in /home/vnrseed2/public_html/hrims/api/EssMobile/payslip_pdf/index.php on line 343
+[25-May-2022 20:51:04 Asia/Kolkata] PHP Notice:  Undefined index: ListOfEarnings in /home/vnrseed2/public_html/hrims/api/EssMobile/payslip_pdf/index.php on line 346
+[25-May-2022 20:51:04 Asia/Kolkata] PHP Notice:  Undefined index: ListOfEarnings in /home/vnrseed2/public_html/hrims/api/EssMobile/payslip_pdf/index.php on line 349
+[25-May-2022 20:51:04 Asia/Kolkata] PHP Notice:  Undefined index: ListOfEarnings in /home/vnrseed2/public_html/hrims/api/EssMobile/payslip_pdf/index.php on line 352
+[25-May-2022 20:51:04 Asia/Kolkata] PHP Notice:  Undefined index: Tot_Earn in /home/vnrseed2/public_html/hrims/api/EssMobile/payslip_pdf/index.php on line 361
+[25-May-2022 20:51:04 Asia/Kolkata] PHP Notice:  Undefined index: Tot_Deduct in /home/vnrseed2/public_html/hrims/api/EssMobile/payslip_pdf/index.php on line 363
+[25-May-2022 20:51:04 Asia/Kolkata] PHP Notice:  Undefined index: Tot_NetAmount in /home/vnrseed2/public_html/hrims/api/EssMobile/payslip_pdf/index.php on line 370
+[25-May-2022 20:51:04 Asia/Kolkata] PHP Notice:  Undefined index: NetAmt_InWords in /home/vnrseed2/public_html/hrims/api/EssMobile/payslip_pdf/index.php on line 373
