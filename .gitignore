@@ -13,4 +13,5 @@
 /Employee/CoronaKavach1_2020
 /Employee/AppUploadFile
 AdminUser/config/config.php
-
+.htaccess
+AdminUser/Index.php

@@ -1,7 +1,5 @@
 <?php 
-
 if($_SESSION['login'] = true)
-
 { $YearId=$_SESSION['YearId']; $fromdate=date("Y",strtotime($_SESSION['fromdate'])); $todate=date("Y",strtotime($_SESSION['todate'])); 
   $Status1=$_SESSION['Company1Status']; $Status2=$_SESSION['Company2Status']; $Status3=$_SESSION['Company3Status'];
   $Status4=$_SESSION['Company4Status']; $Status5=$_SESSION['Company5Status']; $Status6=$_SESSION['Company6Status'];
@@ -83,5 +81,6 @@ $_SESSION['Pro_Training']=$row['Pro_Training']; $_SESSION['Pro_Conference']=$row
 
 }
 else{header('Location:../index.php');} 
+
 
 ?>
