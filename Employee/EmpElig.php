@@ -55,6 +55,9 @@ $(document).ready(function () { $("#table1").freezeHeader({ 'height': '450px' })
 &nbsp;&nbsp;
 <a href="https://www.vnress.in/Employee/EmpEligNext.php?ID=<?=$EmployeeId?>" target="_blank" style="font-size:12px;">Other Team Group</a>
 
+&nbsp;&nbsp;
+<a href="OthDet.php?value=<?=$_REQUEST['value']?>&c=<?=$CompanyId?>" target="_blank" style="font-size:12px;">Other Details</a>
+
 </td>
 
  
