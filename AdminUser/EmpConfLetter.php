@@ -174,7 +174,7 @@ function Export(d)
 		<?php $sqChk=mysql_query("select * from hrm_employee_confletter where EmployeeID=".$resDP['EmployeeID'], $con); 
 		$rowChk=mysql_num_rows($sqChk); ?>
 	    
-		<td class="tdc"><?php if($_SESSION['User_Permission']=='Edit' && $rowChk==0){ ?><a href="EmpConfFormoK.php?e=<?php echo $resDP['EmployeeID']; ?>&c=1&cd=0000000&d=<?=$_REQUEST['DpId']?>"><blink>Form</blink></a><?php } ?></td>
+		<td class="tdc"><?php if($_SESSION['User_Permission']=='Edit' && $rowChk==0){ ?><a href="EmpConfFormok.php?e=<?php echo $resDP['EmployeeID']; ?>&c=1&cd=0000000&d=<?=$_REQUEST['DpId']?>"><blink>Form</blink></a><?php } ?></td>
 		
 		<?php $sqf=mysql_query("select * from hrm_employee_confletter where Status='A' AND EmployeeID=".$resDP['EmployeeID'], $con); 
 		$rref=mysql_num_rows($sqf); $ref=mysql_fetch_assoc($sqf); ?>
@@ -188,20 +188,20 @@ function Export(d)
 		<td class="tdc">
 		<?php if($rowChk==1 && $ref['SubmitStatus']=='N'){ ?><font color="#FF8042">Pending</font>
 		<?php } elseif($rowChk==1 && $ref['SubmitStatus']=='Y' && $ref['Recommendation']==1){ ?>
-		 <a href="EmpConfFormoK.php?e=<?=$resDP['EmployeeID']?>&c=1&cd=0000000&d=<?=$_REQUEST['DpId']?>&v=A">Ok</a>
+		 <a href="EmpConfFormok.php?e=<?=$resDP['EmployeeID']?>&c=1&cd=0000000&d=<?=$_REQUEST['DpId']?>&v=A">Ok</a>
 		<?php } elseif($rowChk==1 && $ref['SubmitStatus']=='Y' && $ref['Recommendation']==2){ ?>
-		 <a href="EmpConfFormoK.php?e=<?=$resDP['EmployeeID']?>&c=1&cd=0000000&d=<?=$_REQUEST['DpId']?>&v=A">Extend</a>
+		 <a href="EmpConfFormok.php?e=<?=$resDP['EmployeeID']?>&c=1&cd=0000000&d=<?=$_REQUEST['DpId']?>&v=A">Extend</a>
 		<?php }elseif($rowChk>=2){ ?>
-		 <a href="EmpConfFormoK.php?e=<?=$resDP['EmployeeID']?>&c=1&cd=0000000&d=<?=$_REQUEST['DpId']?>&v=D" target="blank">Extend</a>/ <a href="EmpConfFormoK.php?e=<?=$resDP['EmployeeID']?>&c=1&cd=0000000&d=<?=$_REQUEST['DpId']?>&v=A"><?php if($ref['SubmitStatus']=='N'){echo '<font color="#F07800">Pending</font>';}else{echo 'Ok';}?></a>
+		 <a href="EmpConfFormok.php?e=<?=$resDP['EmployeeID']?>&c=1&cd=0000000&d=<?=$_REQUEST['DpId']?>&v=D" target="blank">Extend</a>/ <a href="EmpConfFormok.php?e=<?=$resDP['EmployeeID']?>&c=1&cd=0000000&d=<?=$_REQUEST['DpId']?>&v=A"><?php if($ref['SubmitStatus']=='N'){echo '<font color="#F07800">Pending</font>';}else{echo 'Ok';}?></a>
 		 
 		<?php }elseif($rowChk==0){ echo ''; } ?>
 		
 		
 		
 		
-		<?php /* if($rref>=2){ echo '<a href="EmpConfFormoK.php?e='.$resDP['EmployeeID'].'&c=1&cd=0000000&d='.$resDP['DepartmentId'].'&v=D" target="blank">Extend</a>/ <a href="EmpConfFormoK.php?e='.$resDP['EmployeeID'].'&c=1&cd=0000000&d='.$resDP['DepartmentId'].'&v=A">Ok</a>'; } 
-		      elseif($rref==1 AND $ref['Recommendation']==1){ echo '<a href="EmpConfFormoK.php?e='.$resDP['EmployeeID'].'&c=1&cd=0000000&d='.$resDP['DepartmentId'].'&v='.$ref['Status'].'" target="blank">Ok</a>'; } 
-		      elseif($rref==1 AND $ref['Recommendation']==2){ echo '<a href="EmpConfFormoK.php?e='.$resDP['EmployeeID'].'&c=1&cd=0000000&d='.$resDP['DepartmentId'].'&v='.$ref['Status'].'" target="blank">Extend</a>'; } 
+		<?php /* if($rref>=2){ echo '<a href="EmpConfFormok.php?e='.$resDP['EmployeeID'].'&c=1&cd=0000000&d='.$resDP['DepartmentId'].'&v=D" target="blank">Extend</a>/ <a href="EmpConfFormok.php?e='.$resDP['EmployeeID'].'&c=1&cd=0000000&d='.$resDP['DepartmentId'].'&v=A">Ok</a>'; } 
+		      elseif($rref==1 AND $ref['Recommendation']==1){ echo '<a href="EmpConfFormok.php?e='.$resDP['EmployeeID'].'&c=1&cd=0000000&d='.$resDP['DepartmentId'].'&v='.$ref['Status'].'" target="blank">Ok</a>'; } 
+		      elseif($rref==1 AND $ref['Recommendation']==2){ echo '<a href="EmpConfFormok.php?e='.$resDP['EmployeeID'].'&c=1&cd=0000000&d='.$resDP['DepartmentId'].'&v='.$ref['Status'].'" target="blank">Extend</a>'; } 
 		      elseif($rref==0){ echo ''; } //echo 'aa='.$rref; */ ?>
 		</td>
 
