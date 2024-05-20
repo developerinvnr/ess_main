@@ -51,7 +51,8 @@ if(isset($_POST['FormSubmit']))
        $sqlUpLe=mysql_query("update hrm_employee_monthlyleave_balance set OpeningPL='".$reLe['PL']."', OpeningOL='".$reLe['FL']."', CreditedPL='0', CreditedOL='0', TotPL='".$reLe['PL']."', TotOL='".$reLe['FL']."', BalancePL='".$reLe['PL']."', BalanceOL='".$reLe['FL']."' where EmployeeID='".$_POST['EI']."' AND Month='".$ConFM."' AND Year='".$ConFY."'", $con); 
        
        //$sqlUpLe=mysql_query("update hrm_employee_monthlyleave_balance set OpeningPL=0, OpeningOL=0, CreditedPL=".$reLe['PL'].", CreditedOL=".$reLe['FL'].", TotPL=".$reLe['PL'].", TotOL=".$reLe['FL'].", BalancePL=".$reLe['PL'].", BalanceOL=".$reLe['FL']." where EmployeeID=".$_POST['EI']." AND Month=".$ConFM." AND Year=".$ConFY, $con);
-       
+    
+	   
    }
    else
    { 
