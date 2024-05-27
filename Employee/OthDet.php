@@ -50,6 +50,7 @@ $(document).ready(function () { $("#table1").freezeHeader({ 'height': '450px' })
   <td class="th" style="width:3%;"><b>Grade</b></td>
   <td class="th" style="width:15%;"><b>Email</b></td>
   <td class="th" style="width:3%;"><b>Mobile</b></td>
+  <td class="th" style="width:3%;"><b>PAN</b></td>
   <td class="th" style="width:10%;"><b>Reporting Name</b></td>
   <td class="th" style="width:3%;"><b>Contact</b></td>
   <td class="th" style="width:15%;"><b>Email</b></td>
@@ -57,8 +58,8 @@ $(document).ready(function () { $("#table1").freezeHeader({ 'height': '450px' })
  
  <!-- </thead>
 </div>-->
-<?php if($_REQUEST['value']=='All'){ $sql=mysql_query("select g.EmployeeID, EmpCode, CONCAT(Fname,' ' ,Sname, ' ',Lname) as fullname, DepartmentCode, GradeValue, EmailId_Vnr, MobileNo_Vnr, ReportingName, ReportingContactNo, ReportingEmailId, EmpStatus from hrm_employee_general g INNER JOIN hrm_employee e ON g.EmployeeID=e.EmployeeID INNER JOIN hrm_department d ON g.DepartmentId=d.DepartmentId INNER JOIN hrm_grade gr ON g.GradeId=gr.GradeId where e.CompanyId=".$_REQUEST['c']." AND e.EmpStatus!='De' order by e.EmpStatus,e.ECode ASC", $con); }
-else { $sql=mysql_query("select g.EmployeeID, EmpCode, CONCAT(Fname,' ' ,Sname, ' ',Lname) as fullname, DepartmentCode, GradeValue, EmailId_Vnr, MobileNo_Vnr, ReportingName, ReportingContactNo, ReportingEmailId, EmpStatus from hrm_employee_general g INNER JOIN hrm_employee e ON g.EmployeeID=e.EmployeeID INNER JOIN hrm_department d ON g.DepartmentId=d.DepartmentId INNER JOIN hrm_grade gr ON g.GradeId=gr.GradeId where g.DepartmentId=".$_REQUEST['value']." AND e.CompanyId=".$_REQUEST['c']." AND e.EmpStatus!='De' order by e.EmpStatus,e.ECode ASC", $con); } 
+<?php if($_REQUEST['value']=='All'){ $sql=mysql_query("select g.EmployeeID, EmpCode, CONCAT(Fname,' ' ,Sname, ' ',Lname) as fullname, DepartmentCode, GradeValue, EmailId_Vnr, MobileNo_Vnr, ReportingName, ReportingContactNo, ReportingEmailId, EmpStatus, PanNo from hrm_employee_general g INNER JOIN hrm_employee e ON g.EmployeeID=e.EmployeeID INNER JOIN hrm_department d ON g.DepartmentId=d.DepartmentId INNER JOIN hrm_grade gr ON g.GradeId=gr.GradeId INNER JOIN hrm_employee_personal p ON e.EmployeeID=p.EmployeeID where e.CompanyId=".$_REQUEST['c']." AND e.EmpStatus!='De' order by e.EmpStatus,e.ECode ASC", $con); }
+else { $sql=mysql_query("select g.EmployeeID, EmpCode, CONCAT(Fname,' ' ,Sname, ' ',Lname) as fullname, DepartmentCode, GradeValue, EmailId_Vnr, MobileNo_Vnr, ReportingName, ReportingContactNo, ReportingEmailId, EmpStatus from hrm_employee_general g INNER JOIN hrm_employee e ON g.EmployeeID=e.EmployeeID INNER JOIN hrm_department d ON g.DepartmentId=d.DepartmentId INNER JOIN hrm_grade gr ON g.GradeId=gr.GradeId INNER JOIN hrm_employee_personal p ON e.EmployeeID=p.EmployeeID where g.DepartmentId=".$_REQUEST['value']." AND e.CompanyId=".$_REQUEST['c']." AND e.EmpStatus!='De' order by e.EmpStatus,e.ECode ASC", $con); } 
 $Sno=1; while($res=mysql_fetch_array($sql)){ ?> 
 <!--<div class="tbody">
 <tbody>-->
@@ -70,7 +71,8 @@ $Sno=1; while($res=mysql_fetch_array($sql)){ ?>
  <td class="tdc"><?php echo strtolower($res['DepartmentCode']); ?></td>
  <td class="tdc"><?php echo $res['GradeValue']; ?></td>
  <td class="td"><?php echo $res['EmailId_Vnr']; ?></td>
- <td class="tdc"><?php echo $res['MobileNo_Vnr']; ?></td>	
+ <td class="tdc"><?php echo $res['MobileNo_Vnr']; ?></td>
+ <td class="tdc"><?php echo $res['PanNo']; ?></td>	
  <td class="td"><?php echo $res['ReportingName']; ?></td>	
  <td class="tdc"><?php echo $res['ReportingContactNo']; ?></td>
  <td class="td"><?php echo $res['ReportingEmailId']; ?></td>
