@@ -5,7 +5,8 @@ if ($_REQUEST["action"] == "Details") {
     //Employee Employee
     if ($_REQUEST["val"] == "Employee") {
         $sqle = mysql_query(
-            "select e.EmployeeID, EmpCode, EmpStatus, Fname, Sname, Lname, CompanyId, GradeId, DepartmentId, DesigId, PositionCode, PosSeq, PosVR, g.RepEmployeeID, DateJoining, DateOfSepration, MobileNo_Vnr as Contact, EmailId_Vnr as Email, Gender, Married,DR,HqId,Tot_CTC,
+            "select e.EmployeeID, EmpCode, EmpStatus, Fname, Sname, Lname, CompanyId, GradeId, DepartmentId, DesigId, PositionCode, PosSeq, PosVR, g.RepEmployeeID, DateJoining, DateOfSepration, 
+            MobileNo_Vnr as Contact, EmailId_Vnr as Email, Gender, Married,DR,HqId,Tot_CTC,
                 CASE
                 WHEN DR ='Y' THEN 'Dr.'
                 WHEN (Gender ='F' AND Married ='Y') THEN 'Mrs.'
@@ -13,9 +14,9 @@ if ($_REQUEST["action"] == "Details") {
                 ELSE 'Mr.'
                 END as Title
 
-                from hrm_employee e inner join hrm_employee_general g on e.EmployeeID=g.EmployeeID inner join hrm_employee_personal p on e.EmployeeID=p.EmployeeID
-                inner join hrm_employee_ctc c on c.EmployeeID = e.EmployeeID
-                where (EmpStatus='A' OR EmpStatus='D') AND c.Status='A' AND g.GradeId !=0 AND g.DepartmentId !=0 order by CompanyId ASC, e.EmployeeID ASC",
+                from hrm_employee e left join hrm_employee_general g on e.EmployeeID=g.EmployeeID left join hrm_employee_personal p on e.EmployeeID=p.EmployeeID
+                left join hrm_employee_ctc c on c.EmployeeID = e.EmployeeID
+                where (EmpStatus='A' OR EmpStatus='D') AND c.Status='A'  AND g.DepartmentId !=0 order by CompanyId ASC, e.EmployeeID ASC",
             $con
         );
         while ($rese = mysql_fetch_assoc($sqle)) {

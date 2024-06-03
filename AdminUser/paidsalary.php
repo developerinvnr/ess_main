@@ -3,7 +3,8 @@ if($_SESSION['login'] = true){ require_once('config/config.php'); }
 else {$msg= "Session Expiry...............";}
 
 
-$sql=mysql_query("select mp.*,EmpCode,Fname,Sname,Lname from hrm_employee_monthlypayslip_".$_REQUEST['year']." mp INNER JOIN hrm_employee e ON mp.EmployeeID=e.EmployeeID INNER JOIN hrm_employee_general g ON mp.EmployeeID=g.EmployeeID where e.CompanyId=".$_REQUEST['com']." AND (e.EmpStatus='A' OR e.EmpStatus!='De' AND Month=".$_REQUEST['month']." AND Year=".$_REQUEST['year']." order by ECode ASC", $con); 
+$sql=mysql_query("select mp.* from hrm_employee_monthlypayslip_".$_REQUEST['year']." mp INNER JOIN hrm_employee e ON mp.EmployeeID=e.EmployeeID where e.CompanyId=".$_REQUEST['com']." AND e.EmpStatus!='De' AND Month=".$_REQUEST['month']." AND Year=".$_REQUEST['year']." order by ECode ASC", $con); 
+   
    
 while($res=mysql_fetch_assoc($sql))
 {   
@@ -14,11 +15,15 @@ $Gross=$res['Basic']+$res['Hra']+$res['Convance']+$res['Bonus_Month']+$res['Spec
 $TotDeduct=$res['Tot_Pf_Employee']+$res['Arr_Pf']+$res['ESCI_Employee']+$res['Arr_Esic']+$res['TDS']+$res['VolContrib']+$res['DeductAdjmt']+$res['NPS_Value']+$res['RecSplAllow']; 
 
 $sqlck=mysql_query("select * from hrm_paid_salary where month=".$_REQUEST['month']." AND year=".$_REQUEST['year']." AND empid=".$res['EmployeeID']."",$con);  $rowck=mysql_num_rows($sqlck);
-if($rowck>0){ $sUp=mysql_query("update hrm_paid_salary set total_paid='".$Gross."', total_deduct='".$TotDeduct."' where month=".$_REQUEST['month']." AND year=".$_REQUEST['year']." AND empid=".$res['EmployeeID']."",$con); }
-else{ $sUp=mysql_query("insert into hrm_paid_salary(empid, month, year, fin_year, com, total_paid, total_deduct) values(".$res['EmployeeID'].", ".$_REQUEST['month'].", ".$_REQUEST['year'].", '".$_REQUEST['fin_year']."', ".$_REQUEST['com'].", '".$Gross."', '".$TotDeduct."')",$con) }
+if($rowck>0){ $sUp=mysql_query("update hrm_paid_salary set total_paid='".$Gross."', total_deduct='".$TotDeduct."', HqId=".$res['HqId'].", DepId=".$res['DepartmentId']." where month=".$_REQUEST['month']." AND year=".$_REQUEST['year']." AND empid=".$res['EmployeeID']."",$con); }
+else{ $sUp=mysql_query("insert into hrm_paid_salary(empid, month, year, fin_year, com, total_paid, total_deduct, HqId, DepId) values(".$res['EmployeeID'].", ".$_REQUEST['month'].", ".$_REQUEST['year'].", '".$_REQUEST['fin_year']."', ".$_REQUEST['com'].", '".$Gross."', '".$TotDeduct."', ".$res['HqId'].", ".$res['DepartmentId'].")",$con); }
    
 }
 
+}
+
 //https://vnrseeds.co.in/AdminUser/paidsalary.php?month=&year=&com=1&fin_year=23-24
+
+https://vnrseeds.co.in/AdminUser/paidsalary.php?month=4&year=2023&com=1&fin_year=23-24
 ?>
 
