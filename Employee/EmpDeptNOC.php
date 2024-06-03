@@ -45,6 +45,12 @@ function FUnchkVV(d)
    window.location="EmpDeptNOC.php?e=4e&w=234&d="+d+"&y=10234&e=4e2&e=4e&w=234&y=110022344&retd=ee&rr=09drfGe&S=eewwqq&wwrew=t%T@sed818&ede=101&chkvv="+chkVV;
 }
 
+
+function FunClick()  
+{ 
+ window.location='EmpDeptNOC.php?ls=10&wer=123grtd&se=reew&w=ee102&m=11&seh='+document.getElementById("Searchkey").value+'&dd=truevalu&fals=truefalse'; 
+}
+
 </script>
 </head>
 <body class="body">
@@ -84,10 +90,13 @@ function FUnchkVV(d)
   <td style="display:block;"> <?php //if($_REQUEST['a']=='hod'){echo 'block';}elseif($_REQUEST['a']=='app'){echo 'none';}?>
    <table>
       <tr><td height="30" colspan="7" valign="top" style="font-size:18px;font-family:Times New Roman;"><b>Employee Department NOC Clearance </b>&nbsp;&nbsp;
-      
-      <input type="checkbox" id="chkVV" <?php if($_REQUEST['chkvv']=='N'){echo 'checked';} ?> onclick="FUnchkVV(<?=$_REQUEST['d']?>)" />Pending
-      
-      
+      <input type="checkbox" id="chkVV" <?php if($_REQUEST['chkvv']=='N'){echo 'checked';} ?> onClick="FUnchkVV(<?=$_REQUEST['d']?>)" />Pending
+	  
+	  &nbsp;&nbsp;&nbsp;
+	  <input type="text" style="width:200px;height:19px; background-color:#DDFFBB;" id="Searchkey" name="Searchkey" placeholder="search from code or name" value="<?=$_REQUEST['seh']?>"/>
+	  &nbsp;&nbsp;&nbsp;
+	  <input type="button" value="click" style="width:60px;" onClick="FunClick()" />
+	  
 	  <font color="#014E05" style='font-family:Times New Roman;' size="3"><b><?php echo $msg; ?></b></font>
 	</td>
  </tr>
@@ -116,11 +125,14 @@ elseif($_REQUEST['d']==9){ $subQ="IT_NOC='".$_REQUEST['chkvv']."'"; }
 elseif($_REQUEST['d']==11){ $subQ="Admin_NOC='".$_REQUEST['chkvv']."'"; }
 else{ $subQ='1=1';  }
 
+if($_REQUEST['seh']!=''){ $ConDQ = "(e.Fname like '%".$_REQUEST['seh']."%' OR e.Sname like '%".$_REQUEST['seh']."%' OR e.Lname like '%".$_REQUEST['seh']."%' OR e.EmpCode like '%".$_REQUEST['seh']."%')"; }else{ $ConDQ = "1=1"; } 
 
-$sql_statement = mysql_query("select * from hrm_employee_separation s inner join hrm_employee e on s.EmployeeID=e.EmployeeID where e.CompanyId=".$CompanyId." AND HR_Approved='Y' AND ".$subQ." ", $con); $total_records = mysql_num_rows($sql_statement);
+$sql_statement = mysql_query("select * from hrm_employee_separation s inner join hrm_employee e on s.EmployeeID=e.EmployeeID where e.CompanyId=".$CompanyId." AND ".$ConDQ." AND HR_Approved='Y' AND ".$subQ." ", $con); $total_records = mysql_num_rows($sql_statement);
+
 if(isset($_GET['page'])) $page = $_GET['page']; else $page = 1;  $offset = 10;
 if ($page){ $from = ($page * $offset) - $offset; }else{ $from = 0;}
-$sql_statement = mysql_query("select * from hrm_employee_separation s inner join hrm_employee e on s.EmployeeID=e.EmployeeID where e.CompanyId=".$CompanyId." AND HR_Approved='Y' AND ".$subQ." order by ResignationStatus ASC, Emp_ResignationDate DESC  LIMIT " . $from . "," . $offset, $con);  $rowCheck=mysql_num_rows($sql_statement); if($rowCheck>0){ 
+
+$sql_statement = mysql_query("select * from hrm_employee_separation s inner join hrm_employee e on s.EmployeeID=e.EmployeeID where e.CompanyId=".$CompanyId." AND ".$ConDQ." AND HR_Approved='Y' AND ".$subQ." order by ResignationStatus ASC, Emp_ResignationDate DESC  LIMIT " . $from . "," . $offset, $con);  $rowCheck=mysql_num_rows($sql_statement); if($rowCheck>0){ 
 if($_REQUEST['page']==1){$sno=1;} elseif($_REQUEST['page']==2){$sno=11;} elseif($_REQUEST['page']==3){$sno=21;} elseif($_REQUEST['page']==4){$sno=31;} elseif($_REQUEST['page']==5){$sno=41;} elseif($_REQUEST['page']==6){$sno=51;} elseif($_REQUEST['page']==7){$sno=61;} elseif($_REQUEST['page']==8){$sno=71;} elseif($_REQUEST['page']==9){$sno=81;} elseif($_REQUEST['page']==10){$sno=91;} elseif($_REQUEST['page']==11){$sno=101;} elseif($_REQUEST['page']==12){$sno=111;} elseif($_REQUEST['page']==13){$sno=121;} else{$sno=1;}
 while($res=mysql_fetch_array($sql_statement)){	  
 $sqlE=mysql_query("select EmpCode,Fname,Sname,Lname,DesigId,DepartmentId,EmailId_Vnr from hrm_employee INNER JOIN hrm_employee_general ON hrm_employee.EmployeeID=hrm_employee_general.EmployeeID where hrm_employee.EmployeeID=".$res['EmployeeID'], $con); $resE=mysql_fetch_assoc($sqlE); $EmpName=$resE['Fname'].' '.$resE['Sname'].' '.$resE['Lname'];
