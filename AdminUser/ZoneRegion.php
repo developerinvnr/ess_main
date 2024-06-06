@@ -211,7 +211,7 @@ $sqlRat=mysql_query("select g.EmpVertical, g.HqId, g.DepartmentId, hq.HqName, v.
 <form name="formEdit" method="post" onSubmit="return validate2Edit(this)">	
  <tr style="height:24px;">
   <td class="tdc"><?php echo $SNo; ?></td>
-  <td class="tdl"><input name="Hq" id="Hq" class="EditInput" style="width:99%;border:hidden;" value="<?php echo $resRat['HqName']; ?>" /><input type="hidden" name="HqId<?=$SNo?>" id="HqId<?=$SNo?>" value="<?php echo $resRat['HqId']; ?>" /></td>
+  <td class="tdl"><input name="Hq" id="Hq" class="EditInput" style="width:99%;border:hidden;" value="<?php echo $resRat['HqName']; ?>" readonly/><input type="hidden" name="HqId<?=$SNo?>" id="HqId<?=$SNo?>" value="<?php echo $resRat['HqId']; ?>" /></td>
   <td class="tdc"><input name="Vertical" id="Vertical" class="EditInput" style="width:99%;border:hidden;" value="<?php echo $resRat['VerticalName']; ?>" /><input type="hidden" name="VerticalId<?=$SNo?>" id="VerticalId<?=$SNo?>" value="<?php echo $resRat['EmpVertical']; ?>" /></td>
   <td class="tdc"><select name="RegionId<?=$SNo?>" id="RegionId<?=$SNo?>" class="tdinput" style="width:99%;" disabled="disabled">
   <option value="0" <?php if($resRat['RegionId']==0){echo 'selected';}?>>&nbsp;Select</option>
