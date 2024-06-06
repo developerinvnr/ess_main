@@ -17,7 +17,7 @@ if(isset($_POST['SaveNew']))
 if(isset($_POST['SaveEdit']))
 { 
 
- $SqlUpdate = mysql_query("UPDATE hrm_sales_region SET RegionName='".$_POST['RegionName']."', ZoneId='".$_POST['ZoneId']."', crby=".$UserId.", crdate='".date("Y-m-d")."' WHERE RegionId=".$_POST['RegionId'], $con));  
+ $SqlUpdate = mysql_query("UPDATE hrm_sales_region SET RegionName='".$_POST['RegionName']."', ZoneId='".$_POST['ZoneId']."', crby=".$UserId.", crdate='".date("Y-m-d")."' WHERE RegionId=".$_POST['RegionId'], $con) or die(mysql_error());  
  if($SqlUpdate){$msg2="Data has been Updeted successfully...";}
 }
 
