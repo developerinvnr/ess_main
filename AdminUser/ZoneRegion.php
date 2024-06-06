@@ -17,7 +17,7 @@ if(isset($_POST['SaveNew']))
 if(isset($_POST['SaveEdit']))
 { 
 
- $SqlUpdate = mysql_query("UPDATE hrm_sales_region SET RegionName='".$_POST['RegionName']."', ZoneId='".$_POST['ZoneId']."', crby=".$UserId.", crdate='".date("Y-m-d")."' WHERE RegionId=".$_POST['RegionId'], $con) or die(mysql_error());  
+ $SqlUpdate = mysql_query("UPDATE hrm_sales_region SET RegionName='".$_POST['RegionName']."', ZoneId='".$_POST['ZoneId']."', crby=".$UserId.", crdate='".date("Y-m-d")."' WHERE RegionId=".$_POST['RegionId'], $con));  
  if($SqlUpdate){$msg2="Data has been Updeted successfully...";}
 }
 
@@ -201,10 +201,10 @@ else{ $subQ='1=1'; }
 if($_REQUEST['vt_v']>0)
 {
 
-$sqlRat=mysql_query("select g.EmpVertical, g.HqId, g.DepartmentId, hq.HqName, v.VerticalName from hrm_employee_general g inner join hrm_headquater hq on g.HqId=hq.HqId inner join hrm_department_vertical v on g.EmpVertical=v.VerticalId where hq.HQStatus='A' AND hq.CompanyId=".$CompanyId." AND ".$subQ." group by g.HqId,g.EmpVertical order by HqName,VerticalName ", $con); 
+$sqlRat=mysql_query("select g.EmpVertical, g.HqId, g.DepartmentId, hq.HqName, v.VerticalName from hrm_employee_general g left join hrm_headquater hq on g.HqId=hq.HqId left join hrm_department_vertical v on g.EmpVertical=v.VerticalId where hq.HQStatus='A' AND hq.CompanyId=".$CompanyId." AND ".$subQ." group by g.HqId,g.EmpVertical order by HqName,VerticalName ", $con); 
       $SNo=1; while($resRat=mysql_fetch_array($sqlRat)) {
 	  
-	  $sqlRat2=mysql_query("select VHqId,rh.RegionId,RegionName from hrm_sales_verhq rh inner join hrm_sales_region r on rh.RegionId=r.RegionId where HqId=".$resRat['HqId']." AND Vertical=".$resRat['EmpVertical']." AND DeptId=".$resRat['DepartmentId']." AND CompanyId=".$CompanyId, $con); 
+	  $sqlRat2=mysql_query("select VHqId,rh.RegionId,RegionName from hrm_sales_verhq rh left join hrm_sales_region r on rh.RegionId=r.RegionId where HqId=".$resRat['HqId']." AND Vertical=".$resRat['EmpVertical']." AND DeptId=".$resRat['DepartmentId']." AND CompanyId=".$CompanyId, $con); 
 	  $resRat2=mysql_fetch_assoc($sqlRat2);
 	  
 ?>
@@ -215,7 +215,7 @@ $sqlRat=mysql_query("select g.EmpVertical, g.HqId, g.DepartmentId, hq.HqName, v.
   <td class="tdc"><input name="Vertical" id="Vertical" class="EditInput" style="width:99%;border:hidden;" value="<?php echo $resRat['VerticalName']; ?>" /><input type="hidden" name="VerticalId<?=$SNo?>" id="VerticalId<?=$SNo?>" value="<?php echo $resRat['EmpVertical']; ?>" /></td>
   <td class="tdc"><select name="RegionId<?=$SNo?>" id="RegionId<?=$SNo?>" class="tdinput" style="width:99%;" disabled="disabled">
   <option value="0" <?php if($resRat['RegionId']==0){echo 'selected';}?>>&nbsp;Select</option>
-  <?php $sqlReg=mysql_query("select r.*,ZoneName from hrm_sales_region r inner join hrm_sales_zone z on r.ZoneId=z.ZoneId where sts='A' order by RegionName ASC", $con); 
+  <?php $sqlReg=mysql_query("select r.*,ZoneName from hrm_sales_region r left join hrm_sales_zone z on r.ZoneId=z.ZoneId where sts='A' order by RegionName ASC", $con); 
       while($resReg=mysql_fetch_array($sqlReg)){ ?><option value="<?=$resReg['RegionId']?>" <?php if($resRat2['RegionId']==$resReg['RegionId']){echo 'selected';}?>>&nbsp;<?=$resReg['RegionName'].' - '.$resReg['ZoneName']?></option><?php } ?>
   </select>
   
@@ -302,7 +302,7 @@ $sqlRat=mysql_query("select g.EmpVertical, g.HqId, g.DepartmentId, hq.HqName, v.
 </form>
 <?php } ?>     
  
-<?php $sqlRat=mysql_query("select r.*,z.ZoneName from hrm_sales_region r inner join hrm_sales_zone z on r.ZoneId=z.ZoneId where r.sts='A' order by r.RegionName ASC", $con); 
+<?php $sqlRat=mysql_query("select r.*,z.ZoneName from hrm_sales_region r left join hrm_sales_zone z on r.ZoneId=z.ZoneId where r.sts='A' order by r.RegionName ASC", $con); 
       $SNo=1; while($resRat=mysql_fetch_array($sqlRat)) {
   if(isset($_REQUEST['action']) && $_REQUEST['action']=="edit" && $_REQUEST['eid']==$resRat['RegionId']){ ?>
 <form name="formEdit" method="post" onSubmit="return validateEdit(this)">	
