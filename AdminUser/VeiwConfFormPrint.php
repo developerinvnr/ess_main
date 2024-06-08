@@ -21,7 +21,7 @@ function PrintPage()
 <tr><td align="center" style="font-family:Times New Roman;font-size:18px;width:1000px;"><b>Confirmation Appraisal Form</b></td></tr>
 <tr><td>&nbsp;</td></tr>
 <tr><td>&nbsp;</td></tr>
-<?php  if($_REQUEST['action']=='Form') {$sql=mysql_query("select hrm_employee.CompanyId,EmpCode,Fname,Sname,Lname,DesigId,DepartmentId,DateJoining,DateConfirmationYN,DateConfirmation,GradeId,HqId,Gender,DR,Married,ReportingName from hrm_employee INNER JOIN hrm_employee_general ON hrm_employee.EmployeeID=hrm_employee_general.EmployeeID INNER JOIN hrm_employee_personal ON hrm_employee.EmployeeID=hrm_employee_personal.EmployeeID where hrm_employee.EmployeeID=".$_REQUEST['E'], $con);  $res=mysql_fetch_assoc($sql);
+<?php  if($_REQUEST['action']=='Form') {$sql=mysql_query("select hrm_employee.CompanyId,EmpCode,Fname,Sname,Lname,DesigId,DepartmentId,DateJoining,DateConfirmationYN,DateConfirmation,GradeId,HqId,Gender,DR,Married,ReportingName,RepEmployeeID from hrm_employee INNER JOIN hrm_employee_general ON hrm_employee.EmployeeID=hrm_employee_general.EmployeeID INNER JOIN hrm_employee_personal ON hrm_employee.EmployeeID=hrm_employee_personal.EmployeeID where hrm_employee.EmployeeID=".$_REQUEST['E'], $con);  $res=mysql_fetch_assoc($sql);
 $Ename = $res['Fname'].'&nbsp;'.$res['Sname'].'&nbsp;'.$res['Lname']; $LEC=strlen($res['EmpCode']); 
 if($res['DR']=='Y'){$M='Dr.';} elseif($res['Gender']=='M'){$M='Mr.';} elseif($res['Gender']=='F' AND $res['Married']=='Y'){$M='Mrs.';} elseif($res['Gender']=='F' AND $res['Married']=='N'){$M='Miss.';}  $NameE=$M.' '.$Ename; 
 if($LEC==1){$EC='000'.$res['EmpCode'];} if($LEC==2){$EC='00'.$res['EmpCode'];} if($LEC==3){$EC='0'.$res['EmpCode'];} if($LEC>=4){$EC=$res['EmpCode'];}
@@ -35,6 +35,12 @@ $sqlHOD=mysql_query("select Fname,Sname,Lname,Gender,DR,Married from hrm_employe
 if($rowHOD>0) 
 { $resHOD=mysql_fetch_assoc($sqlHOD); if($resHOD['DR']=='Y'){$M2='Dr.';} elseif($resHOD['Gender']=='M'){$M2='Mr.';} elseif($resHOD['Gender']=='F' AND $resHOD['Married']=='Y'){$M2='Mrs.';} elseif($resHOD['Gender']=='F' AND $resHOD['Married']=='N'){$M2='Miss.';}
   $NameHOD=$M2.' '.$resHOD['Fname'].'&nbsp;'.$resHOD['Sname'].'&nbsp;'.$resHOD['Lname'];
+}
+
+$sqlRep=mysql_query("select Fname,Sname,Lname,Gender,DR,Married from hrm_employee e INNER JOIN hrm_employee_general g ON e.EmployeeID=g.EmployeeID INNER JOIN hrm_employee_personal p ON e.EmployeeID=p.EmployeeID where e.EmployeeID=".$res['RepEmployeeID'], $con); $rowRep=mysql_num_rows($sqlRep); 
+if($rowRep>0) 
+{ $resRep=mysql_fetch_assoc($sqlRep); if($resRep['DR']=='Y'){$M3='Dr.';} elseif($resRep['Gender']=='M'){$M3='Mr.';} elseif($resRep['Gender']=='F' AND $resRep['Married']=='Y'){$M3='Mrs.';} elseif($resRep['Gender']=='F' AND $resRep['Married']=='N'){$M3='Miss.';}
+  $NameRep=$M3.' '.$resRep['Fname'].'&nbsp;'.$resRep['Sname'].'&nbsp;'.$resRep['Lname'];
 }
 
 $sqlLL=mysql_query("select * from hrm_employee_confletter where Status='".$_REQUEST['v']."' AND EmployeeID=".$_REQUEST['E']." order by ConfLetterId desc", $con); $rowLL=mysql_num_rows($sqlLL); 
@@ -83,7 +89,7 @@ if($rowLL>0) { $resLL=mysql_fetch_assoc($sqlLL); }
 	 <tr><td class="font1" style="width:999px;">1. The objective of this appraisal is to evaluate the suitablility of an employee for confirmation in employment.</td></tr>
 	 <tr><td class="font1" style="width:999px;">2. This appraisal form is to be filled in by the employee's immediate superior and the same shall be reviewed by the Departmental Head.</td></tr>
 	 <tr><td>&nbsp;</td></tr>
-	 <tr><td colspan="2" class="font1" style="width:999px;"><b>Following are the Organizational, job and Personality factors applicable to employee. The defination and the rating scale for A, B, C, D for each factor is clearly detailed below:</b></td></tr>
+	 <tr><td colspan="2" class="font1" style="width:999px;"><b>Following are the Organizational, Job and Personality factors applicable to employee. Each factor is clearly defined and rated on a scale of A, B, C and D as detailed below:</b></td></tr>
 	</table>
    </td>
   </tr>
@@ -92,43 +98,43 @@ if($rowLL>0) { $resLL=mysql_fetch_assoc($sqlLL); }
 	   <tr><td colspan="4" class="font" style="width:100px;color:#004A95;" bgcolor="">&nbsp;<font color="#000000"><b>1. COMMUNICATION:</font> Clarity of thought and expression; skills and desire of sharing relevant information with all concerned (upward, lateral, downward).</b></td></tr>
 	   <tr>
 	    <td class="font" style="width:30px;" align="center" valign="top">(A)</td>
-		<td class="font1" id="TdA1" style="width:445px;<?php if($resLL['Communi']=='A'){ echo 'font-weight:bold;background-color:#AAAAAA;'; } ?>" valign="top"><?php if($resLL['Communi']=='A'){ echo '<img src="images/checkbox_UnCheck.png"/>'; }else{echo '<img src="images/checkbox.png"/>';}?>&nbsp;Excellent  clarity of thought and expression; Uses all channels and shares relevant information.</td>
+		<td class="font1" id="TdA1" style="width:445px;<?php if($resLL['Communi']=='A'){ echo 'font-weight:bold;background-color:#AAAAAA;'; } ?>" valign="top"><?php if($resLL['Communi']=='A'){ echo '<img src="images/checkbox_UnCheck.png"/>'; }else{echo '<img src="images/checkbox.png"/>';}?>&nbsp;Excellent clarity of thought and expression; Uses all channels and shares relevant information.</td>
 		<td class="font" style="width:30px;" align="center" valign="top">(B)</td>
-		<td class="font1" id="TdB1" style="width:445px;<?php if($resLL['Communi']=='B'){ echo 'font-weight:bold;background-color:#AAAAAA;'; } ?>" valign="top"><?php if($resLL['Communi']=='B'){ echo '<img src="images/checkbox_UnCheck.png"/>'; }else{echo '<img src="images/checkbox.png"/>';}?>&nbsp;Good in expression shares information with all concerned.</td>
+		<td class="font1" id="TdB1" style="width:445px;<?php if($resLL['Communi']=='B'){ echo 'font-weight:bold;background-color:#AAAAAA;'; } ?>" valign="top"><?php if($resLL['Communi']=='B'){ echo '<img src="images/checkbox_UnCheck.png"/>'; }else{echo '<img src="images/checkbox.png"/>';}?>&nbsp;Good in expression, shares information with all concerned.</td>
 	   </tr>
 	   <tr>
 	    <td class="font" style="width:30px;" align="center" valign="top">(C)</td>
-		<td class="font1" id="TdC1" style="width:445px;<?php if($resLL['Communi']=='C'){ echo 'font-weight:bold;background-color:#AAAAAA;'; } ?>" valign="top"><?php if($resLL['Communi']=='C'){ echo '<img src="images/checkbox_UnCheck.png"/>'; }else{echo '<img src="images/checkbox.png"/>';}?>&nbsp;Has desire to share information, but lacks skills to do so.</td>
+		<td class="font1" id="TdC1" style="width:445px;<?php if($resLL['Communi']=='C'){ echo 'font-weight:bold;background-color:#AAAAAA;'; } ?>" valign="top"><?php if($resLL['Communi']=='C'){ echo '<img src="images/checkbox_UnCheck.png"/>'; }else{echo '<img src="images/checkbox.png"/>';}?>&nbsp;Has the desire to share information but lacks the skills to do so.</td>
 		<td class="font" style="width:30px;" align="center" valign="top">(D)</td>
-		<td class="font1" id="TdD1" style="width:445px;<?php if($resLL['Communi']=='D'){ echo 'font-weight:bold;background-color:#AAAAAA;'; } ?>" valign="top"><?php if($resLL['Communi']=='D'){ echo '<img src="images/checkbox_UnCheck.png"/>'; }else{echo '<img src="images/checkbox.png"/>';}?>&nbsp;Keep things to him. Lacks desire and skills to share information.</td>
+		<td class="font1" id="TdD1" style="width:445px;<?php if($resLL['Communi']=='D'){ echo 'font-weight:bold;background-color:#AAAAAA;'; } ?>" valign="top"><?php if($resLL['Communi']=='D'){ echo '<img src="images/checkbox_UnCheck.png"/>'; }else{echo '<img src="images/checkbox.png"/>';}?>&nbsp;Keep things to himself. Lacks the desire and skills to share information.</td>
 	   </tr>
 	   <tr><td></td></tr>
 	   <tr><td colspan="4" class="font" style="width:100px;color:#004A95;" bgcolor=""><b>&nbsp;<font color="#000000">2. JOB KNOWLEDGE:</font> Knowledge needed to perform the job (s); ability to grasp concepts and issues; assimilation of varied information.</b></td></tr>
 	   <tr>
 	    <td class="font" style="width:30px;" align="center" valign="top">(A)</td>
-		<td class="font1" id="TdA2" style="width:445px;<?php if($resLL['JobKnowl']=='A'){ echo 'font-weight:bold;background-color:#AAAAAA;'; } ?>" valign="top"><?php if($resLL['JobKnowl']=='A'){ echo '<img src="images/checkbox_UnCheck.png"/>'; }else{echo '<img src="images/checkbox.png"/>';}?>&nbsp;Has thorough know ledge of primary and related jobs; quick in assimilation of varied information, concepts and issues.</td>
+		<td class="font1" id="TdA2" style="width:445px;<?php if($resLL['JobKnowl']=='A'){ echo 'font-weight:bold;background-color:#AAAAAA;'; } ?>" valign="top"><?php if($resLL['JobKnowl']=='A'){ echo '<img src="images/checkbox_UnCheck.png"/>'; }else{echo '<img src="images/checkbox.png"/>';}?>&nbsp;Has thorough knowledge of primary and related jobs; quick in assimilation of varied information, concepts and issues.</td>
 		<td class="font" style="width:30px;" align="center" valign="top">(B)</td>
-		<td class="font1" id="TdB2" style="width:445px;<?php if($resLL['JobKnowl']=='B'){ echo 'font-weight:bold;background-color:#AAAAAA;'; } ?>" valign="top"><?php if($resLL['JobKnowl']=='B'){ echo '<img src="images/checkbox_UnCheck.png"/>'; }else{echo '<img src="images/checkbox.png"/>';}?>&nbsp;Has know ledge of various aspects of the jobs good in assimilation of concepts, issues.</td>
+		<td class="font1" id="TdB2" style="width:445px;<?php if($resLL['JobKnowl']=='B'){ echo 'font-weight:bold;background-color:#AAAAAA;'; } ?>" valign="top"><?php if($resLL['JobKnowl']=='B'){ echo '<img src="images/checkbox_UnCheck.png"/>'; }else{echo '<img src="images/checkbox.png"/>';}?>&nbsp;Has knowledge of various aspects of the jobs, good in assimilation of concepts, issues.</td>
 	   </tr>
 	   <tr>
 	    <td class="font" style="width:30px;" align="center" valign="top">(C)</td>
-		<td class="font1" id="TdC2" style="width:445px;<?php if($resLL['JobKnowl']=='C'){ echo 'font-weight:bold;background-color:#AAAAAA;'; } ?>" valign="top"><?php if($resLL['JobKnowl']=='C'){ echo '<img src="images/checkbox_UnCheck.png"/>'; }else{echo '<img src="images/checkbox.png"/>';}?>&nbsp;Fair knowledge of the job, but requires more training and experience, fair assimilation of information.</td>
+		<td class="font1" id="TdC2" style="width:445px;<?php if($resLL['JobKnowl']=='C'){ echo 'font-weight:bold;background-color:#AAAAAA;'; } ?>" valign="top"><?php if($resLL['JobKnowl']=='C'){ echo '<img src="images/checkbox_UnCheck.png"/>'; }else{echo '<img src="images/checkbox.png"/>';}?>&nbsp;Fair knowledge of the job but requires more training and experience, fair assimilation of information.</td>
 		<td class="font" style="width:30px;" align="center" valign="top">(D)</td>
-		<td class="font1" id="TdD2" style="width:445px;<?php if($resLL['JobKnowl']=='D'){ echo 'font-weight:bold;background-color:#AAAAAA;'; } ?>" valign="top"><?php if($resLL['JobKnowl']=='D'){ echo '<img src="images/checkbox_UnCheck.png"/>'; }else{echo '<img src="images/checkbox.png"/>';}?>&nbsp;Needs frequents instructions; poor ability to grasp concepts and Issues.</td>
+		<td class="font1" id="TdD2" style="width:445px;<?php if($resLL['JobKnowl']=='D'){ echo 'font-weight:bold;background-color:#AAAAAA;'; } ?>" valign="top"><?php if($resLL['JobKnowl']=='D'){ echo '<img src="images/checkbox_UnCheck.png"/>'; }else{echo '<img src="images/checkbox.png"/>';}?>&nbsp;Needs frequent instructions; poor ability to grasp concepts and issues.</td>
 	   </tr>
 	   <tr><td></td></tr>
 	   <tr><td colspan="4" class="font" style="width:100px;color:#004A95;" bgcolor=""><b>&nbsp;<font color="#000000">3. OUTPUT:</font> Quantity of work based on recognized standards consistency & regularity of work; Result orientation.</b></td></tr>
 	   <tr>
 	    <td class="font" style="width:30px;" align="center" valign="top">(A)</td>
-		<td class="font1" id="TdA3" style="width:445px;<?php if($resLL['OutPut']=='A'){ echo 'font-weight:bold;background-color:#AAAAAA;'; } ?>" valign="top"><?php if($resLL['OutPut']=='A'){ echo '<img src="images/checkbox_UnCheck.png"/>'; }else{echo '<img src="images/checkbox.png"/>';}?>&nbsp;Exceptionally high output Consistent, regular and highly result oriented.</td>
+		<td class="font1" id="TdA3" style="width:445px;<?php if($resLL['OutPut']=='A'){ echo 'font-weight:bold;background-color:#AAAAAA;'; } ?>" valign="top"><?php if($resLL['OutPut']=='A'){ echo '<img src="images/checkbox_UnCheck.png"/>'; }else{echo '<img src="images/checkbox.png"/>';}?>&nbsp;Exceptionally high output, consistent, regular and highly result oriented.</td>
 		<td class="font" style="width:30px;" align="center" valign="top">(B)</td>
-		<td class="font1" id="TdB3" style="width:445px;<?php if($resLL['OutPut']=='B'){ echo 'font-weight:bold;background-color:#AAAAAA;'; } ?>" valign="top"><?php if($resLL['OutPut']=='B'){ echo '<img src="images/checkbox_UnCheck.png"/>'; }else{echo '<img src="images/checkbox.png"/>';}?>&nbsp;Always gives good I high output. Consistently result oriented.</td>
+		<td class="font1" id="TdB3" style="width:445px;<?php if($resLL['OutPut']=='B'){ echo 'font-weight:bold;background-color:#AAAAAA;'; } ?>" valign="top"><?php if($resLL['OutPut']=='B'){ echo '<img src="images/checkbox_UnCheck.png"/>'; }else{echo '<img src="images/checkbox.png"/>';}?>&nbsp;Always gives good high output. Consistently result oriented.</td>
 	   </tr>
 	   <tr>
 	    <td class="font" style="width:30px;" align="center" valign="top">(C)</td>
-		<td class="font1" id="TdC3" style="width:445px;<?php if($resLL['OutPut']=='C'){ echo 'font-weight:bold;background-color:#AAAAAA;'; } ?>" valign="top"><?php if($resLL['OutPut']=='C'){ echo '<img src="images/checkbox_UnCheck.png"/>'; }else{echo '<img src="images/checkbox.png"/>';}?>&nbsp;Regularly meets recognized standards of output Mostly consistent producer.</td>
+		<td class="font1" id="TdC3" style="width:445px;<?php if($resLL['OutPut']=='C'){ echo 'font-weight:bold;background-color:#AAAAAA;'; } ?>" valign="top"><?php if($resLL['OutPut']=='C'){ echo '<img src="images/checkbox_UnCheck.png"/>'; }else{echo '<img src="images/checkbox.png"/>';}?>&nbsp;Regularly meets recognized standards of output. Mostly consistent producer.</td>
 		<td class="font" style="width:30px;" align="center" valign="top">(D)</td>
-		<td class="font1" id="TdD3" style="width:445px;<?php if($resLL['OutPut']=='D'){ echo 'font-weight:bold;background-color:#AAAAAA;'; } ?>" valign="top"><?php if($resLL['OutPut']=='D'){ echo '<img src="images/checkbox_UnCheck.png"/>'; }else{echo '<img src="images/checkbox.png"/>';}?>&nbsp;Generally low output. Below recognized standards Inconsistent. Not regular.</td>
+		<td class="font1" id="TdD3" style="width:445px;<?php if($resLL['OutPut']=='D'){ echo 'font-weight:bold;background-color:#AAAAAA;'; } ?>" valign="top"><?php if($resLL['OutPut']=='D'){ echo '<img src="images/checkbox_UnCheck.png"/>'; }else{echo '<img src="images/checkbox.png"/>';}?>&nbsp;Generally low output. Below recognized standards. Inconsistent. Not regular.</td>
 	   </tr>
 	   <tr><td></td></tr>
 	   <tr><td colspan="4" class="font" style="width:100px;color:#004A95;" bgcolor=""><b>&nbsp;<font color="#000000">4. INITIATIVE:</font> Takes the first step. Proactive. Creates and is alert to opportunities.</b></td></tr>
@@ -148,7 +154,7 @@ if($rowLL>0) { $resLL=mysql_fetch_assoc($sqlLL); }
 	   <tr><td colspan="4" class="font" style="width:100px;color:#004A95;" bgcolor=""><b>&nbsp;<font color="#000000">5. INTERPERSONAL SKILLS:</font> Degree of co-operation with team members; Ability to interact effectively with superiors, peers and subordinates.</b></td></tr>
 	   <tr>
 	    <td class="font" style="width:30px;" align="center" valign="top">(A)</td>
-		<td class="font1" id="TdA5" style="width:445px;<?php if($resLL['InterSkill']=='A'){ echo 'font-weight:bold;background-color:#AAAAAA;'; } ?>" valign="top"><?php if($resLL['InterSkill']=='A'){ echo '<img src="images/checkbox_UnCheck.png"/>'; }else{echo '<img src="images/checkbox.png"/>';}?>&nbsp;Very effective team member, co-operative; Respected and liked by superiors, peers and subordinates. High interactive ability at all levels.</td>
+		<td class="font1" id="TdA5" style="width:445px;<?php if($resLL['InterSkill']=='A'){ echo 'font-weight:bold;background-color:#AAAAAA;'; } ?>" valign="top"><?php if($resLL['InterSkill']=='A'){ echo '<img src="images/checkbox_UnCheck.png"/>'; }else{echo '<img src="images/checkbox.png"/>';}?>&nbsp;Very effective team member, Co-operative; Respected and liked by superiors, peers and subordinates. High interactive ability at all levels.</td>
 		<td class="font" style="width:30px;" align="center" valign="top">(B)</td>
 		<td class="font1" id="TdB5" style="width:445px;<?php if($resLL['InterSkill']=='B'){ echo 'font-weight:bold;background-color:#AAAAAA;'; } ?>" valign="top"><?php if($resLL['InterSkill']=='B'){ echo '<img src="images/checkbox_UnCheck.png"/>'; }else{echo '<img src="images/checkbox.png"/>';}?>&nbsp;Co-operative ; Respected. Has good relations with subordinate, peers and superiors.</td>
 	   </tr>
@@ -156,10 +162,10 @@ if($rowLL>0) { $resLL=mysql_fetch_assoc($sqlLL); }
 	    <td class="font" style="width:30px;" align="center" valign="top">(C)</td>
 		<td class="font1" id="TdC5" style="width:445px;<?php if($resLL['InterSkill']=='C'){ echo 'font-weight:bold;background-color:#AAAAAA;'; } ?>" valign="top"><?php if($resLL['InterSkill']=='C'){ echo '<img src="images/checkbox_UnCheck.png"/>'; }else{echo '<img src="images/checkbox.png"/>';}?>&nbsp;Generally accepted as a team member. Occasionally abrasive in dealing with superior, peer and subordinate. </td>
 		<td class="font" style="width:30px;" align="center" valign="top">(D)</td>
-		<td class="font1" id="TdD5" style="width:445px;<?php if($resLL['InterSkill']=='D'){ echo 'font-weight:bold;background-color:#AAAAAA;'; } ?>" valign="top"><?php if($resLL['InterSkill']=='D'){ echo '<img src="images/checkbox_UnCheck.png"/>'; }else{echo '<img src="images/checkbox.png"/>';}?>&nbsp;A loner, Has difficulty in a group/team.</td>
+		<td class="font1" id="TdD5" style="width:445px;<?php if($resLL['InterSkill']=='D'){ echo 'font-weight:bold;background-color:#AAAAAA;'; } ?>" valign="top"><?php if($resLL['InterSkill']=='D'){ echo '<img src="images/checkbox_UnCheck.png"/>'; }else{echo '<img src="images/checkbox.png"/>';}?>&nbsp;A loner, has difficulty in a group/team.</td>
 	   </tr>
 	   <tr><td></td></tr>
-	   <tr><td colspan="4" class="font" style="width:100px;color:#004A95;" bgcolor=""><b>&nbsp;<font color="#000000">6. PROBLEM SOLVING:</font> Ability to go to the core of the problem. Makes a correct diagnosis with relevant.</b></td></tr>
+	   <tr><td colspan="4" class="font" style="width:100px;color:#004A95;" bgcolor=""><b>&nbsp;<font color="#000000">6. PROBLEM SOLVING:</font> Ability to go to the core of the problem. Makes a correct diagnosis with relevant., information</b></td></tr>
 	   <tr>
 	    <td class="font" style="width:30px;" align="center" valign="top">(A)</td>
 		<td class="font1" id="TdA6" style="width:445px;<?php if($resLL['ProblemSolve']=='A'){ echo 'font-weight:bold;background-color:#AAAAAA;'; } ?>" valign="top"><?php if($resLL['ProblemSolve']=='A'){ echo '<img src="images/checkbox_UnCheck.png"/>'; }else{echo '<img src="images/checkbox.png"/>';}?>&nbsp;Quickly goes to the core of the problem and makes a correct diagnosis, with relevant available data in all situations.</td>
@@ -168,9 +174,9 @@ if($rowLL>0) { $resLL=mysql_fetch_assoc($sqlLL); }
 	   </tr>
 	   <tr>
 	    <td class="font" style="width:30px;" align="center" valign="top">(C)</td>
-		<td class="font1" id="TdC6" style="width:445px;<?php if($resLL['ProblemSolve']=='C'){ echo 'font-weight:bold;background-color:#AAAAAA;'; } ?>" valign="top"><?php if($resLL['ProblemSolve']=='C'){ echo '<img src="images/checkbox_UnCheck.png"/>'; }else{echo '<img src="images/checkbox.png"/>';}?>&nbsp;Has ability to solve problem of routine nature Requires assistance in solving problem. </td>
+		<td class="font1" id="TdC6" style="width:445px;<?php if($resLL['ProblemSolve']=='C'){ echo 'font-weight:bold;background-color:#AAAAAA;'; } ?>" valign="top"><?php if($resLL['ProblemSolve']=='C'){ echo '<img src="images/checkbox_UnCheck.png"/>'; }else{echo '<img src="images/checkbox.png"/>';}?>&nbsp;Has the ability to solve problems of a routine nature. Requires assistance in solving problem. </td>
 		<td class="font" style="width:30px;" align="center" valign="top">(D)</td>
-		<td class="font1" id="TdD6" style="width:445px;<?php if($resLL['ProblemSolve']=='D'){ echo 'font-weight:bold;background-color:#AAAAAA;'; } ?>" valign="top"><?php if($resLL['ProblemSolve']=='D'){ echo '<img src="images/checkbox_UnCheck.png"/>'; }else{echo '<img src="images/checkbox.png"/>';}?>&nbsp;Requires help to diagnose even problems of routine nature.</td>
+		<td class="font1" id="TdD6" style="width:445px;<?php if($resLL['ProblemSolve']=='D'){ echo 'font-weight:bold;background-color:#AAAAAA;'; } ?>" valign="top"><?php if($resLL['ProblemSolve']=='D'){ echo '<img src="images/checkbox_UnCheck.png"/>'; }else{echo '<img src="images/checkbox.png"/>';}?>&nbsp;Requires help to diagnose even problems of a routine nature.</td>
 	   </tr>
 	   <tr><td></td></tr>
 	   <tr><td colspan="4" class="font" style="width:100px;color:#004A95;" bgcolor=""><b>&nbsp;<font color="#000000">7. ATTITUDE TOWARDS ORGANIZATION/WORK/AUTHORITY:</font> Attitudinal pre-disposition. Approach to work; sensitivity and temperament.</b> </td></tr>
@@ -192,7 +198,7 @@ if($rowLL>0) { $resLL=mysql_fetch_assoc($sqlLL); }
 	    <td class="font" style="width:30px;" align="center" valign="top">(A)</td>
 		<td class="font1" id="TdA8" style="width:445px;<?php if($resLL['Attendance']=='A'){ echo 'font-weight:bold;background-color:#AAAAAA;'; } ?>" valign="top"><?php if($resLL['Attendance']=='A'){ echo '<img src="images/checkbox_UnCheck.png"/>'; }else{echo '<img src="images/checkbox.png"/>';}?>&nbsp;Highly regular in attendance and punctuality. Highly work/ assignment oriented. </td>
 		<td class="font" style="width:30px;" align="center" valign="top">(B)</td>
-		<td class="font1" id="TdB8" style="width:445px;<?php if($resLL['Attendance']=='B'){ echo 'font-weight:bold;background-color:#AAAAAA;'; } ?>" valign="top"><?php if($resLL['Attendance']=='B'){ echo '<img src="images/checkbox_UnCheck.png"/>'; }else{echo '<img src="images/checkbox.png"/>';}?>&nbsp;Mostly regular in attendance. Reports on time Conscientious to assignments.  </td>
+		<td class="font1" id="TdB8" style="width:445px;<?php if($resLL['Attendance']=='B'){ echo 'font-weight:bold;background-color:#AAAAAA;'; } ?>" valign="top"><?php if($resLL['Attendance']=='B'){ echo '<img src="images/checkbox_UnCheck.png"/>'; }else{echo '<img src="images/checkbox.png"/>';}?>&nbsp;Mostly regular in attendance. Reports on time and conscientious of assignments. </td>
 	   </tr>
 	   <tr>
 	    <td class="font" style="width:30px;" align="center" valign="top">(C)</td>
@@ -312,7 +318,7 @@ if($rowLL>0) { $resLL=mysql_fetch_assoc($sqlLL); }
 	     <td class="font1" style="width:330px;" align="center" valign="bottom">-------------------------</td>
 		 <td class="font1" style="width:330px;" align="center" valign="bottom">-------------------------</td>
 	 </tr>
-	 <tr><td class="font1" style="width:330px;" align="center" valign="bottom"><b><?php echo $res['ReportingName']; ?></b></td>
+	 <tr><td class="font1" style="width:330px;" align="center" valign="bottom"><b><?php echo $NameRep; ?></b></td>
 	     <td class="font1" style="width:330px;" align="center" valign="bottom"><b><?php echo $NameHOD; ?></b></td>
 		 <td class="font1" style="width:330px;" align="center" valign="bottom"><b><?php if($res['CompanyId']==1){echo 'Dr. PARUL PARMAR';}else{echo '';}?></b></td>
 	 </tr>

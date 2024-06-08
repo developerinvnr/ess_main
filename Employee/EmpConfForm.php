@@ -330,7 +330,7 @@ $sqlL=mysql_query("select * from hrm_employee_confletter where Status='A' AND Em
 	 <tr><td style="width:5px;">&nbsp;</td><td class="font1" style="width:995px;">1. The objective of this appraisal is to evaluate the suitablility of an employee for confirmation in employment.</td></tr>
 	 <tr><td style="width:5px;">&nbsp;</td><td class="font1" style="width:995px;">2. This appraisal form is to be filled in by the employee's immediate superior and the same shall be reviewed by the Departmental Head.</td></tr>
 	 <tr><td colspan="2">&nbsp;</td></tr>
-	 <tr><td colspan="2" class="font1" style="width:995px;">Following are the Organizational, job and Personality factors applicable to employee. The defination and the rating scale for A, B, C, D for each factor is clearly detailed below:</td></tr>
+	 <tr><td colspan="2" class="font1" style="width:995px;">Following are the Organizational, Job and Personality factors applicable to employee. Each factor is clearly defined and rated on a scale of A, B, C and D as detailed below:</td></tr>
 	</table>
    </td>
   </tr>
@@ -340,42 +340,42 @@ $sqlL=mysql_query("select * from hrm_employee_confletter where Status='A' AND Em
 	   <tr><td colspan="4" class="font" style="width:100px;color:#004A95;" bgcolor="">&nbsp;<font color="#000000">1. COMMUNICATION:</font> Clarity of thought and expression; skills and desire of sharing relevant information with all concerned (upward, lateral, downward).<input type="hidden" id="opt1" name="opt1" value="<?php if($resL['Communi']=='A'){echo 40;}elseif($resL['Communi']=='B'){echo 30;}elseif($resL['Communi']=='C'){echo 20;}elseif($resL['Communi']=='D'){echo 10;}else{echo 0;}?>" /></td></tr>
 	   <tr>
 	    <td class="font" style="width:30px;" align="center" valign="top">A</td>
-		<td class="font1" id="TdA1" style="width:470px;color:<?php if($resL['Communi']=='A'){echo '#FF3300';} ?>;" valign="top"><input type="radio" name="CO" id="A1" value="A" <?php if($resL['Communi']=='A'){echo 'checked';} ?> onClick="FunChkRdo(this.value,1,40)" disabled/>&nbsp;Excellent  clarity of thought and expression; Uses all channels and shares relevant information.</td>
+		<td class="font1" id="TdA1" style="width:470px;color:<?php if($resL['Communi']=='A'){echo '#FF3300';} ?>;" valign="top"><input type="radio" name="CO" id="A1" value="A" <?php if($resL['Communi']=='A'){echo 'checked';} ?> onClick="FunChkRdo(this.value,1,40)" disabled/>&nbsp;Excellent clarity of thought and expression; Uses all channels and shares relevant information.</td>
 		<td class="font" style="width:30px;" align="center" valign="top">B</td>
-		<td class="font1" id="TdB1" style="width:470px;color:<?php if($resL['Communi']=='B'){echo '#FF3300';} ?>;" valign="top"><input type="radio" name="CO" id="B1" value="B" <?php if($resL['Communi']=='B'){echo 'checked';} ?> onClick="FunChkRdo(this.value,1,30)" disabled/>&nbsp;Good in expression shares information with all concerned.</td>
+		<td class="font1" id="TdB1" style="width:470px;color:<?php if($resL['Communi']=='B'){echo '#FF3300';} ?>;" valign="top"><input type="radio" name="CO" id="B1" value="B" <?php if($resL['Communi']=='B'){echo 'checked';} ?> onClick="FunChkRdo(this.value,1,30)" disabled/>&nbsp;Good in expression, shares information with all concerned.</td>
 	   </tr>
 	   <tr>
 	    <td class="font" style="width:30px;" align="center" valign="top">C</td>
-		<td class="font1" id="TdC1" style="width:470px;color:<?php if($resL['Communi']=='C'){echo '#FF3300';} ?>;" valign="top"><input type="radio" name="CO" id="C1" value="C" <?php if($resL['Communi']=='C'){echo 'checked';} ?> onClick="FunChkRdo(this.value,1,20)" disabled/>&nbsp;Has desire to share information, but lacks skills to do so.</td>
+		<td class="font1" id="TdC1" style="width:470px;color:<?php if($resL['Communi']=='C'){echo '#FF3300';} ?>;" valign="top"><input type="radio" name="CO" id="C1" value="C" <?php if($resL['Communi']=='C'){echo 'checked';} ?> onClick="FunChkRdo(this.value,1,20)" disabled/>&nbsp;Has the desire to share information but lacks the skills to do so.</td>
 		<td class="font" style="width:30px;" align="center" valign="top">D</td>
-		<td class="font1" id="TdD1" style="width:470px;color:<?php if($resL['Communi']=='D'){echo '#FF3300';} ?>;" valign="top"><input type="radio" name="CO" id="D1" value="D" <?php if($resL['Communi']=='D'){echo 'checked';} ?> onClick="FunChkRdo(this.value,1,10)" disabled/>&nbsp;Keep things to him. Lacks desire and skills to share information.</td>
+		<td class="font1" id="TdD1" style="width:470px;color:<?php if($resL['Communi']=='D'){echo '#FF3300';} ?>;" valign="top"><input type="radio" name="CO" id="D1" value="D" <?php if($resL['Communi']=='D'){echo 'checked';} ?> onClick="FunChkRdo(this.value,1,10)" disabled/>&nbsp;Keep things to himself. Lacks the desire and skills to share information.</td>
 	   </tr>
 	   <tr><td colspan="4" class="font" style="width:100px;color:#004A95;" bgcolor="">&nbsp;<font color="#000000">2. JOB KNOWLEDGE:</font> Knowledge needed to perform the job (s); ability to grasp concepts and issues; assimilation of varied information.<input type="hidden" id="opt2" name="opt2" value="<?php if($resL['JobKnowl']=='A'){echo 80;}elseif($resL['JobKnowl']=='B'){echo 60;}elseif($resL['JobKnowl']=='C'){echo 40;}elseif($resL['JobKnowl']=='D'){echo 20;}else{echo 0;}?>" /></td></tr>
 	   <tr>
 	    <td class="font" style="width:30px;" align="center" valign="top">A</td>
-		<td class="font1" id="TdA2" style="width:470px;color:<?php if($resL['JobKnowl']=='A'){echo '#FF3300';} ?>;" valign="top"><input type="radio" name="JK" id="A2" value="A" <?php if($resL['JobKnowl']=='A'){echo 'checked';} ?> onClick="FunChkRdo(this.value,2,80)" disabled/>&nbsp;Has thorough know ledge of primary and related jobs; quick in assimilation of varied information, concepts and issues.</td>
+		<td class="font1" id="TdA2" style="width:470px;color:<?php if($resL['JobKnowl']=='A'){echo '#FF3300';} ?>;" valign="top"><input type="radio" name="JK" id="A2" value="A" <?php if($resL['JobKnowl']=='A'){echo 'checked';} ?> onClick="FunChkRdo(this.value,2,80)" disabled/>&nbsp;Has thorough knowledge of primary and related jobs; quick in assimilation of varied information, concepts and issues.</td>
 		<td class="font" style="width:30px;" align="center" valign="top">B</td>
-		<td class="font1" id="TdB2" style="width:470px;color:<?php if($resL['JobKnowl']=='B'){echo '#FF3300';} ?>;" valign="top"><input type="radio" name="JK" id="B2" value="B" <?php if($resL['JobKnowl']=='B'){echo 'checked';} ?> onClick="FunChkRdo(this.value,2,60)" disabled/>&nbsp;Has know ledge of various aspects of the jobs good in assimilation of concepts, issues.</td>
+		<td class="font1" id="TdB2" style="width:470px;color:<?php if($resL['JobKnowl']=='B'){echo '#FF3300';} ?>;" valign="top"><input type="radio" name="JK" id="B2" value="B" <?php if($resL['JobKnowl']=='B'){echo 'checked';} ?> onClick="FunChkRdo(this.value,2,60)" disabled/>&nbsp;Has knowledge of various aspects of the jobs, good in assimilation of concepts, issues.</td>
 	   </tr>
 	   <tr>
 	    <td class="font" style="width:30px;" align="center" valign="top">C</td>
-		<td class="font1" id="TdC2" style="width:470px;color:<?php if($resL['JobKnowl']=='C'){echo '#FF3300';} ?>;" valign="top"><input type="radio" name="JK" id="C2" value="C" <?php if($resL['JobKnowl']=='C'){echo 'checked';} ?> onClick="FunChkRdo(this.value,2,40)" disabled/>&nbsp;Fair knowledge of the job, but requires more training and experience, fair assimilation of information.</td>
+		<td class="font1" id="TdC2" style="width:470px;color:<?php if($resL['JobKnowl']=='C'){echo '#FF3300';} ?>;" valign="top"><input type="radio" name="JK" id="C2" value="C" <?php if($resL['JobKnowl']=='C'){echo 'checked';} ?> onClick="FunChkRdo(this.value,2,40)" disabled/>&nbsp;Fair knowledge of the job but requires more training and experience, fair assimilation of information.</td>
 		<td class="font" style="width:30px;" align="center" valign="top">D</td>
-		<td class="font1" id="TdD2" style="width:470px;color:<?php if($resL['JobKnowl']=='D'){echo '#FF3300';} ?>;" valign="top"><input type="radio" name="JK" id="D2" value="D" <?php if($resL['JobKnowl']=='D'){echo 'checked';} ?> onClick="FunChkRdo(this.value,2,20)" disabled/>&nbsp;Needs frequents instructions; poor ability to grasp concepts and Issues.</td>
+		<td class="font1" id="TdD2" style="width:470px;color:<?php if($resL['JobKnowl']=='D'){echo '#FF3300';} ?>;" valign="top"><input type="radio" name="JK" id="D2" value="D" <?php if($resL['JobKnowl']=='D'){echo 'checked';} ?> onClick="FunChkRdo(this.value,2,20)" disabled/>&nbsp;Needs frequent instructions; poor ability to grasp concepts and issues.</td>
 	   </tr>
 	   <tr><td colspan="4" class="font" style="width:100px;color:#004A95;" bgcolor="">&nbsp;<font color="#000000">3. OUTPUT:</font> Quantity of work based on recognized standards consistency & regularity of work; Result orientation.
 	   <input type="hidden" id="opt3" name="opt3" value="<?php if($resL['OutPut']=='A'){echo 80;}elseif($resL['OutPut']=='B'){echo 60;}elseif($resL['OutPut']=='C'){echo 40;}elseif($resL['OutPut']=='D'){echo 20;}else{echo 0;}?>" /></td></tr>
 	   <tr>
 	    <td class="font" style="width:30px;" align="center" valign="top">A</td>
-		<td class="font1" id="TdA3" style="width:470px;color:<?php if($resL['OutPut']=='A'){echo '#FF3300';} ?>;" valign="top"><input type="radio" name="OP" id="A3" value="A" <?php if($resL['OutPut']=='A'){echo 'checked';} ?> onClick="FunChkRdo(this.value,3,80)" disabled/>&nbsp;Exceptionally high output Consistent, regular and highly result oriented.</td>
+		<td class="font1" id="TdA3" style="width:470px;color:<?php if($resL['OutPut']=='A'){echo '#FF3300';} ?>;" valign="top"><input type="radio" name="OP" id="A3" value="A" <?php if($resL['OutPut']=='A'){echo 'checked';} ?> onClick="FunChkRdo(this.value,3,80)" disabled/>&nbsp;Exceptionally high output, consistent, regular and highly result oriented.</td>
 		<td class="font" style="width:30px;" align="center" valign="top">B</td>
-		<td class="font1" id="TdB3" style="width:470px;color:<?php if($resL['OutPut']=='B'){echo '#FF3300';} ?>;" valign="top"><input type="radio" name="OP" id="B3" value="B" <?php if($resL['OutPut']=='B'){echo 'checked';} ?> onClick="FunChkRdo(this.value,3,60)" disabled/>&nbsp;Always gives good I high output. Consistently result oriented.</td>
+		<td class="font1" id="TdB3" style="width:470px;color:<?php if($resL['OutPut']=='B'){echo '#FF3300';} ?>;" valign="top"><input type="radio" name="OP" id="B3" value="B" <?php if($resL['OutPut']=='B'){echo 'checked';} ?> onClick="FunChkRdo(this.value,3,60)" disabled/>&nbsp;Always gives good high output. Consistently result oriented.</td>
 	   </tr>
 	   <tr>
 	    <td class="font" style="width:30px;" align="center" valign="top">C</td>
-		<td class="font1" id="TdC3" style="width:470px;color:<?php if($resL['OutPut']=='C'){echo '#FF3300';} ?>;" valign="top"><input type="radio" name="OP" id="C3" value="C" <?php if($resL['OutPut']=='C'){echo 'checked';} ?> onClick="FunChkRdo(this.value,3,40)" disabled/>&nbsp;Regularly meets recognized standards of output Mostly consistent producer.</td>
+		<td class="font1" id="TdC3" style="width:470px;color:<?php if($resL['OutPut']=='C'){echo '#FF3300';} ?>;" valign="top"><input type="radio" name="OP" id="C3" value="C" <?php if($resL['OutPut']=='C'){echo 'checked';} ?> onClick="FunChkRdo(this.value,3,40)" disabled/>&nbsp;Regularly meets recognized standards of output. Mostly consistent producer.</td>
 		<td class="font" style="width:30px;" align="center" valign="top">D</td>
-		<td class="font1" id="TdD3" style="width:470px;color:<?php if($resL['OutPut']=='D'){echo '#FF3300';} ?>;" valign="top"><input type="radio" name="OP" id="D3" value="D" <?php if($resL['OutPut']=='D'){echo 'checked';} ?> onClick="FunChkRdo(this.value,3,20)" disabled/>&nbsp;Generally low output. Below recognized standards Inconsistent. Not regular.</td>
+		<td class="font1" id="TdD3" style="width:470px;color:<?php if($resL['OutPut']=='D'){echo '#FF3300';} ?>;" valign="top"><input type="radio" name="OP" id="D3" value="D" <?php if($resL['OutPut']=='D'){echo 'checked';} ?> onClick="FunChkRdo(this.value,3,20)" disabled/>&nbsp;Generally low output. Below recognized standards. Inconsistent. Not regular.</td>
 	   </tr>
 	   <tr><td colspan="4" class="font" style="width:100px;color:#004A95;" bgcolor="">&nbsp;<font color="#000000">4. INITIATIVE:</font> Takes the first step. Proactive. Creates and is alert to opportunities.
 	   <input type="hidden" id="opt4" name="opt4" value="<?php if($resL['Initiative']=='A'){echo 40;}elseif($resL['Initiative']=='B'){echo 30;}elseif($resL['Initiative']=='C'){echo 20;}elseif($resL['Initiative']=='D'){echo 10;}else{echo 0;}?>" /></td></tr>
@@ -394,7 +394,7 @@ $sqlL=mysql_query("select * from hrm_employee_confletter where Status='A' AND Em
 	   <tr><td colspan="4" class="font" style="width:100px;color:#004A95;" bgcolor="">&nbsp;<font color="#000000">5. INTERPERSONAL SKILLS:</font> Degree of co-operation with team members; Ability to interact effectively with superiors, peers and subordinates.<input type="hidden" id="opt5" name="opt5" value="<?php if($resL['InterSkill']=='A'){echo 40;}elseif($resL['InterSkill']=='B'){echo 30;}elseif($resL['InterSkill']=='C'){echo 20;}elseif($resL['InterSkill']=='D'){echo 10;}else{echo 0;}?>" /></td></tr>
 	   <tr>
 	    <td class="font" style="width:30px;" align="center" valign="top">A</td>
-		<td class="font1" id="TdA5" style="width:470px;color:<?php if($resL['InterSkill']=='A'){echo '#FF3300';} ?>;" valign="top"><input type="radio" name="IS" id="A5" value="A" <?php if($resL['InterSkill']=='A'){echo 'checked';} ?> onClick="FunChkRdo(this.value,5,40)" disabled/>&nbsp;Very effective team member, co-operative; Respected and liked by superiors, peers and subordinates. High interactive ability at all levels.</td>
+		<td class="font1" id="TdA5" style="width:470px;color:<?php if($resL['InterSkill']=='A'){echo '#FF3300';} ?>;" valign="top"><input type="radio" name="IS" id="A5" value="A" <?php if($resL['InterSkill']=='A'){echo 'checked';} ?> onClick="FunChkRdo(this.value,5,40)" disabled/>&nbsp;Very effective team member, Co-operative; Respected and liked by superiors, peers and subordinates. High interactive ability at all levels.</td>
 		<td class="font" style="width:30px;" align="center" valign="top">B</td>
 		<td class="font1" id="TdB5" style="width:470px;color:<?php if($resL['InterSkill']=='B'){echo '#FF3300';} ?>;" valign="top"><input type="radio" name="IS" id="B5" value="B" <?php if($resL['InterSkill']=='B'){echo 'checked';} ?> onClick="FunChkRdo(this.value,5,30)" disabled/>&nbsp;Co-operative ; Respected. Has good relations with subordinate, peers and superiors.</td>
 	   </tr>
@@ -402,9 +402,9 @@ $sqlL=mysql_query("select * from hrm_employee_confletter where Status='A' AND Em
 	    <td class="font" style="width:30px;" align="center" valign="top">C</td>
 		<td class="font1" id="TdC5" style="width:470px;color:<?php if($resL['InterSkill']=='C'){echo '#FF3300';} ?>;" valign="top"><input type="radio" name="IS" id="C5" value="C" <?php if($resL['InterSkill']=='C'){echo 'checked';} ?> onClick="FunChkRdo(this.value,5,20)" disabled/>&nbsp;Generally accepted as a team member. Occasionally abrasive in dealing with superior, peer and subordinate. </td>
 		<td class="font" style="width:30px;" align="center" valign="top">D</td>
-		<td class="font1" id="TdD5" style="width:470px;color:<?php if($resL['InterSkill']=='D'){echo '#FF3300';} ?>;" valign="top"><input type="radio" name="IS" id="D5" value="D" <?php if($resL['InterSkill']=='D'){echo 'checked';} ?> onClick="FunChkRdo(this.value,5,10)" disabled/>&nbsp;A loner, Has difficulty in a group/team.</td>
+		<td class="font1" id="TdD5" style="width:470px;color:<?php if($resL['InterSkill']=='D'){echo '#FF3300';} ?>;" valign="top"><input type="radio" name="IS" id="D5" value="D" <?php if($resL['InterSkill']=='D'){echo 'checked';} ?> onClick="FunChkRdo(this.value,5,10)" disabled/>&nbsp;A loner, has difficulty in a group/team.</td>
 	   </tr>
-	   <tr><td colspan="4" class="font" style="width:100px;color:#004A95;" bgcolor="">&nbsp;<font color="#000000">6. PROBLEM SOLVING:</font> Ability to go to the core of the problem. Makes a correct diagnosis with relevant.
+	   <tr><td colspan="4" class="font" style="width:100px;color:#004A95;" bgcolor="">&nbsp;<font color="#000000">6. PROBLEM SOLVING:</font> Ability to go to the core of the problem. Makes a correct diagnosis with relevant., information
 	   <input type="hidden" id="opt6" name="opt6" value="<?php if($resL['ProblemSolve']=='A'){echo 40;}elseif($resL['ProblemSolve']=='B'){echo 30;}elseif($resL['ProblemSolve']=='C'){echo 20;}elseif($resL['ProblemSolve']=='D'){echo 10;}else{echo 0;}?>" /></td></tr>
 	   <tr>
 	    <td class="font" style="width:30px;" align="center" valign="top">A</td>
@@ -414,9 +414,9 @@ $sqlL=mysql_query("select * from hrm_employee_confletter where Status='A' AND Em
 	   </tr>
 	   <tr>
 	    <td class="font" style="width:30px;" align="center" valign="top">C</td>
-		<td class="font1" id="TdC6" style="width:470px;color:<?php if($resL['ProblemSolve']=='C'){echo '#FF3300';} ?>;" valign="top"><input type="radio" name="PS" id="C6" value="C" <?php if($resL['ProblemSolve']=='C'){echo 'checked';} ?> onClick="FunChkRdo(this.value,6,20)" disabled/>&nbsp;Has ability to solve problem of routine nature Requires assistance in solving problem. </td>
+		<td class="font1" id="TdC6" style="width:470px;color:<?php if($resL['ProblemSolve']=='C'){echo '#FF3300';} ?>;" valign="top"><input type="radio" name="PS" id="C6" value="C" <?php if($resL['ProblemSolve']=='C'){echo 'checked';} ?> onClick="FunChkRdo(this.value,6,20)" disabled/>&nbsp;Has the ability to solve problems of a routine nature. Requires assistance in solving problem.</td>
 		<td class="font" style="width:30px;" align="center" valign="top">D</td>
-		<td class="font1" id="TdD6" style="width:470px;color:<?php if($resL['ProblemSolve']=='D'){echo '#FF3300';} ?>;" valign="top"><input type="radio" name="PS" id="D6" value="D" <?php if($resL['ProblemSolve']=='D'){echo 'checked';} ?> onClick="FunChkRdo(this.value,6,10)" disabled/>&nbsp;Requires help to diagnose even problems of routine nature.</td>
+		<td class="font1" id="TdD6" style="width:470px;color:<?php if($resL['ProblemSolve']=='D'){echo '#FF3300';} ?>;" valign="top"><input type="radio" name="PS" id="D6" value="D" <?php if($resL['ProblemSolve']=='D'){echo 'checked';} ?> onClick="FunChkRdo(this.value,6,10)" disabled/>&nbsp;Requires help to diagnose even problems of a routine nature.</td>
 	   </tr>
 	   <tr><td colspan="4" class="font" style="width:100px;color:#004A95;" bgcolor="">&nbsp;<font color="#000000">7. ATTITUDE TOWARDS ORGANIZATION/WORK/AUTHORITY:</font> Attitudinal pre-disposition. Approach to work; sensitivity and temperament. 
 	   <input type="hidden" id="opt7" name="opt7" value="<?php if($resL['Attitude']=='A'){echo 40;}elseif($resL['Attitude']=='B'){echo 30;}elseif($resL['Attitude']=='C'){echo 20;}elseif($resL['Attitude']=='D'){echo 10;}else{echo 0;}?>" /></td></tr>
@@ -438,7 +438,7 @@ $sqlL=mysql_query("select * from hrm_employee_confletter where Status='A' AND Em
 	    <td class="font" style="width:30px;" align="center" valign="top">A</td>
 		<td class="font1" id="TdA8" style="width:470px;color:<?php if($resL['Attendance']=='A'){echo '#FF3300';} ?>;" valign="top"><input type="radio" name="ATT" id="A8" value="A" <?php if($resL['Attendance']=='A'){echo 'checked';} ?> onClick="FunChkRdo(this.value,8,40)" disabled/>&nbsp;Highly regular in attendance and punctuality. Highly work/ assignment oriented. </td>
 		<td class="font" style="width:30px;" align="center" valign="top">B</td>
-		<td class="font1" id="TdB8" style="width:470px;color:<?php if($resL['Attendance']=='B'){echo '#FF3300';} ?>;" valign="top"><input type="radio" name="ATT" id="B8" value="B" <?php if($resL['Attendance']=='B'){echo 'checked';} ?> onClick="FunChkRdo(this.value,8,30)" disabled/>&nbsp;Mostly regular in attendance. Reports on time Conscientious to assignments.  </td>
+		<td class="font1" id="TdB8" style="width:470px;color:<?php if($resL['Attendance']=='B'){echo '#FF3300';} ?>;" valign="top"><input type="radio" name="ATT" id="B8" value="B" <?php if($resL['Attendance']=='B'){echo 'checked';} ?> onClick="FunChkRdo(this.value,8,30)" disabled/>&nbsp;Mostly regular in attendance. Reports on time and conscientious of assignments. </td>
 	   </tr>
 	   <tr>
 	    <td class="font" style="width:30px;" align="center" valign="top">C</td>
