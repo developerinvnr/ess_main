@@ -65,7 +65,7 @@ $(document).ready(function () { $("#table1").freezeHeader({ 'height': '450px' })
 </tr>
 		  <tr>
 		   <td valign="top" width="110%"> 
-<?php if($EmployeeId==29 OR $EmployeeId==352 OR $EmployeeId==169 OR $EmployeeId==142 OR $EmployeeId == 161 OR $EmployeeId == 1501 OR $EmployeeId == 1602 OR $EmployeeId==109 or $EmployeeId == 1312){?>	   
+<?php if($EmployeeId==29 OR $EmployeeId==352 OR $EmployeeId==169 OR $EmployeeId==142 OR $EmployeeId == 161 OR $EmployeeId == 1501 OR $EmployeeId == 1602 OR $EmployeeId==109 OR $EmployeeId == 1312 OR $EmployeeId == 1594 OR $EmployeeId == 1707){?>	   
 <?php //***************************************************************************** ?>	   
 <table border="1" id="table1" width="100%" cellspacing="1">
  <div class="thead">

@@ -295,10 +295,10 @@ if (($_SESSION['EmpType'] == 'E' or $_SESSION['EmpType'] == 'M') and $_SESSION['
                                             <li><a href="MyAssetNextacLevelAct.php?act=true&mm=sas&ask=false&ww=rightProtect&we=12345&mm=er4e&r=t5t%t5s&yy=eloi&gosto=false&rigt=checkessue&mailto=promt&wew=e%e@er%rdd=012&page=1&chk=<?php echo $resAc2['EmployeeID']; ?>&chk2=<?php echo $resAc2['EmployeeID2']; ?>">Paid - Rejected</a></li>
                                             <li><a href="MyAssetacreports.php?act=true&mm=sas&ask=false&ww=rightProtect&we=12345&mm=er4e&r=t5t%t5s&yy=eloi&gosto=false&rigt=checkessue&mailto=promt&wew=e%e@er%rdd=012&page=1&chk=<?php echo $resAc2['EmployeeID']; ?>&allot=0&reqt=1&all=0&d=0&ast=0&yer=<?php echo $YearId; ?>&ss=89&f=0i&wer=true&c=<?php echo $CompanyId; ?>&chk2=<?php echo $resAc2['EmployeeID2']; ?>&chk3=<?php echo $resAc2['EmployeeID3']; ?>&chk4=<?php echo $resAc2['EmployeeID4']; ?>&Demp=0&app=1&dra=1&ove=1">Reports</a></li>
                                         <?php } ?>
-                                        <?php if ($EmployeeId == 29 or $EmployeeId == 352 or $EmployeeId == 169 or $EmployeeId == 142 or $EmployeeId == 161 or $EmployeeId == 1501 or $EmployeeId == 1602 or $EmployeeId == 109 or $EmployeeId == 1312) { ?>
+                                        <?php if ($EmployeeId == 29 or $EmployeeId == 352 or $EmployeeId == 169 or $EmployeeId == 142 or $EmployeeId == 161 or $EmployeeId == 1501 or $EmployeeId == 1602 or $EmployeeId == 109 or $EmployeeId == 1312 or $EmployeeId == 1594 or $EmployeeId == 1707) { ?>
                                             <li style="text-align:center;"><b>Emp Eligibility</b></li>
                                             <li><a href="EmpElig.php?act=true&mm=sas&ask=false&ww=rightProtect&we=12345&mm=er4e&r=t5t%t5s&yy=eloi&gosto=false&rigt=checkessue&mailto=promt&wew=e%e@er%rdd=012&value=0&page=1">Click</a></li>
-                                        <?php } if ($EmployeeId == 29 or $EmployeeId == 352 or $EmployeeId == 169 or $EmployeeId == 142 or $EmployeeId == 109 or $EmployeeId == 1312) { ?>    
+                                        <?php } if ($EmployeeId == 29 or $EmployeeId == 352 or $EmployeeId == 169 or $EmployeeId == 142 or $EmployeeId == 109 or $EmployeeId == 1312 or $EmployeeId == 1594 or $EmployeeId == 1707) { ?>    
                                             <li><a href="EmpTrvRunKM.php?act=true&mm=sas&ask=false&ww=rightProtect&we=12345&mm=er4e&r=t5t%t5s&yy=eloi&gosto=false&rigt=checkessue&mailto=promt&wew=e%e@er%rdd=012&value=0&page=1">Running KM</a></li>
                                         <?php } ?>
                                     </ul>
@@ -396,7 +396,7 @@ if (($_SESSION['EmpType'] == 'E' or $_SESSION['EmpType'] == 'M') and $_SESSION['
 
                         ?>
 
-                                <?php /* OPEN TEAMDETAILS OPEN TEAMDETAILS OPEN TEAMDETAILS OPEN TEAMDETAILS OPEN TEAMDETAILS OPEN TEAMDETAILS*************************** */ ?>
+<?php /* OPEN TEAMDETAILS OPEN TEAMDETAILS OPEN TEAMDETAILS OPEN TEAMDETAILS OPEN TEAMDETAILS OPEN TEAMDETAILS*************************** */ ?>
 
                                 <?php $svs = mysql_query("select MoveRep from hrm_employee where EmployeeID=" . $EmployeeId, $con);
                                 $resv = mysql_fetch_assoc($svs); ?>
@@ -421,12 +421,12 @@ if (($_SESSION['EmpType'] == 'E' or $_SESSION['EmpType'] == 'M') and $_SESSION['
                                     <li class="top"><a href="#nogo22" class="top_link"><span class="down">Team Details</span></a>
                                         <ul class="sub">
 
-                                            <?php if ($rowApp > 0 and $rowHod > 0) { ?><li><a href="AppMyTeam.php">My Team</a></li><?php } elseif ($rowApp > 0 and $rowHod == 0) { ?> <li><a href="AppMyTeam.php">My Team</a></li><?php } elseif ($rowApp == 0 and ($rowHod > 0 or $rowRev > 0)) { ?> <li><a href="HodMyTeam.php">My Team</a></li><?php } ?>
+                                            <?php if($rowApp > 0 and $rowHod > 0) { ?><li><a href="AppMyTeam.php">My Team</a></li><?php } elseif ($rowApp > 0 and $rowHod == 0) { ?> <li><a href="AppMyTeam.php">My Team</a></li><?php } elseif ($rowApp == 0 and ($rowHod > 0 or $rowRev > 0)) { ?> <li><a href="HodMyTeam.php">My Team</a></li><?php } ?>
 
-                                            <?php if ($rowApp > 0 or $rowHod > 0 or $rowRev > 0) { ?>
+                                            <?php if($rowApp > 0 or $rowHod > 0 or $rowRev > 0) { ?>
                                                 <li><a href="#" class="fly">Leave Application</a>
                                                     <ul>
-                                                        <?php if ($rowApp > 0 and $rowHod > 0) { ?>
+                                                        <?php if($rowApp > 0 and $rowHod > 0) { ?>
                                                             <li><a href="DLeave.php">Draft/ Pending Leave&nbsp;&nbsp;<font style="font-weight:bold;color:#FF860D; font-size:12px;">(<?php if (($rowApp > 0 and $rowHod == 0) or ($rowApp > 0 and $rowHod > 0)) {
                                                                                                                                                                                         echo $rowDP_A;
                                                                                                                                                                                     }
@@ -435,10 +435,10 @@ if (($_SESSION['EmpType'] == 'E' or $_SESSION['EmpType'] == 'M') and $_SESSION['
                                                                                                                                                                                     } ?>)</font></a></li>
                                                             <li><a href="ALeave.php">Approved Leave</a></li>
                                                             <li><a href="DisLeave.php">Dis-approved Leave</a></li>
-                                                            <li><a href="CLeave.php">Cancelled Leave&nbsp;&nbsp;<font style="font-weight:bold;color:#FF860D; font-size:12px;"><?php echo '(' . $rowC_A . ')'; ?></font></a></li>
+                                                            <li><a href="CLeave.php">Cancelled Leave&nbsp;&nbsp;<font style="font-weight:bold;color:#FF860D; font-size:12px;"><?php echo '('.$rowC_A.')'; ?></font></a></li>
                                                         <?php }
                                                         if ($rowApp > 0 and $rowHod == 0) { ?>
-                                                            <li><a href="DLeave.php">Draft/ Pending Leave&nbsp;&nbsp;<font style="font-weight:bold;color:#FF860D; font-size:12px;"><?php echo '(' . $rowDP_A . ')'; ?></a></li>
+                                                            <li><a href="DLeave.php">Draft/ Pending Leave&nbsp;&nbsp;<font style="font-weight:bold;color:#FF860D;font-size:12px;"><?php echo '(' . $rowDP_A . ')'; ?></a></li>
                                                             <li><a href="ALeave.php">Approved Leave</a></li>
                                                             <li><a href="DisLeave.php">Dis-approved Leave</a></li>
                                                             <li><a href="CLeave.php">Cancelled Leave&nbsp;&nbsp;<font style="font-weight:bold;color:#FF860D; font-size:12px;"><?php echo '(' . $rowC_A . ')'; ?></font></a></li>
