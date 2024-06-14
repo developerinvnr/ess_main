@@ -28,6 +28,15 @@ if($_REQUEST['action']=='delete')
  if($SqlDel){$msg2="Data has been Deleted successfully...";}
 }
 
+
+//HQ
+if(isset($_POST['SaveNewHqRegNew']))
+{  
+ $SqlInseart = mysql_query("insert into hrm_sales_verhq (Vertical, HqId, RegionId, CompanyId, DeptId, Status, CreatedBy, CreatedDate) values(".$_POST['EmpVertical'].", ".$_POST['HqId'].", ".$_POST['RegionName'].", ".$CompanyId.", ".$_POST['DeptId'].", 'A', ".$UserId.", '".date("Y-m-d")."')", $con);  
+ if($SqlInseart){ $msg = "Data has been Inserted successfully..."; }
+}
+   
+
 ?>
 <html>
 <head>
@@ -57,6 +66,12 @@ if($_REQUEST['action']=='delete')
 
 <Script>
 //HQ
+
+function newsave_Hq(d)
+{ 
+ var x = "ZoneRegion.php?action=newHQsave&actty=true&opt=false&vlu=45&vt_v="+d+"&sec=comback&ee=%rr%&ff=true&r2r=true&d=0";  
+window.location=x;
+}
  
 function edit_Hq(sn,d)
 { 
@@ -158,7 +173,7 @@ function FunExport(c)
 <?php if($_SESSION['User_Permission']=='Edit'){ ?>	  
  <tr>
   <td>&nbsp;&nbsp;
-<input type="button" name="NewSave" id="NewSave" style="width:80px;" value="new" onClick="newsave_Hq(<?php echo $_REQUEST['d'];?>)" <?php if($_REQUEST['action']=="newsave_Hq" OR $_REQUEST['action']=="edit_Hq"){ echo "style=display:none;"; }?> disabled="disabled"/>
+<input type="button" name="NewSave" id="NewSave" style="width:80px;" value="new" onClick="newsave_Hq(<?php echo $_REQUEST['vt_v'];?>)" <?php if($_REQUEST['action']=="newsave_Hq" OR $_REQUEST['action']=="edit_Hq"){ echo "style=display:none;"; }?> <?php if($_REQUEST['vt_v']>0){}else{echo 'disabled';}?>/>
 <input type="button" name="back" id="back" style="width:80px;" value="back" onClick="javascript:window.location='Index.php?log=<?php echo $_SESSION['logCheckUser']; ?>'"/>
 <input type="button" name="Refresh" style="width:80px;" value="refresh" onClick="javascript:window.location='ZoneRegion.php?actty=true&opt=false&vlu=45&sec=comback&ee=%rr%&ff=true&r2r=true&d=<?=$_REQUEST['d'];?>&ed=4'"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
@@ -188,12 +203,38 @@ function FunExport(c)
   <td class="th" style="width:20%;"><b>Region Name</b></td>
   <td class="th" style="width:5%;"><b>Action</b></td>
  </tr>
-
+<?php if(isset($_REQUEST['action']) && $_REQUEST['action']=="newHQsave"){ ?>
+<form name="formEdit" method="post" onSubmit="return validateEdit(this)">
+<input type="hidden" id="DeptId" name="DeptId" value="<?=$_REQUEST['vt_v']?>" /> 
+<tr>
+ <td class="tdc"><?php //echo $SNo; ?></td>
+ <td class="tdc"><select name="HqId" id="HqId" class="tdinputl" style="width:99%;" required>
+  <?php $sqlHq=mysql_query("select * from hrm_headquater order by HqName ASC", $con); 
+      while($resHq=mysql_fetch_array($sqlHq)){ 
+	  //$sqlchk=mysql_query("select * from hrm_sales_verhq where HqId=".$resHq['HqId']." AND DeptId=".$_REQUEST['vt_v']."", $con); $rowchk=mysql_num_rows($sqlchk); if($rowchk==0){ ?>
+	  <option value="<?=$resHq['HqId']?>">&nbsp;<?=$resHq['HqName']?></option><?php } //} ?>
+  </select>
+  </td>
+  <td class="tdc"><select name="EmpVertical" id="EmpVertical" class="tdinputl" style="width:99%;" required>
+  <?php $sCat=mysql_query("select * from hrm_department_vertical where ComId=".$CompanyId." AND DeptId=".$_REQUEST['vt_v']." order by VerticalName ASC"); while($rCat=mysql_fetch_assoc($sCat)){ ?><option value="<?=$rCat['VerticalId']?>" ><?=$rCat['VerticalName']?></option><?php } ?><option value="0">Blank</option>
+  </select>
+  </td>
+  <td class="tdc"><select name="RegionName" id="RegionName" class="tdinputl" style="width:99%;" required>
+ <option value="0" <?php if($resRat['RegionId']==0){echo 'selected';}?>>&nbsp;Select</option>
+  <?php $sqlReg=mysql_query("select r.*,ZoneName from hrm_sales_region r left join hrm_sales_zone z on r.ZoneId=z.ZoneId where sts='A' order by RegionName ASC", $con); 
+      while($resReg=mysql_fetch_array($sqlReg)){ ?><option value="<?=$resReg['RegionId']?>" <?php if($resRat2['RegionId']==$resReg['RegionId']){echo 'selected';}?>>&nbsp;<?=$resReg['RegionName'].' - '.$resReg['ZoneName']?></option><?php } ?>
+  </select>
+  </td>
+ <td class="tdc"><?php if($_SESSION['User_Permission']=='Edit'){ ?>&nbsp;<input type="submit" name="SaveNewHqRegNew"  value="" class="SaveButton">&nbsp;<?php } ?></td>
+</tr>
+</form>
+<?php } ?>   
 <?php 
 
 if($_REQUEST['vt_v']!='')
 {
- $subQ='g.DepartmentId='.$_REQUEST['vt_v'];  
+ //$subQ='g.DepartmentId='.$_REQUEST['vt_v'];
+ $subQ='rh.DeptId='.$_REQUEST['vt_v'];  
 }
 else{ $subQ='1=1'; }
 
@@ -201,10 +242,12 @@ else{ $subQ='1=1'; }
 if($_REQUEST['vt_v']>0)
 {
 
-$sqlRat=mysql_query("select g.EmpVertical, g.HqId, g.DepartmentId, hq.HqName, v.VerticalName from hrm_employee_general g left join hrm_headquater hq on g.HqId=hq.HqId left join hrm_department_vertical v on g.EmpVertical=v.VerticalId where hq.HQStatus='A' AND hq.CompanyId=".$CompanyId." AND ".$subQ." group by g.HqId,g.EmpVertical order by HqName,VerticalName ", $con); 
+//$sqlRat=mysql_query("select g.EmpVertical, g.HqId, g.DepartmentId, hq.HqName, v.VerticalName from hrm_employee_general g left join hrm_headquater hq on g.HqId=hq.HqId left join hrm_department_vertical v on g.EmpVertical=v.VerticalId where hq.HQStatus='A' AND hq.CompanyId=".$CompanyId." AND ".$subQ." group by g.HqId,g.EmpVertical order by HqName,VerticalName ", $con); 
+
+$sqlRat=mysql_query("select rh.Vertical, rh.HqId, rh.DeptId, hq.HqName, v.VerticalName from hrm_sales_verhq rh left join hrm_headquater hq on rh.HqId=hq.HqId left join hrm_employee_general g on rh.HqId=g.HqId left join hrm_department_vertical v on rh.Vertical=v.VerticalId where rh.CompanyId=".$CompanyId." AND ".$subQ." group by rh.HqId,rh.Vertical,rh.RegionId order by HqName,VerticalName", $con);
       $SNo=1; while($resRat=mysql_fetch_array($sqlRat)) {
 	  
-	  $sqlRat2=mysql_query("select VHqId,rh.RegionId,RegionName from hrm_sales_verhq rh left join hrm_sales_region r on rh.RegionId=r.RegionId where HqId=".$resRat['HqId']." AND Vertical=".$resRat['EmpVertical']." AND DeptId=".$resRat['DepartmentId']." AND CompanyId=".$CompanyId, $con); 
+	  $sqlRat2=mysql_query("select VHqId,rh.RegionId,RegionName from hrm_sales_verhq rh left join hrm_sales_region r on rh.RegionId=r.RegionId where HqId=".$resRat['HqId']." AND Vertical=".$resRat['Vertical']." AND DeptId=".$resRat['DeptId']." AND CompanyId=".$CompanyId, $con); 
 	  $resRat2=mysql_fetch_assoc($sqlRat2);
 	  
 ?>
