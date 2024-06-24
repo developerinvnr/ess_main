@@ -362,9 +362,10 @@ $sqlN2 = mysql_query("select Fname, Sname, Lname from hrm_employee where Employe
 $sqlN3 = mysql_query("select Fname, Sname, Lname from hrm_employee where EmployeeID=".$ResP['HOD_EmployeeID'], $con);
 $resN1=mysql_fetch_assoc($sqlN1); $resN2=mysql_fetch_assoc($sqlN2); $resN3=mysql_fetch_assoc($sqlN3);
 
-
+$yy=$YearId;
+if($_REQUEST['C']==3){ $yy=$YearId+1; }
 $sqB=mysql_query("select BWageId from hrm_employee_general where EmployeeID=".$EmpId,$con); $reB=mysql_fetch_assoc($sqB);
-$sqlB=mysql_query("select * from hrm_bonus_wages where BWageId=".$reB['BWageId']." AND CompanyId=".$_REQUEST['C']." AND YearId=".$YearId,$con); $resB=mysql_fetch_assoc($sqlB);
+$sqlB=mysql_query("select * from hrm_bonus_wages where BWageId=".$reB['BWageId']." AND CompanyId=".$_REQUEST['C']." AND YearId=".$yy,$con); $resB=mysql_fetch_assoc($sqlB);
 
 //echo "select * from hrm_bonus_wages where BWageId=".$reB['BWageId']." AND YearId=".$YearId;
 //$sqlB=mysql_query("select * from hrm_bonus_wages where BWageId=".$ResEmp['BWageId']); $resB=mysql_fetch_assoc($sqlB);
