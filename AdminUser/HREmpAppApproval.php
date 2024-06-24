@@ -366,7 +366,6 @@ $yy=$YearId;
 if($_REQUEST['C']==3){ $yy=$YearId+1; }
 $sqB=mysql_query("select BWageId from hrm_employee_general where EmployeeID=".$EmpId,$con); $reB=mysql_fetch_assoc($sqB);
 $sqlB=mysql_query("select * from hrm_bonus_wages where BWageId=".$reB['BWageId']." AND CompanyId=".$_REQUEST['C']." AND YearId=".$yy,$con); $resB=mysql_fetch_assoc($sqlB);
-echo "select * from hrm_bonus_wages where BWageId=".$reB['BWageId']." AND CompanyId=".$_REQUEST['C']." AND YearId=".$yy;
 
 //echo "select * from hrm_bonus_wages where BWageId=".$reB['BWageId']." AND YearId=".$YearId;
 //$sqlB=mysql_query("select * from hrm_bonus_wages where BWageId=".$ResEmp['BWageId']); $resB=mysql_fetch_assoc($sqlB);
