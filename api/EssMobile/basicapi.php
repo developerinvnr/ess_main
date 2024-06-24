@@ -1448,9 +1448,13 @@ elseif($_REQUEST['value'] == 'Eligibilty' && $_REQUEST['empid']>0 && $_REQUEST['
  {
         
    $resElig=mysqli_fetch_assoc($sqlElig);  
+   $Rate2Km=$resElig['Travel_TwoWeeKM'];
    /***************************************/
    if($resElig['VehiclePolicy']>0)
    { 
+   
+    if($resElig['VehiclePolicy']==9){ $Rate2Km='Two Wheeler policy - R&D, upto J2 for Field'; }
+	 
     $sqpf=mysqli_query($con, "select * from hrm_master_eligibility_mapping_tblfield where PolicyId=".$resElig['VehiclePolicy']." and FieldId=2 AND sts=1 AND ComId=".$_REQUEST['comid']); $rowpf=mysql_num_rows($sqpf);
     if($rowpf>0)
     {
@@ -1480,7 +1484,7 @@ elseif($_REQUEST['value'] == 'Eligibilty' && $_REQUEST['empid']>0 && $_REQUEST['
    if($resCtc['ESCI']>0){ $HealthInsu=''; }
    else{ $HealthInsu=$resElig['Health_Insurance']; }
    
-   echo json_encode(array( "data" => "300", "Lodging_CategoryA" => $resElig['Lodging_CategoryA'], "Lodging_CategoryB" => $resElig['Lodging_CategoryB'], "Lodging_CategoryC"=>$resElig['Lodging_CategoryC'], "DA_Outside_Hq"=>$resElig['DA_Outside_Hq'], "DA_@_Hq"=>$resElig['DA_Inside_Hq'], "DARmk" => $DaRmk, "Travel_TwoWeeKM"=>$resElig['Travel_TwoWeeKM'], "Travel_TwoWeeLimitPerDay"=>$resElig['Travel_TwoWeeLimitPerDay'], "Travel_TwoWeeLimitPerMonth"=>$resElig['Travel_TwoWeeLimitPerMonth'], "Travel_FourWeeKM"=>$resElig['Travel_FourWeeKM'], "Travel_FourWeeLimitPerMonth"=>$resElig['Travel_FourWeeLimitPerMonth'], "TravelMode"=>$resElig['Mode_Travel_Outside_Hq'], "TravelClass"=>$resElig['TravelClass_Outside_Hq'], "Mobile_expenses_Reimbursement"=>$resElig['Mobile_Exp_Rem_Rs'], "Period"=>$resElig['Prd'], "MobileHandSet"=>$resElig['Mobile_Hand_Elig_Rs'], "GPSSet"=>$resElig['GPSSet'], "Misc_Expenses"=>$resElig['Misc_Expenses'], "Health_Insurance"=>$HealthInsu, "HelthCheck"=>$resElig['HelthCheck'], "HelthChekAmt" => $resDaily['HelthChekUp'], "VehicalEntValue" => $vehiclaCose, "Gratuity" =>"As Per Law", "Deduction" => "As Per Law", "Msg" => "Group Personal Accident Insurance", "Limit" => $limit) );
+   echo json_encode(array( "data" => "300", "Lodging_CategoryA" => $resElig['Lodging_CategoryA'], "Lodging_CategoryB" => $resElig['Lodging_CategoryB'], "Lodging_CategoryC"=>$resElig['Lodging_CategoryC'], "DA_Outside_Hq"=>$resElig['DA_Outside_Hq'], "DA_@_Hq"=>$resElig['DA_Inside_Hq'], "DARmk" => $DaRmk, "Travel_TwoWeeKM"=>$Rate2Km, "Travel_TwoWeeLimitPerDay"=>$resElig['Travel_TwoWeeLimitPerDay'], "Travel_TwoWeeLimitPerMonth"=>$resElig['Travel_TwoWeeLimitPerMonth'], "Travel_FourWeeKM"=>$resElig['Travel_FourWeeKM'], "Travel_FourWeeLimitPerMonth"=>$resElig['Travel_FourWeeLimitPerMonth'], "TravelMode"=>$resElig['Mode_Travel_Outside_Hq'], "TravelClass"=>$resElig['TravelClass_Outside_Hq'], "Mobile_expenses_Reimbursement"=>$resElig['Mobile_Exp_Rem_Rs'], "Period"=>$resElig['Prd'], "MobileHandSet"=>$resElig['Mobile_Hand_Elig_Rs'], "GPSSet"=>$resElig['GPSSet'], "Misc_Expenses"=>$resElig['Misc_Expenses'], "Health_Insurance"=>$HealthInsu, "HelthCheck"=>$resElig['HelthCheck'], "HelthChekAmt" => $resDaily['HelthChekUp'], "VehicalEntValue" => $vehiclaCose, "Gratuity" =>"As Per Law", "Deduction" => "As Per Law", "Msg" => "Group Personal Accident Insurance", "Limit" => $limit) );
  }
  else 
  {
