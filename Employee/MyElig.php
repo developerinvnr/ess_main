@@ -195,7 +195,11 @@ $SqlEligEmp = mysql_query("SELECT * FROM hrm_employee_eligibility WHERE Employee
   <?php if($ResEligEmp['Travel_TwoWeeKM']!='' AND $ResEligEmp['Travel_TwoWeeKM']!='NA' AND $ResEligEmp['Travel_TwoWeeKM']!=' '){?>
   <tr>
   <td style="width:40%;font-size:16px;">&nbsp;2 Wheeler :</td>
+  <?php if($ResEligEmp['VehiclePolicy']==9){ ?>
+  <td style="width:60%;" align="center">&nbsp;<?='Two Wheeler policy - R&D, upto J2 for Field'?></td>
+  <?php else{ ?>
   <td style="width:60%;" align="center">&nbsp;<?='Rs. '.$ResEligEmp['Travel_TwoWeeKM'].'/Km '.$ResEligEmp['Travel_TwoWeeKM_Rmk']?></td>
+  <?php } ?>
  </tr>
  <?php } ?>
  <?php if($ResEligEmp['Travel_FourWeeKM']!='' AND $ResEligEmp['Travel_FourWeeKM']!='NA' AND $ResEligEmp['Travel_FourWeeKM']!=' '){?>
