@@ -120,7 +120,7 @@ function ReadTra(E,C)
 	 
 	 
 	 
-<?php $SqlRep=mysql_query("SELECT r.EmployeeID, EmpCode, Fname, Sname, Lname, Married, Gender, DR, DateOfResignation, DateOfSepration, DepartmentCode, FunName, DesigName, GradeValue FROM hrm_employee_reporting r INNER JOIN hrm_employee e ON r.EmployeeID=e.EmployeeID INNER JOIN hrm_employee_general g ON r.EmployeeID=g.EmployeeID INNER JOIN hrm_employee_personal p ON r.EmployeeID=p.EmployeeID INNER JOIN hrm_designation de on g.DesigId=de.DesigId INNER JOIN hrm_department d ON g.DepartmentId=d.DepartmentId INNER JOIN hrm_grade gr ON g.GradeId=gr.GradeId WHERE r.AppraiserId=".$EmployeeId." AND e.EmpStatus='A' AND e.CompanyId=".$CompanyId." order by ECode ASC", $con); 
+<?php $SqlRep=mysql_query("SELECT r.EmployeeID, EmpCode, Fname, Sname, Lname, Married, Gender, DR, DateOfResignation, DateOfSepration, DepartmentCode, FunName, DesigName, GradeValue FROM hrm_employee_reporting r INNER JOIN hrm_employee e ON r.EmployeeID=e.EmployeeID INNER JOIN hrm_employee_general g ON r.EmployeeID=g.EmployeeID INNER JOIN hrm_employee_personal p ON r.EmployeeID=p.EmployeeID INNER JOIN hrm_designation de on g.DesigId=de.DesigId INNER JOIN hrm_department d ON g.DepartmentId=d.DepartmentId INNER JOIN hrm_grade gr ON g.GradeId=gr.GradeId WHERE r.AppraiserId=".$EmployeeId." AND e.EmpStatus='A' AND e.CompanyId=".$CompanyId." order by e.ECode ASC", $con); 
 $sn=1; while($ResRep=mysql_fetch_array($SqlRep)) { 
 if($ResRep['DR']=='Y'){$MS='Dr.';} elseif($ResRep['Gender']=='M'){$MS='Mr.';} elseif($ResRep['Gender']=='F' AND $ResRep['Married']=='Y'){$MS='Mrs.';} elseif($ResRep['Gender']=='F' AND $ResRep['Married']=='N'){$MS='Miss.';}  $EmpName=$MS.' '.$ResRep['Fname'].' '.$ResRep['Sname'].' '.$ResRep['Lname']; 
 
