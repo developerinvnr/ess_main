@@ -42,13 +42,16 @@ function FUnchkVV(d)
 {
    if(document.getElementById("chkVV").checked==true){ var chkVV='N';}
    else{var chkVV='Y'; }
-   window.location="EmpDeptNOC.php?e=4e&w=234&d="+d+"&y=10234&e=4e2&e=4e&w=234&y=110022344&retd=ee&rr=09drfGe&S=eewwqq&wwrew=t%T@sed818&ede=101&chkvv="+chkVV;
+   window.location="EmpDeptNOC.php?e=4e&w=234&d="+d+"&y=10234&e=4e2&e=4e&w=234&y=110022344&retd=ee&rr=09drfGe&S=eewwqq&wwrew=t%T@sed818&ede=101&chkvv="+chkVV+"&w="+document.getElementById("w_id").value+"&d="+document.getElementById("d_id").value+"&ede="+document.getElementById("ede_id").value;
 }
 
+	
 
 function FunClick()  
 { 
- window.location='EmpDeptNOC.php?ls=10&wer=123grtd&se=reew&w=ee102&m=11&seh='+document.getElementById("Searchkey").value+'&dd=truevalu&fals=truefalse'; 
+ if(document.getElementById("chkVV").checked==true){ var chkVV='N';}
+ else{var chkVV='Y'; }
+ window.location='EmpDeptNOC.php?ls=10&wer=123grtd&se=reew&w=ee102&m=11&seh='+document.getElementById("Searchkey").value+'&dd=truevalu&fals=truefalse&chkvv='+chkVV+'&w='+document.getElementById("w_id").value+'&d='+document.getElementById("d_id").value+'&ede='+document.getElementById("ede_id").value; 
 }
 
 </script>
@@ -118,6 +121,12 @@ function FunClick()
 <?php } ?>
 	  <td width="80" class="TableHead" align="center"><b>Clearance Form</b></td>
      </tr>
+	  
+<input type="hidden" id="chkvv_id" value="<?=$_REQUEST['chkvv']?>" />	
+<input type="hidden" id="w_id" value="<?=$_REQUEST['w']?>" />
+<input type="hidden" id="d_id" value="<?=$_REQUEST['d']?>" />
+<input type="hidden" id="ede_id" value="<?=$_REQUEST['ede']?>" />
+
 <?php 
 //$_REQUEST['chkvv']
 if($_REQUEST['d']==8 OR $_REQUEST['d']==20){ $subQ="Acc_NOC='".$_REQUEST['chkvv']."'"; }
