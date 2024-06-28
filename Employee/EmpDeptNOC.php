@@ -163,8 +163,12 @@ $sqlDept=mysql_query("select DepartmentCode from hrm_department where Department
 
 	  <td class="TableHead1" align="center">
 	  <?php if($res['HR_Approved']=='Y' AND ($res['Emp_CancelResig']==0 OR $res['Emp_CancelResig']==1)){ ?>
-	  <?php if(($_REQUEST['d']==8 OR $_REQUEST['d']==20) AND ($res['HR_NOC']=='Y' OR $res['Acc_HrNOC']=='R')){?>
+	  <?php if($_REQUEST['d']==8){?>
 	  <a href="javascript:OpenClearanceF(<?php echo $res['EmpSepId'].', '.$EmployeeId.', '.$_REQUEST['d'].', '.$CompanyId;?>)"><font color="#008000"><b>Click</b></font></a>
+	  
+	   <?php elseif($_REQUEST['d']==20 AND ($res['HR_NOC']=='Y' OR $res['Acc_HrNOC']=='R')){?>
+	  <a href="javascript:OpenClearanceF(<?php echo $res['EmpSepId'].', '.$EmployeeId.', '.$_REQUEST['d'].', '.$CompanyId;?>)"><font color="#008000"><b>Click</b></font></a>
+	  
 	  <?php } elseif($_REQUEST['d']==9){ ?> 
 	  <a href="javascript:OpenClearanceF(<?php echo $res['EmpSepId'].', '.$EmployeeId.', '.$_REQUEST['d'];?>)"><font color="#008000"><b>Click</b></font></a><?php } ?> 
 	  <?php } else { echo ''; }?>
