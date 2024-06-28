@@ -166,7 +166,7 @@ $sqlDept=mysql_query("select DepartmentCode from hrm_department where Department
 	  <?php if($_REQUEST['d']==8){?>
 	  <a href="javascript:OpenClearanceF(<?php echo $res['EmpSepId'].', '.$EmployeeId.', '.$_REQUEST['d'].', '.$CompanyId;?>)"><font color="#008000"><b>Click</b></font></a>
 	  
-	   <?php elseif($_REQUEST['d']==20 AND ($res['HR_NOC']=='Y' OR $res['Acc_HrNOC']=='R')){?>
+	   <?php } elseif($_REQUEST['d']==20 AND ($res['HR_NOC']=='Y' OR $res['Acc_HrNOC']=='R')){?>
 	  <a href="javascript:OpenClearanceF(<?php echo $res['EmpSepId'].', '.$EmployeeId.', '.$_REQUEST['d'].', '.$CompanyId;?>)"><font color="#008000"><b>Click</b></font></a>
 	  
 	  <?php } elseif($_REQUEST['d']==9){ ?> 
