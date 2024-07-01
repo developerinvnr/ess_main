@@ -107,7 +107,7 @@ if($_REQUEST['d']>0){ $sql=mysql_query("select mp.*,EmpCode,Fname,Sname,Lname fr
 $sn=1; while($res=mysql_fetch_assoc($sql)){ 
 $sqlD=mysql_query("select DepartmentCode from hrm_department where DepartmentId=".$res['DepartmentId'], $con); $resD=mysql_fetch_assoc($sqlD);
   
-if($res['Basic']!=0 OR $res['Hra']!=0 OR $res['Convance']!=0 OR $res['Special']!=0 OR $res['DA']!=0 OR $res['Incentive']!=0 OR $res['PerformancePay']!=0 OR $res['LeaveEncash']!=0 OR $res['VariableAdjustment']!=0 OR $res['CCA']!=0 OR $res['RA']!=0 OR $res['Bonus']!=0 OR $res['YCea']!=0 OR $res['YMr']!=0 OR $res['YLta']!=0 OR $res['Arr_Basic']!=0 OR $res['Arr_Hra']!=0 OR $res['Arr_Conv']!=0 OR $res['Arr_Spl']!=0 OR $res['Tot_Pf_Employee']!=0 OR $res['Arr_Pf']!=0 OR $res['ESCI_Employee']!=0 OR $res['Arr_Esic']!=0 OR $res['TDS']!=0 OR $res['CEA_Ded']!=0 OR $res['MA_Ded']!=0 OR $res['LTA_Ded']!=0 OR $res['VolContrib']!=0 OR $res['DeductAdjmt']!=0){    
+//if($res['Basic']!=0 OR $res['Hra']!=0 OR $res['Convance']!=0 OR $res['Special']!=0 OR $res['DA']!=0 OR $res['Incentive']!=0 OR $res['PerformancePay']!=0 OR $res['LeaveEncash']!=0 OR $res['VariableAdjustment']!=0 OR $res['CCA']!=0 OR $res['RA']!=0 OR $res['Bonus']!=0 OR $res['YCea']!=0 OR $res['YMr']!=0 OR $res['YLta']!=0 OR $res['Arr_Basic']!=0 OR $res['Arr_Hra']!=0 OR $res['Arr_Conv']!=0 OR $res['Arr_Spl']!=0 OR $res['Tot_Pf_Employee']!=0 OR $res['Arr_Pf']!=0 OR $res['ESCI_Employee']!=0 OR $res['Arr_Esic']!=0 OR $res['TDS']!=0 OR $res['CEA_Ded']!=0 OR $res['MA_Ded']!=0 OR $res['LTA_Ded']!=0 OR $res['VolContrib']!=0 OR $res['DeductAdjmt']!=0){    
  
 $csv_output .= '"'.str_replace('"', '""', $sn).'",';
 $csv_output .= '"'.str_replace('"', '""', $res['EmpCode']).'",';
@@ -144,7 +144,7 @@ $csv_output .= '"'.str_replace('"', '""', $res['Arr_LvEnCash']).'",';
 $csv_output .= '"'.str_replace('"', '""', $res['Bonus_Adjustment']).'",';
 
 
-$Gross=$res['Basic']+$res['Hra']+$res['Convance']+$res['Special']+$res['DA']+$res['Incentive']+$res['PerformancePay']+$res['LeaveEncash']+$res['VariableAdjustment']+$res['CCA']+$res['RA']+$res['Bonus']+$res['YCea']+$res['YMr']+$res['YLta']+$res['Arr_Basic']+$res['Arr_Hra']+$res['Arr_Conv']+$res['Arr_Spl']+$res['Arr_Bonus']+$res['Arr_RA']+$res['Arr_LvEnCash']+$res['Bonus_Adjustment'];
+$Gross=$res['Basic']+$res['Hra']+$res['Convance']+$res['Bonus_Month']+$res['Special']+$res['DA']+$res['Incentive']+$res['PerformancePay']+$res['LeaveEncash']+$res['VariableAdjustment']+$res['CCA']+$res['RA']+$res['Bonus']+$res['YCea']+$res['YMr']+$res['YLta']+$res['Arr_Basic']+$res['Arr_Hra']+$res['Arr_Conv']+$res['Arr_Spl']+$res['Arr_Bonus']+$res['Arr_RA']+$res['Arr_LvEnCash']+$res['Bonus_Adjustment'];
 $csv_output .= '"'.str_replace('"', '""', $Gross).'",';
 
 $csv_output .= '"'.str_replace('"', '""', $res['Tot_Pf_Employee']).'",';
@@ -178,7 +178,7 @@ header("Content-type: text/x-csv");
 header("Content-Disposition: attachment; filename=EmpSalaryValuesEmpWise_".$PRD."_".$Dept.".csv");
 echo $csv_output;
 exit;
-}
+//}
 
 
 
