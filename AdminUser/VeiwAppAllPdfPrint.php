@@ -403,8 +403,8 @@ $sqlGrade=mysql_query("select GradeValue from hrm_grade where GradeValue='".$_RE
 
 	  } 	  
 
-$SqlEligEmp = mysql_query("SELECT * FROM hrm_employee_eligibility_pms WHERE EmployeeID=".$_REQUEST['E']." AND Status='A' AND EligCreatedDate='".$qryElg."'", $con) or die(mysql_error());  $ResEligEmp=mysql_fetch_assoc($SqlEligEmp); 
-$SqlCtc = mysql_query("SELECT ESCI FROM hrm_employee_ctc_pms WHERE EmployeeID=".$_REQUEST['E']." AND Status='A' AND CtcCreatedDate='".$qryCtc."'", $con); $ResCtc=mysql_fetch_assoc($SqlCtc);
+$SqlEligEmp = mysql_query("SELECT * FROM hrm_employee_eligibility_pms WHERE EmployeeID=".$_REQUEST['E']." AND Status='A' AND ".$qryElg."", $con) or die(mysql_error());  $ResEligEmp=mysql_fetch_assoc($SqlEligEmp); 
+$SqlCtc = mysql_query("SELECT ESCI FROM hrm_employee_ctc_pms WHERE EmployeeID=".$_REQUEST['E']." AND Status='A' AND ".$qryCtc."", $con); $ResCtc=mysql_fetch_assoc($SqlCtc);
 
 $sqlD2=mysql_query("select DepartmentId from hrm_department where DepartmentName='Sales' AND DepartmentCode='SALES' ", $con); $resD2=mysql_fetch_assoc($sqlD2);
 $sqlP2=mysql_query("select DepartmentId from hrm_department where DepartmentName='Production' AND DepartmentCode='PRODUCTION'", $con); $resP2=mysql_fetch_assoc($sqlP2);
