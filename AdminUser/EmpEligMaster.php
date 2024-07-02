@@ -725,8 +725,9 @@ else{ $HealthInsu=$rEligE['Health_Insurance']; }
   </table>
  </td>
  </tr>
-<?php } ?>
- 
+<?php }else{ ?>
+<input type="hidden" Name="Term_Insurance" id="Term_Insurance" value="" readonly/>
+<?php } ?> 
 <?php /******* New * New * New * New * New * New * New 2222  ********/ ?>
 <script type="text/javascript">
 function FunHealtCh(v)
