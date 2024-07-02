@@ -421,7 +421,10 @@ $VNRExpMain=$years.'.'.$months;
   </table>
  </td>
  </tr>
-<?php }else{ ?><input type="hidden" id="VehiclePolicy" name="VehiclePolicy" value=""/><?php } ?>
+<?php }else{ ?>
+ <input type="hidden" id="VehiclePolicy" name="VehiclePolicy" value=""/>
+ <input type="hidden" id="VehicleCost" name="VehicleCost" value=""/>
+<?php } ?>
 
  
  <tr>
