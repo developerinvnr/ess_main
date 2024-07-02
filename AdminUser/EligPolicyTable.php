@@ -193,7 +193,7 @@ function show_TblCreturn(originalRequest)
 <div id="Tbl_<?=$res2['PolicyId']?>" style="max-height:500px;overflow:scroll;display:none;">           
 <table style="width:100%;vertical-align:top;" border="1" cellspacing="1">
  <tr>
-  <td colspan="20" class="th">&nbsp;Policy Table: { <?=$res2['PolicyName']?> }</td>
+  <td colspan="30" class="th">&nbsp;Policy Table: { <?=$res2['PolicyName']?> }</td>
  </tr>
  <tr>
    <td class="th" rowspan="1" style="width:40px;">Sn</td>
