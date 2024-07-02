@@ -284,10 +284,18 @@ else
 <tr><td style="font-family:Times New Roman;color:#000000;font-size:13px;width:785;" align="right"><a href="#" onClick="PrintAll(<?php echo $_REQUEST['P'].','.$_REQUEST['E'].','.$_REQUEST['Y'].','.$_REQUEST['C'].','.$_REQUEST['R']; ?>,'<?php echo $_REQUEST['G']; ?>',<?php echo $_REQUEST['D']; ?>)">Print</a>&nbsp;&nbsp;</td></tr>
 <?php 
 
-if($_REQUEST['C']==1){ $qry="hrm_employee_ctc_pms.CtcCreatedDate='".date("Y-01-01")."'"; }
-elseif($_REQUEST['C']==3){ $qry="hrm_employee_ctc_pms.CtcCreatedDate='".date("Y-04-01")."'"; }
+if($_REQUEST['C']==1)
+{ 
+ $qryCtc="CtcCreatedDate='".date("Y-01-01")."'"; 
+ $qryElg="EligCreatedDate='".date("Y-01-01")."'";
+}
+elseif($_REQUEST['C']==2 OR $_REQUEST['C']==3)
+{ 
+ $qryCtc="CtcCreatedDate='".date("Y-04-01")."'";
+ $qryElg="EligCreatedDate='".date("Y-04-01")."'"; 
+}
 
-if($_REQUEST['action']=='All') { $SqlCtc=mysql_query("SELECT hrm_employee.*, hrm_employee_ctc_pms.*, Gender, DR, Married FROM hrm_employee INNER JOIN hrm_employee_personal ON hrm_employee.EmployeeID=hrm_employee_personal.EmployeeID INNER JOIN hrm_employee_ctc_pms ON hrm_employee.EmployeeID=hrm_employee_ctc_pms.EmployeeID WHERE hrm_employee.EmployeeID=".$_REQUEST['E']." AND ".$qry." AND hrm_employee.CompanyId=".$_REQUEST['C'], $con); $ResCtc=mysql_fetch_assoc($SqlCtc); 
+if($_REQUEST['action']=='All') { $SqlCtc=mysql_query("SELECT hrm_employee.*, hrm_employee_ctc_pms.*, Gender, DR, Married FROM hrm_employee INNER JOIN hrm_employee_personal ON hrm_employee.EmployeeID=hrm_employee_personal.EmployeeID INNER JOIN hrm_employee_ctc_pms ON hrm_employee.EmployeeID=hrm_employee_ctc_pms.EmployeeID WHERE hrm_employee.EmployeeID=".$_REQUEST['E']." AND ".$qryCtc." AND hrm_employee.CompanyId=".$_REQUEST['C'], $con); $ResCtc=mysql_fetch_assoc($SqlCtc); 
 if($ResCtc['DR']=='Y'){$M='Dr.';} elseif($ResCtc['Gender']=='M'){$M='Mr.';} elseif($ResCtc['Gender']=='F'){$M='Ms.';}
 $NameE=$M.' '.$ResCtc['Fname'].'&nbsp;'.$ResCtc['Sname'].'&nbsp;'.$ResCtc['Lname'];
 $SqlY=mysql_query("select FromDate,ToDate from hrm_year where YearId=".$_REQUEST['Y'], $con); $ResY=mysql_fetch_assoc($SqlY);
@@ -386,8 +394,8 @@ $sqlGrade=mysql_query("select GradeValue from hrm_grade where GradeValue='".$_RE
 	  $sqlEnt=mysql_query("select * from hrm_travelentitle where GradeValue='".$resGrade['GradeValue']."'", $con); $resEnt=mysql_fetch_assoc($sqlEnt);
 	  $sqlElig=mysql_query("select * from hrm_traveleligibility where GradeValue='".$resGrade['GradeValue']."'", $con); $resElig=mysql_fetch_assoc($sqlElig); 
 	  } 	  
-$SqlEligEmp = mysql_query("SELECT * FROM hrm_employee_eligibility_pms WHERE EmployeeID=".$_REQUEST['E']." AND Status='A' AND EligCreatedDate='".date("Y-01-01")."'", $con) or die(mysql_error());  $ResEligEmp=mysql_fetch_assoc($SqlEligEmp); 
-$SqlCtc = mysql_query("SELECT ESCI FROM hrm_employee_ctc_pms WHERE EmployeeID=".$_REQUEST['E']." AND Status='A' AND CtcCreatedDate='".date("Y-01-01")."'", $con); $ResCtc=mysql_fetch_assoc($SqlCtc);
+$SqlEligEmp = mysql_query("SELECT * FROM hrm_employee_eligibility_pms WHERE EmployeeID=".$_REQUEST['E']." AND Status='A' AND EligCreatedDate='".$qryElg."'", $con) or die(mysql_error());  $ResEligEmp=mysql_fetch_assoc($SqlEligEmp); 
+$SqlCtc = mysql_query("SELECT ESCI FROM hrm_employee_ctc_pms WHERE EmployeeID=".$_REQUEST['E']." AND Status='A' AND CtcCreatedDate='".$qryCtc."'", $con); $ResCtc=mysql_fetch_assoc($SqlCtc);
 
 $sqlD2=mysql_query("select DepartmentId from hrm_department where DepartmentName='Sales' AND DepartmentCode='SALES'", $con); $resD2=mysql_fetch_assoc($sqlD2);
 $sqlP2=mysql_query("select DepartmentId from hrm_department where DepartmentName='Production' AND DepartmentCode='PRODUCTION'", $con); $resP2=mysql_fetch_assoc($sqlP2);
