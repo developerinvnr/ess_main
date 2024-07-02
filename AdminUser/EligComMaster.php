@@ -219,7 +219,7 @@ $rowD=mysql_num_rows($sD);  $Dptry=array(); while($rD=mysql_fetch_assoc($sD)){ $
 		 </thead>
 		 </div>
 		 
-		 <?php if($_REQUEST['t']==1 OR $_REQUEST['t']==5 OR $_REQUEST['t']==6 OR $_REQUEST['t']==7 OR $_REQUEST['t']==8 OR $_REQUEST['t']==9){$n=3;}elseif($_REQUEST['t']==4 OR $_REQUEST['t']==12){$n=2;}elseif($_REQUEST['t']==2){$n=4;}elseif($_REQUEST['t']==10 OR $_REQUEST['t']==11){$n=1;}elseif($_REQUEST['t']==3){$n=10;}?>
+		 <?php if($_REQUEST['t']==1 OR $_REQUEST['t']==5 OR $_REQUEST['t']==6 OR $_REQUEST['t']==7 OR $_REQUEST['t']==8 OR $_REQUEST['t']==9){$n=3;}elseif($_REQUEST['t']==4 OR $_REQUEST['t']==12){$n=2;}elseif($_REQUEST['t']==2){$n=6;}elseif($_REQUEST['t']==10 OR $_REQUEST['t']==11){$n=1;}elseif($_REQUEST['t']==3){$n=10;}?>
          <?php if($CompanyId==1){$sqlG = mysql_query("select * from hrm_grade where CompanyId=".$CompanyId." AND CreatedDate>='2014-02-01' order by GradeId DESC", $con);}else{$sqlG = mysql_query("select * from hrm_grade where CompanyId=".$CompanyId." order by GradeId DESC", $con);} $sno=1; while($resG = mysql_fetch_array($sqlG)){ ?>
 		 
 		 <div class="tbody">
@@ -227,7 +227,7 @@ $rowD=mysql_num_rows($sD);  $Dptry=array(); while($rD=mysql_fetch_assoc($sD)){ $
 		 
 		 <?php for($i=1; $i<=$n; $i++){  $iv=''; ?> 		 
 		 <tr style="background-color:<?php if($sno%2==0){echo '#ECE0F5';}else{echo '#FFFFFF';}?>">
-		  <?php if($i==1){?><td class="tdc" rowspan="<?php if($_REQUEST['t']==1 OR $_REQUEST['t']==5 OR $_REQUEST['t']==6 OR $_REQUEST['t']==7 OR $_REQUEST['t']==8 OR $_REQUEST['t']==9){echo '3';}elseif($_REQUEST['t']==4 OR $_REQUEST['t']==12){echo '2';}elseif($_REQUEST['t']==2){echo '4'; }elseif($_REQUEST['t']==10 OR $_REQUEST['t']==11){echo '1'; }elseif($_REQUEST['t']==3){echo '10';}?>"><b><?=$resG['GradeValue']?></b></td><?php } ?>
+		  <?php if($i==1){?><td class="tdc" rowspan="<?php if($_REQUEST['t']==1 OR $_REQUEST['t']==5 OR $_REQUEST['t']==6 OR $_REQUEST['t']==7 OR $_REQUEST['t']==8 OR $_REQUEST['t']==9){echo '3';}elseif($_REQUEST['t']==4 OR $_REQUEST['t']==12){echo '2';}elseif($_REQUEST['t']==2){echo '6'; }elseif($_REQUEST['t']==10 OR $_REQUEST['t']==11){echo '1'; }elseif($_REQUEST['t']==3){echo '10';}?>"><b><?=$resG['GradeValue']?></b></td><?php } ?>
 		  
 		  <?php if($_REQUEST['t']==1){ /******* -------- 1111111111 --------**********/ ?>
 	      <td class="tdl">City Cetegory <?php if($i==1){echo 'A'; $iv='CategoryA'; }
@@ -247,13 +247,15 @@ $rowD=mysql_num_rows($sD);  $Dptry=array(); while($rD=mysql_fetch_assoc($sD)){ $
 		   <td class="tdl">DA <?php if($i==1){echo 'OutSide@HQ'; $iv='DA_OutSiteHQ'; }
 		   elseif($i==2){echo 'OutSite@HQ Remark'; $iv='DA_OutSiteHQ_Rmk'; }
 		   elseif($i==3){echo '@HQ'; $iv='DA_InSiteHQ'; }
-		   elseif($i==4){echo 'InSite@HQ Remark'; $iv='DA_InSiteHQ_Rmk'; }  ?></td>
+		   elseif($i==4){echo 'InSite@HQ Remark'; $iv='DA_InSiteHQ_Rmk'; }
+		   elseif($i==5){echo 'ExHQ'; $iv='Ex@HQ'; }
+		   elseif($i==6){echo 'ExHQ Remark'; $iv='Ex@HQ_Rmk'; }  ?></td>
 		   <?php foreach($Dptry as $data){ $sVr=mysql_query("select v.VerticalId,v.VerticalName from hrm_department_vertical v inner join hrm_employee_general g on v.VerticalId=g.EmpVertical where v.ComId=".$CompanyId." AND v.DeptId=".$data['DepartmentId']." group by v.VerticalName order by v.VerticalName ASC", $con); $rowVr=mysql_num_rows($sVr);
 			if($rowVr==0){ $sql=mysql_query("select * from hrm_master_eligibility where CompanyId=".$CompanyId." AND DepartmentId=".$data['DepartmentId']." AND GradeId=".$resG['GradeId'],$con); $res=mysql_fetch_assoc($sql);?>
-			 <td class="tdc"><input class="inputc" id="DA<?=$i.'_'.$resG['GradeId'].'_'.$data['DepartmentId'].'_0'?>" value="<?php if($i==1){echo $res['DA_OutSiteHQ'];}elseif($i==2){echo $res['DA_OutSiteHQ_Rmk'];}elseif($i==3){echo $res['DA_InSiteHQ'];}elseif($i==4){echo $res['DA_InSiteHQ_Rmk'];}?>" onChange="FunSetElig(this.value,<?=$_REQUEST['t']?>,'<?=$iv?>',<?=$resG['GradeId'].','.$data['DepartmentId'].',0,'.$i.','.$CompanyId.','.$UserId?>,'DA','<?=$resG['GradeValue']?>')" style="background-color:<?php if($sno%2==0){echo '#ECE0F5';}else{echo '#FFFFFF';}?>"/></td> 
+			 <td class="tdc"><input class="inputc" id="DA<?=$i.'_'.$resG['GradeId'].'_'.$data['DepartmentId'].'_0'?>" value="<?php if($i==1){echo $res['DA_OutSiteHQ'];}elseif($i==2){echo $res['DA_OutSiteHQ_Rmk'];}elseif($i==3){echo $res['DA_InSiteHQ'];}elseif($i==4){echo $res['DA_InSiteHQ_Rmk'];}elseif($i==5){echo $res['Ex@HQ'];}elseif($i==6){echo $res['Ex@HQ_Rmk'];}?>" onChange="FunSetElig(this.value,<?=$_REQUEST['t']?>,'<?=$iv?>',<?=$resG['GradeId'].','.$data['DepartmentId'].',0,'.$i.','.$CompanyId.','.$UserId?>,'DA','<?=$resG['GradeValue']?>')" style="background-color:<?php if($sno%2==0){echo '#ECE0F5';}else{echo '#FFFFFF';}?>"/></td> 
 		    <?php }else{ $Verry=array(); while($rVr=mysql_fetch_assoc($sVr)){ 
 			$sql=mysql_query("select * from hrm_master_eligibility where CompanyId=".$CompanyId." AND DepartmentId=".$data['DepartmentId']." AND GradeId=".$resG['GradeId']." AND VerticalId=".$rVr['VerticalId'],$con); $res=mysql_fetch_assoc($sql);?>
-		     <td class="tdc"><input class="inputc" id="DA<?=$i.'_'.$resG['GradeId'].'_'.$data['DepartmentId'].'_'.$rVr['VerticalId']?>" value="<?php if($i==1){echo $res['DA_OutSiteHQ'];}elseif($i==2){echo $res['DA_OutSiteHQ_Rmk'];}elseif($i==3){echo $res['DA_InSiteHQ'];}elseif($i==4){echo $res['DA_InSiteHQ_Rmk'];}?>" onChange="FunSetElig(this.value,<?=$_REQUEST['t']?>,'<?=$iv?>',<?=$resG['GradeId'].','.$data['DepartmentId'].','.$rVr['VerticalId'].','.$i.','.$CompanyId.','.$UserId?>,'DA','<?=$resG['GradeValue']?>')" style="background-color:<?php if($sno%2==0){echo '#ECE0F5';}else{echo '#FFFFFF';}?>"/></td>
+		     <td class="tdc"><input class="inputc" id="DA<?=$i.'_'.$resG['GradeId'].'_'.$data['DepartmentId'].'_'.$rVr['VerticalId']?>" value="<?php if($i==1){echo $res['DA_OutSiteHQ'];}elseif($i==2){echo $res['DA_OutSiteHQ_Rmk'];}elseif($i==3){echo $res['DA_InSiteHQ'];}elseif($i==4){echo $res['DA_InSiteHQ_Rmk'];}elseif($i==5){echo $res['Ex@HQ'];}elseif($i==6){echo $res['Ex@HQ_Rmk'];}?>" onChange="FunSetElig(this.value,<?=$_REQUEST['t']?>,'<?=$iv?>',<?=$resG['GradeId'].','.$data['DepartmentId'].','.$rVr['VerticalId'].','.$i.','.$CompanyId.','.$UserId?>,'DA','<?=$resG['GradeValue']?>')" style="background-color:<?php if($sno%2==0){echo '#ECE0F5';}else{echo '#FFFFFF';}?>"/></td>
 		    <?php }/*while*/  }/*else*/ }/*foreach*/ ?>
 		  
 		  <?php } elseif($_REQUEST['t']==3){ /******* -------- 3333333333 --------**********/ ?>
