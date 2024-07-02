@@ -35,6 +35,12 @@ function EditElig()
  document.getElementById("DaInSide_HQRs_Rmk").disabled = false; 
  document.getElementById("DaInSide_HQRs").value = document.getElementById("H_DaInSide_HQRs").value;
  document.getElementById("DaInSide_HQRs_Rmk").value = document.getElementById("H_DaInSide_HQRs_Rmk").value;
+ 
+ document.getElementById("ExHQ").disabled = false; 
+ document.getElementById("ExHQ_Rmk").disabled = false;
+ document.getElementById("ExHQ").value = document.getElementById("H_ExHQ").value;
+ document.getElementById("ExHQ_Rmk").value = document.getElementById("H_ExHQ_Rmk").value;
+ 
  document.getElementById("Rw_2").style.display = 'block';
  
  document.getElementById("TwoWheelerKM").disabled = false;
@@ -177,6 +183,9 @@ $SqlEv = mysql_query("SELECT EmpVertical FROM hrm_employee_general WHERE Employe
 <input type="hidden" Name="H_DaInSide_HQRs" id="H_DaInSide_HQRs" value="<?php echo trim($rElig['DA_InSiteHQ']); ?>"/>
 <input type="hidden" Name="H_DaInSide_HQRs_Rmk" id="H_DaInSide_HQRs_Rmk" value="<?php echo trim($rElig['DA_InSiteHQ_Rmk']); ?>"/>
 
+<input type="hidden" Name="H_ExHQ" id="H_ExHQ" value="<?php echo trim($rElig['ExHQ']); ?>"/>
+<input type="hidden" Name="H_ExHQ_Rmk" id="H_ExHQ_Rmk" value="<?php echo trim($rElig['ExHQ_Rmk']); ?>"/>
+
 
 <?php if($di==2 OR $gi==72 OR $gi==73 OR $gi==74 OR $gi==75 OR $gi==76 OR $gi==77){ ?>
 
@@ -293,6 +302,13 @@ $VNRExpMain=$years.'.'.$months;
 	 <td class="tdr">OutsideHQ&nbsp;Rs&nbsp;<input class="td2" style="width:150px;" Name="DaOutSide_HQRs" id="DaOutSide_HQRs" value="<?=$rEligE['DA_Outside_Hq']?>" disabled/>&nbsp;Rmk:<input class="td2" style="width:150px;" Name="DaOutSide_HQRs_Rmk" id="DaOutSide_HQRs_Rmk" value="<?=$rEligE['DA_Outside_Hq_Rmk']?>" disabled/>
 	 <br />
 	 @HQ&nbsp;Rs&nbsp;<input class="td2" style="width:150px;" Name="DaInSide_HQRs" id="DaInSide_HQRs" value="<?=$rEligE['DA_Inside_Hq']?>" disabled/>&nbsp;Rmk:<input class="td2" style="width:150px;" Name="DaInSide_HQRs_Rmk" id="DaInSide_HQRs_Rmk" value="<?=$rEligE['DA_Inside_Hq_Rmk']?>" disabled/>
+	 <?php if($_REQUEST['C']==3){ ?>
+	 <br />
+	 ExHQ&nbsp;Rs&nbsp;<input class="td2" style="width:150px;" Name="ExHQ" id="ExHQ" value="<?=$rEligE['ExHQ']?>" disabled/>&nbsp;Rmk:<input class="td2" style="width:150px;" Name="ExHQ_Rmk" id="ExHQ_Rmk" value="<?=$rEligE['ExHQ_Rmk']?>" disabled/>
+	 <?php }else{ ?>
+	  <input type="hidden" Name="ExHQ" id="ExHQ" value="<?=$rEligE['ExHQ']?>" />
+	  <input type="hidden" Name="ExHQ_Rmk" id="ExHQ_Rmk" value="<?=$rEligE['ExHQ_Rmk']?>" />
+	 <?php } ?>
 	 </td>
 	</tr> 
    </table>
@@ -304,6 +320,13 @@ $VNRExpMain=$years.'.'.$months;
 	 <td class="tdr">OutsideHQ&nbsp;Rs&nbsp;<input class="td2" style="background-color:#92D1BD;border:hidden;width:150px;" value="<?=$rEligE['DA_Outside_Hq']?>" disabled/>&nbsp;Rmk:<input class="td2" style="background-color:#92D1BD;border:hidden;width:150px;" value="<?=$rEligE['DA_Outside_Hq_Rmk']?>" disabled/>
 	 <br />
 	 @HQ&nbsp;Rs&nbsp;<input class="td2" style="background-color:#92D1BD;border:hidden;width:150px;" value="<?=$rEligE['DA_Inside_Hq']?>" disabled/>&nbsp;Rmk:<input class="td2" style="background-color:#92D1BD;border:hidden;width:150px;" value="<?=$rEligE['DA_Inside_Hq_Rmk']?>" disabled/>
+	 <?php if($_REQUEST['C']==3){ ?>
+	 <br />
+	 ExHQ&nbsp;Rs&nbsp;<input class="td2" style="background-color:#92D1BD;border:hidden;width:150px;" value="<?=$rEligE['ExHQ']?>" disabled/>&nbsp;Rmk:<input class="td2" style="background-color:#92D1BD;border:hidden;width:150px;" value="<?=$rEligE['ExHQ_Rmk']?>" disabled/>
+	 <?php }else{ ?>
+	  <input type="hidden" value="<?=$rEligE['ExHQ']?>" />
+	  <input type="hidden" value="<?=$rEligE['ExHQ_Rmk']?>" />
+	 <?php } ?>
 	 </td>
 	</tr>
    </table>
