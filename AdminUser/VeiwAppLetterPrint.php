@@ -246,7 +246,7 @@ else
 		   <td style="width:343px;font-size:16px;font-weight:bold;">
 		   <?php if($_REQUEST['C']==1 AND ($_REQUEST['G']!='L3' AND $_REQUEST['G']!='L4' AND $_REQUEST['G']!='L5' AND $_REQUEST['G']!='MG' AND $_REQUEST['E']!=263)){echo '&nbsp;Human Resource';}
 		         elseif($_REQUEST['C']==1 AND ($_REQUEST['G']=='L3' OR $_REQUEST['G']=='L4' OR $_REQUEST['G']=='L5' OR $_REQUEST['G']=='MG' OR $_REQUEST['E']==263)){echo 'Director\Managing Director';}
-		            elseif($_REQUEST['C']==3 AND $_REQUEST['E']!=254) {echo 'National Head'; }
+		            elseif($_REQUEST['C']==3 AND $_REQUEST['E']!=254) {echo 'Business Head'; }
 		            elseif($_REQUEST['C']==3 AND $_REQUEST['E']==254) {echo 'Managing Director'; } ?>
 		   </td>
 		   <td style="width:342px;font-size:16px;font-weight:bold;" align="right">

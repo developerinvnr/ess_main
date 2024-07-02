@@ -248,7 +248,7 @@ else
 		      <td style="width:343px;font-size:16px;font-weight:bold;">
 			  <?php if($_REQUEST['C']==1 AND ($_REQUEST['G']!='L3' AND $_REQUEST['G']!='L4' AND $_REQUEST['G']!='L5' AND $_REQUEST['G']!='MG' AND $_REQUEST['E']!=263)){echo '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Human Resource';}
 		            elseif($_REQUEST['C']==1 AND ($_REQUEST['G']=='L3' OR $_REQUEST['G']=='L4' OR $_REQUEST['G']=='L5' OR $_REQUEST['G']=='MG' OR $_REQUEST['E']==263)){echo '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Director\Managing Director';}
-		            elseif($_REQUEST['C']==3 AND $_REQUEST['E']!=254) {echo '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;National Head'; }
+		            elseif($_REQUEST['C']==3 AND $_REQUEST['E']!=254) {echo '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Business Head'; }
 		            elseif($_REQUEST['C']==3 AND $_REQUEST['E']==254) {echo '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Managing Director'; } ?></td>
 		      <td style="width:342px;font-size:16px;font-weight:bold;" align="right">
 		      <?php //if($_REQUEST['D']==98 OR $_REQUEST['D']==115 OR $_REQUEST['D']==116 OR $_REQUEST['D']==117) { echo 'Director'; } ?></td>
@@ -344,7 +344,7 @@ $SqlStat=mysql_query("select hrm_company_statutory_lumpsum.*,hrm_company_statuto
 		   <td style="width:343px;font-size:18px;font-weight:bold;">&nbsp;&nbsp;
 		    <?php if($_REQUEST['C']==1 AND ($_REQUEST['G']!='L3' AND $_REQUEST['G']!='L4' AND $_REQUEST['G']!='L5' AND $_REQUEST['G']!='MG' AND $_REQUEST['E']!=263)){echo 'Human Resource';}
 		          elseif($_REQUEST['C']==1 AND ($_REQUEST['G']=='L3' OR $_REQUEST['G']=='L4' OR $_REQUEST['G']=='L5' OR $_REQUEST['G']=='MG' OR $_REQUEST['E']==263)){echo 'Director\Managing Director';}
-		          elseif($_REQUEST['C']==3 AND $_REQUEST['E']!=254) {echo 'National Head'; }
+		          elseif($_REQUEST['C']==3 AND $_REQUEST['E']!=254) {echo 'Business Head'; }
 		          elseif($_REQUEST['C']==3 AND $_REQUEST['E']==254) {echo 'Managing Director'; } ?></td>
 		   <td style="width:342px;font-size:18px;font-weight:bold;" align="right">
 		   <?php //if($_REQUEST['D']==98 OR $_REQUEST['D']==115 OR $_REQUEST['D']==116 OR $_REQUEST['D']==117) { echo 'Director'; } ?>
@@ -456,7 +456,7 @@ $sqlP2=mysql_query("select DepartmentId from hrm_department where DepartmentName
 		   <td style="width:343px;font-size:18px;font-weight:bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 		   <?php if($_REQUEST['C']==1 AND ($_REQUEST['G']!='L3' AND $_REQUEST['G']!='L4' AND $_REQUEST['G']!='L5' AND $_REQUEST['G']!='MG' AND $_REQUEST['E']!=263)){echo 'Human Resource';}
 		         elseif($_REQUEST['C']==1 AND ($_REQUEST['G']=='L3' OR $_REQUEST['G']=='L4' OR $_REQUEST['G']=='L5' OR $_REQUEST['G']=='MG' OR $_REQUEST['E']==263)){echo 'Director\Managing Director';}
-		         elseif($_REQUEST['C']==3 AND $_REQUEST['E']!=254) {echo 'National Head'; }
+		         elseif($_REQUEST['C']==3 AND $_REQUEST['E']!=254) {echo 'Business Head'; }
 		         elseif($_REQUEST['C']==3 AND $_REQUEST['E']==254) {echo 'Managing Director'; } ?>
 		   </td>
 		   <td style="width:342px;font-size:18px;font-weight:bold;" align="right">

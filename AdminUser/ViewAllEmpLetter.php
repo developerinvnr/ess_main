@@ -305,7 +305,7 @@ else
 		   <td style="width:343px;font-size:16px;font-weight:bold;">
 		   <?php if($_REQUEST['C']==1 AND ($GNew!='L3' AND $GNew!='L4' AND $GNew!='L5' AND $GNew!='MG' AND $ENew!=263)){echo '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Human Resource';}
 		         elseif($_REQUEST['C']==1 AND ($GNew=='L3' OR $GNew=='L4' OR $GNew=='L5' OR $GNew=='MG' OR $ENew==263)){echo 'Director\Managing Director';}
-		   elseif($_REQUEST['C']==3 AND $ENew!=254) {echo 'National Head'; }
+		   elseif($_REQUEST['C']==3 AND $ENew!=254) {echo 'Business Head'; }
 		   elseif($_REQUEST['C']==3 AND $ENew==254) {echo 'Managing Director'; } ?>
 		   </td>
 		   <td style="width:342px;font-size:16px;font-weight:bold;" align="right">
@@ -391,7 +391,7 @@ $SqlStat=mysql_query("select hrm_company_statutory_lumpsum.*,hrm_company_statuto
 		   <td style="width:343px;font-size:18px;font-weight:bold;">
 		    <?php if($_REQUEST['C']==1 AND ($GNew!='L3' AND $GNew!='L4' AND $GNew!='L5' AND $GNew!='MG' AND $ENew!=263)){echo 'Human Resource';}
 		          elseif($_REQUEST['C']==1 AND ($GNew=='L3' OR $GNew=='L4' OR $GNew=='L5' OR $GNew=='MG' OR $ENew==263)){echo 'Director\Managing Director';}
-		          elseif($_REQUEST['C']==3 AND $ENew!=254) {echo 'National Head'; }
+		          elseif($_REQUEST['C']==3 AND $ENew!=254) {echo 'Business Head'; }
 		          elseif($_REQUEST['C']==3 AND $ENew==254) {echo 'Managing Director'; } ?></td>
 		   <td style="width:342px;font-size:18px;font-weight:bold;" align="right">
 		   <?php //if($DNew==98 OR $DNew==115 OR $DNew==116 OR $DNew==117) { echo 'Director'; } ?>
@@ -502,7 +502,7 @@ $sqlP2=mysql_query("select DepartmentId from hrm_department where DepartmentName
 		   <td style="width:343px;font-size:18px;font-weight:bold;">
 		   <?php if($_REQUEST['C']==1 AND ($GNew!='L3' AND $GNew!='L4' AND $GNew!='L5' AND $GNew!='MG' AND $ENew!=263)){echo 'Human Resource';}
 		         elseif($_REQUEST['C']==1 AND ($GNew=='L3' OR $GNew=='L4' OR $GNew=='L5' OR $GNew=='MG' OR $ENew==263)){echo 'Director\Managing Director';}
-		         elseif($_REQUEST['C']==3 AND $ENew!=254) {echo 'National Head'; }
+		         elseif($_REQUEST['C']==3 AND $ENew!=254) {echo 'Business Head'; }
 		         elseif($_REQUEST['C']==3 AND $ENew==254) {echo 'Managing Director'; } ?>
 		   </td>
 		   <td style="width:342px;font-size:18px;font-weight:bold;" align="right">
