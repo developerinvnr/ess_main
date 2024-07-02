@@ -37,7 +37,7 @@
 <?php //DA DA DA DA DA DA DA DA DA DA DA DA DA DA DA DA DA DA DA DA DA DA DA DA DA DA ?>
 <?php //DA DA DA DA DA DA DA DA DA DA DA DA DA DA DA DA DA DA DA DA DA DA DA DA DA DA ?>
 
-<?php if(($ResEligEmp['DA_Outside_Hq']!='' AND $ResEligEmp['DA_Outside_Hq']!='NA') OR ($ResEligEmp['DA_Inside_Hq']!='' AND $ResEligEmp['DA_Inside_Hq']!='NA')){ ?>
+<?php if(($ResEligEmp['DA_Outside_Hq']!='' AND $ResEligEmp['DA_Outside_Hq']!='NA') OR ($ResEligEmp['DA_Inside_Hq']!='' AND $ResEligEmp['DA_Inside_Hq']!='NA') OR ($ResEligEmp['ExHQ']!='' AND $ResEligEmp['ExHQ']!='NA')){ ?>
 <tr>
  <td colspan="3" style="width:680px;font-size:14px;height:16px;" align="left"><b>*&nbsp;&nbsp;Daily Allowances :</b></td>
 </tr>
@@ -56,7 +56,14 @@
   <td style="width:65%;font-size:16px;">&nbsp;<?php if($ResE['DepartmentId']==2){echo 'Fooding Expense (For outside HQ travel with night halt)'; }else{ echo 'DA OutsideHQ '.$ResEligEmp['DA_Outside_Hq_Rmk']; } ?> : </td>
   <td style="width:35%;" align="center">&nbsp;<?=$ResEligEmp['DA_Outside_Hq']?></td>
  </tr>
+ <?php } 
+ if($ResEligEmp['ExHQ']!='' AND $ResEligEmp['ExHQ']!='NA' AND $ResEligEmp['ExHQ']!=' '){ ?>
+ <tr>
+  <td style="width:65%;font-size:16px;">&nbsp;DA ExHQ: <?=$ResEligEmp['ExHQ_Rmk']?></td>
+  <td style="width:35%;" align="center">&nbsp;<?=$ResEligEmp['ExHQ']?></td>
+ </tr>
  <?php } ?>
+ 
  </table>
  </td>
 </tr>
