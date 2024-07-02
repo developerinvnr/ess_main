@@ -340,7 +340,7 @@
         <li><b></b></li>
 	<?php if($_SESSION['UserType']=='S' AND  ($_SESSION['PMS']==1 OR $_SESSION['PMS_OpenCloseMenu']==1)){?>
         
-        <?php if($UserId==9 OR $UserId==10 OR $UserId==14 OR $UserId==4 OR $UserId==11 OR $UserId==41){ ?>
+        <?php if($UserId==9 OR $UserId==10 OR $UserId==14 OR $UserId==15 OR $UserId==4 OR $UserId==11 OR $UserId==41){ ?>
         <li><a href="SetKraPms.php">Setting KRA/PMS</a></li>
         
         <?php if($_SESSION['PMS']==1 OR $_SESSION['PMS_IncDistri']==1){?>
