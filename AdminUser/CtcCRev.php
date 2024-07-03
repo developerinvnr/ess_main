@@ -542,7 +542,7 @@ function RefreshFun()
 
 <?php 
 $yy=$YearId;
-if($_REQUEST['C']==3){ $yy=$YearId+1; }
+if($CompanyId==3){ $yy=$YearId+1; }
 
 $sqlB=mysql_query("select * from hrm_bonus_wages where CompanyId=".$CompanyId." AND YearId=".$yy,$con); 
 while($resB=mysql_fetch_assoc($sqlB))
