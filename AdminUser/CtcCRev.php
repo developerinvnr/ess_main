@@ -128,10 +128,10 @@ function GrossSalary(v)
  */
  var BnsPer = 0;
  if(ComId==1){ var BnsPer = 20; }
- else(ComId==3){ var BnsPer = 8.33; }
+ else(ComId==3){ var BnsPer = 8.33; } 
  
  if(GMS<=42000 && Cal_EmpBasic<=21000){ var BonusM = Math.round(((BWageId*BnsPer)/100)*100)/100; var BonusY = Math.round((BonusM*12)*100)/100; }
- else { var BonusM=0; var BonusY=0; }
+ else { var BonusM=0; var BonusY=0; } alert(BnsPer);
  
  var BonusM = document.getElementById("Bonus_Month").value=BonusM; <!--Bonus-->
  var CAR_ALL = parseFloat(document.getElementById("CAR_ALL_Value").value); <!--Car Allow-->
