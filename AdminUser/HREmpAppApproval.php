@@ -211,7 +211,7 @@ var BWageId=parseFloat(document.getElementById("BWageId").value);
 var ComId = document.getElementById("ComId").value;
 var BnsPer = 0;
 if(ComId==1){ var BnsPer = 20; }
-else(ComId==3){ var BnsPer = 8.33; }
+else if(ComId==3){ var BnsPer = 8.33; }
 
 
 if(Cal_TotCtc<=682355.38)
