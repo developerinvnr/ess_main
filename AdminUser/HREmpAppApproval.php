@@ -208,8 +208,14 @@ function CalProInc()
 var BWageId=parseFloat(document.getElementById("BWageId").value); 
 
 //Bonus 10620, 11270, 12050, 12830
+var ComId = document.getElementById("ComId").value;
+var BnsPer = 0;
+if(ComId==1){ var BnsPer = 20; }
+else(ComId==3){ var BnsPer = 8.33; }
+
+
 if(Cal_TotCtc<=682355.38)
-{ var BonusM = Math.round(((BWageId*20)/100)*100)/100; var BonusY = Math.round((BonusM*12)*100)/100;  }
+{ var BonusM = Math.round(((BWageId*BnsPer)/100)*100)/100; var BonusY = Math.round((BonusM*12)*100)/100;  }
 else { var BonusM=0; var BonusY=0; } 
 
 //Employer ESIC

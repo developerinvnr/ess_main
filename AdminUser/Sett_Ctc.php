@@ -27,8 +27,11 @@ if(ComId==1 || ComId==3)
  if(GMS<=47109 && Cal_EmpBasic<=21000){ var BonusM = Math.round(((BWageId*20)/100)*100)/100; var BonusY = Math.round((BonusM*12)*100)/100; }
  else { var BonusM=0; var BonusY=0; }
  */
+ var BnsPer = 0;
+ if(ComId==1){ var BnsPer = 20; }
+ else(ComId==3){ var BnsPer = 8.33; }
  
- if(GMS<=42000 && Cal_EmpBasic<=21000){ var BonusM = Math.round(((BWageId*20)/100)*100)/100; var BonusY = Math.round((BonusM*12)*100)/100; }
+ if(GMS<=42000 && Cal_EmpBasic<=21000){ var BonusM = Math.round(((BWageId*BnsPer)/100)*100)/100; var BonusY = Math.round((BonusM*12)*100)/100; }
  else { var BonusM=0; var BonusY=0; }
  
  var BonusM = document.getElementById("Bonus_Month").value=BonusM; <!--Bonus-->
