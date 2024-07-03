@@ -541,7 +541,10 @@ function RefreshFun()
 </script>
 
 <?php 
-$sqlB=mysql_query("select * from hrm_bonus_wages where CompanyId=".$CompanyId." AND YearId=".$YearId,$con); 
+$yy=$YearId;
+if($_REQUEST['C']==3){ $yy=$YearId+1; }
+
+$sqlB=mysql_query("select * from hrm_bonus_wages where CompanyId=".$CompanyId." AND YearId=".$yy,$con); 
 while($resB=mysql_fetch_assoc($sqlB))
 {
  if(date("m")==01 OR date("m")==02 OR date("m")==03 OR date("m")==10 OR date("m")==11 OR date("m")==12)
