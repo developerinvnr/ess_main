@@ -833,7 +833,7 @@ function FunHealtCh(v)
 	 <table style="width:100%;">
 	  <tr>
 	    <td class="tdl">&nbsp;* Remark :</td>
-        <td class="tdr"><input class="td3" Name="Rmkk" id="Rmkk" style="width:400px;" value="<?php echo $rEligE['Remark'];?>" disabled/></td>
+        <td class="tdr"><input class="td3" Name="Rmkk" id="Rmkk" style="width:400px;" value="<?php echo $rEligE['Remark'];?>"/></td>
 	  </tr>
 	 </table>
 	</td> 
