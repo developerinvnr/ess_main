@@ -249,7 +249,8 @@ else
 	  <td style="font-family:Times New Roman;color:#000000; width:785;" align="center">
 	    <table border="0" cellpadding="0" cellspacing="0">
           <tr><td style="width:50px;">&nbsp;</td>
-		  <td style="width:685px;font-size:18px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?php if($_REQUEST['C']==1 AND ($_REQUEST['G']!='L3' AND $_REQUEST['G']!='L4' AND $_REQUEST['G']!='L5' AND $_REQUEST['G']!='MG' AND $_REQUEST['E']!=263)){echo '<img src="../../AdminUser/images/lsign.jpg" border="0" />';}else{echo '<u>This is an e-generated letter, signed copy shall be provided later</u>';}?></td>
+		 
+		  <td style="width:685px;font-size:18px;"><?php if($_REQUEST['C']==1 AND ($_REQUEST['G']!='L3' AND $_REQUEST['G']!='L4' AND $_REQUEST['G']!='L5' AND $_REQUEST['G']!='MG' AND $_REQUEST['E']!=263)){echo '<img src="../../AdminUser/images/lsign.jpg" border="0" />';}else{echo '<img src="../../AdminUser/images/devesh.png" border="0" />';}?></td>
 		  <td style="width:50px;">&nbsp;</td></tr>
 		  <tr>
 		   <td style="width:50px;">&nbsp;</td>
@@ -351,7 +352,7 @@ $SqlStat=mysql_query("select hrm_company_statutory_lumpsum.*,hrm_company_statuto
 	    <table border="0" cellpadding="0" cellspacing="0">
 		  <!--<tr><td style="width:50px;">&nbsp;</td><td style="width:685px;font-size:18px;font-weight:bold;">&nbsp;</td><td style="width:50px;">&nbsp;</td></tr>-->
           <tr><td style="width:50px;">&nbsp;</td>
-		  <td style="width:685px;font-size:18px;font-weight:bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?php if($_REQUEST['C']==1 AND ($_REQUEST['G']!='L3' AND $_REQUEST['G']!='L4' AND $_REQUEST['G']!='L5' AND $_REQUEST['G']!='MG' AND $_REQUEST['E']!=263)){echo '<img src="../../AdminUser/images/lsign.jpg" border="0" />';}?></td>
+		  <td style="width:685px;font-size:18px;"><?php if($_REQUEST['C']==1 AND ($_REQUEST['G']!='L3' AND $_REQUEST['G']!='L4' AND $_REQUEST['G']!='L5' AND $_REQUEST['G']!='MG' AND $_REQUEST['E']!=263)){echo '<img src="../../AdminUser/images/lsign.jpg" border="0" />';}else{echo '<img src="../../AdminUser/images/devesh.png" border="0" />';}?></td>
 		  <td style="width:50px;">&nbsp;</td></tr>
 		  
 		  <tr><td style="width:50px;">&nbsp;</td>
@@ -461,7 +462,7 @@ $sqlP2=mysql_query("select DepartmentId from hrm_department where DepartmentName
 	    <table border="0" cellpadding="0" cellspacing="0">
 		  <!--<tr><td style="width:50px;">&nbsp;</td><td style="width:685px;font-size:18px;font-weight:bold;">&nbsp;</td><td style="width:50px;">&nbsp;</td></tr>-->
           <tr><td style="width:50px;">&nbsp;</td>
-		  <td style="width:685px;font-size:18px;font-weight:bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?php if($_REQUEST['C']==1 AND ($_REQUEST['G']!='L3' AND $_REQUEST['G']!='L4' AND $_REQUEST['G']!='L5' AND $_REQUEST['G']!='MG' AND $_REQUEST['E']!=263)){echo '<img src="../../AdminUser/images/lsign.jpg" border="0" />';}?></td>
+		  <td style="width:685px;font-size:18px;"><?php if($_REQUEST['C']==1 AND ($_REQUEST['G']!='L3' AND $_REQUEST['G']!='L4' AND $_REQUEST['G']!='L5' AND $_REQUEST['G']!='MG' AND $_REQUEST['E']!=263)){echo '<img src="../../AdminUser/images/lsign.jpg" border="0" />';}else{echo '<img src="../../AdminUser/images/devesh.png" border="0" />';}?></td>
 		  <td style="width:50px;">&nbsp;</td></tr>
 		  <tr><td style="width:50px;">&nbsp;</td>
 		  <td>

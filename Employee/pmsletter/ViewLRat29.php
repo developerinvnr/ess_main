@@ -11,7 +11,7 @@ Your performance for the assessment period <b><?php echo $Ass2Year; ?></b> has b
 
 		   <?php if($ResPMS['HR_ProCorrCTC']>0) { ?>Taking into consideration the industry salary benchmark, we are providing salary correction of <b>Rs. <?php echo floatval($ResPMS['HR_ProCorrCTC']); ?>/- </b> per annum. <?php } ?><p>
 
-           Your fixed CTC is therefore being revised from <b>Rs. <?php echo floatval($ResPMS['EmpCurrCtc']); ?>/- </b> to <b>Rs. <?php echo floatval($ResPMS['HR_Proposed_ActualCTC']); ?>/- </b> with effect from <?php echo $SeteD; ?>.<p>
+           Your <?php if($_REQUEST['C']==1) { ?>fixed <?php } ?> CTC is therefore being revised from <b>Rs. <?php echo floatval($ResPMS['EmpCurrCtc']); ?>/- </b> to <b>Rs. <?php echo floatval($ResPMS['HR_Proposed_ActualCTC']); ?>/- </b> with effect from <?php echo $SeteD; ?>.<p>
 		   
 		   <?php /* if($ResE['DepartmentId']==3 AND $resGr2['GradeValue']!='S1' AND $resGr2['GradeValue']!='S2' AND $resGr2['GradeValue']!='J1' AND $ResPMS['HR_CurrDesigId']==$_REQUEST['D'] AND $resGr2['GradeValue']==$_REQUEST['G']){ ?>Due to restructuring, your designation is revised to <b><?php echo $resD['DesigName']; ?></b> at same grade. <p><?php } */?>
 

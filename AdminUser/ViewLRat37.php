@@ -20,7 +20,7 @@ We are pleased to inform you that your performance for the assessment period <b>
 		      
 		  <?php } ?>    
 
-           Your fixed CTC is therefore being revised from <b>Rs. <?php echo floatval($ResPMS['EmpCurrCtc']); ?>/- </b> to <b>Rs. <?php echo floatval($ResPMS['HR_Proposed_ActualCTC']); ?>/- </b> with effect from <?php echo $SeteD; ?>.<p>
+           Your <?php if($_REQUEST['C']==1) { ?>fixed <?php } ?> CTC is therefore being revised from <b>Rs. <?php echo floatval($ResPMS['EmpCurrCtc']); ?>/- </b> to <b>Rs. <?php echo floatval($ResPMS['HR_Proposed_ActualCTC']); ?>/- </b> with effect from <?php echo $SeteD; ?>.<p>
                
 		   
 <?php 
