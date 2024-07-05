@@ -84,7 +84,7 @@ $rowk2=mysql_num_rows($sqlk2);
 <!-------------------------------------->
 <!-------------------------------------->  
 <?php $sdp=mysql_query("select DepartmentId from hrm_employee_general where EmployeeID=".$EmployeeId,$con);  $rdp=mysql_fetch_assoc($sdp); ?>
-<?php  if($EmployeeId!=6 AND $EmployeeId!=7 AND $EmployeeId!=21 AND $EmployeeId!=51 AND $EmployeeId!=223 AND $EmployeeId!=224 AND $EmployeeId!=461 AND $EmployeeId!=52 AND $EmployeeId!=89 AND $EmployeeId!=109 AND $EmployeeId!=110){ ?>
+<?php  if($EmployeeId!=6 AND $EmployeeId!=7 AND $EmployeeId!=21 AND $EmployeeId!=51 AND $EmployeeId!=223 AND $EmployeeId!=224 AND $EmployeeId!=461 AND $EmployeeId!=52 AND $EmployeeId!=89 AND $EmployeeId!=109 AND $EmployeeId!=110 AND $EmployeeId!=254 AND $EmployeeId!=1436){ ?>
 
 <?php $sL=mysql_query("select * from hrm_pms_setting where CompanyId=".$CompanyId." AND Process='PMS'",$con); 
       $rL=mysql_fetch_assoc($sL); 

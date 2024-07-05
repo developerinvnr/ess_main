@@ -248,7 +248,7 @@ else
 	  <td style="font-family:Times New Roman;color:#000000; width:785;" align="center">
 	    <table border="0" cellpadding="0" cellspacing="0">
           <tr><td style="width:50px;">&nbsp;</td>
-		  <td style="width:685px;font-size:18px;font-family:Times New Roman;"><?php if($_REQUEST['C']==1 AND ($_REQUEST['G']!='L3' AND $_REQUEST['G']!='L4' AND $_REQUEST['G']!='L5' AND $_REQUEST['G']!='MG' AND $_REQUEST['E']!=263)){echo '<img src="images/lsign.jpg" border="0" />';}else{echo '<img src="../images/devesh.png" width="150" border="0" />';}?></td>
+		  <td style="width:685px;font-size:18px;font-family:Times New Roman;"><?php if($_REQUEST['C']==1 AND ($_REQUEST['G']!='L3' AND $_REQUEST['G']!='L4' AND $_REQUEST['G']!='L5' AND $_REQUEST['G']!='MG' AND $_REQUEST['E']!=263)){echo '<img src="images/lsign.jpg" border="0" />';}elseif($_REQUEST['C']==3 AND $_REQUEST['E']!=254) {echo '<img src="../images/devesh.png" width="150" border="0" />';}?></td>
 		  <td style="width:50px;">&nbsp;</td></tr>
 		  <tr>
 		   <td style="width:50px;">&nbsp;</td>
@@ -351,7 +351,7 @@ $SqlStat=mysql_query("select hrm_company_statutory_lumpsum.*,hrm_company_statuto
 	    <table border="0" cellpadding="0" cellspacing="0">
 		  <tr><td style="width:50px;">&nbsp;</td><td style="width:685px;font-size:18px;font-weight:bold;">&nbsp;</td><td style="width:50px;">&nbsp;</td></tr>
           <tr><td style="width:50px;">&nbsp;</td>
-		  <td style="width:685px;font-size:18px;font-family:Times New Roman;"><?php if($_REQUEST['C']==1 AND ($_REQUEST['G']!='L3' AND $_REQUEST['G']!='L4' AND $_REQUEST['G']!='L5' AND $_REQUEST['G']!='MG' AND $_REQUEST['E']!=263)){echo '<img src="images/lsign.jpg" border="0" />';}else{echo '<img src="../images/devesh.png" width="150" border="0" />';}?></td>
+		  <td style="width:685px;font-size:18px;font-family:Times New Roman;"><?php if($_REQUEST['C']==1 AND ($_REQUEST['G']!='L3' AND $_REQUEST['G']!='L4' AND $_REQUEST['G']!='L5' AND $_REQUEST['G']!='MG' AND $_REQUEST['E']!=263)){echo '<img src="images/lsign.jpg" border="0" />';}elseif($_REQUEST['C']==3 AND $_REQUEST['E']!=254) {echo '<img src="../images/devesh.png" width="150" border="0" />';}?></td>
 		  <td style="width:50px;">&nbsp;</td></tr>
 		  
 		  <tr><td style="width:50px;">&nbsp;</td>
@@ -461,7 +461,7 @@ $sqlP2=mysql_query("select DepartmentId from hrm_department where DepartmentName
 	    <table border="0" cellpadding="0" cellspacing="0">
 		  <!--<tr><td style="width:50px;">&nbsp;</td><td style="width:685px;font-size:18px;font-weight:bold;">&nbsp;</td><td style="width:50px;">&nbsp;</td></tr>-->
           <tr><td style="width:50px;">&nbsp;</td>
-		  <td style="width:685px;font-size:18px;font-family:Times New Roman;"><?php if($_REQUEST['C']==1 AND ($_REQUEST['G']!='L3' AND $_REQUEST['G']!='L4' AND $_REQUEST['G']!='L5' AND $_REQUEST['G']!='MG' AND $_REQUEST['E']!=263)){echo '<img src="images/lsign.jpg" border="0" />';}else{echo '<img src="../images/devesh.png" width="150" border="0" />';}?></td>
+		  <td style="width:685px;font-size:18px;font-family:Times New Roman;"><?php if($_REQUEST['C']==1 AND ($_REQUEST['G']!='L3' AND $_REQUEST['G']!='L4' AND $_REQUEST['G']!='L5' AND $_REQUEST['G']!='MG' AND $_REQUEST['E']!=263)){echo '<img src="images/lsign.jpg" border="0" />';}elseif($_REQUEST['C']==3 AND $_REQUEST['E']!=254) {echo '<img src="../images/devesh.png" width="150" border="0" />';}?></td>
 		  <td style="width:50px;">&nbsp;</td></tr>
 		  <tr><td style="width:50px;">&nbsp;</td>
 		  <td>
