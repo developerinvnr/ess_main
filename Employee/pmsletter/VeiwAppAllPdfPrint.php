@@ -463,7 +463,7 @@ $sqlP2=mysql_query("select DepartmentId from hrm_department where DepartmentName
 		  <!--<tr><td style="width:50px;">&nbsp;</td><td style="width:685px;font-size:18px;font-weight:bold;">&nbsp;</td><td style="width:50px;">&nbsp;</td></tr>-->
           <tr><td style="width:50px;">&nbsp;</td>
 		  <td style="width:685px;font-size:18px;"><?php if($_REQUEST['C']==1 AND ($_REQUEST['G']!='L3' AND $_REQUEST['G']!='L4' AND $_REQUEST['G']!='L5' AND $_REQUEST['G']!='MG' AND $_REQUEST['E']!=263)){echo '<img src="../images/lsign.jpg" border="0" />';}
-		  elseif($_REQUEST['C']==3 AND $_REQUEST['E']!=254){echo '<img src="../../AdminUser/images/devesh.png" border="0" width="150" />';}?></td>
+		  elseif($_REQUEST['C']==3 AND $_REQUEST['E']!=254){echo '<img src="../images/devesh.png" border="0" width="150" />';}?></td>
 		  <td style="width:50px;">&nbsp;</td></tr>
 		  <tr><td style="width:50px;">&nbsp;</td>
 		  <td>
