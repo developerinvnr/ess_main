@@ -368,7 +368,7 @@
 	
 	<li><a href="PmsEditHR.php">Edit Appraisal form</a></li>
 	
-	<?php if($UserId==4 OR $UserId==9 OR $UserId==10 OR $UserId==14 OR $UserId==11 OR $UserId==15){?>
+	<?php if($UserId==4 OR $UserId==9 OR $UserId==10 OR $UserId==14 OR $UserId==11 OR $UserId==15 OR $UserId==53 OR $UserId==57){?>
 	  <li><a href="MovePMStoESS.php">Move & View PMS Data</a></li>
 	 <?php } ?>
 	

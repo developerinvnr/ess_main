@@ -180,7 +180,15 @@ else
 	  <table>
 	   <tr>
 	   <td style="width:73px;">&nbsp;</td>
-	   <td><img src="images/ltop.png" border="0" style="height:60px;"/></td>
+	   <td>
+	       
+	     
+	        <?php if($_REQUEST['C'] == 1){ ?>
+	       <img src="images/ltop.png" border="0" style="height:60px;"/>
+	       <?php } elseif($_REQUEST['C'] == 3){?>
+	       <img src="images/nursery_header.jpg" height="130"  border="0" />
+	       <?php }?>
+	       </td>
 	   </tr>
 	  </table>
 	  </td>
@@ -269,7 +277,15 @@ else
 		  </tr>
 		  <tr><td>&nbsp;</td></tr>
 		  <tr><td colspan="3" align="center"><hr color="#000000"></hr></td></tr>
-		  <tr><td colspan="3" align="center"><img src="images/lfooter.png" border="0"/></td></tr>
+		  <tr><td colspan="3" align="center">
+		      
+		      <?php if($_REQUEST['C'] == 1){ ?>
+	        <img src="images/lfooter.png" border="0"/>
+	       <?php } elseif($_REQUEST['C']==3){?>
+	       <img src="images/nursery_footer.jpg" height="130"  border="0" />
+	       <?php }?>
+		      
+		      </td></tr>
 		</table>
 	  </td>
 	 </tr>		 
