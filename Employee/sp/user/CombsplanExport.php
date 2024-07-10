@@ -68,7 +68,7 @@ $csv_output .= '"TOTAL",';
 $csv_output .= '"TOTAL_Value",';
 $csv_output .= "\n";
 	
-$sql = mysql_query("select sd.ProductId, sd.DealerId, M1, M2, M3, M4, M5, M6, M7, M8, M9, M10, M11, M12, ProductName, ItemName, ItemCode, sp.TypeId, DealerName, DealerCity, Hq_vc, Hq_fc, Terr_vc, Terr_fc from hrm_sales_sal_details_".$_REQUEST['y']." sd INNER JOIN hrm_sales_dealer d ON sd.DealerId=d.DealerId INNER JOIN hrm_sales_seedsproduct sp ON sd.ProductId=sp.ProductId INNER JOIN hrm_sales_seedsitem si ON sp.ItemId=si.ItemId where sd.YearId=".$_REQUEST['y']." AND (M1!=0 OR M2!=0 OR M3!=0 OR M4!=0 OR M5!=0 OR M6!=0 OR M7!=0 OR M8!=0 OR M9!=0 OR M10!=0 OR M11!=0 OR M12!=0) order by sd.DealerId, si.ItemName ASC, sp.ProductName ASC LIMIT ".$_REQUEST['f'].", ".$_REQUEST['t'], $con); 
+$sql = mysql_query("select sd.*, ProductName, ItemName, ItemCode, sp.TypeId, DealerName, DealerCity, Hq_vc, Hq_fc, Terr_vc, Terr_fc from hrm_sales_sal_details_".$_REQUEST['y']." sd INNER JOIN hrm_sales_dealer d ON sd.DealerId=d.DealerId INNER JOIN hrm_sales_seedsproduct sp ON sd.ProductId=sp.ProductId INNER JOIN hrm_sales_seedsitem si ON sp.ItemId=si.ItemId where sd.YearId=".$_REQUEST['y']." AND (M1!=0 OR M2!=0 OR M3!=0 OR M4!=0 OR M5!=0 OR M6!=0 OR M7!=0 OR M8!=0 OR M9!=0 OR M10!=0 OR M11!=0 OR M12!=0) order by sd.DealerId, si.ItemName ASC, sp.ProductName ASC LIMIT ".$_REQUEST['f'].", ".$_REQUEST['t'], $con); 
 $Sn=1; while($res=mysql_fetch_array($sql)){ 
 
 if($res['TypeId']>0){ $sT=mysql_query("select TypeName from hrm_sales_seedtype where TypeId=".$res['TypeId'], $con); $rT=mysql_fetch_assoc($sT); }
@@ -280,7 +280,7 @@ $csv_output .= '"TOTAL",';
 $csv_output .= '"TOTAL_Value",';
 $csv_output .= "\n";
 	
-$sql = mysql_query("select sd.ProductId, sd.DealerId, M1_Ach, M2_Ach, M3_Ach, M4_Ach, M5_Ach, M6_Ach, M7_Ach, M8_Ach, M9_Ach, M10_Ach,M11_Ach, M12_Ach, ProductName, ItemName, ItemCode, sp.TypeId, DealerName, DealerCity, Hq_vc, Hq_fc, Terr_vc, Terr_fc from hrm_sales_sal_details_".$_REQUEST['y']." sd INNER JOIN hrm_sales_dealer d ON sd.DealerId=d.DealerId INNER JOIN hrm_sales_seedsproduct sp ON sd.ProductId=sp.ProductId INNER JOIN hrm_sales_seedsitem si ON sp.ItemId=si.ItemId where sd.YearId=".$_REQUEST['y']." AND (M1_Ach!=0 OR M2_Ach!=0 OR M3_Ach!=0 OR M4_Ach!=0 OR M5_Ach!=0 OR M6_Ach!=0 OR M7_Ach!=0 OR M8_Ach!=0 OR M9_Ach!=0 OR M10_Ach!=0 OR M11_Ach!=0 OR M12_Ach!=0) order by sd.DealerId, si.ItemName ASC,sp.ProductName ASC LIMIT ".$_REQUEST['f'].", ".$_REQUEST['t'], $con); 
+$sql = mysql_query("select sd.*, ProductName, ItemName, ItemCode, sp.TypeId, DealerName, DealerCity, Hq_vc, Hq_fc, Terr_vc, Terr_fc from hrm_sales_sal_details_".$_REQUEST['y']." sd INNER JOIN hrm_sales_dealer d ON sd.DealerId=d.DealerId INNER JOIN hrm_sales_seedsproduct sp ON sd.ProductId=sp.ProductId INNER JOIN hrm_sales_seedsitem si ON sp.ItemId=si.ItemId where sd.YearId=".$_REQUEST['y']." AND (M1_Ach!=0 OR M2_Ach!=0 OR M3_Ach!=0 OR M4_Ach!=0 OR M5_Ach!=0 OR M6_Ach!=0 OR M7_Ach!=0 OR M8_Ach!=0 OR M9_Ach!=0 OR M10_Ach!=0 OR M11_Ach!=0 OR M12_Ach!=0) order by sd.DealerId, si.ItemName ASC,sp.ProductName ASC LIMIT ".$_REQUEST['f'].", ".$_REQUEST['t'], $con); 
 
 //limit 0,4999  limit 5000,4999  limit 10000,4999  limit 15000,4999
 //limit 20000,4999    limit 25000,4999
@@ -495,7 +495,7 @@ $csv_output .= '"TOTAL",';
 $csv_output .= '"TOTAL_Value",';
 $csv_output .= "\n";
 	
-$sql = mysql_query("select sd.ProductId, sd.DealerId, M1_Proj, M2_Proj, M3_Proj, M4_Proj, M5_Proj, M6_Proj, M7_Proj, M8_Proj, M9_Proj, M10_Proj, M11_Proj, M12_Proj, ProductName, ItemName, ItemCode, sp.TypeId, DealerName, DealerCity, Hq_vc, Hq_fc, Terr_vc, Terr_fc from hrm_sales_sal_details_".$_REQUEST['y']." sd INNER JOIN hrm_sales_dealer d ON sd.DealerId=d.DealerId INNER JOIN hrm_sales_seedsproduct sp ON sd.ProductId=sp.ProductId INNER JOIN hrm_sales_seedsitem si ON sp.ItemId=si.ItemId where sd.YearId=".$_REQUEST['y']." AND (M1_Proj!=0 OR M2_Proj!=0 OR M3_Proj!=0 OR M4_Proj!=0 OR M5_Proj!=0 OR M6_Proj!=0 OR M7_Proj!=0 OR M8_Proj!=0 OR M9_Proj!=0 OR M10_Proj!=0 OR M11_Proj!=0 OR M12_Proj!=0) order by sd.DealerId, si.ItemName ASC,sp.ProductName ASC LIMIT ".$_REQUEST['f'].", ".$_REQUEST['t'], $con); $Sn=1; while($res=mysql_fetch_array($sql)){ 
+$sql = mysql_query("select sd.*, ProductName, ItemName, ItemCode, sp.TypeId, DealerName, DealerCity, Hq_vc, Hq_fc, Terr_vc, Terr_fc from hrm_sales_sal_details_".$_REQUEST['y']." sd INNER JOIN hrm_sales_dealer d ON sd.DealerId=d.DealerId INNER JOIN hrm_sales_seedsproduct sp ON sd.ProductId=sp.ProductId INNER JOIN hrm_sales_seedsitem si ON sp.ItemId=si.ItemId where sd.YearId=".$_REQUEST['y']." AND (M1_Proj!=0 OR M2_Proj!=0 OR M3_Proj!=0 OR M4_Proj!=0 OR M5_Proj!=0 OR M6_Proj!=0 OR M7_Proj!=0 OR M8_Proj!=0 OR M9_Proj!=0 OR M10_Proj!=0 OR M11_Proj!=0 OR M12_Proj!=0) order by sd.DealerId, si.ItemName ASC,sp.ProductName ASC LIMIT ".$_REQUEST['f'].", ".$_REQUEST['t'], $con); $Sn=1; while($res=mysql_fetch_array($sql)){ 
 	  
 
 if($res['TypeId']>0){$sT=mysql_query("select TypeName from hrm_sales_seedtype where TypeId=".$res['TypeId'], $con); $rT=mysql_fetch_assoc($sT);}
