@@ -4,30 +4,15 @@ include("../function.php");
 include('codeEncDec.php');
 if(check_user()==false){header('Location:../../../index.php');}
 if($_SESSION['login'] = true){require_once('UserMenuSession.php');}
-//***************************************************************************************
+//**********************************************************************************************************************
+
 
 
 if(isset($_POST['SaveAchQQMM']))
 {
-	
- $sqlY = mysql_query("select FromDate,ToDate from hrm_sales_year where YearId=".$_POST['yAchQ'],$con);
- $resY = mysql_fetch_assoc($sqlY);
- $fy1 = date("Y",strtotime($resY['FromDate'])); 
- $ty1 = date("Y",strtotime($resY['ToDate'])); 
- include("Nrv1.php");	
-	
- if($_POST['mAchQ']==4){ $mnt='M1_Ach'; $mnta='M1a_Ach'; $SubQM = "Fdate<='".$fy1."-04-01'"; }
- elseif($_POST['mAchQ']==5){ $mnt='M2_Ach'; $mnta='M2a_Ach'; $SubQM = "Fdate<='".$fy1."-05-01'"; }
- elseif($_POST['mAchQ']==6){ $mnt='M3_Ach'; $mnta='M3a_Ach'; $SubQM = "Fdate<='".$fy1."-06-01'"; }
- elseif($_POST['mAchQ']==7){ $mnt='M4_Ach'; $mnta='M4a_Ach'; $SubQM = "Fdate<='".$fy1."-07-01'"; }
- elseif($_POST['mAchQ']==8){ $mnt='M5_Ach'; $mnta='M5a_Ach'; $SubQM = "Fdate<='".$fy1."-08-01'"; }
- elseif($_POST['mAchQ']==9){ $mnt='M6_Ach'; $mnta='M6a_Ach'; $SubQM = "Fdate<='".$fy1."-09-01'"; }
- elseif($_POST['mAchQ']==10){ $mnt='M7_Ach'; $mnta='M7a_Ach'; $SubQM = "Fdate<='".$fy1."-10-01'"; }
- elseif($_POST['mAchQ']==11){ $mnt='M8_Ach'; $mnta='M8a_Ach'; $SubQM = "Fdate<='".$fy1."-11-01'"; }
- elseif($_POST['mAchQ']==12){ $mnt='M9_Ach'; $mnta='M9a_Ach'; $SubQM = "Fdate<='".$fy1."-12-01'"; }
- elseif($_POST['mAchQ']==1){ $mnt='M10_Ach'; $mnta='M10a_Ach'; $SubQM = "Fdate<='".$ty1."-01-01'"; }
- elseif($_POST['mAchQ']==2){ $mnt='M11_Ach'; $mnta='M11a_Ach'; $SubQM = "Fdate<='".$ty1."-02-01'"; }
- elseif($_POST['mAchQ']==3){ $mnt='M12_Ach'; $mnta='M12a_Ach'; $SubQM = "Fdate<='".$ty1."-03-01'"; }
+ if($_POST['mAchQ']==4){$mnt='M1_Ach';}elseif($_POST['mAchQ']==5){$mnt='M2_Ach';}elseif($_POST['mAchQ']==6){$mnt='M3_Ach';}elseif($_POST['mAchQ']==7){$mnt='M4_Ach';}
+ elseif($_POST['mAchQ']==8){$mnt='M5_Ach';}elseif($_POST['mAchQ']==9){$mnt='M6_Ach';}elseif($_POST['mAchQ']==10){$mnt='M7_Ach';}elseif($_POST['mAchQ']==11){$mnt='M8_Ach';}
+ elseif($_POST['mAchQ']==12){$mnt='M9_Ach';}elseif($_POST['mAchQ']==1){$mnt='M10_Ach';}elseif($_POST['mAchQ']==2){$mnt='M11_Ach';}elseif($_POST['mAchQ']==3){$mnt='M12_Ach';}
  
  if ($_FILES['AchQ_csv_fileM']['error'] > 0) { echo "Error: " . $_FILES['AchQ_csv_fileM']['error'] . "<br />"; }
  else
@@ -40,21 +25,15 @@ if(isset($_POST['SaveAchQQMM']))
    {
     if($ctr>1) 
     { 
-	 $sqlD=mysql_query("Select * from hrm_sales_dealer WHERE DealerId=".$c0."", $con); 
-	 $rowsD=mysql_num_rows($sqlD); //if($rowsD==0){echo $c0.'<br>';} 
-	 
-	 $sNrv=mysql_query("select NRV from hrm_sales_product_nrv where Fdate=(select max(Fdate) as Fdate from hrm_sales_product_nrv where ProductId=".$c1." AND ".$SubQM.") AND ProductId=".$c1,$con); 
-	 $rowNrv=mysql_num_rows($sNrv); if($rowNrv>0){ $rNrv=mysql_fetch_assoc($sNrv); }else{ $sNr=mysql_query("select NRV from hrm_sales_product_nrv where ProductId=".$c1." AND PStatus='A'", $con); $rNrv=mysql_fetch_assoc($sNr); } //$Nrv=$rNrv['NRV'];
-	 
-	 
+	 $sqlD=mysql_query("Select * from hrm_sales_dealer WHERE DealerId=".$c0."", $con); $rowsD=mysql_num_rows($sqlD); //if($rowsD==0){echo $c0.'<br>';} 
 	 $sqlChk=mysql_query("Select * from hrm_sales_sal_details_".$_POST['yAchQ']." WHERE DealerId=".$c0." AND ProductId=".$c1." AND YearId=".$_POST['yAchQ'],$con); $rowsChk=mysql_num_rows($sqlChk); 
 	 if($rowsChk>0)
 	 { $resChk=mysql_fetch_assoc($sqlChk); //if($resChk['M2_Ach']>0){echo $c0.'<br>';}
-	   $sqlUp=mysql_query("UPDATE hrm_sales_sal_details_".$_POST['yAchQ']." SET ".$mnt."=".$c2.", ".$mnta."=".$c2*$rNrv['NRV']." WHERE DealerId=".$c0." AND ProductId=".$c1." AND YearId=".$_POST['yAchQ'], $con);
+	   $sqlUp=mysql_query("UPDATE hrm_sales_sal_details_".$_POST['yAchQ']." SET ".$mnt."=".$c2." WHERE DealerId=".$c0." AND ProductId=".$c1." AND YearId=".$_POST['yAchQ'], $con);
 	 }
 	 elseif($rowsChk==0)
 	 { $sqlIP=mysql_query("Select ItemId from hrm_sales_seedsproduct WHERE ProductId=".$c1."", $con); $resIP=mysql_fetch_assoc($sqlIP);
-	   $sqlUp=mysql_query("insert into hrm_sales_sal_details_".$_POST['yAchQ']."(DealerId,ItemId,ProductId,YearId,".$mnt.",".$mnta.") values(".$c0.",".$resIP['ItemId'].",".$c1.",".$_POST['yAchQ'].",".$c2.",".$c2*$rNrv['NRV'].")", $con); 
+	   $sqlUp=mysql_query("insert into hrm_sales_sal_details_".$_POST['yAchQ']."(DealerId,ItemId,ProductId,YearId,".$mnt.") values(".$c0.",".$resIP['ItemId'].",".$c1.",".$_POST['yAchQ'].",".$c2.")", $con); 
 	 }
    }
   } 
