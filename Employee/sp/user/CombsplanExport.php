@@ -183,7 +183,7 @@ $csv_output .= '"'.str_replace('"', '""', floatval($res['M9'])).'",';
 $csv_output .= '"'.str_replace('"', '""', $res['M9a']).'",';
 
 $csv_output .= '"'.str_replace('"', '""', floatval($res['M7']+$res['M8']+$res['M9'])).'",';
-$csv_output .= '"'.str_replace('"', '""', floatval(($res['M7a']+$res['M8a']+$res['M9a'])).'",';
+$csv_output .= '"'.str_replace('"', '""', floatval($res['M7a']+$res['M8a']+$res['M9a'])).'",';
 
 $csv_output .= '"'.str_replace('"', '""', floatval($res['M10'])).'",';
 $csv_output .= '"'.str_replace('"', '""', $res['M10a']).'",';
