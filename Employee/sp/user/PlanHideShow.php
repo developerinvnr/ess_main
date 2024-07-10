@@ -14,7 +14,7 @@ if(isset($_POST['SaveEdit']))
 //2:2013-14, 3:2014-15, 4:2015-16, 5:2016-17, 6:2017-18, 7:2018-19, 8:2019-20, 9:2020-21, 10:2021-22, 11:2022-23, 12:2023-24, 13:2024-25, 14:2025-26,  
 
 $fy1='2013'; $ty1='2014'; $Tbl='hrm_sales_sal_details_2';
-$sql = mysql_query("select * from from ".$Tbl." where (M1!=0 OR M2!=0 OR M3!=0 OR M4!=0 OR M5!=0 OR M6!=0 OR M7!=0 OR M8!=0 OR M9!=0 OR M10!=0 OR M11!=0 OR M12!=0 OR M1_Ach!=0 OR M2_Ach!=0 OR M3_Ach!=0 OR M4_Ach!=0 OR M5_Ach!=0 OR M6_Ach!=0 OR M7_Ach!=0 OR M8_Ach!=0 OR M9_Ach!=0 OR M10_Ach!=0 OR M11_Ach!=0 OR M12_Ach!=0 OR M1_Proj!=0 OR M2_Proj!=0 OR M3_Proj!=0 OR M4_Proj!=0 OR M5_Proj!=0 OR M6_Proj!=0 OR M7_Proj!=0 OR M8_Proj!=0 OR M9_Proj!=0 OR M10_Proj!=0 OR M11_Proj!=0 OR M12_Proj!=0) order by DealerId,ItemId,ProductId ASC LIMIT ".$_REQUEST['f'].", ".$_REQUEST['t'], $con);
+$sql = mysql_query("select * from from ".$Tbl." where (M1!=0 OR M2!=0 OR M3!=0 OR M4!=0 OR M5!=0 OR M6!=0 OR M7!=0 OR M8!=0 OR M9!=0 OR M10!=0 OR M11!=0 OR M12!=0 OR M1_Ach!=0 OR M2_Ach!=0 OR M3_Ach!=0 OR M4_Ach!=0 OR M5_Ach!=0 OR M6_Ach!=0 OR M7_Ach!=0 OR M8_Ach!=0 OR M9_Ach!=0 OR M10_Ach!=0 OR M11_Ach!=0 OR M12_Ach!=0 OR M1_Proj!=0 OR M2_Proj!=0 OR M3_Proj!=0 OR M4_Proj!=0 OR M5_Proj!=0 OR M6_Proj!=0 OR M7_Proj!=0 OR M8_Proj!=0 OR M9_Proj!=0 OR M10_Proj!=0 OR M11_Proj!=0 OR M12_Proj!=0) order by DealerId,ItemId,ProductId ASC", $con);
 while($res=mysql_fetch_assoc($sql))
 {
   include("Nrv1.php");
