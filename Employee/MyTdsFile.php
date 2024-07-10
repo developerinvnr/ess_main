@@ -1,4 +1,29 @@
 <?php 
+$filepath = $_REQUEST['filepath']; 
+$filename = $_REQUEST['filename'];
+
+if (file_exists($filepath)) 
+{
+  
+    header('Content-Description: File Transfer');
+    header('Content-Type: application/pdf');
+    header('Content-Disposition: attachment; filename='.basename($filepath));
+    header('Content-Length: '.filesize($filepath));
+    header('Expires: 0');
+    header('Cache-Control: must-revalidate');
+    header('Pragma: public');
+    
+    // Read the file and output it to the browser
+    readfile($filepath);
+    exit;
+} 
+else 
+{ 
+ die('The file does not exist.');
+}
+
+
+/* 
 if($_REQUEST['a']=='open')
 {     
 $LEC2=strlen($_REQUEST['File']);
@@ -28,6 +53,6 @@ $filename2 = 'ImgTds'.$_REQUEST['c'].'202021/'.$EC2.' - B.pdf';
   readfile($filename2);
  }
 } 
-
+*/
 
 ?>
