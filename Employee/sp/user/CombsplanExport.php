@@ -1,6 +1,5 @@
-<div style="position:absolute;top:120px;left:150px;">
-<span id="wait_tip" style="display:block;"><img src="../../images/loading.gif" id="loading_img"/> Please wait...</span>
-</div>
+
+
 <?php require_once('config/config.php');
 require_once('config/config.php');
 
@@ -220,6 +219,10 @@ exit;
 
 elseif($_REQUEST['action']=='SalPlanRExport') 
 { 
+
+echo '<span>
+  <img src="../../images/loading.gif" id="loading_img"/> 
+  Please wait...</span>';
 $sy=mysql_query("select * from hrm_year where YearId=".$_REQUEST['y']."", $con); $ry=mysql_fetch_assoc($sy); 
 $FD=date("Y",strtotime($ry['FromDate'])); $TD=date("Y",strtotime($ry['ToDate'])); $PRD=$FD.'-'.$TD;
 $y1m=date("y",strtotime($ry['FromDate'])); $y2m=date("y",strtotime($ry['ToDate']));
