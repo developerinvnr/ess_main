@@ -9,6 +9,18 @@ if(isset($_POST['SaveEdit']))
 { $SqlUp = mysql_query("UPDATE hrm_sales_planshow SET EntryPlan='".$_POST['COne']."', ResultPlan='".$_POST['CTwo']."' WHERE PlanshowId=1", $con); 
   if($SqlUp){$msg='Updated successfully!';}
 }
+
+/** ------------------------------- **/
+//2:2013-14, 3:2014-15, 4:2015-16, 5:2016-17, 6:2017-18, 7:2018-19, 8:2019-20, 9:2020-21, 10:2021-22, 11:2022-23, 12:2023-24, 13:2024-25, 14:2025-26,  
+
+$fy1='2013'; $ty1='2014'; $Tbl='hrm_sales_sal_details_2';
+$sql = mysql_query("select * from from ".$Tbl." where (M1!=0 OR M2!=0 OR M3!=0 OR M4!=0 OR M5!=0 OR M6!=0 OR M7!=0 OR M8!=0 OR M9!=0 OR M10!=0 OR M11!=0 OR M12!=0 OR M1_Ach!=0 OR M2_Ach!=0 OR M3_Ach!=0 OR M4_Ach!=0 OR M5_Ach!=0 OR M6_Ach!=0 OR M7_Ach!=0 OR M8_Ach!=0 OR M9_Ach!=0 OR M10_Ach!=0 OR M11_Ach!=0 OR M12_Ach!=0 OR M1_Proj!=0 OR M2_Proj!=0 OR M3_Proj!=0 OR M4_Proj!=0 OR M5_Proj!=0 OR M6_Proj!=0 OR M7_Proj!=0 OR M8_Proj!=0 OR M9_Proj!=0 OR M10_Proj!=0 OR M11_Proj!=0 OR M12_Proj!=0) order by DealerId,ItemId,ProductId ASC LIMIT ".$_REQUEST['f'].", ".$_REQUEST['t'], $con);
+while($res=mysql_fetch_assoc($sql))
+{
+  include("Nrv1.php");
+  $up=mysql_query("update ".$Tbl." set M1a=(".$res['M1']*$r4['NRV']."), M2a=(".$res['M2']*$r5['NRV']."), M3a=(".$res['M3']*$r6['NRV']."), M4a=(".$res['M4']*$r4['NRV']."), M5a=(".$res['M5']*$r5['NRV']."), M6a=(".$res['M6']*$r6['NRV']."), M7a=(".$res['M7']*$r7['NRV']."), M8a=(".$res['M8']*$r8['NRV']."), M9a=(".$res['M9']*$r9['NRV']."), M10a=(".$res['M10']*$r10['NRV']."), M11a=(".$res['M11']*$r11['NRV']."), M12a=(".$res['M12']*$r12['NRV']."), M1a_Ach=(".$res['M1_Ach']*$r4['NRV']."), M2a_Ach=(".$res['M2_Ach']*$r5['NRV']."), M3a_Ach=(".$res['M3_Ach']*$r6['NRV']."), M4a_Ach=(".$res['M4_Ach']*$r4['NRV']."), M5a_Ach=(".$res['M5_Ach']*$r5['NRV']."), M6a_Ach=(".$res['M6_Ach']*$r6['NRV']."), M7a_Ach=(".$res['M7_Ach']*$r7['NRV']."), M8a_Ach=(".$res['M8_Ach']*$r8['NRV']."), M9a_Ach=(".$res['M9_Ach']*$r9['NRV']."), M10a_Ach=(".$res['M10_Ach']*$r10['NRV']."), M11a_Ach=(".$res['M11_Ach']*$r11['NRV']."), M12a_Ach=(".$res['M12_Ach']*$r12['NRV']."), M1a_Proj=(".$res['M1_Proj']*$r4['NRV']."), M2a_Proj=(".$res['M2_Proj']*$r5['NRV']."), M3a_Proj=(".$res['M3_Proj']*$r6['NRV']."), M4a_Proj=(".$res['M4_Proj']*$r4['NRV']."), M5a_Proj=(".$res['M5_Proj']*$r5['NRV']."), M6a_Proj=(".$res['M6_Proj']*$r6['NRV']."), M7a_Proj=(".$res['M7_Proj']*$r7['NRV']."), M8a_Proj=(".$res['M8_Proj']*$r8['NRV']."), M9a_Proj=(".$res['M9_Proj']*$r9['NRV']."), M10a_Proj=(".$res['M10_Proj']*$r10['NRV']."), M11a_Proj=(".$res['M11_Proj']*$r11['NRV']."), M12a_Proj=(".$res['M12_Proj']*$r12['NRV'].") where SalDetailId=".$res['SalDetailId']);  
+}
+/** ------------------------------- **/
 ?>
 <html>
 <head>
