@@ -67,7 +67,7 @@ if (agree) { var x = "AssignEmpPaySlip.php?action=editPayM&eidPayM="+value;  win
 <?php //**********************************************START*****START*****START******START******START***************************************************************?>
 <?php //************************************************************************************************************************************************************?>
 <table border="0" style="margin-top:0px; width:100%; height:300px;">
-<?php if(($_SESSION['UserType']=='S' AND $_SESSION['login']==true) OR ($UserId==5 AND $_SESSION['login']==true) OR ($UserId==23 AND $_SESSION['login']==true) OR ($UserId==25 AND $_SESSION['login']==true)) { ?>	
+<?php if((($_SESSION['UserType']=='S' OR $_SESSION['UserType']=='A') AND $_SESSION['login']==true) OR ($UserId==5 AND $_SESSION['login']==true) OR ($UserId==23 AND $_SESSION['login']==true) OR ($UserId==25 AND $_SESSION['login']==true)) { ?>	
  <tr>
  <td style="width:1px;" valign="top" align="center">&nbsp;</td>
  <td width="1">&nbsp;</td>
