@@ -1,9 +1,13 @@
-<?php 
-$filepath = $_REQUEST['filepath']; 
-$filename = $_REQUEST['filename'];
+<?php session_start();
 
-if (file_exists($filepath)) 
+if($_SESSION['PN']==$_REQUEST['no'])
 {
+
+ $filepath = $_REQUEST['filepath']; 
+ $filename = $_REQUEST['filename'];
+
+ if (file_exists($filepath)) 
+ {
   
     header('Content-Description: File Transfer');
     header('Content-Type: application/pdf');
@@ -16,11 +20,13 @@ if (file_exists($filepath))
     // Read the file and output it to the browser
     readfile($filepath);
     exit;
-} 
-else 
-{ 
- die('The file does not exist.');
-}
+ } 
+ else 
+ { 
+  die('The file does not exist.');
+ }
+ 
+} //if($_SESSION['PN']==$_REQUEST['no'])
 
 
 /* 
