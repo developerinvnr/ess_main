@@ -111,7 +111,7 @@ if(isset($_POST['SaveAchQQMM33']))
 
 if(isset($_POST['DeleteRecord']))
 {
- $sql=mysql_query("update hrm_sales_sal_details_".$_POST['DelYear']." set ".$_POST['DelMonth']."=0 where YearId=".$_POST['DelYear'],$con); 
+ $sql=mysql_query("update hrm_sales_sal_details_".$_POST['DelYear']." set ".$_POST['DelMonth']."=0, ".$_POST['DelmntaMonth']."=0 where YearId=".$_POST['DelYear'],$con); 
  
  //echo "update hrm_sales_sal_details_".$_POST['DelYear']." set ".$_POST['DelMonth']."=0 where YearId=".$_POST['DelYear'];
  
@@ -201,7 +201,19 @@ echo '<input type="hidden" id="q" value="'.$_REQUEST['q'].'" />'; echo '<input t
     <td width="10">&nbsp;</td>  
     <td align="left" id="type" valign="top" style="display:block; width:50%">             
      <table border="0" width="350">   
-<?php if($_REQUEST['mAchQ']==4){$mnt='M1_Ach';}elseif($_REQUEST['mAchQ']==5){$mnt='M2_Ach';}elseif($_REQUEST['mAchQ']==6){$mnt='M3_Ach';}elseif($_REQUEST['mAchQ']==7){$mnt='M4_Ach';}elseif($_REQUEST['mAchQ']==8){$mnt='M5_Ach';}elseif($_REQUEST['mAchQ']==9){$mnt='M6_Ach';}elseif($_REQUEST['mAchQ']==10){$mnt='M7_Ach';}elseif($_REQUEST['mAchQ']==11){$mnt='M8_Ach';}elseif($_REQUEST['mAchQ']==12){$mnt='M9_Ach';}elseif($_REQUEST['mAchQ']==1){$mnt='M10_Ach';}elseif($_REQUEST['mAchQ']==2){$mnt='M11_Ach';}elseif($_REQUEST['mAchQ']==3){$mnt='M12_Ach';}
+<?php 
+if($_REQUEST['mAchQ']==4){$mnt='M1_Ach'; $mnta='M1a_Ach';}
+elseif($_REQUEST['mAchQ']==5){$mnt='M2_Ach'; $mnta='M2a_Ach';}
+elseif($_REQUEST['mAchQ']==6){$mnt='M3_Ach'; $mnta='M3a_Ach';}
+elseif($_REQUEST['mAchQ']==7){$mnt='M4_Ach'; $mnta='M4a_Ach';}
+elseif($_REQUEST['mAchQ']==8){$mnt='M5_Ach'; $mnta='M5a_Ach';}
+elseif($_REQUEST['mAchQ']==9){$mnt='M6_Ach'; $mnta='M6a_Ach';}
+elseif($_REQUEST['mAchQ']==10){$mnt='M7_Ach'; $mnta='M7a_Ach';}
+elseif($_REQUEST['mAchQ']==11){$mnt='M8_Ach'; $mnta='M8a_Ach';}
+elseif($_REQUEST['mAchQ']==12){$mnt='M9_Ach'; $mnta='M9a_Ach';}
+elseif($_REQUEST['mAchQ']==1){$mnt='M10_Ach'; $mnta='M10a_Ach';}
+elseif($_REQUEST['mAchQ']==2){$mnt='M11_Ach'; $mnta='M11a_Ach';}
+elseif($_REQUEST['mAchQ']==3){$mnt='M12_Ach'; $mnta='M12a_Ach';}
  $sSum=mysql_query("select sum(".$mnt.") as totsal from hrm_sales_sal_details_".$_REQUEST['yAchQ']." where YearId=".$_REQUEST['yAchQ'],$con); $rSum=mysql_fetch_assoc($sSum); ?>
 	 <tr><td class="heading">&nbsp;Import Xls/Csv File:&nbsp;<font size="3" color="#FFA6FF">( $c0=DealerId, $c1=ProductId, $c2=Quantity )</font>&nbsp;&nbsp;[Total Sales:<?php echo $rSum['totsal']; ?>]</td></tr>
 	 <tr>
@@ -305,7 +317,19 @@ echo '<input type="hidden" id="q" value="'.$_REQUEST['q'].'" />'; echo '<input t
     <td width="10">&nbsp;</td>  
     <td align="left" id="type" valign="top" style="display:block; width:100%">             
      <table border="0" width="800">   
-<?php $mnnt=intval(date("m")); if($mnnt==4){$mnt='M1_Ach';}elseif($mnnt==5){$mnt='M2_Ach';}elseif($mnnt==6){$mnt='M3_Ach';}elseif($mnnt==7){$mnt='M4_Ach';}elseif($mnnt==8){$mnt='M5_Ach';}elseif($mnnt==9){$mnt='M6_Ach';}elseif($mnnt==10){$mnt='M7_Ach';}elseif($mnnt==11){$mnt='M8_Ach';}elseif($mnnt==12){$mnt='M9_Ach';}elseif($mnnt==1){$mnt='M10_Ach';}elseif($mnnt==2){$mnt='M11_Ach';}elseif($mnnt==3){$mnt='M12_Ach';}
+<?php $mnnt=intval(date("m")); 
+if($mnnt==4){$mnt='M1_Ach'; $mnta='M1a_Ach';}
+elseif($mnnt==5){$mnt='M2_Ach'; $mnta='M2a_Ach';}
+elseif($mnnt==6){$mnt='M3_Ach'; $mnta='M3a_Ach';}
+elseif($mnnt==7){$mnt='M4_Ach'; $mnta='M4a_Ach';} 
+elseif($mnnt==8){$mnt='M5_Ach'; $mnta='M5a_Ach';}
+elseif($mnnt==9){$mnt='M6_Ach'; $mnta='M6a_Ach';}
+elseif($mnnt==10){$mnt='M7_Ach'; $mnta='M7a_Ach';}
+elseif($mnnt==11){$mnt='M8_Ach'; $mnta='M8a_Ach';}
+elseif($mnnt==12){$mnt='M9_Ach'; $mnta='M9a_Ach';}
+elseif($mnnt==1){$mnt='M10_Ach'; $mnta='M10a_Ach';}
+elseif($mnnt==2){$mnt='M11_Ach'; $mnta='M11a_Ach';}
+elseif($mnnt==3){$mnt='M12_Ach'; $mnta='M12a_Ach';}
  $sSum=mysql_query("select sum(".$mnt.") as totsal from hrm_sales_sal_details_".$_REQUEST['yAchQ']." where YearId=".$_REQUEST['yAchQ'],$con); $rSum=mysql_fetch_assoc($sSum); ?>
 	 <tr>
 	  <td class="heading">&nbsp;Import Xls/Csv File:&nbsp;<font size="3" color="#FFA6FF">( $c0=DealerName, $c1=DealerId, $c2=ProductId, $c3=Quantity )</font>&nbsp;&nbsp;[Total Sales:<?php echo $rSum['totsal']; ?>]
@@ -325,6 +349,7 @@ echo '<input type="hidden" id="q" value="'.$_REQUEST['q'].'" />'; echo '<input t
 	  </script>
 	   <form name="FormDel" method="POST" enctype="multipart/form-data" onSubmit="return ValDel(this)">	
 	    <input type="hidden" name="DelMonth" value="<?=$mnt?>" />
+		<input type="hidden" name="DelmntaMonth" value="<?=$mnta?>" />
 		<input type="hidden" name="DelYear" value="<?=$_REQUEST['yAchQ']?>" />
 		<input type="submit" name="DeleteRecord" value="Delete Records"/>
 	   </form>
