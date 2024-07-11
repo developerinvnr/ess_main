@@ -1,14 +1,13 @@
 <?php 
 $filepath = $_REQUEST['filepath']; 
 $filename = $_REQUEST['filename'];
-$filename_new = 'Form-16.pdf';
 
 if (file_exists($filepath)) 
 {
   
     header('Content-Description: File Transfer');
     header('Content-Type: application/pdf');
-    header('Content-Disposition: attachment; filename='.basename($filename_new));
+    header('Content-Disposition: attachment; filename='.basename($filename));
     header('Content-Length: '.filesize($filepath));
     header('Expires: 0');
     header('Cache-Control: must-revalidate');
