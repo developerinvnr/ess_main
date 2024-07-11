@@ -461,7 +461,8 @@ function CtcGrossSalary()
   if(OCtc>NCtc){ var DiffCtc = Math.round((NCtc-OOCtc)*100)/100; }
   else { var DiffCtc = Math.round((NCtc-OCtc)*100)/100; }
  
-  if(DiffCtc>2000000 && DiffCtc<=5000000){ var Plus10OldGross = Math.round((PlusOldGross+500000)*100)/100; }
+  if(DiffCtc>5000000 && DiffCtc<=10000000){ var Plus10OldGross = Math.round((PlusOldGross+1000000)*100)/100; }
+  else if(DiffCtc>2000000 && DiffCtc<=5000000){ var Plus10OldGross = Math.round((PlusOldGross+500000)*100)/100; }
   else if(DiffCtc>1000000 && DiffCtc<=2000000){ var Plus10OldGross = Math.round((PlusOldGross+100000)*100)/100; }
   else if(DiffCtc>500000 && DiffCtc<=1000000){ var Plus10OldGross = Math.round((PlusOldGross+10000)*100)/100; }
   else if(DiffCtc>100000 && DiffCtc<=500000){ var Plus10OldGross = Math.round((PlusOldGross+1000)*100)/100; }
