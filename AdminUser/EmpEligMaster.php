@@ -853,7 +853,7 @@ function FunHealtCh(v)
 	 <td class="td33" style="color:#fff;" align="right"><b>&nbsp;Date :</b></td>
      <td class="td33" style="color:#fff;"><input class="td22" style="width:100px;font-weight:bold;background-color:#CCFFCC;" value="<?php echo date("d-m-Y",strtotime($rEligE['EligCreatedDate'])); ?>" readonly/></td>
 	 <?php } ?>
-	<td class="td3" align="right" style="width:90px;"><input type="button" name="ChangeElig" id="ChangeElig" style="width:90px; display:block;" value="edit" onClick="EditElig()" <?php if($_REQUEST['action']=='approve'){ if($ResP['HR_PmsStatus']!=2) { echo 'disabled'; } }elseif($rEligE['EligCreatedDate']>='2005-01-01'){echo 'disabled';} ?>></td>
+	<td class="td3" align="right" style="width:90px;"><input type="button" name="ChangeElig" id="ChangeElig" style="width:90px; display:block;" value="edit" onClick="EditElig()" <?php if($_REQUEST['action']=='approve'){ if($ResP['HR_PmsStatus']!=2) { echo 'disabled'; } }elseif($rEligE['EligCreatedDate']>='2005-01-01' && $UserId!=9 && $UserId!=10 && $UserId!=14){echo 'disabled';} ?>></td>
 	</tr>
   </table>
   </div> 
