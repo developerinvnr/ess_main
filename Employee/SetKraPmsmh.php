@@ -74,8 +74,11 @@ if(($CuDate>=$_SESSION['hFrom'] AND $CuDate<=$_SESSION['hTo'] AND $_SESSION['hSt
 <td class="tdc"><a href="HodFinalEmpKRA.php?ee=1&aa=1&rr=1&hh=0&sh=1&hp=1&fr=1&kr=0&fq=1&prt=1&msg=1&pd=1&mt=1&mts=1&scr=1&prom=1&inc=1&incr=1&pmsr=1&rg=1&h=1&fachiv=1&fa=1&fb=1&ffeedb=1&org=1"/><img src="images/<?php echo $Lblk1;?>" border="0" style="display:<?php if($_REQUEST['kr']==1){echo 'block';}else{echo 'none';} ?>"/></a><img src="images/<?php echo $Lblk;?>" border="0" style="display:<?php if($_REQUEST['kr']==0){echo 'block';}else{echo 'none';} ?>"/> </td>
 <?php } ?>
 
+<?php /*
+<td class="tdc"><a href="PmsWorkingSheet.php?ee=1&aa=1&rr=1&hh=0&sh=1&hp=1&fr=1&kr=1&fq=1&prt=1&msg=1&pd=1&mt=1&mts=1&scr=1&prom=1&inc=1&incr=1&pmsr=1&rg=1&h=1&fachiv=1&fa=1&fb=1&ffeedb=1&FilD=All&FilS=All&TeE=All&TrE=All&org=0&wst=1" target="_blank" style="font-size:18px;color:#EAEA00;"><i><b>Appraisal Working Sheet</b></i></a></td>*/?>
 
-<td class="tdc"><a href="PmsWorkingSheet.php?ee=1&aa=1&rr=1&hh=0&sh=1&hp=1&fr=1&kr=1&fq=1&prt=1&msg=1&pd=1&mt=1&mts=1&scr=1&prom=1&inc=1&incr=1&pmsr=1&rg=1&h=1&fachiv=1&fa=1&fb=1&ffeedb=1&FilD=All&FilS=All&TeE=All&TrE=All&org=0&wst=1" target="_blank" style="font-size:18px;color:#EAEA00;"><i><b>Appraisal Working Sheet</b></i></a></td>
+
+<td class="tdc"><a href="VariablePayWSheet.php?ee=1&aa=1&rr=1&hh=0&sh=1&hp=1&fr=1&kr=1&fq=1&prt=1&msg=1&pd=1&mt=1&mts=1&scr=1&prom=1&inc=1&incr=1&pmsr=1&rg=1&h=1&fachiv=1&fa=1&fb=1&ffeedb=1&FilD=All&FilS=All&TeE=All&TrE=All&Mgmnt=0&org=0&wst=1" target="_blank" style="font-size:18px;color:#EAEA00;"><i><b>Variable Pay Working Sheet</b></i></a></td>
 
 
 <?php } //if($_REQUEST['rr']==0) ?> 			   
