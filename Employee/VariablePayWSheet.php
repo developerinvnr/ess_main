@@ -362,7 +362,7 @@ $SqlStat=mysql_query("select MedicalPolicyPremium from hrm_company_statutory_tax
 	   }
 	   ?>
 	   <td style="width:100px;text-align:center;"><i><?=floatval($ResRt['Hod_TotalFinalRating'])?></i>
-	   <br><input class="tdc" id="PerAssign<?=$no?>" value="<?=$ratFrt?>" style="width:50px;" onKeyPress="return isNumberKey(event)" onKeyUp="FCalAllRw(this.value,<?=floatval($ResRt['Hod_TotalFinalRating'])?>)" onChange="FCalAllRw(this.value,<?=floatval($ResRt['Hod_TotalFinalRating'])?>)" />
+	   <br><input class="tdc" id="PerAssign<?=$no?>" value="<?=$ratFrt?>" style="width:50px;" onKeyPress="return isNumberKey(event)" onChange="FCalAllRw(this.value,<?=floatval($ResRt['Hod_TotalFinalRating'])?>)" />
 	  
 	   </td>
 	   <?php $no++; } $TtnRw=$no-1; ?><input type="hidden" id="TtnRw" name="TtnRw" value="<?=$TtnRw?>"	/>
