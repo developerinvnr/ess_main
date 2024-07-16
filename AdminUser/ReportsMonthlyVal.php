@@ -6,7 +6,7 @@ require_once('logcheck.php');
 if($_SESSION['logCheckUser']!=$logadmin){header('Location:../index.php');}
 if($_SESSION['login'] = true){require_once('AdminMenuSession.php');} else {$msg= "Session Expiry...............";}
 
-
+/*
 //echo $_SESSION['AllowDoj'].'-'.$_SESSION['PmsYId'].'-'.$CompanyId;
 $FYear='2023'; $PayFTable='hrm_employee_monthlypayslip_'.$FYear; 
 $TYear='2024'; $PayTTable='hrm_employee_monthlypayslip'; 
@@ -23,7 +23,7 @@ while($rE=mysql_fetch_assoc($sE))
 //echo $rE['EmployeeID'].'->'.$GrossT;
  $sUp=mysql_query("update hrm_employee_pms set VP_GrossPaid='".$GrossT."' where EmpPmsId=".$rE['EmpPmsId'],$con); 	
 }
-
+*/
 ?>
 <html>
 <head>
