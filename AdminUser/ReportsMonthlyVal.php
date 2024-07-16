@@ -6,7 +6,7 @@ require_once('logcheck.php');
 if($_SESSION['logCheckUser']!=$logadmin){header('Location:../index.php');}
 if($_SESSION['login'] = true){require_once('AdminMenuSession.php');} else {$msg= "Session Expiry...............";}
 
-/*
+
 //echo $_SESSION['AllowDoj'].'-'.$_SESSION['PmsYId'].'-'.$CompanyId;
 $FYear='2023'; $PayFTable='hrm_employee_monthlypayslip_'.$FYear; 
 $TYear='2024'; $PayTTable='hrm_employee_monthlypayslip'; 
@@ -18,12 +18,12 @@ while($rE=mysql_fetch_assoc($sE))
  $sQ1=mysql_query("select ".$Selstar." from ".$PayFTable." where EmployeeID=".$rE['EmployeeID']." AND Month in (4,5,6,7,8,9,10,11,12) AND Year=".$FYear."",$con); $rQ1=mysql_fetch_assoc($sQ1);
  $sQ2=mysql_query("select ".$Selstar." from ".$PayTTable." where EmployeeID=".$rE['EmployeeID']." AND Month in (1,2,3) AND Year=".$TYear."",$con); $rQ2=mysql_fetch_assoc($sQ2);
  
- $GrossT=$rQ1['Bas']+$rQ2['Bas']+$rQ1['Hra']+$rQ2['Hra']+$rQ1['Con']+$rQ2['Con']+$rQ1['Ta']+$rQ2['Ta']+$rQ1['Spe']+$rQ2['Spe']+$rQ1['BonusM']+$rQ2['BonusM']+$rQ1['Da']+$rQ2['Da']+$rQ1['Inc']+$rQ2['Inc']+$rQ1['Per']+$rQ2['Per']+$rQ1['Lea']+$rQ2['Lea']+$rQ1['Var']+$rQ2['Var']+$rQ1['VarRemburmnt']+$rQ2['VarRemburmnt']+$rQ1['Cca']+$rQ2['Cca']+$rQ1['Ra']+$rQ2['Ra']+$rQ1['Bon']+$rQ2['Bon']+$rQ1['Ycea']+$rQ2['Ycea']+$rQ1['Ymr']+$rQ2['Ymr']+$rQ1['Ylta']+$rQ2['Ylta']+$rQ1['ArrBas']+$rQ2['ArrBas']+$rQ1['ArrHra']+$rQ2['ArrHra']+$rQ1['ArrCon']+$rQ2['ArrCon']+$rQ1['ArrSpl']+$rQ2['ArrSpl']+$rQ1['CarAll']+$rQ2['CarAll']+$rQ1['ArrLvEncash']+$rQ2['ArrLvEncash']+$rQ1['ArrBonus']+$rQ2['ArrBonus']+$rQ1['ArrRA']+$rQ2['ArrRA']+$rQ1['Bonus_Adjustment']+$rQ2['Bonus_Adjustment']+$rQ1['PP_Inc']+$rQ2['PP_Inc'];
+ $GrossT=$rQ1['Bas']+$rQ2['Bas']+$rQ1['Hra']+$rQ2['Hra']+$rQ1['Spe']+$rQ2['Spe']+$rQ1['BonusM']+$rQ2['BonusM']+$rQ1['ArrBas']+$rQ2['ArrBas']+$rQ1['ArrHra']+$rQ2['ArrHra']+$rQ1['ArrSpl']+$rQ2['ArrSpl']+$rQ1['Bonus_Adjustment']+$rQ2['Bonus_Adjustment'];
 
 //echo $rE['EmployeeID'].'->'.$GrossT;
  $sUp=mysql_query("update hrm_employee_pms set VP_GrossPaid='".$GrossT."' where EmpPmsId=".$rE['EmpPmsId'],$con); 	
 }
-*/
+
 ?>
 <html>
 <head>
