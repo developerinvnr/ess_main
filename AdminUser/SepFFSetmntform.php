@@ -680,7 +680,12 @@ $sqlCtc=mysql_query("select * from hrm_employee_ctc where EmployeeID=".$resSE['E
 		   <tr bgcolor="#FFFFFF">
 		    <td colspan="2" style="width:240px;" class="Text" align="">&nbsp;TDS Adjustment</td>
 			<td style="width:80px;" class="Text" align="right"><?php echo intval($resAcc['AccTDSA_Amt']); ?>&nbsp;</td>
-		   </tr>	
+		   </tr>
+<?php } if($resAcc['AccRecy']=='Y' AND $resAcc['AccRecy_Amt']>0) { ?>   
+		   <tr bgcolor="#FFFFFF">
+		    <td colspan="2" style="width:240px;" class="Text" align="">&nbsp;Recovery</td>
+			<td style="width:80px;" class="Text" align="right"><?php echo intval($resAcc['AccRecy_Amt']); ?>&nbsp;</td>
+		   </tr>		   	
 <?php } if($resAcc['AccAO8']=='Y' AND $resAcc['AccAO_Amt8']>0) { ?>   
 		   <tr bgcolor="#FFFFFF">
 		    <td colspan="2" style="width:240px;" class="Text" align="">&nbsp;<?php echo $resAcc['AccAO_Txt8']; ?></td>
@@ -812,7 +817,12 @@ $sqlCtc=mysql_query("select * from hrm_employee_ctc where EmployeeID=".$resSE['E
 		   <tr bgcolor="#FFFFFF">
 		    <td style="width:380px;" class="Text" align="">&nbsp;TDS Adjustment</td>
 			<td style="width:80px;" class="Text" align="right"><?php echo intval($resAcc['AccTDSA_Amt2']); ?>&nbsp;</td>
-		   </tr>	
+		   </tr>
+<?php } if($resAcc['AccRecy']=='Y' AND $resAcc['AccRecy_Amt2']>0) { ?>   
+		   <tr bgcolor="#FFFFFF">
+		    <td style="width:380px;" class="Text" align="">&nbsp;Recovery</td>
+			<td style="width:80px;" class="Text" align="right"><?php echo intval($resAcc['AccRecy_Amt2']); ?>&nbsp;</td>
+		   </tr>		   	
 <?php } if($resAcc['AccAO8']=='Y' AND $resAcc['AccAO2_Amt8']>0) { ?>   
 		   <tr bgcolor="#FFFFFF">
 		    <td style="width:380px;" class="Text" align="">&nbsp;<?php echo $resAcc['AccAO_Txt8']; ?></td>

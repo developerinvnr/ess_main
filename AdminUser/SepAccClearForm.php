@@ -191,6 +191,24 @@ if($resE['DR']=='Y'){$M='Dr.';} elseif($resE['Gender']=='M'){$M='Mr.';} elseif($
 	    <input id="AccTDSA_Remark" name="AccTDSA_Remark" style="width:235px;" value="<?php echo $acc['AccTDSA_Remark'] ?>" />
 	   </td>
      </tr> 
+	 <tr bgcolor="#FFFFFF"> 
+       <td class="Text" style="width:30px;" align="center">8</td>
+       <td class="Text" style="width:230px;" align="">&nbsp;Recovery</td>
+	   <td class="Text" style="width:150px;" align="center" valign="top">
+	   NA<?php if($acc['AccRecy']=='A'){echo '<img src="images/checkbox_UnCheck.png" border="0"/>';}else{echo '<img src="images/checkbox.png" border="0"/>';}?>
+	   Yes<?php if($acc['AccRecy']=='Y'){echo '<img src="images/checkbox_UnCheck.png" border="0"/>';}else{echo '<img src="images/checkbox.png" border="0"/>';}?>
+	   No<?php if($acc['AccRecy']=='N'){echo '<img src="images/checkbox_UnCheck.png" border="0"/>';}else{echo '<img src="images/checkbox.png" border="0"/>';}?></td>
+	   <td class="Text" style="width:70px;" align="center" valign="top">
+	    <input style="width:68px;background-color:<?php if($acc['AccRecy']=='N' OR $acc['AccRecy']==''){echo '#EAEAEA';}else{echo '#FFFFFF';} ?>;text-align:right;" id="AccRecy_Amt" name="AccRecy_Amt" value="<?php if($acc['AccRecy_Amt']>0){echo intval($acc['AccRecy_Amt']);}else{echo 0;} ?>" <?php if($acc['AccRecy']=='N' OR $acc['AccRecy']==''){echo 'readonly';} ?>/>
+	   </td>
+	   <td class="Text" style="width:70px;" align="center" valign="top">
+	    <input style="width:68px;background-color:<?php if($acc['AccRecy']=='N' OR $acc['AccRecy']==''){echo '#EAEAEA';}else{echo '#FFFFFF';} ?>;text-align:right;" id="AccRecy_Amt2" name="AccRecy_Amt2" value="<?php if($acc['AccRecy_Amt2']>0){echo intval($acc['AccRecy_Amt2']);}else{echo 0;} ?>" <?php if($acc['AccRecy']=='N' OR $acc['AccRecy']==''){echo 'readonly';} ?>/>
+	   </td>
+	   <td class="Text" style="width:240px;" align="center" valign="top">
+	    <input id="AccRecy_Remark" name="AccRecy_Remark" style="width:235px;" value="<?php echo $acc['AccRecy_Remark'] ?>" />
+	   </td>
+     </tr> 
+	 
 <?php for($i=8; $i<=15; $i++) { if($acc['AccAO_Txt'.$i]!=''){ ?>  
 	<tr bgcolor="#FFFFFF"> 
        <td class="Text" style="width:38px;" align="center"><?php echo $i; ?></td>
