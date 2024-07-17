@@ -30,7 +30,7 @@ if($_REQUEST['valuee']=='dataexport')
  header("Content-Type: application/xls");
  header("Content-Disposition: attachment; filename=$xls_filename");
  header("Pragma: no-cache"); header("Expires: 0"); $sep = "\t"; 
- echo "Sn\tEmpCode\tName\tDOJ\tDeaprtment\tDesignation\tGrade\tFinal Rating\tGross Paid\tPP(%)\tTotal PP";
+ echo "Sn\tEmpCode\tName\tDOJ\tDeaprtment\tDesignation\tGrade\tvariable Pay(in CTC)\tFinal Rating\tGross Paid\tPP(%)\tTotal PP";
  print("\n");
 
  $Dpp=0; $Dp=0; $Tee=0; $Te=0; $Trr=0; $Tr=0; $Grr=0; $Gr=0;  $RckArr=array();
@@ -84,6 +84,7 @@ if($row>0)
   $schema_insert .= $Gap.$sep;
   $schema_insert .= $Gap.$sep;
   $schema_insert .= $Gap.$sep;
+  $schema_insert .= $Gap.$sep;
   $schema_insert .= 'Total:'.$sep;	
   $schema_insert .= floatval($rTPrCtc['VP_GrossPaid']).$sep;
   $schema_insert .= $TPP_MPer.$sep;
@@ -94,7 +95,7 @@ if($row>0)
   $schema_insert .= "\t";
   print(trim($schema_insert)); print "\n"; 
   
-  $sql=mysql_query("select e.EmployeeID, EmpCode, concat(Fname, ' ', Sname, ' ', Lname) as FullName, DateJoining, g.EmpVertical, g.EmpSection, DepartmentCode, DesigName, DesigCode, GradeValue, EmpPmsId, VP_GrossPaid, VP_Indv_Per, VP_Final_Per, VP_PayAmt, Hod_TotalFinalScore, Hod_TotalFinalRating, Hod_EmpDesignation, Hod_EmpGrade, HR_CurrGradeId, HR_Curr_DepartmentId from hrm_employee_pms p inner join hrm_employee e on p.EmployeeID=e.EmployeeID inner join hrm_employee_general g on p.EmployeeID=g.EmployeeID left join hrm_department d on g.DepartmentId=d.DepartmentId left join hrm_designation de on g.DesigId=de.DesigId inner join hrm_grade gr on g.GradeId=gr.GradeId inner join hrm_headquater hq on g.HqId=hq.HqId where e.EmpStatus='A' AND e.CompanyId=".$ci." AND g.DateJoining<='".$_SESSION['AllowDoj']."' AND p.AssessmentYear=".$yi." AND p.Hod_TotalFinalRating>2.7 AND p.HOD_EmployeeID=".$ei." AND ".$qry." order by e.ECode ASC", $con); 
+  $sql=mysql_query("select e.EmployeeID, EmpCode, concat(Fname, ' ', Sname, ' ', Lname) as FullName, DateJoining, g.EmpVertical, g.EmpSection, DepartmentCode, DesigName, DesigCode, GradeValue, EmpPmsId, VP_GrossPaid, VP_CurrYearVariablePay, VP_Indv_Per, VP_Final_Per, VP_PayAmt, Hod_TotalFinalScore, Hod_TotalFinalRating, Hod_EmpDesignation, Hod_EmpGrade, HR_CurrGradeId, HR_Curr_DepartmentId from hrm_employee_pms p inner join hrm_employee e on p.EmployeeID=e.EmployeeID inner join hrm_employee_general g on p.EmployeeID=g.EmployeeID left join hrm_department d on g.DepartmentId=d.DepartmentId left join hrm_designation de on g.DesigId=de.DesigId inner join hrm_grade gr on g.GradeId=gr.GradeId inner join hrm_headquater hq on g.HqId=hq.HqId where e.EmpStatus='A' AND e.CompanyId=".$ci." AND g.DateJoining<='".$_SESSION['AllowDoj']."' AND p.AssessmentYear=".$yi." AND p.Hod_TotalFinalRating>2.7 AND p.HOD_EmployeeID=".$ei." AND ".$qry." order by e.ECode ASC", $con); 
   
  $no=1; 
  while($res=mysql_fetch_array($sql))
@@ -109,6 +110,7 @@ if($row>0)
    $schema_insert .= $res['DepartmentCode'].$sep;
    $schema_insert .= $res['DesigName'].$sep;
    $schema_insert .= $res['GradeValue'].$sep;
+   $schema_insert .= $res['VP_CurrYearVariablePay'].$sep;
    $schema_insert .= $res['Hod_TotalFinalRating'].$sep;
    $schema_insert .= floatval($res['VP_GrossPaid']).$sep;
    $schema_insert .= $res['VP_Final_Per'].$sep;
@@ -134,7 +136,7 @@ elseif($_REQUEST['valuee']=='DataAllExport')
  header("Content-Type: application/xls");
  header("Content-Disposition: attachment; filename=$xls_filename");
  header("Pragma: no-cache"); header("Expires: 0"); $sep = "\t"; 
- echo "Sn\tEmpCode\tName\tDOJ\tDeaprtment\tDesignation\tGrade\tFinal Rating\tGross Paid\tPP(%)\tTotal PP";
+ echo "Sn\tEmpCode\tName\tDOJ\tDeaprtment\tDesignation\tGrade\tvariable Pay(in CTC)\tFinal Rating\tGross Paid\tPP(%)\tTotal PP";
  print("\n");
  
  $Dpp=0; $Dp=0; $Tee=0; $Te=0; $Trr=0; $Tr=0; $Grr=0; $Gr=0;  $RckArr=array();
@@ -169,6 +171,7 @@ elseif($_REQUEST['valuee']=='DataAllExport')
   $Gap='.';
   //Total
   $schema_insert = "";
+  $schema_insert .= $Gap.$sep;  
   $schema_insert .= $Gap.$sep;
   $schema_insert .= $Gap.$sep;
   $schema_insert .= $Gap.$sep;
@@ -186,7 +189,7 @@ elseif($_REQUEST['valuee']=='DataAllExport')
   $schema_insert .= "\t";
   print(trim($schema_insert)); print "\n"; 
   
-  $sql=mysql_query("select e.EmployeeID, EmpCode, concat(Fname, ' ', Sname, ' ', Lname) as FullName, DateJoining, g.EmpVertical, g.EmpSection, DepartmentCode, DesigName, DesigCode, GradeValue, EmpPmsId, VP_GrossPaid, VP_Indv_Per, VP_Final_Per, VP_PayAmt, Hod_TotalFinalScore, Hod_TotalFinalRating, Hod_EmpDesignation, Hod_EmpGrade, HR_CurrGradeId, HR_Curr_DepartmentId from hrm_employee_pms p inner join hrm_employee e on p.EmployeeID=e.EmployeeID inner join hrm_employee_general g on p.EmployeeID=g.EmployeeID left join hrm_department d on g.DepartmentId=d.DepartmentId left join hrm_designation de on g.DesigId=de.DesigId inner join hrm_grade gr on g.GradeId=gr.GradeId inner join hrm_headquater hq on g.HqId=hq.HqId where e.EmpStatus='A' AND e.CompanyId=".$ci." AND g.DateJoining<='".$_SESSION['AllowDoj']."' AND p.AssessmentYear=".$yi." AND p.Hod_TotalFinalRating>2.7 AND p.HOD_EmployeeID=".$ei." AND ".$qry." order by e.ECode ASC", $con); 
+  $sql=mysql_query("select e.EmployeeID, EmpCode, concat(Fname, ' ', Sname, ' ', Lname) as FullName, DateJoining, g.EmpVertical, g.EmpSection, DepartmentCode, DesigName, DesigCode, GradeValue, EmpPmsId, VP_GrossPaid, VP_CurrYearVariablePay, VP_Indv_Per, VP_Final_Per, VP_PayAmt, Hod_TotalFinalScore, Hod_TotalFinalRating, Hod_EmpDesignation, Hod_EmpGrade, HR_CurrGradeId, HR_Curr_DepartmentId from hrm_employee_pms p inner join hrm_employee e on p.EmployeeID=e.EmployeeID inner join hrm_employee_general g on p.EmployeeID=g.EmployeeID left join hrm_department d on g.DepartmentId=d.DepartmentId left join hrm_designation de on g.DesigId=de.DesigId inner join hrm_grade gr on g.GradeId=gr.GradeId inner join hrm_headquater hq on g.HqId=hq.HqId where e.EmpStatus='A' AND e.CompanyId=".$ci." AND g.DateJoining<='".$_SESSION['AllowDoj']."' AND p.AssessmentYear=".$yi." AND p.Hod_TotalFinalRating>2.7 AND p.HOD_EmployeeID=".$ei." AND ".$qry." order by e.ECode ASC", $con); 
  $no=1; 
  while($res=mysql_fetch_array($sql))
  {
@@ -196,9 +199,10 @@ elseif($_REQUEST['valuee']=='DataAllExport')
     $schema_insert .= $res['EmpCode'].$sep;
     $schema_insert .= $res['FullName'].$sep;
     $schema_insert .= $res['DateJoining'].$sep;
-    $schema_insert .= $res['DepartmentCode'].$sep;
+    $schema_insert .= $res['DepartmentCode'].$sep; 
     $schema_insert .= $res['DesigName'].$sep;
     $schema_insert .= $res['GradeValue'].$sep;
+	$schema_insert .= $res['VP_CurrYearVariablePay'].$sep;
     $schema_insert .= $res['Hod_TotalFinalRating'].$sep;
     $schema_insert .= floatval($res['VP_GrossPaid']).$sep;
     $schema_insert .= $res['VP_Final_Per'].$sep;
