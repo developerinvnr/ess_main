@@ -42,6 +42,21 @@ elseif($_POST['Action']='workingSheet' && $_POST['type']=='main')
   
 }
 
+elseif($_POST['Action']='SubSts' && $_POST['ssts']!='')
+{
+ $sqlM=mysql_query("select * from hrm_pp_workingsheet_submission where hodid=".$_POST['ei']." and yearid=".$_POST['Yi']."",$con);
+ $rowM=mysql_num_rows($sqlM);
+ if($rowM>0)
+ {
+  $sUp=mysql_query("update hrm_pp_workingsheet_submission set substs='".$_POST['ssts']."', substsdate='".date("Y-m-d")."' where hodid=".$_POST['ei']." and yearid=".$_POST['Yi']."",$con);
+ }
+ else
+ {
+  $sUp=mysql_query("insert into hrm_pp_workingsheet_submission(hodid, substs, yearid, substsdate) values(".$_POST['ei'].", '".$_POST['ssts']."', ".$_POST['Yi'].", '".date("Y-m-d")."')",$con);
+ }	
+}
+
+
 elseif($_POST['Action']='workingSheet' && $_POST['type']=='emp')
 {
  if($_POST['Dp']>0){ $subQ = 'deptid='.$_POST['Dp']; $Dp=$_POST['Dp']; $Te=0; $clm = 'deptid'; $clmV = $_POST['Dp']; }

@@ -114,6 +114,21 @@ function FCalAllRw(v,rt)
 	  var gp = parseFloat(document.getElementById("gp_"+i).value);
 	  var OnePer = Math.round(((gp*1)/100)*100)/100;
       var pp = document.getElementById('PP_Amt'+i).value = Math.round((OnePer*v)*100)/100;
+	  
+	  var curr130vp = parseFloat(document.getElementById('curr130vp_'+i).value); 
+      if(pp>curr130vp)
+      { 
+       document.getElementById("TDPPAmt"+i).style.background='#F84F54'; 
+       document.getElementById("PP_Amt"+i).style.background='#F84F54';
+	   document.getElementById("TDMsg").style.display='block'; 
+      } 
+	  else
+	  {
+	   document.getElementById("TDPPAmt"+i).style.background='#CBFF97'; 
+       document.getElementById("PP_Amt"+i).style.background='#CBFF97';
+	   document.getElementById("TDMsg").style.display='none';	  
+	  }
+	  
 	}
   }
   for(var k=1; k<=no; k++){ document.getElementById("PerAssign"+k).disabled=false; }
@@ -128,6 +143,20 @@ function EmpCalRw(v,no,gp)
  var OnePer = Math.round(((gp*1)/100)*100)/100;
  var pp = document.getElementById('PP_Amt'+i).value = Math.round((OnePer*v)*100)/100;
  document.getElementById("TR"+i).style.background='#FFFFFF';
+ 
+ var curr130vp = parseFloat(document.getElementById('curr130vp_'+i).value);
+ if(pp>curr130vp)
+ { 
+   document.getElementById("TDPPAmt"+i).style.background='#F84F54'; 
+   document.getElementById("PP_Amt"+i).style.background='#F84F54'; 
+   document.getElementById("TDMsg").style.display='block'; 
+ } 
+ else
+ {
+   document.getElementById("TDPPAmt"+i).style.background='#CBFF97'; 
+   document.getElementById("PP_Amt"+i).style.background='#CBFF97';
+   document.getElementById("TDMsg").style.display='none';	  
+ }
  
  var rows=document.getElementById("TotRow").value;
  FunTotVal(rows);	
@@ -149,43 +178,81 @@ function FunTotVal(rows)
   var ActPer = document.getElementById("TPP_Per").value = Math.round((TPP_Amt/OnePerAmt)*100)/100;
 }
 
-function FunDataSave(Ei,Yi)
+function FunDataSave(Ei,Yi,ssts)
 {
+	
+  var rows=document.getElementById("TotRow").value; 
+  for(var mm=1; mm<=rows; mm++)
+  {  
+	 var pp = parseFloat(document.getElementById('PP_Amt'+mm).value); 
+	 var curr130vp = parseFloat(document.getElementById('curr130vp_'+mm).value); 
+	 if(pp>curr130vp)
+	 { 
+	  alert("Please check the 'Total Performance Pay' value, it is over 130% of the Variable Pay.");
+	  return false;	  
+	 } 
+  }	
+	
   var Dp=document.getElementById('DeE').value; 
   var Te=document.getElementById('TeE').value; 
   var Gr=document.getElementById('StE').value;
-  var TPP=document.getElementById('TPP_Per').value;
-  var agree=confirm("Are you sure you want to save data? For your current filter, final performace pay percentage is "+TPP); 
+  var TPP=document.getElementById('TPP_Per').value; 
+  if(ssts=='Y'){var msgi='save';}else if(ssts=='YY'){var msgi='submit';}
+  
+  var agree=confirm("Are you sure you want to "+msgi+" data? For your current filter, final performace pay percentage is "+TPP); 
   if(agree)
   { 
    document.getElementById('loaderDiv').style.display='block'; 
-   /****************************************/ //HodRating
-   var no=document.getElementById("TtnRw").value;
-   for(var k=1; k<=no; k++)
-   { 
-    var score = document.getElementById("PerAssign"+k).value; 
-	var rating = document.getElementById("HodRating"+k).value;
-	var url = 'VariablePayWSheet_Ajax.php'; var pars = 'Action=workingSheet&ei='+Ei+'&Dp='+Dp+'&Te='+Te+'&Gr='+Gr+'&Yi='+Yi+'&type=numscore&score='+score+'&rating='+rating; 
-	var myAjax = new Ajax.Request( url, { 	method: 'post', parameters: pars }); 
+   
+   if(ssts=='Y')
+   {
+    /****************************************/ //HodRating
+    var no=document.getElementById("TtnRw").value; 
+    for(var k=1; k<=no; k++)
+    { 
+     var score = document.getElementById("PerAssign"+k).value; 
+	 var rating = document.getElementById("HodRating"+k).value;
+	 var url = 'VariablePayWSheet_Ajax.php'; var pars = 'Action=workingSheet&ei='+Ei+'&Dp='+Dp+'&Te='+Te+'&Gr='+Gr+'&Yi='+Yi+'&type=numscore&score='+score+'&rating='+rating; 
+	 var myAjax = new Ajax.Request( url, { 	method: 'post', parameters: pars }); 
+    }
+   /****************************************/
    }
-   /****************************************/
    
-   
-   /****************************************/
+   if(ssts=='Y')
+   {
+    /****************************************/
     var url = 'VariablePayWSheet_Ajax.php'; var pars = 'Action=workingSheet&ei='+Ei+'&Dp='+Dp+'&Te='+Te+'&Gr='+Gr+'&Yi='+Yi+'&type=main&GP='+document.getElementById("VP_GrossPaid").value+'&TPP_Per='+document.getElementById("TPP_Per").value+'&TPP_Amt='+document.getElementById("TPP_Amt").value;
 	var myAjax = new Ajax.Request(
     url, { 	method: 'post', parameters: pars });  
-   /****************************************/
-   
-  /****************************************/
-   var rows=document.getElementById("TotRow").value;
-   for(var i=1; i<=rows; i++)
-   {
-    var url = 'VariablePayWSheet_Ajax.php'; var pars = 'Action=workingSheet&ei='+Ei+'&Dp='+Dp+'&Te='+Te+'&Gr='+Gr+'&Yi='+Yi+'&type=emp&pmsid='+document.getElementById("pmsid_"+i).value+'&empid='+document.getElementById("empid_"+i).value+'&Rating='+document.getElementById("rating_"+i).value+'&GP='+document.getElementById("gp_"+i).value+'&PP_Per='+document.getElementById("PP_Per"+i).value+'&PP_Amt='+document.getElementById("PP_Amt"+i).value+'&Rows='+rows+'&i='+i;  
-    var myAjax = new Ajax.Request(
-    url, { 	method: 'post', parameters: pars, onComplete: show_rst });
+    /****************************************/
    }
-   /*****************************************/
+   
+    /****************************************/
+    var url = 'VariablePayWSheet_Ajax.php'; var pars = 'Action=SubSts&ei='+Ei+'&Dp='+Dp+'&Te='+Te+'&Gr='+Gr+'&Yi='+Yi+'&ssts='+ssts; 
+	var myAjax = new Ajax.Request(
+    url, { 	method: 'post', parameters: pars }); 
+    /****************************************/
+   
+   if(ssts=='Y')
+   {
+    /****************************************/
+    var rows=document.getElementById("TotRow").value;
+    for(var i=1; i<=rows; i++)
+    {
+     var url = 'VariablePayWSheet_Ajax.php'; var pars = 'Action=workingSheet&ei='+Ei+'&Dp='+Dp+'&Te='+Te+'&Gr='+Gr+'&Yi='+Yi+'&type=emp&pmsid='+document.getElementById("pmsid_"+i).value+'&empid='+document.getElementById("empid_"+i).value+'&Rating='+document.getElementById("rating_"+i).value+'&GP='+document.getElementById("gp_"+i).value+'&PP_Per='+document.getElementById("PP_Per"+i).value+'&PP_Amt='+document.getElementById("PP_Amt"+i).value+'&Rows='+rows+'&i='+i;  
+     var myAjax = new Ajax.Request(
+     url, { 	method: 'post', parameters: pars, onComplete: show_rst });
+    }
+    /*****************************************/
+   }
+   
+   
+    if(ssts=='YY')
+    {  
+	 document.getElementById("Btn_submit").disabled=true; 
+	 alert("Data submitted successfully!");
+	 document.getElementById('loaderDiv').style.display='none';
+    }
   
   } //if(agree) 
   else{ return false; } 
@@ -313,8 +380,11 @@ $SqlStat=mysql_query("select MedicalPolicyPremium from hrm_company_statutory_tax
 	
 	<td style="width:1px;">&nbsp;</td>
 	<td class="tdc" style="width:90px;"><a href="VariablePayWSheet.php?ee=1&aa=1&rr=1&hh=0&sh=1&hp=1&fr=1&kr=1&fq=1&prt=1&msg=1&pd=1&mt=1&mts=1&scr=1&prom=1&inc=1&incr=1&pmsr=1&rg=1&h=1&fachiv=1&fa=1&fb=1&ffeedb=1&FilD=All&FilS=All&TeE=All&org=0&wst=1"><input type="button" style="width:90px;" value="Refresh" /></a></td>
-	<td style="width:200px;">&nbsp;</td>
-	<td style="width:50px;"></td>
+	<td style="width:1px;">&nbsp;</td>
+	<td style="width:200px;">
+	<span style="color:#E0DBE3;background-color:#F84F54;font-size:18px; font-family:Times New Roman; text-align:center;display:none;" id="TDMsg">Over 130% PP, of Variable Pay</span>
+	</td>
+	<td style="width:30px;"></td>
 	
    </tr>
   </table>
@@ -418,10 +488,11 @@ elseif($_REQUEST['typ']=='Gr')
  <td class="th" style="width:4%;"><b>DOJ</b></td>
  
  <td class="th" style="width:6%;"><a onClick="funShort('D',<?=$Ord?>)" style="cursor:pointer;"><b><u>Department</u></b></a></td>
- <td class="th" style="width:10%;"><a onClick="funShort('De',<?=$Ord?>)" style="cursor:pointer;"><b><u>Designation</u></b></a></td>
+ <td class="th" style="width:15%;"><a onClick="funShort('De',<?=$Ord?>)" style="cursor:pointer;"><b><u>Designation</u></b></a></td>
  <td class="th" style="width:3%;"><a onClick="funShort('Gr',<?=$Ord?>)" style="cursor:pointer;"><b><u>Garde</u></b></a></td>
+ <td class="th" style="width:5%;">&nbsp;<b>Variable_Pay<br>(in CTC)</td>
  <td class="th" style="width:3%;">&nbsp;<b>Rating</b>&nbsp;</td>
- <td class="th" style="width:6%;"><b>Gross Paid<br>Amount</b></td>
+ <td class="th" style="width:5%;"><b>Gross Paid<br>Amount</b></td>
  <td class="th" style="width:5%;"><b>PP (%)</b></td>
  <td class="th" style="width:5%;"><b>Total<br>Performance Pay</b></td>
  
@@ -471,26 +542,33 @@ if($row>0)
   }  
 }
  
-
+$sqlM=mysql_query("select * from hrm_pp_workingsheet_submission where hodid=".$EmployeeId." and yearid=".$_SESSION['PmsYId']." AND substs='YY'",$con); $rowM=mysql_num_rows($sqlM);
 ?>
 </thead>
 </div>
-<tr style="background-color:#CBFF97;height:30px;">
- <td class="tdl" colspan="7" style="border-right:hidden;">&nbsp;&nbsp;
+<tr style="height:30px;">
+ <td class="tdl" colspan="8" style="border-right:hidden;background-color:#CBFF97;">&nbsp;&nbsp;
  
  <?php if(($_REQUEST['FilD']>0 OR $_REQUEST['TeE']>0) AND $_REQUEST['FilS']=='All'){ ?>
 
-	<input type="button" style="width:100px;background-color:#F7B52D;" onClick="FunDataSave(<?=$EmployeeId.','.$_SESSION['PmsYId']?>)" value="Save"/>
+	<input type="button" style="width:90px;background-color:#F7B52D;cursor:pointer;" onClick="FunDataSave(<?=$EmployeeId.','.$_SESSION['PmsYId']?>,'Y')" id="Btn_save" value="Save" <?php if($rowM>0){echo 'disabled';} ?>/>
 	&nbsp;&nbsp;
+	
 	<a href="#" onClick="FunExpFormat(<?=$_SESSION['PmsYId'].','.$EmployeeId.','.$CompanyId?>,'<?=$_REQUEST['FilD']?>','<?=$_REQUEST['TeE']?>','<?=$_REQUEST['TrE']?>','<?=$_REQUEST['FilS']?>')"><input type="button" id="ExportBtn" style="width:140px;background-color:#F7B52D;" value="Export Data" <?php if($row==0){echo 'disabled';}?>/></a>
 	
  <?php }elseif($_REQUEST['FilD']=='All' AND $_REQUEST['TeE']=='All' AND $_REQUEST['FilS']=='All'){ ?> 
+   
+   <?php $sqlRcd=mysql_query("select * from hrm_pp_workingsheet where hodid=".$EmployeeId." AND yearid=".$_SESSION['PmsYId']." AND typeid='main'",$con); $row=mysql_num_rows($sqlRcd); if($row>0){ ?>
+   <input type="button" style="width:120px;background-color:#F7B52D;cursor:pointer;" onClick="FunDataSave(<?=$EmployeeId.','.$_SESSION['PmsYId']?>,'YY')" id="Btn_submit" value="Final Submit" <?php if($rowM>0){echo 'disabled';} ?>/>
+   <?php } ?>
+	&nbsp;&nbsp;
+ 
 	<?php $sql2Rcd=mysql_query("select * from hrm_pp_workingsheet where hodid=".$EmployeeId." AND yearid=".$_SESSION['PmsYId']." AND typeid='emp'",$con); $roow=mysql_num_rows($sql2Rcd); ?>
 	<a href="#" onClick="FunExpAllFormat(<?=$_SESSION['PmsYId'].','.$EmployeeId.','.$CompanyId?>,'<?=$_REQUEST['FilD']?>','<?=$_REQUEST['TeE']?>','<?=$_REQUEST['TrE']?>','<?=$_REQUEST['FilS']?>')"><input type="button" id="ExportBtn" style="width:140px;background-color:#F7B52D;" value="Export Data" <?php if($roow==0){echo 'disabled';}?>/></a>&nbsp;&nbsp;
  <?php } ?>		
  
  </td>
- <td class="tdr" style="border-left:hidden;"><b>Total:</b>&nbsp;</td>
+ <td class="tdr" style="border-left:hidden;background-color:#CBFF97;"><b>Total:</b>&nbsp;</td>
  <td class="tdc" style="background-color:#B5FF6A;"><input class="tdccT" id="VP_GrossPaid" value="<?=floatval($rTPrCtc['VP_GrossPaid'])?>" readOnly style="font-size:12px;font-weight:bold;text-align:right;padding-right:2px;"/></td>
  
  <td class="tdc" style="background-color:#F7B52D;"><input class="tdccT" id="TPP_Per" value="<?=$TPP_MPer?>" readOnly style="font-size:12px;font-weight:bold;background-color:#F7B52D;"/></td>
@@ -510,7 +588,7 @@ $PrvMD=date("m-d",strtotime($_SESSION['AllowDoj']));                            
 $cY=$PrvY; 
 $pY=$PrvY-1;
 
-$sql=mysql_query("select e.EmployeeID, EmpCode, concat(Fname, ' ', Sname, ' ', Lname) as FullName, DateJoining, g.EmpVertical, g.EmpSection, DepartmentCode, DesigName, DesigCode, GradeValue, EmpPmsId, VP_GrossPaid, VP_Indv_Per, VP_Final_Per, VP_PayAmt, Hod_TotalFinalScore, Hod_TotalFinalRating, Hod_EmpDesignation, Hod_EmpGrade, HR_CurrGradeId, HR_Curr_DepartmentId from hrm_employee_pms p inner join hrm_employee e on p.EmployeeID=e.EmployeeID inner join hrm_employee_general g on p.EmployeeID=g.EmployeeID left join hrm_department d on g.DepartmentId=d.DepartmentId left join hrm_designation de on g.DesigId=de.DesigId inner join hrm_grade gr on g.GradeId=gr.GradeId inner join hrm_headquater hq on g.HqId=hq.HqId where e.EmpStatus='A' AND e.CompanyId=".$CompanyId." AND g.DateJoining<='".$_SESSION['AllowDoj']."' AND p.AssessmentYear=".$_SESSION['PmsYId']." AND p.Hod_TotalFinalRating>2.7 AND p.HOD_EmployeeID=".$EmployeeId." AND ".$qry." ".$ordby, $con); 
+$sql=mysql_query("select e.EmployeeID, EmpCode, concat(Fname, ' ', Sname, ' ', Lname) as FullName, DateJoining, g.EmpVertical, g.EmpSection, DepartmentCode, DesigName, DesigCode, GradeValue, EmpPmsId, VP_CurrYearVariablePay, VP_GrossPaid, VP_Indv_Per, VP_Final_Per, VP_PayAmt, Hod_TotalFinalScore, Hod_TotalFinalRating, Hod_EmpDesignation, Hod_EmpGrade, HR_CurrGradeId, HR_Curr_DepartmentId from hrm_employee_pms p inner join hrm_employee e on p.EmployeeID=e.EmployeeID inner join hrm_employee_general g on p.EmployeeID=g.EmployeeID left join hrm_department d on g.DepartmentId=d.DepartmentId left join hrm_designation de on g.DesigId=de.DesigId inner join hrm_grade gr on g.GradeId=gr.GradeId inner join hrm_headquater hq on g.HqId=hq.HqId where e.EmpStatus='A' AND e.CompanyId=".$CompanyId." AND g.DateJoining<='".$_SESSION['AllowDoj']."' AND p.AssessmentYear=".$_SESSION['PmsYId']." AND p.Hod_TotalFinalRating>2.7 AND p.HOD_EmployeeID=".$EmployeeId." AND ".$qry." ".$ordby, $con); 
 $sno=1; while($res=mysql_fetch_array($sql)){ ?> 	    
 <div class="tbody">  
 <tbody> 
@@ -519,21 +597,28 @@ $sno=1; while($res=mysql_fetch_array($sql)){ ?>
  <input type="hidden" id="pmsid_<?=$sno?>" value="<?=$res['EmpPmsId']?>" />
  <input type="hidden" id="gp_<?=$sno?>" value="<?=intval($res['VP_GrossPaid'])?>"/>
  <input type="hidden" id="rating_<?=$sno?>" value="<?=floatval($res['Hod_TotalFinalRating'])?>"/>
+ <input type="hidden" id="currvp_<?=$sno?>" value="<?=floatval($res['VP_CurrYearVariablePay'])?>"/>
+ <?php $PP30_PerV=($res['VP_CurrYearVariablePay']*30)/100; 
+       $PP130_PerV=round($res['VP_CurrYearVariablePay']+$PP30_PerV); ?>
+ <input type="hidden" id="curr130vp_<?=$sno?>" value="<?=$PP130_PerV?>"/>
  <td class="tdc"><?=$sno?></td>
  <td class="tdc"><?=$res['EmpCode']?></td>
  <td class="tdl"><?=$res['FullName']?></td>
  <td class="tdc"><?=date("M-y",strtotime($res['DateJoining']))?></td>
  
  <td class="tdl"><?=$res['DepartmentCode']?></td>
- <td class="tdl"><?=$res['DesigName']?></td>
+ <td class="tdl"><?=$res['DesigCode']?></td>
  <td class="tdc"><?=$res['GradeValue']?></td>
- <td class="tdc"><b><?=floatval($res['Hod_TotalFinalRating'])?></b></td>
- <td class="tdr" style="padding-right:1px;"><b><?=intval($res['VP_GrossPaid'])?></b>&nbsp;</td>
+ <td class="tdr" style="padding-right:3px;background-color:#C5F4F3;"><b><?=floatval($res['VP_CurrYearVariablePay'])?></b>
  
- <td class="tdc"><input class="tdcci" id="PP_Per<?=$sno?>" value="<?=$res['VP_Final_Per']?>" maxlength="12" onKeyPress="return isNumberKey(event)" onChange="EmpCalRw(this.value,<?=$sno.','.intval($res['VP_GrossPaid'])?>)" onKeyUp="EmpCalRw(this.value,<?=$sno.','.intval($res['VP_GrossPaid'])?>)" onKeyDown="EmpCalRw(this.value,<?=$sno.','.intval($res['VP_GrossPaid'])?>)" style="font-size:12px;"/>
+ </td>
+ <td class="tdc" style="background-color:#C5F4F3;"><b><?=floatval($res['Hod_TotalFinalRating'])?></b></td>
+ <td class="tdr" style="padding-right:3px;background-color:#C5F4F3;"><b><?=intval($res['VP_GrossPaid'])?></b></td>
+ 
+ <td class="tdc"><input class="tdcci" id="PP_Per<?=$sno?>" value="<?=$res['VP_Final_Per']?>" maxlength="12" onKeyPress="return isNumberKey(event)" onChange="EmpCalRw(this.value,<?=$sno.','.intval($res['VP_GrossPaid'])?>)" onKeyUp="EmpCalRw(this.value,<?=$sno.','.intval($res['VP_GrossPaid'])?>)" onKeyDown="EmpCalRw(this.value,<?=$sno.','.intval($res['VP_GrossPaid'])?>)" style="font-size:12px;" readonly/>
  </td>
  
- <td class="tdc"><input class="tdcc" id="PP_Amt<?=$sno?>" value="<?=$res['VP_PayAmt']?>" readOnly style="font-size:12px; font-weight:bold;background-color:#B5FF6A;text-align:right;padding-right:2px;" readonly/></td>
+ <td class="tdc" id="TDPPAmt<?=$sno?>" <?php if($res['VP_PayAmt']>$PP130_PerV){echo 'style="background-color:#F84F54;"';}?>><input class="tdcc" id="PP_Amt<?=$sno?>" value="<?=$res['VP_PayAmt']?>" readOnly style="font-size:12px; font-weight:bold;background-color:<?php if($res['VP_PayAmt']>$PP130_PerV){echo '#F84F54';}else{ echo '#CBFF97';}?>;text-align:right;padding-right:2px;" readonly/></td>
  
 </tr>
 </tbody>
