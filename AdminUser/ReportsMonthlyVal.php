@@ -25,7 +25,7 @@ while($rE=mysql_fetch_assoc($sE))
 }
 */
 
-
+/*
 $sE=mysql_query("select e.EmpCode,Fname,p.EmpPmsId,p.EmployeeID from hrm_employee_pms p inner join hrm_employee e on p.EmployeeID=e.EmployeeID inner join hrm_employee_general g on p.EmployeeID=g.EmployeeID where e.EmpStatus='A' AND g.DateJoining<='2023-06-30' AND p.AssessmentYear=12 AND e.CompanyId=1 order by p.EmployeeID ASC",$con);
 while($rE=mysql_fetch_assoc($sE))
 {
@@ -35,7 +35,7 @@ while($rE=mysql_fetch_assoc($sE))
  //echo $rE['EmpCode'].'-'.$rE['Fname'].'/'.$rQ1['CtcCreatedDate'].'->'.$rQ1['VariablePay'].'<br>';
  $sUp=mysql_query("update hrm_employee_pms set VP_CurrYearVariablePay='".$rQ1['VariablePay']."' where EmpPmsId=".$rE['EmpPmsId'],$con); 	
 }
-
+*/
 ?>
 <html>
 <head>
