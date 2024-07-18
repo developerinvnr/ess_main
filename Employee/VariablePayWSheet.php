@@ -534,13 +534,6 @@ else{ $qry='1=1'; }
 $sTPrCtc=mysql_query("select sum(VP_GrossPaid) as VP_GrossPaid from hrm_employee_pms p inner join hrm_employee e on p.EmployeeID=e.EmployeeID inner join hrm_employee_general g on p.EmployeeID=g.EmployeeID where e.EmpStatus='A' AND g.DateJoining<='".$_SESSION['AllowDoj']."' AND p.AssessmentYear=".$_SESSION['PmsYId']." AND p.Hod_TotalFinalRating>2.7 AND p.HOD_EmployeeID=".$EmployeeId." AND ".$qry."", $con); $rTPrCtc=mysql_fetch_assoc($sTPrCtc);
 
 $Mprodata=0; $Mactual=0; $Mctc=0; $Mcorr=0; $Mcorr_per=0; $Minc=0; $Mtotctc=0; $Mtotctc_per=0;
-if($row>0)
-{
-  if($rRcd['typeid']=='main')
-  {
-   $TPP_MPer=$rRcd['pp_per']; $TPP_MAmt=$rRcd['pp_amt'];
-  }  
-}
  
 $sqlM=mysql_query("select * from hrm_pp_workingsheet_submission where hodid=".$EmployeeId." and yearid=".$_SESSION['PmsYId']." AND substs='YY'",$con); $rowM=mysql_num_rows($sqlM);
 ?>
@@ -566,8 +559,24 @@ $sqlM=mysql_query("select * from hrm_pp_workingsheet_submission where hodid=".$E
 	<?php $sql2Rcd=mysql_query("select * from hrm_pp_workingsheet where hodid=".$EmployeeId." AND yearid=".$_SESSION['PmsYId']." AND typeid='emp'",$con); $roow=mysql_num_rows($sql2Rcd); ?>
 	<a href="#" onClick="FunExpAllFormat(<?=$_SESSION['PmsYId'].','.$EmployeeId.','.$CompanyId?>,'<?=$_REQUEST['FilD']?>','<?=$_REQUEST['TeE']?>','<?=$_REQUEST['TrE']?>','<?=$_REQUEST['FilS']?>')"><input type="button" id="ExportBtn" style="width:140px;background-color:#F7B52D;" value="Export Data" <?php if($roow==0){echo 'disabled';}?>/></a>&nbsp;&nbsp;
  <?php } ?>		
- 
  </td>
+ 
+ <?php
+ $TPP_MPer=0; $TPP_MAmt=0;
+ if($row>0)
+ {
+  if($rRcd['typeid']=='main')
+  {
+   //$TPP_MPer=$rRcd['pp_per']; $TPP_MAmt=$rRcd['pp_amt'];
+   
+   $sqlTamt=mysql_query("select sum(pp_amt) as TppAmt from hrm_pp_workingsheet where hodid=".$EmployeeId." AND yearid=".$_SESSION['PmsYId']." AND typeid='emp' AND ".$qsub."",$con); $resTamt=mysql_fetch_assoc($sqlTamt); 
+   $TPP_MAmt=$resTamt['TppAmt'];
+   $TPP_MPer=round($resTamt['TppAmt']/(($rTPrCtc['VP_GrossPaid']*1)/100),2); 
+  }  
+ }
+ ?>
+ 
+ 
  <td class="tdr" style="border-left:hidden;background-color:#CBFF97;"><b>Total:</b>&nbsp;</td>
  <td class="tdc" style="background-color:#B5FF6A;"><input class="tdccT" id="VP_GrossPaid" value="<?=floatval($rTPrCtc['VP_GrossPaid'])?>" readOnly style="font-size:12px;font-weight:bold;text-align:right;padding-right:2px;"/></td>
  

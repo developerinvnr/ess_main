@@ -69,11 +69,14 @@ if($row>0)
 {
   if($rRcd['typeid']=='main')
   {
-   $TPP_MPer=$rRcd['pp_per']; $TPP_MAmt=$rRcd['pp_amt'];
+   //$TPP_MPer=$rRcd['pp_per']; $TPP_MAmt=$rRcd['pp_amt'];
+   $sqlTamt=mysql_query("select sum(pp_amt) as TppAmt from hrm_pp_workingsheet where hodid=".$ei." AND yearid=".$yi." AND typeid='emp' AND ".$qsub."",$con); $resTamt=mysql_fetch_assoc($sqlTamt); 
+   $TPP_MAmt=$resTamt['TppAmt'];
+   $TPP_MPer=round($resTamt['TppAmt']/(($rTPrCtc['VP_GrossPaid']*1)/100),2); 
   }  
 }
 
-
+  
   $Gap='.';
   //Total
   $schema_insert = "";
