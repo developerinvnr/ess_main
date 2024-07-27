@@ -398,6 +398,9 @@
 	<?php if($_SESSION['PMS']==1 OR $_SESSION['PMS_Report']==1){?><li><a href="AppsalPmseHodInc.php?YI=<?php echo $YearId; ?>">Employee Increment</a></li><?php } ?>
 	<?php if($_SESSION['PMS']==1 OR $_SESSION['PMS_Report']==1){?><li><a href="AppsalPmseHodIncDept.php?YI=<?php echo $YearId; ?>">Overall Increment</a></li><?php } ?>
 	<?php if($_SESSION['PMS']==1 OR $_SESSION['PMS_Report']==1){?><li><a href="AppsalPmseHodStdInc.php?YI=<?php echo $YearId; ?>&act=d">Standard Increment</a></li><?php } ?>
+	
+	<?php if($_SESSION['PMS']==1 OR $_SESSION['PMS_Report']==1){?><li><a href="pp_year.php?y=<?php echo $YearId; ?>&d=11">Performance Pay</a></li><?php } ?>
+	
 	</ul>
    </li>
    <li><a href="#" class="fly">Full & Final (HR)</a>

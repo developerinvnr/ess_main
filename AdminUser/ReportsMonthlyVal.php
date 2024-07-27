@@ -10,19 +10,19 @@ if($_SESSION['login'] = true){require_once('AdminMenuSession.php');} else {$msg=
 //echo $_SESSION['AllowDoj'].'-'.$_SESSION['PmsYId'].'-'.$CompanyId;
 $FYear='2023'; $PayFTable='hrm_employee_monthlypayslip_'.$FYear; 
 $TYear='2024'; $PayTTable='hrm_employee_monthlypayslip'; 
-$sE=mysql_query("select p.EmpPmsId,p.EmployeeID from hrm_employee_pms p inner join hrm_employee e on p.EmployeeID=e.EmployeeID inner join hrm_employee_general g on p.EmployeeID=g.EmployeeID where e.EmpStatus='A' AND g.DateJoining<='2023-06-30' AND p.AssessmentYear=12 AND e.CompanyId=1 order by p.EmployeeID ASC",$con);
-while($rE=mysql_fetch_assoc($sE))
-{
+//$sE=mysql_query("select p.EmpPmsId,p.EmployeeID,e.EmpCode from hrm_employee_pms p inner join hrm_employee e on p.EmployeeID=e.EmployeeID inner join hrm_employee_general g on p.EmployeeID=g.EmployeeID where e.EmpStatus='A' AND g.DateJoining<='2023-06-30' AND p.AssessmentYear=12 AND e.CompanyId=1 order by p.EmployeeID ASC",$con);
+//while($rE=mysql_fetch_assoc($sE))
+//{
  $Selstar='SUM(Basic) as Bas, SUM(Hra) as Hra, SUM(Convance) as Con, SUM(Car_Allowance) as CarAll, SUM(Bonus_Month) as BonusM, SUM(VarRemburmnt) as VarRemburmnt, SUM(TA) as Ta, SUM(Special) as Spe, SUM(Bonus) as Bon, SUM(DA) as Da, SUM(LeaveEncash) as Lea, SUM(Incentive) as Inc, SUM(VariableAdjustment) as Var, SUM(PerformancePay) as Per, SUM(CCA) as Cca, SUM(RA) as Ra, SUM(Arr_Basic) as ArrBas, SUM(Arr_Hra) as ArrHra, SUM(Arr_Spl) as ArrSpl, SUM(Arr_Conv) as ArrCon, SUM(YCea) as Ycea, SUM(YMr) as Ymr, SUM(YLta) as Ylta, SUM(Arr_LvEnCash) as ArrLvEncash, SUM(Arr_Bonus) as ArrBonus, SUM(Arr_RA) as ArrRA, SUM(Bonus_Adjustment) as Bonus_Adjustment, SUM(PP_Inc) as PP_Inc';
  
  $sQ1=mysql_query("select ".$Selstar." from ".$PayFTable." where EmployeeID=".$rE['EmployeeID']." AND Month in (4,5,6,7,8,9,10,11,12) AND Year=".$FYear."",$con); $rQ1=mysql_fetch_assoc($sQ1);
  $sQ2=mysql_query("select ".$Selstar." from ".$PayTTable." where EmployeeID=".$rE['EmployeeID']." AND Month in (1,2,3) AND Year=".$TYear."",$con); $rQ2=mysql_fetch_assoc($sQ2);
  
- $GrossT=$rQ1['Bas']+$rQ2['Bas']+$rQ1['Hra']+$rQ2['Hra']+$rQ1['Spe']+$rQ2['Spe']+$rQ1['BonusM']+$rQ2['BonusM']+$rQ1['ArrBas']+$rQ2['ArrBas']+$rQ1['ArrHra']+$rQ2['ArrHra']+$rQ1['ArrSpl']+$rQ2['ArrSpl']+$rQ1['Bonus_Adjustment']+$rQ2['Bonus_Adjustment'];
+ $GrossT=$rQ1['Bas']+$rQ2['Bas']+$rQ1['Hra']+$rQ2['Hra']+$rQ1['Spe']+$rQ2['Spe']+$rQ1['BonusM']+$rQ2['BonusM']+$rQ1['ArrBas']+$rQ2['ArrBas']+$rQ1['ArrHra']+$rQ2['ArrHra']+$rQ1['ArrSpl']+$rQ2['ArrSpl']+$rQ1['Bonus_Adjustment']+$rQ2['Bonus_Adjustment']+$rQ1['ArrBonus']+$rQ2['ArrBonus'];
 
-//echo $rE['EmployeeID'].'->'.$GrossT;
- $sUp=mysql_query("update hrm_employee_pms set VP_GrossPaid='".$GrossT."' where EmpPmsId=".$rE['EmpPmsId'],$con); 	
-}
+//if($GrossT>0){ echo $rE['EmpCode'].'->'.$GrossT.'<br>'; }
+ //$sUp=mysql_query("update hrm_employee_pms set VP_GrossPaid='".$GrossT."' where EmpPmsId=".$rE['EmpPmsId'],$con); 	
+//}
 */
 
 /*

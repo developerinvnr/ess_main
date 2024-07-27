@@ -208,8 +208,13 @@ if (($_SESSION['EmpType'] == 'E' or $_SESSION['EmpType'] == 'M') and $_SESSION['
 
                                     <?php if ($resMK['InvestDecl'] == 'Y') { ?><li><a href="InvestDecl.php?mnt=89we&p=345&ok=tt&r=101&prp=false_res##ius&log=%true%t&oo=4e&p=g&ok=trt">Investment Declaration</a></li>
                                         <?php //if($resInvSb['OpenYN']=='Y'){ 
-                                        ?><li><a href="InvestsDecl.php?act=true&mm=sas&ask=false&ww=rightProtect&we=12345&mm=er4e&r=t5t%t5s&yy=eloi&gosto=false&rigt=checkessue&mailto=promt&wew=e%e@er%rdd=012&m=<?php echo $Mpay; ?>">Investment Submission</a></li><?php //} 
-                                                                                                                                                                                                                                                                                                            ?>
+                                        ?><li><a href="InvestsDecl.php?act=true&mm=sas&ask=false&ww=rightProtect&we=12345&mm=er4e&r=t5t%t5s&yy=eloi&gosto=false&rigt=checkessue&mailto=promt&wew=e%e@er%rdd=012&m=<?php echo $Mpay; ?>">Investment Submission</a></li><?php //} ?>
+                                        
+                                        
+                                        
+                                     <?php if($CompanyId==1 && ($EmployeeId==109 || $EmployeeId==110 || $EmployeeId==169)){?><li><a href="eLedgerd.php?ls=10&wer=123&aa=grtd&er=er%re%tr%rr&trt=equalthen&sys=%tr%tr&se=reew&w=ee102&mxid=<?php echo $resMax['MaxId']; ?>&dd=11&ee=s1s&aa=grtd&er=er%re%tr%rr&trt=equalthen">Employee Ledger</a></li><?php } ?>   
+                                        
+                                        
 
                                     <?php } else { ?><li><a href="#">Investment Declaration</a></li><?php } ?>
 

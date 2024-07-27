@@ -412,7 +412,8 @@ $SqlStat=mysql_query("select MedicalPolicyPremium from hrm_company_statutory_tax
 	   <?php 
 	   $DCond='1=1'; $HCond='1=1'; $RCond='1=1'; $GCond='1=1';
 	   if($_REQUEST['FilD']>0){ $DCond="pms.HR_Curr_DepartmentId=".$_REQUEST['FilD']; }
-	   if($_REQUEST['TeE']>0){  $HCond="pms.Rev2_EmployeeID=".$_REQUEST['TeE']; }
+	   //if($_REQUEST['TeE']>0){  $HCond="pms.Rev2_EmployeeID=".$_REQUEST['TeE']; }
+	   if($_REQUEST['TeE']>0){  $HCond="(pms.Rev2_EmployeeID=".$_REQUEST['TeE']." OR pms.EmployeeID=".$_REQUEST['TeE'].")"; }
 	   if($_REQUEST['TrE']>0){  $RCond="pms.Reviewer_EmployeeID=".$_REQUEST['TrE']; } 
 	   if($_REQUEST['FilS']>0){ $GCond="pms.HR_CurrGradeId=".$_REQUEST['FilS']; } 
 	   $SqlRt=mysql_query("select Hod_TotalFinalRating from hrm_employee_pms pms inner join hrm_employee e on pms.EmployeeID=e.EmployeeID where e.EmpStatus='A' AND e.CompanyId=".$CompanyId." AND pms.HOD_EmployeeID=".$EmployeeId." AND pms.AssessmentYear=".$_SESSION['PmsYId']." AND ".$DCond." AND ".$HCond." AND ".$RCond." AND ".$GCond." AND pms.Hod_TotalFinalRating>2.7 group by Hod_TotalFinalRating order by Hod_TotalFinalRating ASC"); 
