@@ -953,7 +953,7 @@ else if($_REQUEST['crp']==2)
 
 if($_REQUEST['SteWise']>0)
 {
- $sqlPd=mysql_query("select ".$subquery." from hrm_sales_sal_details_".$yset." sd INNER JOIN hrm_sales_seedsproduct sp ON sd.ProductId=sp.ProductId INNER JOIN hrm_sales_seedsitem si ON sp.ItemId=si.ItemId INNER JOIN hrm_sales_dealer d ON sd.DealerId=d.DealerId INNER JOIN hrm_headquater hq ON ".$Hqj." where hq.StateId=".$_REQUEST['SteName']." AND DealerSts='A' AND sd.YearId=".$yset." AND sp.ProductSts='A' AND ".$qin."", $con); 
+ $sqlPd=mysql_query("select ".$subquery." from hrm_sales_sal_details_".$yset." sd INNER JOIN hrm_sales_seedsproduct sp ON sd.ProductId=sp.ProductId INNER JOIN hrm_sales_seedsitem si ON sp.ItemId=si.ItemId INNER JOIN hrm_sales_dealer d ON sd.DealerId=d.DealerId INNER JOIN hrm_headquater hq ON ".$Hqj." INNER JOIN hrm_sales_reporting_level rl ON ".$Rlj." where d.DealerSts='A' AND (".$TerrCon."=".$EmployeeId." OR rl.R1=".$EmployeeId." OR rl.R2=".$EmployeeId." OR rl.R3=".$EmployeeId." OR rl.R4=".$EmployeeId." OR rl.R5=".$EmployeeId.") AND hq.StateId=".$_REQUEST['SteName']." AND DealerSts='A' AND sd.YearId=".$yset." AND sp.ProductSts='A' AND ".$qin."", $con); 
 }
 elseif($_REQUEST['ZoneWise']>0)
 {
@@ -1129,7 +1129,7 @@ elseif($i==3)
 /**************************************************************************************/
 if($_REQUEST['SteWise']>0 AND $_REQUEST['SteName']>0)
 { 
- $sqlP1d=mysql_query("select ".$subquery." from hrm_sales_sal_details_".$yset." sd INNER JOIN hrm_sales_dealer d ON sd.DealerId=d.DealerId INNER JOIN hrm_headquater hq ON ".$Hqj." where hq.StateId=".$_REQUEST['SteName']." AND sd.ProductId=".$res['ProductId']." AND d.DealerSts='A' AND sd.YearId=".$yset, $con); 
+ $sqlP1d=mysql_query("select ".$subquery." from hrm_sales_sal_details_".$yset." sd INNER JOIN hrm_sales_dealer d ON sd.DealerId=d.DealerId INNER JOIN hrm_headquater hq ON ".$Hqj." INNER JOIN hrm_sales_reporting_level rl ON ".$Rlj." where d.DealerSts='A' AND (".$TerrCon."=".$EmployeeId." OR rl.R1=".$EmployeeId." OR rl.R2=".$EmployeeId." OR rl.R3=".$EmployeeId." OR rl.R4=".$EmployeeId." OR rl.R5=".$EmployeeId.") AND hq.StateId=".$_REQUEST['SteName']." AND sd.ProductId=".$res['ProductId']." AND d.DealerSts='A' AND sd.YearId=".$yset, $con); 
 }
 elseif($_REQUEST['ZoneWise']>0)
 { 
