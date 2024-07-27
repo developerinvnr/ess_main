@@ -138,6 +138,11 @@
 	  <td class="td13">&nbsp;PERFORMANCE PAY</td>
       <td class="td14r"><?php echo intval($ResPay['PerformancePay']); ?>&nbsp;</td>
      </tr>
+	 <?php } if($ResPay['PerformancePay']>0){ ?>
+	 <tr style="height:23px;">
+	  <td class="td13">&nbsp;PERFORMANCE PAY - YEARLY</td>
+      <td class="td14r"><?php echo intval($ResPay['PP_year']); ?>&nbsp;</td>
+     </tr>
      <?php } if($ResPay['NPS']>0){ ?>
 	 <tr style="height:23px;">
 	  <td class="td13">&nbsp;NATIONAL PENSION SCHEME</td>
@@ -317,7 +322,7 @@
   </tr>
 
 <?php 
-$TotGross=$ResPay['Tot_Gross']+$ResPay['Bonus']+$ResPay['DA']+$ResPay['Arreares']+$ResPay['LeaveEncash']+$ResPay['Incentive']+$ResPay['VariableAdjustment']+$ResPay['PerformancePay']+$ResPay['CCA']+$ResPay['RA']+$ResPay['Arr_Basic']+$ResPay['Arr_Hra']+$ResPay['Arr_Spl']+$ResPay['Arr_Conv']+$ResPay['Arr_Bonus']+$ResPay['Arr_LTARemb']+$ResPay['Arr_RA']+$ResPay['Arr_PP']+$ResPay['YCea']+$ResPay['YMr']+$ResPay['YLta']+$ResPay['Car_Allowance']+$ResPay['Car_Allowance_Arr']+$ResPay['VarRemburmnt']+$ResPay['TA']+$ResPay['Arr_LvEnCash']+$ResPay['Bonus_Adjustment']+$ResPay['PP_Inc']+$ResPay['NoticePay']+$ResPay['NPS'];
+$TotGross=$ResPay['Tot_Gross']+$ResPay['Bonus']+$ResPay['DA']+$ResPay['Arreares']+$ResPay['LeaveEncash']+$ResPay['Incentive']+$ResPay['VariableAdjustment']+$ResPay['PerformancePay']+$ResPay['PP_year']+$ResPay['CCA']+$ResPay['RA']+$ResPay['Arr_Basic']+$ResPay['Arr_Hra']+$ResPay['Arr_Spl']+$ResPay['Arr_Conv']+$ResPay['Arr_Bonus']+$ResPay['Arr_LTARemb']+$ResPay['Arr_RA']+$ResPay['Arr_PP']+$ResPay['YCea']+$ResPay['YMr']+$ResPay['YLta']+$ResPay['Car_Allowance']+$ResPay['Car_Allowance_Arr']+$ResPay['VarRemburmnt']+$ResPay['TA']+$ResPay['Arr_LvEnCash']+$ResPay['Bonus_Adjustment']+$ResPay['PP_Inc']+$ResPay['NoticePay']+$ResPay['NPS'];
 $TotDeduct=$ResPay['TDS']+$ResPay['Tot_Deduct']+$ResPay['Arr_Pf']+$ResPay['VolContrib']+$ResPay['Arr_Esic']+$ResPay['DeductAdjmt']+$ResPay['RecConAllow']+$ResPay['RA_Recover']+$ResPay['RecSplAllow'];
 $TotNetAmount=$TotGross-$TotDeduct; 
 $TotAnnGross=$ResGross['Gross']+$ResBon['Bon']+$ResDa['Da']+$ResArr['Arr']+$ResLeEn['LeEn']+$ResInc['Inc']+$ResVarA['VarA']+$ResPerP['PerP']+$ResCcA['CcA']+$ResRaS['RaS'];
