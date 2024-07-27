@@ -219,20 +219,20 @@ $csv_output .= '"'.str_replace('"', '""', $TN).'",';
 
 if($i==1)
 { 
- $yset=$BeforeYId; $subquery='SUM(M1_Ach) as tm1,SUM(M2_Ach) as tm2,SUM(M3_Ach) as tm3,SUM(M4_Ach) as tm4,SUM(M5_Ach) as tm5,SUM(M6_Ach) as tm6,SUM(M7_Ach) as tm7,SUM(M8_Ach) as tm8,SUM(M9_Ach) as tm9,SUM(M10_Ach) as tm10,SUM(M11_Ach) as tm11,SUM(M12_Ach) as tm12';
+ $yset=$BeforeYId; $subquery='SUM(M1_Ach) as tm1,SUM(M2_Ach) as tm2,SUM(M3_Ach) as tm3,SUM(M4_Ach) as tm4,SUM(M5_Ach) as tm5,SUM(M6_Ach) as tm6,SUM(M7_Ach) as tm7,SUM(M8_Ach) as tm8,SUM(M9_Ach) as tm9,SUM(M10_Ach) as tm10,SUM(M11_Ach) as tm11,SUM(M12_Ach) as tm12, SUM(M1a_Ach) as tm1a,SUM(M2a_Ach) as tm2a,SUM(M3a_Ach) as tm3a,SUM(M4a_Ach) as tm4a,SUM(M5a_Ach) as tm5a,SUM(M6a_Ach) as tm6a,SUM(M7a_Ach) as tm7a,SUM(M8a_Ach) as tm8a,SUM(M9a_Ach) as tm9a,SUM(M10a_Ach) as tm10a,SUM(M11a_Ach) as tm11a,SUM(M12a_Ach) as tm12a';
  $Lbl_1=$y2T; $Lbl_2=$y2; $Vv='A';
  $fy=date("Y",strtotime($resY2['FromDate'])); $ty=date("Y",strtotime($resY2['ToDate'])); 
  
 }
 elseif($i==2)
 { 
- $yset=$_REQUEST['yi']; $subquery='SUM(M1) as tm1,SUM(M2) as tm2,SUM(M3) as tm3,SUM(M4) as tm4,SUM(M5) as tm5,SUM(M6) as tm6,SUM(M7) as tm7,SUM(M8) as tm8,SUM(M9) as tm9,SUM(M10) as tm10,SUM(M11) as tm11,SUM(M12) as tm12'; 
+ $yset=$_REQUEST['yi']; $subquery='SUM(M1) as tm1,SUM(M2) as tm2,SUM(M3) as tm3,SUM(M4) as tm4,SUM(M5) as tm5,SUM(M6) as tm6,SUM(M7) as tm7,SUM(M8) as tm8,SUM(M9) as tm9,SUM(M10) as tm10,SUM(M11) as tm11,SUM(M12) as tm12, SUM(M1a) as tm1a,SUM(M2a) as tm2a,SUM(M3a) as tm3a,SUM(M4a) as tm4a,SUM(M5a) as tm5a,SUM(M6a) as tm6a,SUM(M7a) as tm7a,SUM(M8a) as tm8a,SUM(M9a) as tm9a,SUM(M10a) as tm10a,SUM(M11a) as tm11a,SUM(M12a) as tm12a'; 
  $Lbl_1=$y3T; $Lbl_2=$y3; $Vv='B';
  $fy=date("Y",strtotime($resY3['FromDate'])); $ty=date("Y",strtotime($resY3['ToDate']));
 } 
 elseif($i==3)
 { 
- $yset=$_REQUEST['yi']; $subquery='SUM(M1_Ach) as tm1,SUM(M2_Ach) as tm2,SUM(M3_Ach) as tm3,SUM(M4_Ach) as tm4,SUM(M5_Ach) as tm5,SUM(M6_Ach) as tm6,SUM(M7_Ach) as tm7,SUM(M8_Ach) as tm8,SUM(M9_Ach) as tm9,SUM(M10_Ach) as tm10,SUM(M11_Ach) as tm11,SUM(M12_Ach) as tm12'; 
+ $yset=$_REQUEST['yi']; $subquery='SUM(M1_Ach) as tm1,SUM(M2_Ach) as tm2,SUM(M3_Ach) as tm3,SUM(M4_Ach) as tm4,SUM(M5_Ach) as tm5,SUM(M6_Ach) as tm6,SUM(M7_Ach) as tm7,SUM(M8_Ach) as tm8,SUM(M9_Ach) as tm9,SUM(M10_Ach) as tm10,SUM(M11_Ach) as tm11,SUM(M12_Ach) as tm12, SUM(M1a_Ach) as tm1a,SUM(M2a_Ach) as tm2a,SUM(M3a_Ach) as tm3a,SUM(M4a_Ach) as tm4a,SUM(M5a_Ach) as tm5a,SUM(M6a_Ach) as tm6a,SUM(M7a_Ach) as tm7a,SUM(M8a_Ach) as tm8a,SUM(M9a_Ach) as tm9a,SUM(M10a_Ach) as tm10a,SUM(M11a_Ach) as tm11a,SUM(M12a_Ach) as tm12a'; 
  $Lbl_1=$y2T; $Lbl_2=$y3; $Vv='C';
  $fy=date("Y",strtotime($resY3['FromDate'])); $ty=date("Y",strtotime($resY3['ToDate']));
 } 
@@ -283,10 +283,14 @@ $rsTot=$rs['tm1']+$rs['tm2']+$rs['tm3']+$rs['tm4']+$rs['tm5']+$rs['tm6']+$rs['tm
 $rsTot1=$rs['tm1']+$rs['tm2']+$rs['tm3']; $rsTot2=$rs['tm4']+$rs['tm5']+$rs['tm6'];
 $rsTot3=$rs['tm7']+$rs['tm8']+$rs['tm9']; $rsTot4=$rs['tm10']+$rs['tm11']+$rs['tm12']; ?>
 <?php 
-include("Nrv.php");
-$Net4=$rs['tm1']*$Nrv4;   $Net5=$rs['tm2']*$Nrv5;  $Net6=$rs['tm3']*$Nrv6;   $Net7=$rs['tm4']*$Nrv7; 
-$Net8=$rs['tm5']*$Nrv8;   $Net9=$rs['tm6']*$Nrv9;  $Net10=$rs['tm7']*$Nrv10; $Net11=$rs['tm8']*$Nrv11; 
-$Net12=$rs['tm9']*$Nrv12; $Net1=$rs['tm10']*$Nrv1; $Net2=$rs['tm11']*$Nrv2;  $Net3=$rs['tm12']*$Nrv3;
+//include("Nrv.php");
+//$Net4=$rs['tm1']*$Nrv4;   $Net5=$rs['tm2']*$Nrv5;  $Net6=$rs['tm3']*$Nrv6;   $Net7=$rs['tm4']*$Nrv7; 
+//$Net8=$rs['tm5']*$Nrv8;   $Net9=$rs['tm6']*$Nrv9;  $Net10=$rs['tm7']*$Nrv10; $Net11=$rs['tm8']*$Nrv11; 
+//$Net12=$rs['tm9']*$Nrv12; $Net1=$rs['tm10']*$Nrv1; $Net2=$rs['tm11']*$Nrv2;  $Net3=$rs['tm12']*$Nrv3;
+
+$Net4=$rs['tm1a'];   $Net5=$rs['tm2a'];  $Net6=$rs['tm3a'];   $Net7=$rs['tm4a']; 
+$Net8=$rs['tm5a'];   $Net9=$rs['tm6a'];  $Net10=$rs['tm7a']; $Net11=$rs['tm8a']; 
+$Net12=$rs['tm9a'];  $Net1=$rs['tm10a']; $Net2=$rs['tm11a'];  $Net3=$rs['tm12a'];
 
 $NetNRV1=$Net4+$Net5+$Net6; $LakhNRV1=$NetNRV1/100000;
 $NetNRV2=$Net7+$Net8+$Net9; $LakhNRV2=$NetNRV2/100000;
