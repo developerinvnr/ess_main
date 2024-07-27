@@ -893,7 +893,7 @@ else if($_REQUEST['crp']==2)
 
 if($_REQUEST['SteWise']>0)
 {
- $sqlPd=mysql_query("select ".$subquery." from hrm_sales_sal_details_".$yset." sd INNER JOIN hrm_sales_seedsproduct sp ON sd.ProductId=sp.ProductId INNER JOIN hrm_sales_seedsitem si ON sp.ItemId=si.ItemId INNER JOIN hrm_sales_dealer d ON sd.DealerId=d.DealerId INNER JOIN hrm_headquater hq ON ".$Hqj." where hq.StateId=".$_REQUEST['SteName']." AND sd.YearId=".$yset." AND sp.ProductSts='A' AND ".$qin."", $con); 
+ $sqlPd=mysql_query("select ".$subquery." from hrm_sales_sal_details_".$yset." sd INNER JOIN hrm_sales_seedsproduct sp ON sd.ProductId=sp.ProductId INNER JOIN hrm_sales_seedsitem si ON sp.ItemId=si.ItemId INNER JOIN hrm_sales_dealer d ON sd.DealerId=d.DealerId INNER JOIN hrm_headquater hq ON ".$Hqj." where d.DealerSts='A' AND hq.StateId=".$_REQUEST['SteName']." AND sd.YearId=".$yset." AND sp.ProductSts='A' AND ".$qin."", $con); 
 }
 elseif($_REQUEST['NameWise']>0)
 {
@@ -1057,7 +1057,7 @@ else{ if($_REQUEST['crp']==1 OR $_REQUEST['crp']==2){ $qin="si.GroupId=".$_REQUE
 
 if($_REQUEST['SteWise']>0 AND $_REQUEST['SteName']>0)
 { 
- $sqlPd=mysql_query("select ".$subquery." from hrm_sales_sal_details_".$yset." sd INNER JOIN hrm_sales_seedsproduct sp ON sd.ProductId=sp.ProductId INNER JOIN hrm_sales_dealer d ON sd.DealerId=d.DealerId INNER JOIN hrm_headquater hq ON ".$Hqj." where hq.StateId=".$_REQUEST['SteName']." AND sd.ProductId=".$res['ProductId']." AND d.DealerSts='A' AND sp.ProductSts='A' AND sd.YearId=".$yset, $con); 
+ $sqlPd=mysql_query("select ".$subquery." from hrm_sales_sal_details_".$yset." sd INNER JOIN hrm_sales_seedsproduct sp ON sd.ProductId=sp.ProductId INNER JOIN hrm_sales_dealer d ON sd.DealerId=d.DealerId INNER JOIN hrm_headquater hq ON ".$Hqj." where d.DealerSts='A' AND hq.StateId=".$_REQUEST['SteName']." AND sd.ProductId=".$res['ProductId']." AND d.DealerSts='A' AND sp.ProductSts='A' AND sd.YearId=".$yset, $con); 
 }
 elseif($_REQUEST['NameWise']>0)
 { 
