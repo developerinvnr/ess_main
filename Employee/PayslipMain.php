@@ -138,9 +138,9 @@
 	  <td class="td13">&nbsp;PERFORMANCE PAY</td>
       <td class="td14r"><?php echo intval($ResPay['PerformancePay']); ?>&nbsp;</td>
      </tr>
-	 <?php } if($ResPay['PerformancePay']>0){ ?>
+	 <?php } if($ResPay['PP_year']>0){ ?>
 	 <tr style="height:23px;">
-	  <td class="td13">&nbsp;PERFORMANCE PAY - YEARLY</td>
+	  <td class="td13">&nbsp;PERFORMANCE PAY</td>
       <td class="td14r"><?php echo intval($ResPay['PP_year']); ?>&nbsp;</td>
      </tr>
      <?php } if($ResPay['NPS']>0){ ?>
