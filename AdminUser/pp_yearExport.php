@@ -11,14 +11,14 @@ if($_REQUEST['action']=='HodPPIncExport')
  header("Content-Type: application/xls");
  header("Content-Disposition: attachment; filename=$xls_filename");
  header("Pragma: no-cache"); header("Expires: 0"); $sep = "\t"; 
- echo "EC\tName\tAmount";
+ echo "EC\tName\tGross_Paid\tPP_Amount";
  print("\n");
  
  $yCond='p.AssessmentYear='.$_REQUEST['y']; $dCond='1=1'; $hCond='1=1';
 if($_REQUEST['d']>0){ $dCond='p.HR_Curr_DepartmentId='.$_REQUEST['d']; }
 if($_REQUEST['h']>0){ $dCond='p.HOD_EmployeeID='.$_REQUEST['h']; }
 
- $sql=mysql_query("select EmpCode,concat(Fname, ' ',Sname, ' ',Lname) as Name, VP_PayAmt from hrm_employee_pms p INNER JOIN hrm_employee e ON p.EmployeeID=e.EmployeeID INNER JOIN hrm_employee_general g ON e.EmployeeID=g.EmployeeID where e.CompanyId=".$_REQUEST['c']." AND p.AssessmentYear=".$_REQUEST['y']." AND ".$dCond." AND ".$hCond." AND p.Hod_TotalFinalRating>2.7 AND VP_PayAmt>0 order by e.ECode ASC", $con);
+ $sql=mysql_query("select EmpCode,concat(Fname, ' ',Sname, ' ',Lname) as Name, VP_GrossPaid, VP_PayAmt from hrm_employee_pms p INNER JOIN hrm_employee e ON p.EmployeeID=e.EmployeeID INNER JOIN hrm_employee_general g ON e.EmployeeID=g.EmployeeID where e.CompanyId=".$_REQUEST['c']." AND p.AssessmentYear=".$_REQUEST['y']." AND ".$dCond." AND ".$hCond." AND p.Hod_TotalFinalRating>2.7 AND VP_PayAmt>0 order by e.ECode ASC", $con);
  
  $no=1;
  while($res=mysql_fetch_array($sql))
@@ -27,6 +27,7 @@ if($_REQUEST['h']>0){ $dCond='p.HOD_EmployeeID='.$_REQUEST['h']; }
   $schema_insert = "";
   $schema_insert .= $res['EmpCode'].$sep;
   $schema_insert .= $res['Name'].$sep;
+  $schema_insert .= $res['VP_GrossPaid'].$sep;
   $schema_insert .= round($res['VP_PayAmt']).$sep;
   
   $schema_insert = str_replace($sep."$", "", $schema_insert);
