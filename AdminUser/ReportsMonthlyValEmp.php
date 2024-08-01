@@ -132,6 +132,7 @@ if($_REQUEST['d']>0){ $sqlD=mysql_query("select DepartmentName from hrm_departme
    <td align="center" class="font" style="width:50px;">DA</td>
    <td align="center" class="font" style="width:50px;">INCENT</td>
    <td align="center" class="font" style="width:50px;">PP</td>
+   <td align="center" class="font" style="width:50px;">PP_Yearly</td>
    <td align="center" class="font" style="width:50px;">PERFORMANCE INCENTIVE</td>
    <td align="center" class="font" style="width:50px;">LEAVE ENCASH</td>
    <td align="center" class="font" style="width:50px;">VAR ADJUST</td>
@@ -210,6 +211,7 @@ if($res['Basic']!=0 OR $res['Hra']!=0 OR $res['Convance']!=0 OR $res['Special']!
    <td align="right" class="font1"><?php echo floatval($res['DA']); ?>&nbsp;</td>
    <td align="right" class="font1"><?php echo floatval($res['Incentive']); ?>&nbsp;</td>
    <td align="right" class="font1"><?php echo floatval($res['PerformancePay']); ?>&nbsp;</td>
+   <td align="right" class="font1"><?php echo floatval($res['PP_year']); ?>&nbsp;</td>
    <td align="right" class="font1"><?php echo floatval($res['PP_Inc']); ?>&nbsp;</td>
    <td align="right" class="font1"><?php echo floatval($res['LeaveEncash']); ?>&nbsp;</td>
    <td align="right" class="font1"><?php echo floatval($res['VariableAdjustment']); ?>&nbsp;</td>
