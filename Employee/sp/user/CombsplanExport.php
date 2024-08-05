@@ -287,7 +287,7 @@ $sql = mysql_query("select sd.*, ProductName, ItemName, ItemCode, sp.TypeId, Dea
 $Sn=1; 
 while($res=mysql_fetch_array($sql)){ 
 	  
-if($rP['TypeId']>0){$sT=mysql_query("select TypeName from hrm_sales_seedtype where TypeId=".$res['TypeId'], $con); $rT=mysql_fetch_assoc($sT);}
+if($res['TypeId']>0){$sT=mysql_query("select TypeName from hrm_sales_seedtype where TypeId=".$res['TypeId'], $con); $rT=mysql_fetch_assoc($sT);}
 
 
 if($res['Hq_vc']>0){ $sHv=mysql_query("select HqName,StateName,ZoneName from hrm_headquater hq inner join hrm_state s on hq.StateId=s.StateId inner join hrm_sales_zone z on s.ZoneId=z.ZoneId where hq.HqId=".$res['Hq_vc'],$con); 
