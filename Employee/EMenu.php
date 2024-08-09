@@ -212,7 +212,7 @@ if (($_SESSION['EmpType'] == 'E' or $_SESSION['EmpType'] == 'M') and $_SESSION['
                                         
                                         
                                         
-                                     <?php if($CompanyId==1 && ($EmployeeId==109 || $EmployeeId==110 || $EmployeeId==169)){?><li><a href="eLedgerd.php?ls=10&wer=123&aa=grtd&er=er%re%tr%rr&trt=equalthen&sys=%tr%tr&se=reew&w=ee102&mxid=<?php echo $resMax['MaxId']; ?>&dd=11&ee=s1s&aa=grtd&er=er%re%tr%rr&trt=equalthen">Employee Ledger</a></li><?php } ?>   
+                                     <?php /*if($CompanyId==1 && ($EmployeeId==109 || $EmployeeId==110 || $EmployeeId==169)){?><li><a href="eLedgerd.php?ls=10&wer=123&aa=grtd&er=er%re%tr%rr&trt=equalthen&sys=%tr%tr&se=reew&w=ee102&mxid=<?php echo $resMax['MaxId']; ?>&dd=11&ee=s1s&aa=grtd&er=er%re%tr%rr&trt=equalthen">Employee Ledger</a></li><?php } */?>   
                                         
                                         
 
