@@ -43,6 +43,7 @@ $insert_general = mysql_query('INSERT INTO employee_general(`'.implode('`, `', a
 
 $insert_pf = mysql_query('INSERT INTO employee_pf(`'.implode('`, `', array_keys($json['employee_pf'][0])).'`) VALUES("'.implode('", "', $json['employee_pf'][0]).'")',$con);
 
+$insert_vehicle = mysql_query('INSERT INTO employee_vehicle(`'.implode('`, `', array_keys($json['employee_vehicle'][0])).'`) VALUES("'.implode('", "', $json['employee_vehicle'][0]).'")',$con);
 
 if($insert_general > 0){
     echo json_encode(array('msg'=>'Success','Status'=>200));
