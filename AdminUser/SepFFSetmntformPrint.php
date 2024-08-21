@@ -107,7 +107,7 @@ $sqlGrade=mysql_query("select GradeValue from hrm_grade where GradeId=".$GradeId
 		<tr bgcolor="#FFFFFF">
 		  <td class="Text" style="width:115px;" align="">&nbsp;DOJ :</td><td class="Text" style="width:265px;">&nbsp;<?php echo date("d-m-Y",strtotime($resE['DateJoining'])); ?></td>
 		  <td style="width:20px;" bgcolor="#E0DBE3">&nbsp;</td>
-		  <td class="Text" style="width:80px;" align="">&nbsp;<?php if($resSE['TerMination']!='Y'){ ?>Resignation :<?php } ?></td><td class="Text" style="width:100px;">&nbsp;<?php if($resSE['TerMination']!='Y'){ ?><?php echo date("d-m-Y",strtotime($resSE['Emp_ResignationDate'])); ?><?php } ?></td>
+		  <td class="Text" style="width:80px;" align="">&nbsp;<?php if($resSE['Retired']=='Y'){echo 'Retirement Date :'}elseif($resSE['TerMination']!='Y'){echo 'Resignation :'; } ?></td><td class="Text" style="width:100px;">&nbsp;<?php if($resSE['TerMination']!='Y'){ ?><?php echo date("d-m-Y",strtotime($resSE['Emp_ResignationDate'])); ?><?php } ?></td>
 		  <td style="width:20px;" bgcolor="#E0DBE3"></td>
 		 
 		  <td class="Text" style="width:90px;" align="">&nbsp;<?php if($resSE['TerMination']=='Y'){ echo 'Termination';}else{echo 'Relieving'; } ?> :</td><td class="Text" style="width:140px;">&nbsp;<?php if($resSE['HR_RelievingDate3']!='0000-00-00' AND $resSE['HR_RelievingDate3']!='1970-01-01'){echo date("d-m-Y",strtotime($resSE['HR_RelievingDate3']));}elseif($resSE['HR_RelievingDate2']!='0000-00-00' AND $resSE['HR_RelievingDate2']!='1970-01-01'){echo date("d-m-Y",strtotime($resSE['HR_RelievingDate2']));}elseif($resSE['HR_RelievingDate']!='0000-00-00' AND $resSE['HR_RelievingDate']!='1970-01-01'){echo date("d-m-Y",strtotime($resSE['HR_RelievingDate']));} ?></td>
@@ -366,7 +366,7 @@ $sqlCtc=mysql_query("select * from hrm_employee_ctc where EmployeeID=".$resSE['E
 		 <td style="width:250px;" class="Text">&nbsp;Encashable amount(Rs.)</td>
 		 <td style="width:200px;" class="Text">&nbsp;<?php if($TottEL<=$resHr['LE']){echo $TottEL;}else{echo $resHr['LE'];} ?></td>
 		</tr>
-		<?php if($resE['RetiStatus']!='Y') { ?>
+		<?php if($resE['RetiStatus']!='Y') { if($resSE['Retired']!='Y'){ ?>
 		<tr bgcolor="#7a6189"><td colspan="4" class="Text" style="width:400px;" align="center"><b style="color:#FFFFFF;">Notice Period</b></td></tr>
 		<tr bgcolor="#FFFFFF">
 	     <td style="width:250px;" class="Text">&nbsp;Actual Notice Period(Days)</td>
@@ -380,7 +380,7 @@ $sqlCtc=mysql_query("select * from hrm_employee_ctc where EmployeeID=".$resSE['E
 		 <td style="width:250px;" class="Text">&nbsp;Notice Period Amount</td>
 		 <td style="width:200px;" class="Text">&nbsp;<?php echo $resHr['NPR_Actual']; ?></td>
 		</tr>
-		<?php } ?>
+		<?php } } ?>
 		</table>
 	  </tr> 
 	  <tr><td>&nbsp;</td></tr>
