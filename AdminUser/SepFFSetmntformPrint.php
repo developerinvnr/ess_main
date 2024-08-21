@@ -107,7 +107,7 @@ $sqlGrade=mysql_query("select GradeValue from hrm_grade where GradeId=".$GradeId
 		<tr bgcolor="#FFFFFF">
 		  <td class="Text" style="width:115px;" align="">&nbsp;DOJ :</td><td class="Text" style="width:265px;">&nbsp;<?php echo date("d-m-Y",strtotime($resE['DateJoining'])); ?></td>
 		  <td style="width:20px;" bgcolor="#E0DBE3">&nbsp;</td>
-		  <td class="Text" style="width:80px;" align="">&nbsp;<?php if($resSE['Retired']=='Y'){echo 'Retirement Date :'}elseif($resSE['TerMination']!='Y'){echo 'Resignation :'; } ?></td><td class="Text" style="width:100px;">&nbsp;<?php if($resSE['TerMination']!='Y'){ ?><?php echo date("d-m-Y",strtotime($resSE['Emp_ResignationDate'])); ?><?php } ?></td>
+		  <td class="Text" style="width:80px;" align="">&nbsp;<?php if($resSE['Retired']=='Y'){echo 'Retirement Date :'; }elseif($resSE['TerMination']!='Y'){echo 'Resignation :'; } ?></td><td class="Text" style="width:100px;">&nbsp;<?php if($resSE['TerMination']!='Y'){ ?><?php echo date("d-m-Y",strtotime($resSE['Emp_ResignationDate'])); ?><?php } ?></td>
 		  <td style="width:20px;" bgcolor="#E0DBE3"></td>
 		 
 		  <td class="Text" style="width:90px;" align="">&nbsp;<?php if($resSE['TerMination']=='Y'){ echo 'Termination';}else{echo 'Relieving'; } ?> :</td><td class="Text" style="width:140px;">&nbsp;<?php if($resSE['HR_RelievingDate3']!='0000-00-00' AND $resSE['HR_RelievingDate3']!='1970-01-01'){echo date("d-m-Y",strtotime($resSE['HR_RelievingDate3']));}elseif($resSE['HR_RelievingDate2']!='0000-00-00' AND $resSE['HR_RelievingDate2']!='1970-01-01'){echo date("d-m-Y",strtotime($resSE['HR_RelievingDate2']));}elseif($resSE['HR_RelievingDate']!='0000-00-00' AND $resSE['HR_RelievingDate']!='1970-01-01'){echo date("d-m-Y",strtotime($resSE['HR_RelievingDate']));} ?></td>
