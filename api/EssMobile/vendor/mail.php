@@ -10,7 +10,7 @@
   $mail->Port = 465; // or 587
   $mail->IsHTML(true);
   $mail->Username = "webadmin@vnrseeds.com";
-  $mail->Password = "NewPwd32#Admin";  //"NewPwd32#Admin"
+  $mail->Password = "YRt45tbd*@GF)pp";  //"NewPwd32#Admin"
   $mail->SetFrom("webadmin@vnrseeds.com", 'VSPL HR');
  
   $mail->Subject = $subject;
