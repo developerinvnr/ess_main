@@ -207,10 +207,10 @@ $egrade_id = $resE['GradeId'];;
 $epolicy = $resE['PolicyName'];
 
 $OldNew=''; $vehicle_type='';
-$con2=mysql_connect('localhost','root','ajaydbajay');
-$exprodb=mysql_select_db('vnrseed2_expense',$con2);
-//$con2=mysql_connect('localhost','expense_user','expense@192');
-//$exprodb=mysql_select_db('expense',$con2);
+//$con2=mysql_connect('localhost','root','ajaydbajay');
+//$exprodb=mysql_select_db('vnrseed2_expense',$con2);
+$con2=mysql_connect('localhost','expense_user','expense@192');
+$exprodb=mysql_select_db('expense',$con2);
 $result = mysql_query("SELECT * FROM `employee_vehicle` where EmpCode='".$resE['EmpCode']."' AND Company=".$CompanyId." AND Status='A'",$con2); $rows=mysql_num_rows($result);
 if($rows>0)
 { 
@@ -219,8 +219,8 @@ if($rows>0)
   $vehicle_type = $OldNew; 
 }	
 
-$con=mysql_connect('localhost','root','ajaydbajay');
-$hrdb=mysql_select_db('vnrseed2_hrims',$con);		 
+$con=mysql_connect('localhost','hrims_user','hrims@192');
+$hrdb=mysql_select_db('hrims',$con);		 
 ?>					 
 <tr>
  <td colspan="3" style="width:680px;font-size:14px;height:16px;" align="left"><b>*&nbsp;&nbsp;Travel Eligibility :</b> (For Official Purpose Only)</td>
