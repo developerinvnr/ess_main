@@ -189,117 +189,9 @@ $SqlEligEmp = mysql_query("SELECT * FROM hrm_employee_eligibility WHERE Employee
 <?php } ?>
 
 
+
 <?php //Travel Eligibility Travel Eligibility Travel Eligibility Travel Eligibility ?>
 <?php //Travel Eligibility Travel Eligibility Travel Eligibility Travel Eligibility ?>
-<?php 
-if($ResEligEmp['VehiclePolicy']>0)
-{
-
-$sqlE=mysql_query("select e.EmpCode, g.GradeId, gr.GradeValue, VehiclePolicy, PolicyName from hrm_employee e left join hrm_employee_eligibility el on e.EmployeeID=el.EmployeeID left join hrm_employee_general g on e.EmployeeID=g.EmployeeID left join hrm_master_eligibility_policy elp on el.VehiclePolicy=elp.PolicyId left join hrm_grade gr on g.GradeId=gr.GradeId where e.EmployeeID=".$EmployeeId." and el.Status='A' and e.CompanyId=".$CompanyId,$con); $resE=mysql_fetch_assoc($sqlE);
-
-// Main script execution
-$emp_code = $resE['EmpCode'];
-$emp_id = $EmployeeId;
-$com_id = $CompanyId;
-$vp_id = $resE['VehiclePolicy'];
-$egrade = $resE['GradeValue'];
-$egrade_id = $resE['GradeId'];;
-$epolicy = $resE['PolicyName'];
-
-$OldNew=''; $vehicle_type='';
-$con2=mysql_connect('localhost','root','ajaydbajay');
-$exprodb=mysql_select_db('vnrseed2_expense',$con2);
-//$con2=mysql_connect('localhost','expense_user','expense@192');
-//$exprodb=mysql_select_db('expense',$con2);
-$result = mysql_query("SELECT * FROM `employee_vehicle` where EmpCode='".$resE['EmpCode']."' AND Company=".$CompanyId." AND Status='A'",$con2); $rows=mysql_num_rows($result);
-if($rows>0)
-{ 
-  $vehicle = mysql_fetch_assoc($result); 
-  if($vehicle['OldNew']!=''){ $OldNew=$vehicle['OldNew']; }
-  $vehicle_type = $OldNew; 
-}	
-
-$con=mysql_connect('localhost','root','ajaydbajay');
-$hrdb=mysql_select_db('vnrseed2_hrims',$con);		 
-?>					 
-<tr>
- <td colspan="3" style="width:680px;font-size:14px;height:16px;" align="left"><b>*&nbsp;&nbsp;Travel Eligibility :</b> (For Official Purpose Only)</td>
-</tr>					 
-<tr>
-  <td colspan="3" style="width:100%;">
-  <table border="1" style="width:100%;" cellpadding="1" cellspacing="0">
-  <tr>
-   <td style="width:40%;font-size:16px;">&nbsp;<b>Policy Name :</b></td>
-   <td style="width:60%;" align="center">&nbsp;<b><?=$epolicy?></b></td>
-  </tr>	
-  <tr>
-   <td colspan="2" style="width:40%;font-size:16px;">&nbsp;<b>Policy Details (<font color="#0033CC">Running KM Plan: <?php if($vp_id==3 || $vp_id==8 || $vp_id==9 || $vp_id==10 || $vp_id==6 || $vp_id==11){ echo 'Monthly'; }else{ echo 'Yearly'; } ?></font>)</b></td>
-  </tr>	
-  <?php 
-$check_vp_ids = array(1, 2, 5, 7);
-if(in_array($vp_id, $check_vp_ids)) 
-{ 
-   if(strtolower($vehicle_type) === 'new') { $field_ids = "(1, 3, 4, 2, 5, 15, 23, 16, 24, 17, 25, 18, 26, 8)"; } 
-   elseif (strtolower($vehicle_type) === 'old'){ $field_ids = "(1, 3, 4, 2, 5, 19, 27, 20, 28, 21, 29, 22, 30, 8)"; } 
-   else { $field_ids = "(0)"; }
-   $policy = mysql_query("SELECT m.`MappId`, m.`PolicyId`, m.`FieldId`, m.`FOrder`, m.`Sts`, f.`FiledName`
-                         FROM `hrm_master_eligibility_mapping_tblfield` m
-                         JOIN `hrm_master_eligibility_field` f ON m.`FieldId` = f.`FieldId`
-                         WHERE m.`PolicyId` = $vp_id
-                         AND m.`FieldId` IN $field_ids
-                         AND m.`Sts` = 1
-                         ORDER BY m.`FOrder` ASC",$con);
-} else { 
-   $policy = mysql_query("SELECT m.`MappId`, m.`PolicyId`, m.`FieldId`, m.`FOrder`, m.`Sts`, f.`FiledName`
-					 FROM `hrm_master_eligibility_mapping_tblfield` m
-					 JOIN `hrm_master_eligibility_field` f ON m.`FieldId` = f.`FieldId`
-					 WHERE m.`PolicyId` = $vp_id
-					 AND m.`Sts` = 1
-					 ORDER BY m.`FOrder` ASC",$con);
-}  
-  
-        while($field = mysql_fetch_assoc($policy))
-		{ 
-		  $sdata = mysql_query("SELECT * FROM hrm_master_eligibility_policy_tbl".$vp_id."
-WHERE `GradeId`=".$egrade_id,$con); $rdata = mysql_fetch_assoc($sdata);
-		
-  ?>
-  <tr>
-   <td style="width:40%;font-size:16px;">&nbsp;<?=$field['FiledName']?>:</td>
-   <td style="width:60%;" align="center">&nbsp;<?=$rdata['Fn'.$field['FieldId']]?></td>
-  </tr>
-  <?php } //While ?>			 
- </table>
- </td>
-</tr>
-
- <tr>
-  <td colspan="3" style="width:100%;">
-  <table border="1" style="width:100%;" cellpadding="1" cellspacing="0">
- <?php if($ResEligEmp['CostOfVehicle']!='' AND $ResEligEmp['CostOfVehicle']!=0 AND $ResEligEmp['CostOfVehicle']!='NA'){ ?>
- <tr>
-  <td style="width:40%;font-size:16px; vertical-align:middle;">&nbsp;Vehicle Entitlement value :</td>
-  <td style="width:60%;" align="center">&nbsp;<?='Rs. '.$ResEligEmp['CostOfVehicle']?></td>
- </tr>
- <?php } if($ResEligEmp['Flight_Allow']=='Y' OR $ResEligEmp['Train_Allow']=='Y'){ ?>
- <tr>
-  <td style="width:40%;font-size:16px;">&nbsp;Mode/Class of Travel outside HQ :</td>
-  <td style="width:60%;" align="center">&nbsp;<?php if($ResEligEmp['Flight_Allow']=='Y'){ echo '<b>Flight</b> - '.$ResEligEmp['Flight_Class'].' '.$ResEligEmp['Flight_Rmk'].'<br>'; } if($ResEligEmp['Train_Allow']=='Y'){ echo '<b>Train/Bus</b> - '.$ResEligEmp['Train_Class'].' '.$ResEligEmp['Train_Rmk']; }?></td>
- </tr>
- <?php } ?>
- </table>
- </td>
-</tr>
-
-<tr><td style="height:10px;"></td></tr>
-
-
-
-<?php } //if($ResEligEmp['VehiclePolicy']>0) 
-      else
-	{
-?>
-
 <?php if(($ResEligEmp['Travel_TwoWeeKM']!='' AND $ResEligEmp['Travel_TwoWeeKM']!='NA' AND $ResEligEmp['Travel_TwoWeeKM']!=' ') OR ($ResEligEmp['Travel_FourWeeKM']!='' AND $ResEligEmp['Travel_FourWeeKM']!='NA' AND $ResEligEmp['Travel_FourWeeKM']!=' ')){ ?>
 <tr>
  <td colspan="3" style="width:680px;font-size:14px;height:16px;" align="left"><b>*&nbsp;&nbsp;Travel Eligibility :</b> (For Official Purpose Only)</td>
@@ -343,7 +235,9 @@ WHERE `GradeId`=".$egrade_id,$con); $rdata = mysql_fetch_assoc($sdata);
 </tr>
 <tr><td style="height:10px;"></td></tr>
 
-<?php } //else ?>
+
+
+
 
 <br />
 <?php //Mobile Eligibility Mobile Eligibility Mobile Eligibility Mobile Eligibility ?>
