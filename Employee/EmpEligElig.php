@@ -429,8 +429,12 @@ $days = date('t',$mkdate); $sieve = $_REQUEST['y'].$_REQUEST['m'].'01'; $day = '
       
       $len=strlen($day); if($len==1){ $day='0'.$day; }
       
-	  $sE=mysql_query("SELECT * FROM hrm_employee_attendance WHERE EmployeeID=".$_REQUEST['id']." AND AttDate='".date($y."-".$m."-".$day)."'", $con); $rowE=mysql_num_rows($sE); $rE=mysql_fetch_array($sE); 
-	  
+	  $sE=mysql_query("SELECT * FROM hrm_employee_attendance WHERE EmployeeID=".$_REQUEST['id']." AND AttDate='".date($y."-".$m."-".$day)."'", $con); $rowE=mysql_num_rows($sE); 
+	  if($rowE==0)
+	  {
+	   $sE=mysql_query("SELECT * FROM hrm_employee_attendance_".date("Y")." WHERE EmployeeID=".$_REQUEST['id']." AND AttDate='".date($y."-".$m."-".$day)."'", $con); $rowE=mysql_num_rows($sE);
+	  }
+	  $rE=mysql_fetch_array($sE); 
 	  ?>
 	  
       <td class="day" style="height:60px;width:10%;" bgcolor="<?php if(date("w",strtotime(date($y."-".$m."-".$day)))==0){echo '#428400';} else{ echo '#FFFFFF'; }?>" >
