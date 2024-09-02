@@ -229,6 +229,7 @@
 	  <li><a href="Up_HealthID.php?d=0">HealthID Card</a></li>
 	  <li><a href="Up_ESICard.php?d=0">ESIC Card</a></li>
 	  <li><a href="Up_CovidInsu.php?d=0">Covid Insu. Paper</a></li>
+	  <li><a href="ImportEmpData.php">Employee Data</a></li>
 	 </ul>
     </li>
 	<?php } ?> 
@@ -438,7 +439,7 @@
 	  <li><b></b></li>
 	  <li><a href="#">Asset Bill</a></li> <?php /* EmpAssBill.php */ ?>
 	  <li><a href="#">Import Asset Bill</a></li> <?php /* ImportAssExcel.php */ ?>
-	  <li><a href="EmpTrvRunKM.php?act=true&mm=sas&ask=false&ww=rightProtect&we=12345&mm=er4e&r=t5t%t5s&yy=eloi&gosto=false&rigt=checkessue&mailto=promt&wew=e%e@er%rdd=012&value=0&page=1">Running KM</a></li>
+	  <li><a href="EmpTrvRunKM.php?act=true&mm=sas&ask=false&ww=rightProtect&we=12345&mm=er4e&r=t5t%t5s&yy=eloi&gosto=false&rigt=checkessue&mailto=promt&wew=e%e@er%rdd=012&value=0&page=1">Vehicle Details/Running KM</a></li>
    </ul>
   </li>	 
   <?php } ?>
