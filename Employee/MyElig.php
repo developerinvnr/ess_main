@@ -262,12 +262,14 @@ if(in_array($vp_id, $check_vp_ids))
 		{ 
 		  $sdata = mysql_query("SELECT * FROM hrm_master_eligibility_policy_tbl".$vp_id."
 WHERE `GradeId`=".$egrade_id,$con); $rdata = mysql_fetch_assoc($sdata);
-		
+		if($rdata['Fn'.$field['FieldId']]!='')
+		{
   ?>
   <tr>
    <td style="width:40%;font-size:16px;">&nbsp;<?=$field['FiledName']?>:</td>
    <td style="width:60%;" align="center">&nbsp;<?=$rdata['Fn'.$field['FieldId']]?></td>
   </tr>
+      <?php } //if($rdata['Fn'.$field['FieldId']]!='') ?>
   <?php } //While ?>			 
  </table>
  </td>
