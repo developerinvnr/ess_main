@@ -41,7 +41,9 @@ function EditAppRev()
   for(var i=1; i<=no; i++)
   { document.getElementById('SelRep_'+i).disabled=true; document.getElementById('SelRev_'+i).disabled=false; document.getElementById('SelHod_'+i).disabled=false;}
 }
-
+function ExportData(v)
+{ var ComId=document.getElementById("ComId").value;
+  window.open("export_reporting_leave_query.php?action=export&value="+v+"&C="+ComId,"PrintForm","menubar=yes,scrollbars=yes,resizable=no,directories=no,width=20,height=20");} 
 </Script>     
 </head>
 <body class="body">
@@ -74,6 +76,7 @@ $resD=mysql_fetch_assoc($sqlD); } ?>
 <?php } else { ?><option value="" style="margin-left:0px; background-color:#84D9D5;" selected>Select Department</option><?php } ?>
 	 <?php $SqlDepartment=mysql_query("select * from hrm_department where CompanyId=".$CompanyId." order by DepartmentName ASC", $con); while($ResDepartment=mysql_fetch_array($SqlDepartment)) { ?><option value="<?php echo $ResDepartment['DepartmentId']; ?>"><?php echo '&nbsp;'.$ResDepartment['DepartmentCode'];?></option><?php } ?></select></td>
      <td><font class="font4"><b>&nbsp;&nbsp;&nbsp;&nbsp;<span id="msg"><?php echo $msg; ?></span></b></font></td>
+     <td><a href="javascript:void(0);" onClick="ExportData('<?php echo $_REQUEST['v']; ?>')" style="font-size:12px;">Export Excel</a></td>
     </tr>  
   </table>
  </td>
