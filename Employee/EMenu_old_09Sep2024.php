@@ -662,13 +662,6 @@ if (($_SESSION['EmpType'] == 'E' or $_SESSION['EmpType'] == 'M') and $_SESSION['
                                     <li><a href="#" onclick="OpenSEmpPlan(<?php echo $EmployeeId; ?>)">Employee</a></li>
                                 </ul>
                             </li>
-                        <?php } if(($rdept['DepartmentId'] == 1 OR $rdept['DepartmentId'] == 9) AND ($EmployeeId == 169 or $EmployeeId == 1315) and $rowLch>0){ ?>
-                            <li class="top"><a href="#nogo22" class="top_link"><span class="down">TFC</span></a>
-                                <ul class="sub">
-                                    <li><a href="#" onclick="OpenSUserPlan(<?php echo $EmployeeId; ?>)">User</a></li>
-                                    <li><a href="#" onclick="OpenSEmpPlan(<?php echo $EmployeeId; ?>)">Employee</a></li>
-                                </ul>
-                            </li>
                         <?php } ?>
                         
                         
@@ -713,9 +706,6 @@ if (($_SESSION['EmpType'] == 'E' or $_SESSION['EmpType'] == 'M') and $_SESSION['
                 }
             </script>
             <?php if ($rowLch > 0 and ($EmployeeId == 29 or $EmployeeId == 169)) { ?><li class="top"><a href="#" onclick="OpenProdArrDisp(<?php echo $EmployeeId; ?>)" class="top_link">WP</a></li><?php /*Work Plan*/ ?>
-            <?php } ?>
-			
-			<?php if ($EmployeeId == 438 or $EmployeeId == 1653){ ?><li class="top"><a href="Combsplan.php?y=<?=$YearId?>" class="top_link">SP</a></li><?php /*Work Plan*/ ?>
             <?php } ?>
 
 
