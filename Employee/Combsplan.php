@@ -112,24 +112,24 @@ $y3=date("y",strtotime($resY3['FromDate'])).'-'.date("y",strtotime($resY3['ToDat
 <table border="1" cellpadding="0" cellspacing="0" style="font-family:Times New Roman;font-size:12px;width:80%;vertical-align:top;">
  
 <tr style="background-color:#D5F1D1;color:#000000;"> 
-  <td colspan="3" align="center" style="height:25px;font-size:14px;"><b><?php echo $fromdate.'-'.$todate; ?> - <b>Export</b></b></td>
+  <td colspan="3" align="center" style="height:25px;font-size:14px;"><b><?php echo $fromdate.'-'.$todate; ?> -> <b>Data Export</b></b></td>
 </tr>	
  <tr style="background-color:#D5F1D1;color:#000000;"> 
-  <td align="center" style="width:200px;height:23px;font-size:14px;"><b>Target</b></td> 
-  <td align="center" style="width:200px;height:23px;font-size:14px;"><b>Sales</b></td>
-  <td align="center" style="width:200px;height:23px;font-size:14px;"><b>Tar/Sale</b></td>
+  <td align="center" style="width:200px;height:23px;font-size:15px;"><b>Target</b></td> 
+  <td align="center" style="width:200px;height:23px;font-size:15px;"><b>Sales</b></td>
+  <td align="center" style="width:200px;height:23px;font-size:15px;"><b>Tar/Sale</b></td>
  </tr>   
 
  <tr style="height:22px;background-color:<?php echo '#FFFFFF'; ?>;"> 
-  <td style="width:60px;font-size:12px;" align="center">
+  <td style="width:60px;font-size:14px;" align="center">
    <a href="#" onClick="ExportTarget(<?=$_REQUEST['y'].','.$EmployeeId;?>,'<?=$CType?>')"><b>Click</b></a>
   </td>
   
-  <td style="width:60px;font-size:12px;" align="center">
+  <td style="width:60px;font-size:14px;" align="center">
    <a href="#" onClick="ExportSales(<?=$_REQUEST['y'].','.$EmployeeId;?>,'<?=$CType?>')"><b>Click</b></a>
   </td>
   
-  <td style="width:60px;font-size:12px;" align="center">
+  <td style="width:60px;font-size:14px;" align="center">
    <a href="#" onClick="ExportTgtSaleAll(<?=$_REQUEST['y'].','.$EmployeeId;?>,'<?=$CType?>')"><b>Click</b></a>
   </td>
   
