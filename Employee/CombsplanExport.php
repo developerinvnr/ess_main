@@ -1,5 +1,5 @@
 <?php 
-require_once('../AdminUser/Config/config.php');
+require_once('../AdminUser/config/config.php');
 
 if($_REQUEST['action']=='TgtPlanRExport') 
 { 
