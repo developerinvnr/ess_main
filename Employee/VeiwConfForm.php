@@ -305,7 +305,7 @@ if($rowLL>0) { $resLL=mysql_fetch_assoc($sqlLL); }
 	 </tr>
 	 <tr><td class="font1" style="width:330px;" align="center" valign="bottom"><b><?php echo $res['ReportingName']; ?></b></td>
 	     <td class="font1" style="width:330px;" align="center" valign="bottom"><b><?php echo $NameHOD; ?></b></td>
-		 <td class="font1" style="width:330px;" align="center" valign="bottom"><b>Mrs. PARUL PARMAR</b></td>
+		 <td class="font1" style="width:330px;" align="center" valign="bottom"><b></b></td>
 	 </tr>
 	 <tr><td class="font1" style="width:330px;" align="center" valign="top">(Appraiser)</td>
 	     <td class="font1" style="width:330px;" align="center" valign="top">(HOD)</td>

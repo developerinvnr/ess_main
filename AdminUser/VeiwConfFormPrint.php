@@ -320,11 +320,11 @@ if($rowLL>0) { $resLL=mysql_fetch_assoc($sqlLL); }
 	 </tr>
 	 <tr><td class="font1" style="width:330px;" align="center" valign="bottom"><b><?php echo $NameRep; ?></b></td>
 	     <td class="font1" style="width:330px;" align="center" valign="bottom"><b><?php echo $NameHOD; ?></b></td>
-		 <td class="font1" style="width:330px;" align="center" valign="bottom"><b><?php if($res['CompanyId']==1){echo 'Dr. PARUL PARMAR';}else{echo '';}?></b></td>
+		 <td class="font1" style="width:330px;" align="center" valign="bottom"><b></b></td>
 	 </tr>
 	 <tr><td class="font1" style="width:330px;" align="center" valign="top">(Appraiser)</td>
 	     <td class="font1" style="width:330px;" align="center" valign="top">(HOD)</td>
-		 <td class="font1" style="width:330px;" align="center" valign="top"><?php if($res['CompanyId']==1){echo '(HR)';}else{echo '';}?></td>
+		 <td class="font1" style="width:330px;" align="center" valign="top">(HR)</td>
 	 </tr>
 	 <tr><td colspan="2" style="height:10px;"></td></tr>
 	</table>
