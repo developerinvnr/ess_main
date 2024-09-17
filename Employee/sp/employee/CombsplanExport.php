@@ -103,14 +103,14 @@ $sql = mysql_query("select sd.*, ProductName, ItemName, ItemCode, sp.TypeId, Dea
 
 if($res['TypeId']>0){$sT=mysql_query("select TypeName from hrm_sales_seedtype where TypeId=".$res['TypeId'], $con); $rT=mysql_fetch_assoc($sT);}
 
-if($res['Hq_vc']>0){ $sHv=mysql_query("select HqName,ZoneName from hrm_headquater hq inner join hrm_sales_zone z on s.ZoneId=z.ZoneId where hq.HqId=".$res['Hq_vc'],$con); 
+if($res['Hq_vc']>0){ $sHv=mysql_query("select HqName,ZoneName from hrm_headquater hq left join hrm_sales_zone z on s.ZoneId=z.ZoneId where hq.HqId=".$res['Hq_vc'],$con); 
 $rHv=mysql_fetch_assoc($sHv); $Hqv=$rHv['HqName']; $Znv=$rHv['ZoneName']; }
 else{ $Hqv=''; $Stv=''; $Znv=''; }
 
 $VresRgnv='';
 if($res['Terr_vc']>0)
 { 
- $sEmpv=mysql_query("select Fname,Sname,Lname,RepEmployeeID,DepartmentId,EmpVertical from hrm_employee e inner join hrm_employee_general g on e.EmployeeID=g.EmployeeID where e.EmployeeID=".$res['Terr_vc'],$con); 
+ $sEmpv=mysql_query("select Fname,Sname,Lname,RepEmployeeID,DepartmentId,EmpVertical from hrm_employee e left join hrm_employee_general g on e.EmployeeID=g.EmployeeID where e.EmployeeID=".$res['Terr_vc'],$con); 
  $rEmpv=mysql_fetch_assoc($sEmpv); $rEv=$rEmpv['Fname'].' '.$rEmpv['Sname'].' '.$rEmpv['Lname']; 
  
  if($rEmpv['EmpVertical']>0)
@@ -131,17 +131,17 @@ if($res['Terr_vc']>0)
  
  if($rEmpv['RepEmployeeID']>0 AND $rEmpv['RepEmployeeID']!=224)
  { 
-  $sEmpRv=mysql_query("select Fname,Sname,Lname,RepEmployeeID,DepartmentId,EmpVertical from hrm_employee e inner join hrm_employee_general g on e.EmployeeID=g.EmployeeID where e.EmployeeID=".$rEmpv['RepEmployeeID'],$con); 
+  $sEmpRv=mysql_query("select Fname,Sname,Lname,RepEmployeeID,DepartmentId,EmpVertical from hrm_employee e left join hrm_employee_general g on e.EmployeeID=g.EmployeeID where e.EmployeeID=".$rEmpv['RepEmployeeID'],$con); 
  $rEmpRv=mysql_fetch_assoc($sEmpRv); $rEvR1=$rEmpRv['Fname'].' '.$rEmpRv['Sname'].' '.$rEmpRv['Lname']; 
   
    if($rEmpRv['RepEmployeeID']>0 AND $rEmpRv['RepEmployeeID']!=224)
    { 
-    $sEmpR2v=mysql_query("select Fname,Sname,Lname,RepEmployeeID,DepartmentId,EmpVertical from hrm_employee e inner join hrm_employee_general g on e.EmployeeID=g.EmployeeID where e.EmployeeID=".$rEmpRv['RepEmployeeID'],$con); 
+    $sEmpR2v=mysql_query("select Fname,Sname,Lname,RepEmployeeID,DepartmentId,EmpVertical from hrm_employee e left join hrm_employee_general g on e.EmployeeID=g.EmployeeID where e.EmployeeID=".$rEmpRv['RepEmployeeID'],$con); 
     $rEmpR2v=mysql_fetch_assoc($sEmpR2v); $rEvR2=$rEmpR2v['Fname'].' '.$rEmpR2v['Sname'].' '.$rEmpR2v['Lname']; 
   
     if($rEmpR2v['RepEmployeeID']>0 AND $rEmpR2v['RepEmployeeID']!=224)
     { 
-     $sEmpR3v=mysql_query("select Fname,Sname,Lname,RepEmployeeID,DepartmentId,EmpVertical from hrm_employee e inner join hrm_employee_general g on e.EmployeeID=g.EmployeeID where e.EmployeeID=".$rEmpR2v['RepEmployeeID'],$con); 
+     $sEmpR3v=mysql_query("select Fname,Sname,Lname,RepEmployeeID,DepartmentId,EmpVertical from hrm_employee e left join hrm_employee_general g on e.EmployeeID=g.EmployeeID where e.EmployeeID=".$rEmpR2v['RepEmployeeID'],$con); 
      $rEmpR3v=mysql_fetch_assoc($sEmpR3v); $rEvR3=$rEmpR3v['Fname'].' '.$rEmpR3v['Sname'].' '.$rEmpR3v['Lname']; 
     }else{ $rEvR3=''; }
   
@@ -153,7 +153,7 @@ if($res['Terr_vc']>0)
 else {$rEv=''; $rEvR1=''; $rEvR2=''; $rEvR3=''; }
 
 
-if($res['Hq_fc']>0){ $sHf=mysql_query("select HqName,ZoneName from hrm_headquater hq inner join hrm_sales_zone z on s.ZoneId=z.ZoneId where hq.HqId=".$res['Hq_fc'],$con); 
+if($res['Hq_fc']>0){ $sHf=mysql_query("select HqName,ZoneName from hrm_headquater hq left join hrm_sales_zone z on s.ZoneId=z.ZoneId where hq.HqId=".$res['Hq_fc'],$con); 
 $rHf=mysql_fetch_assoc($sHf); $Hqf=$rHf['HqName']; $Znf=$rHf['ZoneName']; }
 else{ $Hqf='';; $Stf=''; $Znf=''; }
 
@@ -181,17 +181,17 @@ if($res['Terr_fc']>0)
  
  if($rEmpf['RepEmployeeID']>0 AND $rEmpf['RepEmployeeID']!=224)
  { 
-  $sEmpRf=mysql_query("select Fname,Sname,Lname,RepEmployeeID,DepartmentId,EmpVertical from hrm_employee e inner join hrm_employee_general g on e.EmployeeID=g.EmployeeID where e.EmployeeID=".$rEmpf['RepEmployeeID'],$con); 
+  $sEmpRf=mysql_query("select Fname,Sname,Lname,RepEmployeeID,DepartmentId,EmpVertical from hrm_employee e left join hrm_employee_general g on e.EmployeeID=g.EmployeeID where e.EmployeeID=".$rEmpf['RepEmployeeID'],$con); 
  $rEmpRf=mysql_fetch_assoc($sEmpRf); $rEfR1=$rEmpRf['Fname'].' '.$rEmpRf['Sname'].' '.$rEmpRf['Lname']; 
   
    if($rEmpRf['RepEmployeeID']>0 AND $rEmpRf['RepEmployeeID']!=224)
    { 
-    $sEmpR2f=mysql_query("select Fname,Sname,Lname,RepEmployeeID,DepartmentId,EmpVertical from hrm_employee e inner join hrm_employee_general g on e.EmployeeID=g.EmployeeID where e.EmployeeID=".$rEmpRf['RepEmployeeID'],$con); 
+    $sEmpR2f=mysql_query("select Fname,Sname,Lname,RepEmployeeID,DepartmentId,EmpVertical from hrm_employee e left join hrm_employee_general g on e.EmployeeID=g.EmployeeID where e.EmployeeID=".$rEmpRf['RepEmployeeID'],$con); 
     $rEmpR2f=mysql_fetch_assoc($sEmpR2f); $rEfR2=$rEmpR2f['Fname'].' '.$rEmpR2f['Sname'].' '.$rEmpR2f['Lname']; 
   
     if($rEmpR2f['RepEmployeeID']>0 AND $rEmpR2f['RepEmployeeID']!=224)
     { 
-     $sEmpR3f=mysql_query("select Fname,Sname,Lname,RepEmployeeID,DepartmentId,EmpVertical from hrm_employee e inner join hrm_employee_general g on e.EmployeeID=g.EmployeeID where e.EmployeeID=".$rEmpR2f['RepEmployeeID'],$con); 
+     $sEmpR3f=mysql_query("select Fname,Sname,Lname,RepEmployeeID,DepartmentId,EmpVertical from hrm_employee e left join hrm_employee_general g on e.EmployeeID=g.EmployeeID where e.EmployeeID=".$rEmpR2f['RepEmployeeID'],$con); 
      $rEmpR3f=mysql_fetch_assoc($sEmpR3f); $rEfR3=$rEmpR3f['Fname'].' '.$rEmpR3f['Sname'].' '.$rEmpR3f['Lname']; 
     }else{ $rEfR3=''; }
   
