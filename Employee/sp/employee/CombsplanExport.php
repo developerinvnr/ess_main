@@ -468,7 +468,7 @@ $csv_output .= '"'.str_replace('"', '""', $res['DealerCity']).'",';
 if($_SESSION['Vertical']==14 OR $_SESSION['Vertical']==16 OR $_SESSION['Hqv']>0)
 {
 $csv_output .= '"'.str_replace('"', '""', $Hqv).'",';
-$csv_output .= '"'.str_replace('"', '""', $res['Hq_vc'].'-'.$rEv).'",';
+$csv_output .= '"'.str_replace('"', '""', $rEv).'",';
 $csv_output .= '"'.str_replace('"', '""', $VresRgnv).'",';
 $csv_output .= '"'.str_replace('"', '""', $Znv).'",';
 }
