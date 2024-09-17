@@ -103,8 +103,8 @@ $sql = mysql_query("select sd.*, ProductName, ItemName, ItemCode, sp.TypeId, Dea
 
 if($res['TypeId']>0){$sT=mysql_query("select TypeName from hrm_sales_seedtype where TypeId=".$res['TypeId'], $con); $rT=mysql_fetch_assoc($sT);}
 
-if($res['Hq_vc']>0){ $sHv=mysql_query("select HqName,ZoneName from hrm_headquater hq left join hrm_sales_zone z on s.ZoneId=z.ZoneId where hq.HqId=".$res['Hq_vc'],$con); 
-$rHv=mysql_fetch_assoc($sHv); $Hqv=$rHv['HqName']; $Znv=$rHv['ZoneName']; }
+if($res['Hq_vc']>0){ $sHv=mysql_query("select HqName,StateName,ZoneName from hrm_headquater hq inner join hrm_state s on hq.StateId=s.StateId inner join hrm_sales_zone z on s.ZoneId=z.ZoneId where hq.HqId=".$res['Hq_vc'],$con); 
+$rHv=mysql_fetch_assoc($sHv); $Hqv=$rHv['HqName']; $Znv=$rHv['ZoneName']; $Stv=$rHv['StateName']; }
 else{ $Hqv=''; $Stv=''; $Znv=''; }
 
 $VresRgnv='';
@@ -153,8 +153,8 @@ if($res['Terr_vc']>0)
 else {$rEv=''; $rEvR1=''; $rEvR2=''; $rEvR3=''; }
 
 
-if($res['Hq_fc']>0){ $sHf=mysql_query("select HqName,ZoneName from hrm_headquater hq left join hrm_sales_zone z on s.ZoneId=z.ZoneId where hq.HqId=".$res['Hq_fc'],$con); 
-$rHf=mysql_fetch_assoc($sHf); $Hqf=$rHf['HqName']; $Znf=$rHf['ZoneName']; }
+if($res['Hq_fc']>0){ $sHf=mysql_query("select HqName,StateName,ZoneName from hrm_headquater hq inner join hrm_state s on hq.StateId=s.StateId inner join hrm_sales_zone z on s.ZoneId=z.ZoneId where hq.HqId=".$res['Hq_fc'],$con); 
+$rHf=mysql_fetch_assoc($sHf); $Hqf=$rHf['HqName']; $Znf=$rHf['ZoneName']; $Stf=$rHf['StateName']; }
 else{ $Hqf='';; $Stf=''; $Znf=''; }
 
 $VresRgnf='';
@@ -389,8 +389,8 @@ $sql = mysql_query("select sd.*, ProductName, ItemName, ItemCode, sp.TypeId, Dea
 	  
 if($res['TypeId']>0){$sT=mysql_query("select TypeName from hrm_sales_seedtype where TypeId=".$res['TypeId'], $con); $rT=mysql_fetch_assoc($sT);}
 
-if($res['Hq_vc']>0){ $sHv=mysql_query("select HqName,ZoneName from hrm_headquater hq inner join hrm_sales_zone z on s.ZoneId=z.ZoneId where hq.HqId=".$res['Hq_vc'],$con); 
-$rHv=mysql_fetch_assoc($sHv); $Hqv=$rHv['HqName']; $Znv=$rHv['ZoneName']; }
+if($res['Hq_vc']>0){ $sHv=mysql_query("select HqName,StateName,ZoneName from hrm_headquater hq inner join hrm_state s on hq.StateId=s.StateId inner join hrm_sales_zone z on s.ZoneId=z.ZoneId where hq.HqId=".$res['Hq_vc'],$con); 
+$rHv=mysql_fetch_assoc($sHv); $Hqv=$rHv['HqName']; $Znv=$rHv['ZoneName']; $Stv=$rHv['StateName'];  }
 else{ $Hqv='';; $Stv=''; $Znv=''; }
 
 if($res['Terr_vc']>0)
@@ -407,19 +407,23 @@ if($res['Terr_vc']>0)
   { $sqlHq2=mysql_query("select HqId from hrm_headquater where HqName='".$rHv['HqName']."' and HQStatus!='De'", $con); $resHq2=mysql_fetch_assoc($sqlHq2); 
   $sqlRId=mysql_query("select RegionId from hrm_sales_verhq where HqId=".$resHq2['HqId']." AND Vertical=".$rEmpv['EmpVertical']." AND DeptId=".$rEmpv['DepartmentId'], $con); $resRId=mysql_fetch_assoc($sqlRId);   
   }
-  $sqlRR=mysql_query("select RegionName,ZoneId from hrm_sales_region where RegionId=".$resRId['RegionId'], $con); 
-  $resRR=mysql_fetch_assoc($sqlRR);
-  $sqlZZ=mysql_query("select ZoneName from hrm_sales_zone where ZoneId=".$resRR['ZoneId'], $con); 
-  $resZZ=mysql_fetch_assoc($sqlZZ);
-  $VresRgnv=$resRR['RegionName']; $Znv=$resZZ['ZoneName']; 
+   if($resRId['RegionId']>0)
+   {
+    $sqlRR=mysql_query("select RegionName,ZoneId from hrm_sales_region where RegionId=".$resRId['RegionId'], $con); 
+    $resRR=mysql_fetch_assoc($sqlRR);
+    $sqlZZ=mysql_query("select ZoneName from hrm_sales_zone where ZoneId=".$resRR['ZoneId'], $con); 
+    $resZZ=mysql_fetch_assoc($sqlZZ);
+    $VresRgnv=$resRR['RegionName']; $Znv=$resZZ['ZoneName'];  
+   }
+   else{ $VresRgnv='.'; $Znv='.';  }
  }
  
 }
 else {$rEv='';}
 
 
-if($res['Hq_fc']>0){ $sHf=mysql_query("select HqName,ZoneName from hrm_headquater hq inner join hrm_sales_zone z on s.ZoneId=z.ZoneId where hq.HqId=".$res['Hq_fc'],$con); 
-$rHf=mysql_fetch_assoc($sHf); $Hqf=$rHf['HqName']; $Znf=$rHf['ZoneName']; }
+if($res['Hq_fc']>0){ $sHf=mysql_query("select HqName,StateName,ZoneName from hrm_headquater hq inner join hrm_state s on hq.StateId=s.StateId inner join hrm_sales_zone z on s.ZoneId=z.ZoneId where hq.HqId=".$res['Hq_fc'],$con); 
+$rHf=mysql_fetch_assoc($sHf); $Hqf=$rHf['HqName']; $Znf=$rHf['ZoneName']; $Stf=$rHf['StateName'];  }
 else{ $Hqf='';; $Stf=''; $Znf=''; }
 
 if($res['Terr_fc']>0)
@@ -436,11 +440,15 @@ if($res['Terr_fc']>0)
   { $sqlHq2=mysql_query("select HqId from hrm_headquater where HqName='".$rHf['HqName']."' and HQStatus!='De'", $con); $resHq2=mysql_fetch_assoc($sqlHq2); 
   $sqlRId=mysql_query("select RegionId from hrm_sales_verhq where HqId=".$resHq2['HqId']." AND Vertical=".$rEmpf['EmpVertical']." AND DeptId=".$rEmpf['DepartmentId'], $con); $resRId=mysql_fetch_assoc($sqlRId);   
   }
-  $sqlRR=mysql_query("select RegionName,ZoneId from hrm_sales_region where RegionId=".$resRId['RegionId'], $con); 
-  $resRR=mysql_fetch_assoc($sqlRR);
-  $sqlZZ=mysql_query("select ZoneName from hrm_sales_zone where ZoneId=".$resRR['ZoneId'], $con); 
-  $resZZ=mysql_fetch_assoc($sqlZZ);
-  $VresRgnf=$resRR['RegionName']; $Znf=$resZZ['ZoneName'];
+   if($resRId['RegionId']>0)
+   {
+    $sqlRR=mysql_query("select RegionName,ZoneId from hrm_sales_region where RegionId=".$resRId['RegionId'], $con); 
+    $resRR=mysql_fetch_assoc($sqlRR);
+   $sqlZZ=mysql_query("select ZoneName from hrm_sales_zone where ZoneId=".$resRR['ZoneId'], $con); 
+   $resZZ=mysql_fetch_assoc($sqlZZ);
+   $VresRgnf=$resRR['RegionName']; $Znf=$resZZ['ZoneName'];
+   }
+   else {  $VresRgnf='.'; $Znf='.'; }
  }
  
 }
@@ -460,7 +468,7 @@ $csv_output .= '"'.str_replace('"', '""', $res['DealerCity']).'",';
 if($_SESSION['Vertical']==14 OR $_SESSION['Vertical']==16 OR $_SESSION['Hqv']>0)
 {
 $csv_output .= '"'.str_replace('"', '""', $Hqv).'",';
-$csv_output .= '"'.str_replace('"', '""', $rEv).'",';
+$csv_output .= '"'.str_replace('"', '""', $res['Hq_vc'].'-'.$rEv).'",';
 $csv_output .= '"'.str_replace('"', '""', $VresRgnv).'",';
 $csv_output .= '"'.str_replace('"', '""', $Znv).'",';
 }
