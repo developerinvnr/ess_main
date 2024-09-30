@@ -89,6 +89,7 @@
 	  <li><a href="ImportAssExcel.php">Import Asst Bill</a></li>  */ ?>
 	  <li><a href="ImportEmp.php">Import Emp Details</a></li>
 	  <li><a href="AjayUpdatedDetails.php">Updated Details</a></li>
+	  <li><a href="core_api.php">Core Data</a></li>
           <li><a href="RetiMailEscalate.php">Retirement Mail Escalated</a></li>
           <li><a href="UELogBook.php">LogBook</a></li>
 	  <?php } ?>		 
