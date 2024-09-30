@@ -299,6 +299,7 @@ if($_REQUEST['For']=='MoveAllEmp')
 	 'Action'=> 'AllEmpDataMoveToVess',
 	 'vv'=> 'Y',
 	 'EmployeeID'=> $res['EmployeeID'], 
+	 'DepartmentId' =>$res['DepartmentId'],
 	 'DesigId' =>$res['DesigId'],
 	 'Designation'=> $rDesig['DesigName'],
 	 'Vertical'=> $rVer['VerticalName'],
