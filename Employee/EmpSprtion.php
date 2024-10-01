@@ -13,7 +13,7 @@ if(isset($_POST['SentRes']))
 { 
 
   $AfterFiveDay=date("Y-m-d",strtotime('+5 day')); $After30Day=date("Y-m-d",strtotime('+30 day'));
-  $sqlE=mysql_query("select AppraiserId,HodId from hrm_employee_reporting where EmployeeID=".$EmployeeId, $con); 
+  $sqlE=mysql_query("select * from hrm_employee_reporting where EmployeeID=".$EmployeeId, $con); 
   $resE=mysql_fetch_assoc($sqlE);
   $sqlApp=mysql_query("select EmpCode,Fname,Sname,Lname from hrm_employee where EmployeeID=".$resE['AppraiserId'], $con); 
   $resApp=mysql_fetch_assoc($sqlApp); $Aname=$resApp['Fname'].' '.$resApp['Sname'].' '.$resApp['Lname'];
@@ -61,14 +61,14 @@ if(isset($_POST['SentRes']))
          if($rowch==0)
          {
      
-	       $sqlIns=mysql_query("insert IGNORE into hrm_employee_separation(EmpSepId, EmployeeID, Emp_ResignationDate, Emp_RelievingDate, Emp_Reason, RetainQAns1, RetainQAns2, RetainQAns3, NoticeDay, Emp_Resignation_Status, Emp_SaveDate, Rep_EmployeeID, Log_EmployeeID, HOD_Date, Hod_EmployeeID, HR_Date, ResignationStatus, SprUploadFile, YearId) values(".$MaxId.", ".$EmployeeId.", '".date("Y-m-d", strtotime($_POST['ResDate']))."', '".date("Y-m-d", strtotime($_POST['RelDate']))."', '".addslashes($_POST['Reason'])."', '".addslashes($_POST['RetainQAns1'])."', '".addslashes($_POST['RetainQAns2'])."', '".addslashes($_POST['RetainQAns3'])."', ".$_POST['NoticeDay'].", 'Y', '".date("Y-m-d H:i:s")."', ".$resE['AppraiserId'].", ".$logEmp.", '".$AfterFiveDay."', ".$resE['HodId'].", '".$After30Day."', 1, '".$newfile."', ".$YearId.")", $con); 
+	       $sqlIns=mysql_query("insert IGNORE into hrm_employee_separation(EmpSepId, EmployeeID, Emp_ResignationDate, Emp_RelievingDate, Emp_Reason, RetainQAns1, RetainQAns2, RetainQAns3, NoticeDay, Emp_Resignation_Status, Emp_SaveDate, Rep_EmployeeID, Log_EmployeeID, HOD_Date, Hod_EmployeeID, HR_Date, ResignationStatus, SprUploadFile, YearId) values(".$MaxId.", ".$EmployeeId.", '".date("Y-m-d", strtotime($_POST['ResDate']))."', '".date("Y-m-d", strtotime($_POST['RelDate']))."', '".addslashes($_POST['Reason'])."', '".addslashes($_POST['RetainQAns1'])."', '".addslashes($_POST['RetainQAns2'])."', '".addslashes($_POST['RetainQAns3'])."', ".$_POST['NoticeDay'].", 'Y', '".date("Y-m-d H:i:s")."', ".$resE['AppraiserId'].", ".$logEmp.", '".$AfterFiveDay."', ".$resE['ReviewerId'].", '".$After30Day."', 1, '".$newfile."', ".$YearId.")", $con); 
 	 
 	      /** ---------------------------------------------------- **/
 	      /** ---------------------------------------------------- **/
 	       if($sqlIns)
            {  
             $sqlRep=mysql_query("select EmailId_Vnr from hrm_employee_general where EmployeeID=".$resE['AppraiserId'],$con);
-	        $sqlHod=mysql_query("select EmailId_Vnr from hrm_employee_general where EmployeeID=".$resE['HodId'], $con);
+	        $sqlHod=mysql_query("select EmailId_Vnr from hrm_employee_general where EmployeeID=".$resE['ReviewerId'], $con);
 	        $resRep=mysql_fetch_assoc($sqlRep); $resHod=mysql_fetch_assoc($sqlHod);
 
 	        /** -- Reporting -- **/   
