@@ -18,10 +18,10 @@ $sqlD=mysql_query("select DepartmentName from hrm_department where DepartmentId=
 $sqlDe=mysql_query("select DesigName from hrm_designation where DesigId=".$resE['DesigId'], $con); $resDe=mysql_fetch_assoc($sqlDe);
 $sqlG=mysql_query("select GradeValue from hrm_grade where GradeId=".$resE['GradeId'], $con); $resG=mysql_fetch_assoc($sqlG);
 $sqlHq=mysql_query("select HqName from hrm_headquater where HqId=".$resE['HqId'], $con); $resHq=mysql_fetch_assoc($sqlHq); 
-$sqlPms=mysql_query("select AppraiserId, HodId from hrm_employee_reporting where EmployeeID=".$EmployeeId, $con); $resPms=mysql_fetch_assoc($sqlPms); 
+$sqlPms=mysql_query("select * from hrm_employee_reporting where EmployeeID=".$EmployeeId, $con); $resPms=mysql_fetch_assoc($sqlPms); 
 $sqlRe=mysql_query("select Fname, Sname, Lname, Gender, DR, Married from hrm_employee INNER JOIN hrm_employee_general ON hrm_employee.EmployeeID=hrm_employee_general.EmployeeID INNER JOIN hrm_employee_personal ON hrm_employee.EmployeeID=hrm_employee_personal.EmployeeID where hrm_employee.EmployeeID=".$resPms['AppraiserId'], $con); $resRe=mysql_fetch_assoc($sqlRe); 
 if($resRe['DR']=='Y'){$MRe='Dr.';} elseif($resRe['Gender']=='M'){$MRe='Mr.';} elseif($resRe['Gender']=='F' AND $resRe['Married']=='Y'){$MRe='Mrs.';} elseif($resRe['Gender']=='F' AND $resRe['Married']=='N'){$MRe='Miss.';}  $NameRe=$MRe.' '.$resRe['Fname'].' '.$resRe['Sname'].' '.$resRe['Lname'];
-$sqlHo=mysql_query("select Fname, Sname, Lname, Gender, DR, Married from hrm_employee INNER JOIN hrm_employee_general ON hrm_employee.EmployeeID=hrm_employee_general.EmployeeID INNER JOIN hrm_employee_personal ON hrm_employee.EmployeeID=hrm_employee_personal.EmployeeID where hrm_employee.EmployeeID=".$resPms['HodId'], $con); $resHo=mysql_fetch_assoc($sqlHo);
+$sqlHo=mysql_query("select Fname, Sname, Lname, Gender, DR, Married from hrm_employee INNER JOIN hrm_employee_general ON hrm_employee.EmployeeID=hrm_employee_general.EmployeeID INNER JOIN hrm_employee_personal ON hrm_employee.EmployeeID=hrm_employee_personal.EmployeeID where hrm_employee.EmployeeID=".$resPms['ReviewerId'], $con); $resHo=mysql_fetch_assoc($sqlHo);
 if($resHo['DR']=='Y'){$MHo='Dr.';} elseif($resHo['Gender']=='M'){$MHo='Mr.';} elseif($resHo['Gender']=='F' AND $resHo['Married']=='Y'){$MHo='Mrs.';} elseif($resHo['Gender']=='F' AND $resHo['Married']=='N'){$MHo='Miss.';}  $NameHo=$MHo.' '.$resHo['Fname'].' '.$resHo['Sname'].' '.$resHo['Lname'];
 ?>
 <table style="vertical-align:top;width:800px;" align="center" border="0">
@@ -77,7 +77,7 @@ if($resHo['DR']=='Y'){$MHo='Dr.';} elseif($resHo['Gender']=='M'){$MHo='Mr.';} el
 			<tr>
 			  <td class="head" style="width:100px;" valign="top">&nbsp;Reporting Mgr</td>
 			  <td class="data" style="width:250px;text-transform:uppercase;" valign="top">&nbsp;<?php echo $NameRe; ?></td>
-			  <td class="head" style="width:100px;" valign="top">&nbsp;HOD</td>
+			  <td class="head" style="width:100px;" valign="top">&nbsp;Reviewer</td>
 			  <td class="data" style="width:225px;text-transform:uppercase;" valign="top">&nbsp;<?php echo $NameHo; ?></td>
 			</tr>
 		   </table>
