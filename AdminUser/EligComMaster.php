@@ -182,7 +182,7 @@ function ClickChkHq(no,dpi)
  <tr>
 <?php $Dpt="AND (DepartmentId='".$_REQUEST['dp1']."' OR DepartmentId='".$_REQUEST['dp2']."' OR DepartmentId='".$_REQUEST['dp3']."' OR DepartmentId='".$_REQUEST['dp4']."' OR DepartmentId='".$_REQUEST['dp5']."' OR DepartmentId='".$_REQUEST['dp6']."' OR DepartmentId='".$_REQUEST['dp7']."' OR DepartmentId='".$_REQUEST['dp8']."' OR DepartmentId='".$_REQUEST['dp9']."' OR DepartmentId='".$_REQUEST['dp10']."' OR DepartmentId='".$_REQUEST['dp11']."' OR DepartmentId='".$_REQUEST['dp12']."' OR DepartmentId='".$_REQUEST['dp13']."' OR DepartmentId='".$_REQUEST['dp14']."' OR DepartmentId='".$_REQUEST['dp15']."' OR DepartmentId='".$_REQUEST['dp16']."' OR DepartmentId='".$_REQUEST['dp17']."' OR DepartmentId='".$_REQUEST['dp18']."' OR DepartmentId='".$_REQUEST['dp19']."' OR DepartmentId='".$_REQUEST['dp20']."')"; ?>
 
-<?php $sD=mysql_query("select DepartmentId, DepartmentName, DepartmentCode from hrm_department where CompanyId=".$CompanyId." AND DeptStatus='A' AND DepartmentName!='Management' AND DepartmentName!='Farm' ".$Dpt." order by DepartmentName",$con); 
+<?php $sD=mysql_query("select DepartmentId, DepartmentName, DepartmentCode from hrm_department where CompanyId=".$CompanyId." AND DeptStatus='A' AND DepartmentName!='Farm' ".$Dpt." order by DepartmentName",$con); //AND DepartmentName!='Management' 
 $rowD=mysql_num_rows($sD);  $Dptry=array(); while($rD=mysql_fetch_assoc($sD)){ $Dptry[]=$rD; } ?>
  
 <?php //*****************************************************************************************************?> 
