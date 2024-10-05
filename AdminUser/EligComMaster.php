@@ -160,7 +160,7 @@ function show_Return(originalRequest)
 <!-------------------------------------->
  <table border="0" cellpadding="0" cellspacing="4" cellpadding="0"> 
    <tr> 
-<?php $sqlDe=mysql_query("select DepartmentId, DepartmentName, DepartmentCode from hrm_department where CompanyId=".$CompanyId." AND DeptStatus='A' AND DepartmentName!='Management' AND DepartmentName!='Farm' order by DepartmentName", $con); $no=0; $rowDe=mysql_num_rows($sqlDe); while($resDe=mysql_fetch_array($sqlDe)){ $no=$no+1; ?>		
+<?php $sqlDe=mysql_query("select DepartmentId, DepartmentName, DepartmentCode from hrm_department where CompanyId=".$CompanyId." AND DeptStatus='A' AND DepartmentName!='Farm' order by DepartmentName", $con); $no=0; $rowDe=mysql_num_rows($sqlDe); while($resDe=mysql_fetch_array($sqlDe)){ $no=$no+1; //AND DepartmentName!='Management' ?>		
     <td align="center" style="height:25px;background-color:#AD6DB6;font-family:Times New Roman;font-size:12px;color:#FFFFFF;font-weight:bold; width:120px;" id="TD_<?php echo $no; ?>">
 	<input type="checkbox" id="Chk_<?php echo $no; ?>" <?php if($_REQUEST['dp'.$no]>0){echo 'checked';} ?> onClick="ClickChkHq(<?php echo $no.','.$resDe['DepartmentId']; ?>)" />&nbsp;<?php echo substr_replace($resDe['DepartmentCode'], '', 10); ?></td>
 <?php if($no%10==0) { ?></tr><tr> <?php } } ?>
