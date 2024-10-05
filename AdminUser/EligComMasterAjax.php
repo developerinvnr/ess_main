@@ -1,7 +1,7 @@
 <?php session_start();
  if($_SESSION['login'] = true){require_once('config/config.php');} else {$msg= "Session Expiry...............";}
 
-/*	
+
 
 if(isset($_POST['Act']) && $_POST['Act']=='EligMasterUpdate' && $_POST['clm']!='' && $_POST['grd']!='' && $_POST['dpt']!='' && $_POST['vrt']!='' && $_POST['com']!='')
 {
@@ -45,6 +45,6 @@ if(isset($_POST['Act']) && $_POST['Act']=='EligMasterUpdate' && $_POST['clm']!='
 
 }
 
-*/
+
 
 ?>
