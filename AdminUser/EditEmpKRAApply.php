@@ -120,7 +120,7 @@ $re=mysql_fetch_assoc($se); ?>
 	<th style="width:5%;text-align:center;">Grade</th>
 	<th style="width:10%;text-align:center;">Check</th>
    </tr>
-   <?php $sEmp=mysql_query("select e.EmployeeID, EmpCode, Fname, Sname, Lname, GradeValue from hrm_employee e inner join hrm_employee_general g on e.EmployeeID=g.EmployeeID inner join hrm_grade gr on g.GradeId=gr.GradeId where g.DepartmentId=".$_REQUEST['di']." AND EmpStatus='A' AND e.EmployeeID!=".$_REQUEST['ei']." order by EmpCode ASC",$con); 
+   <?php $sEmp=mysql_query("select e.EmployeeID, EmpCode, Fname, Sname, Lname, GradeValue from hrm_employee e inner join hrm_employee_general g on e.EmployeeID=g.EmployeeID inner join hrm_grade gr on g.GradeId=gr.GradeId where g.DepartmentId=".$_REQUEST['di']." AND EmpStatus='A' AND e.EmployeeID!=".$_REQUEST['ei']." order by e.ECode ASC",$con); 
    
    //AND g.GradeId=".$_REQUEST['gi']."
    
