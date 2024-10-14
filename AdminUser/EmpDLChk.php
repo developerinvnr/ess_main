@@ -282,7 +282,7 @@ elseif($_POST['For']=='ChkMoveRep' && $_POST['Eid']!='' && $_POST['vv']!='')
 if($_REQUEST['For']=='MoveAllEmp')
 { 
     	
-    $sql=mysql_query("select g.EmployeeID,DesigId,HqId,EmpVertical,DepartmentId from hrm_employee_general g left join hrm_employee e on e.EmployeeID=g.EmployeeID where e.MoveRep='Y'",$con);
+    $sql=mysql_query("select e.EmpStatus, g.EmployeeID,DesigId,HqId,EmpVertical,DepartmentId from hrm_employee_general g left join hrm_employee e on e.EmployeeID=g.EmployeeID where e.MoveRep='Y'",$con);
     
 	while($res=mysql_fetch_assoc($sql))
 	{
@@ -299,6 +299,7 @@ if($_REQUEST['For']=='MoveAllEmp')
 	 'Action'=> 'AllEmpDataMoveToVess',
 	 'vv'=> 'Y',
 	 'EmployeeID'=> $res['EmployeeID'], 
+	 'EmpStatus'=>$res['EmpStatus'],
 	 'DepartmentId' =>$res['DepartmentId'],
 	 'DesigId' =>$res['DesigId'],
 	 'Designation'=> $rDesig['DesigName'],
