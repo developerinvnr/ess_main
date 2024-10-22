@@ -11,7 +11,7 @@ function redirectToOjas($employeeId) {
 
     // Create JWT payload
     $payload = array(
-        'iss' => 'https://ess-app.com',  // Issuer
+        'iss' => 'https://vnrseeds.com',  // Issuer
         'sub' => $employeeId,            // Subject - Employee ID
         'iat' => $issuedAt,              // Issued at
         'exp' => $expirationTime         // Expiration time
