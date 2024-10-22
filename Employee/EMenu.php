@@ -638,7 +638,7 @@ if (($_SESSION['EmpType'] == 'E' or $_SESSION['EmpType'] == 'M') and $_SESSION['
                             }
                             
                             function OpenOJAS(ei){
-                                window.open("OpenOjas.php?ei=" + ei + "&Event=Edit&oo=we&p=g&ok=true&rslt=y&pp=qw_res##ius&log=true",'_blank');
+                                window.open("OpenOjas.php?ei=" + ei,'_blank');
                                 window.focus();
                             }
                         </script>
