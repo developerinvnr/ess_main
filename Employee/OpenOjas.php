@@ -20,7 +20,7 @@ function redirectToOjas($employeeId) {
     // Encode JWT token
     $jwt = JWT::encode($payload, $secretKey);
     // Redirect to OJAS login with the token
-    header("Location: https://ojas.vnrseeds.co.in/api/ojas-login?token=$jwt");
+    header("Location: https://ojas.vnrseeds.co.in/ojas-login?token=$jwt");
     exit();
 }
 
