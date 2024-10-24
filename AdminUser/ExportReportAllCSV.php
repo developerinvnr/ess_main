@@ -228,22 +228,22 @@ if($_REQUEST['value']=='All')
 { 
  if($_REQUEST['s']=='AD')
  {
-  $result=mysql_query("select e.*, p.*,g.*,c.*,f.*,ct.*,el.* from hrm_employee_general g INNER JOIN hrm_employee e ON g.EmployeeID=e.EmployeeID INNER JOIN hrm_employee_personal p ON g.EmployeeID=p.EmployeeID INNER JOIN hrm_employee_contact c ON g.EmployeeID=c.EmployeeID INNER JOIN hrm_employee_family f ON g.EmployeeID=f.EmployeeID INNER JOIN hrm_employee_ctc ct ON g.EmployeeID=ct.EmployeeID INNER JOIN hrm_employee_eligibility el ON g.EmployeeID=el.EmployeeID where e.CompanyId=".$_REQUEST['C']." AND (e.EmpStatus='A' OR e.EmpStatus='D') AND ct.Status='A' AND el.Status='A' group by e.EmpCode order by e.ECode ASC", $con);
+  $result=mysql_query("select e.*, p.*,g.*,c.*,f.*,ct.*,el.* from hrm_employee_general g LEFT JOIN hrm_employee e ON g.EmployeeID=e.EmployeeID LEFT JOIN hrm_employee_personal p ON g.EmployeeID=p.EmployeeID LEFT JOIN hrm_employee_contact c ON g.EmployeeID=c.EmployeeID LEFT JOIN hrm_employee_family f ON g.EmployeeID=f.EmployeeID LEFT JOIN hrm_employee_ctc ct ON g.EmployeeID=ct.EmployeeID LEFT JOIN hrm_employee_eligibility el ON g.EmployeeID=el.EmployeeID where e.CompanyId=".$_REQUEST['C']." AND (e.EmpStatus='A' OR e.EmpStatus='D') AND ct.Status='A' AND el.Status='A' group by e.EmpCode order by e.ECode ASC", $con);
  }
  else
  {
-  $result=mysql_query("select e.*, p.*,g.*,c.*,f.*,ct.*,el.* from hrm_employee_general g INNER JOIN hrm_employee e ON g.EmployeeID=e.EmployeeID INNER JOIN hrm_employee_personal p ON g.EmployeeID=p.EmployeeID INNER JOIN hrm_employee_contact c ON g.EmployeeID=c.EmployeeID INNER JOIN hrm_employee_family f ON g.EmployeeID=f.EmployeeID INNER JOIN hrm_employee_ctc ct ON g.EmployeeID=ct.EmployeeID INNER JOIN hrm_employee_eligibility el ON g.EmployeeID=el.EmployeeID where e.CompanyId=".$_REQUEST['C']." AND e.EmpStatus='".$_REQUEST['s']."' AND ct.Status='A' AND el.Status='A' group by e.EmpCode order by e.ECode ASC", $con);
+  $result=mysql_query("select e.*, p.*,g.*,c.*,f.*,ct.*,el.* from hrm_employee_general g LEFT JOIN hrm_employee e ON g.EmployeeID=e.EmployeeID LEFT JOIN hrm_employee_personal p ON g.EmployeeID=p.EmployeeID LEFT JOIN hrm_employee_contact c ON g.EmployeeID=c.EmployeeID LEFT JOIN hrm_employee_family f ON g.EmployeeID=f.EmployeeID LEFT JOIN hrm_employee_ctc ct ON g.EmployeeID=ct.EmployeeID LEFT JOIN hrm_employee_eligibility el ON g.EmployeeID=el.EmployeeID where e.CompanyId=".$_REQUEST['C']." AND e.EmpStatus='".$_REQUEST['s']."' AND ct.Status='A' AND el.Status='A' group by e.EmpCode order by e.ECode ASC", $con);
  } 
 }
 else 
 { 
  if($_REQUEST['s']=='AD')
  {
-  $result=mysql_query("select e.*, p.*,g.*,c.*,f.*,ct.*,el.* from hrm_employee_general g INNER JOIN hrm_employee e ON g.EmployeeID=e.EmployeeID INNER JOIN hrm_employee_personal p ON g.EmployeeID=p.EmployeeID INNER JOIN hrm_employee_contact c ON g.EmployeeID=c.EmployeeID INNER JOIN hrm_employee_family f ON g.EmployeeID=f.EmployeeID INNER JOIN hrm_employee_ctc ct ON g.EmployeeID=ct.EmployeeID INNER JOIN hrm_employee_eligibility el ON g.EmployeeID=el.EmployeeID where g.DepartmentId=".$_REQUEST['value']." AND e.CompanyId=".$_REQUEST['C']." AND (e.EmpStatus='A' OR e.EmpStatus='D') AND ct.Status='A' AND el.Status='A' group by e.EmpCode order by e.ECode ASC", $con);
+  $result=mysql_query("select e.*, p.*,g.*,c.*,f.*,ct.*,el.* from hrm_employee_general g LEFT JOIN hrm_employee e ON g.EmployeeID=e.EmployeeID LEFT JOIN hrm_employee_personal p ON g.EmployeeID=p.EmployeeID LEFT JOIN hrm_employee_contact c ON g.EmployeeID=c.EmployeeID LEFT JOIN hrm_employee_family f ON g.EmployeeID=f.EmployeeID LEFT JOIN hrm_employee_ctc ct ON g.EmployeeID=ct.EmployeeID LEFT JOIN hrm_employee_eligibility el ON g.EmployeeID=el.EmployeeID where g.DepartmentId=".$_REQUEST['value']." AND e.CompanyId=".$_REQUEST['C']." AND (e.EmpStatus='A' OR e.EmpStatus='D') AND ct.Status='A' AND el.Status='A' group by e.EmpCode order by e.ECode ASC", $con);
  }
  else
  {
-  $result=mysql_query("select e.*, p.*,g.*,c.*,f.*,ct.*,el.* from hrm_employee_general g INNER JOIN hrm_employee e ON g.EmployeeID=e.EmployeeID INNER JOIN hrm_employee_personal p ON g.EmployeeID=p.EmployeeID INNER JOIN hrm_employee_contact c ON g.EmployeeID=c.EmployeeID INNER JOIN hrm_employee_family f ON g.EmployeeID=f.EmployeeID INNER JOIN hrm_employee_ctc ct ON g.EmployeeID=ct.EmployeeID INNER JOIN hrm_employee_eligibility el ON g.EmployeeID=el.EmployeeID where g.DepartmentId=".$_REQUEST['value']." AND e.CompanyId=".$_REQUEST['C']." AND e.EmpStatus='".$_REQUEST['s']."' AND ct.Status='A' AND el.Status='A' group by e.EmpCode order by e.ECode ASC", $con);
+  $result=mysql_query("select e.*, p.*,g.*,c.*,f.*,ct.*,el.* from hrm_employee_general g LEFT JOIN hrm_employee e ON g.EmployeeID=e.EmployeeID LEFT JOIN hrm_employee_personal p ON g.EmployeeID=p.EmployeeID LEFT JOIN hrm_employee_contact c ON g.EmployeeID=c.EmployeeID LEFT JOIN hrm_employee_family f ON g.EmployeeID=f.EmployeeID LEFT JOIN hrm_employee_ctc ct ON g.EmployeeID=ct.EmployeeID LEFT JOIN hrm_employee_eligibility el ON g.EmployeeID=el.EmployeeID where g.DepartmentId=".$_REQUEST['value']." AND e.CompanyId=".$_REQUEST['C']." AND e.EmpStatus='".$_REQUEST['s']."' AND ct.Status='A' AND el.Status='A' group by e.EmpCode order by e.ECode ASC", $con);
  }
   
 } 
