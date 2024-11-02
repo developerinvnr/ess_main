@@ -770,10 +770,10 @@ $sqlGE=mysql_query("select GradeId from hrm_employee_general g where DepartmentI
 $rowRptN=mysql_num_rows($sqlRptN); $resRptN=mysql_fetch_assoc($sqlRptN); 
 $sqlGE=mysql_query("select GradeId from hrm_employee_general where DepartmentId=6 AND EmployeeID=".$_REQUEST['SelName'], $con); $resGE=mysql_fetch_assoc($sqlGE); ?>	 
      <?php if($rowRptN==0){ ?>
-     <?php $sHq=mysql_query("select d.Hq_vc as HqId,HqName from hrm_sales_dealer d INNER JOIN hrm_headquater hq ON d.Hq_vc=hq.HqId where Terr_vc.EmployeeID=".$_REQUEST['SelName']." AND d.DealerSts='A' group by Hq_vc order by HqName ASC", $con); while($rHq=mysql_fetch_assoc($sHq)){ ?>
+     <?php $sHq=mysql_query("select d.Hq_vc as HqId,HqName from hrm_sales_dealer d INNER JOIN hrm_headquater hq ON d.Hq_vc=hq.HqId where Terr_vc=".$_REQUEST['SelName']." AND d.DealerSts='A' group by Hq_vc order by HqName ASC", $con); while($rHq=mysql_fetch_assoc($sHq)){ ?>
 	 <option value="<?php echo $rHq['HqId']; ?>"><?php echo strtoupper($rHq['HqName']); ?></option><?php } ?>
-	 <?php $ssHqv=mysql_query("select Hq_vc from hrm_sales_dealer d INNER JOIN hrm_headquater hq ON d.Hq_vc=hq.HqId where Terr_vc.EmployeeID=".$_REQUEST['SelName']." AND d.DealerSts='A' group by Hq_vc order by HqName ASC"); $rowHqv=mysql_num_rows($ssHqv); while($rrHqv=mysql_fetch_array($ssHqv)){ $arr_v[]=$rrHqv['Hq_vc']; } if($rowHqv>0){ $Hqv = implode(',', $arr_v); }else{ $Hqv='99999';} 
-	 $sHq=mysql_query("select d.Hq_fc as HqId,HqName from hrm_sales_dealer d INNER JOIN hrm_headquater hq ON d.Hq_fc=hq.HqId where Terr_fc.EmployeeID=".$_REQUEST['SelName']." AND d.DealerSts='A' d.Hq_fc NOT IN (".$Hqv.") group by Hq_fc order by HqName ASC", $con); while($rHq=mysql_fetch_assoc($sHq)){ ?>
+	 <?php $ssHqv=mysql_query("select Hq_vc from hrm_sales_dealer d INNER JOIN hrm_headquater hq ON d.Hq_vc=hq.HqId where Terr_vc=".$_REQUEST['SelName']." AND d.DealerSts='A' group by Hq_vc order by HqName ASC"); $rowHqv=mysql_num_rows($ssHqv); while($rrHqv=mysql_fetch_array($ssHqv)){ $arr_v[]=$rrHqv['Hq_vc']; } if($rowHqv>0){ $Hqv = implode(',', $arr_v); }else{ $Hqv='99999';} 
+	 $sHq=mysql_query("select d.Hq_fc as HqId,HqName from hrm_sales_dealer d INNER JOIN hrm_headquater hq ON d.Hq_fc=hq.HqId where Terr_fc=".$_REQUEST['SelName']." AND d.DealerSts='A' d.Hq_fc NOT IN (".$Hqv.") group by Hq_fc order by HqName ASC", $con); while($rHq=mysql_fetch_assoc($sHq)){ ?>
 	 <option value="<?php echo $rHq['HqId']; ?>"><?php echo strtoupper($rHq['HqName']); ?></option><?php } ?>
 	 
 	 <?php } elseif($rowRptN>0 AND ($resGE['GradeId']!=68 AND $resGE['GradeId']!=69 AND $resGE['GradeId']!=70 AND $resGE['GradeId']!=71)){ ?>
