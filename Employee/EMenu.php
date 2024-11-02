@@ -636,6 +636,11 @@ if (($_SESSION['EmpType'] == 'E' or $_SESSION['EmpType'] == 'M') and $_SESSION['
                                 window.open("sp/user/Index.php?oo=we&p=g&ok=true&rslt=y&pp=qw_res##ius&log=true&&oo=we&p=g&ok=true&rslt=y&pp=qw_res##ius&log=true&ei=" + ei + "&Event=Edit&oo=we&p=g&ok=true&rslt=y&pp=qw_res##ius&log=true", '_blank');
                                 window.focus();
                             }
+                            
+                            function OpenOJAS(ei){
+                                window.open("OpenOjas.php?ei=" + ei,'_blank');
+                                window.focus();
+                            }
                         </script>
                         <?php $sdept = mysql_query("select DepartmentId from hrm_employee_general where EmployeeID=" . $EmployeeId, $con);
                         $rdept = mysql_fetch_assoc($sdept);
@@ -654,7 +659,9 @@ if (($_SESSION['EmpType'] == 'E' or $_SESSION['EmpType'] == 'M') and $_SESSION['
                             </li>
                         <?php } elseif (($EmployeeId == 223 or $EmployeeId == 461 or $EmployeeId == 224 or $EmployeeId == 169 or $EmployeeId == 1084 or $EmployeeId == 53 or $EmployeeId == 142 or $EmployeeId == 97) and $rowLch > 0) { ?>
                             <li class="top"><a href="#" onclick="OpenSUserPlan(<?php echo $EmployeeId; ?>)" class="top_link">SP</a></li>
-                            
+                            <?php if($EmployeeId == 1084 or $EmployeeId == 169) {?>
+                            <li class="top"><a href="#" onclick="OpenOJAS(<?php echo $EmployeeId; ?>)" class="top_link">OJAS</a></li>
+                            <?php }?>
                         <?php } if(($rdept['DepartmentId'] == 1 OR $rdept['DepartmentId'] == 9) AND ($EmployeeId == 169 or $EmployeeId == 1315) and $rowLch>0){ ?>
                             <li class="top"><a href="#nogo22" class="top_link"><span class="down">TFC</span></a>
                                 <ul class="sub">
