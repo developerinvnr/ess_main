@@ -485,7 +485,15 @@ if (($_SESSION['EmpType'] == 'E' or $_SESSION['EmpType'] == 'M') and $_SESSION['
                                             <?php if ($rowApp > 0 and $rowHod == 0) { ?> <li><a href="EmpPendingConfLetter.php">Pending Confirmation</a></li><?php } ?>
                                             <?php if ($rowApp == 0 and $rowHod > 0) { ?> <li><a href="EmpHodPendingConfLetter.php">>Confirmation Form</a></li><?php } ?>
 
-                                            <?php $svs = mysql_query("select * from hrm_employee where EmployeeID=" . $EmployeeId, $con);
+                                            <?php 
+											
+											$rpt= mysql_query("SELECT r.EmployeeID from hrm_employee_reporting r inner join hrm_employee e on r.EmployeeID=e.EMployeeID where e.EmpStatus='A' AND e.CompanyId=".$_SESSION['CompanyId']." AND (r.AppraiserId=".$_SESSION['EmployeeID']." OR r.ReviewerId=".$_SESSION['EmployeeID']." OR r.HodId=".$_SESSION['EmployeeID'].")",$con2); $rowst=mysql_num_rows($rpt); $array_et = array();
+  if($rowst>0){while($rpvt=mysql_fetch_array($rpt)){$array_et[]=$rpvt['EmployeeID'];} $eet = implode(',', $array_et);}
+											
+											
+											
+											
+											$svs = mysql_query("select * from hrm_employee where EmployeeID=" . $EmployeeId, $con);
                                             $resv = mysql_fetch_assoc($svs);
                                             if ($resv['MoveRep'] == 'Y') {
 
@@ -496,7 +504,7 @@ if (($_SESSION['EmpType'] == 'E' or $_SESSION['EmpType'] == 'M') and $_SESSION['
                                                 }
 
                                             ?>
-                                                <li><a href="https://www.vnress.in/Employee/RepIndxHome.php?ID=<?= $EId ?>" target="_blank">Other Team Group</a></li>
+                                                <li><a href="https://www.vnress.in/Employee/RepIndxHome.php?ID=<?=$EId?>&eet=<?=$eet?>" target="_blank">Other Team Group</a></li>
                                             <?php } ?>
 
                                         </ul>
