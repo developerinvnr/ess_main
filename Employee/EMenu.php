@@ -487,7 +487,7 @@ if (($_SESSION['EmpType'] == 'E' or $_SESSION['EmpType'] == 'M') and $_SESSION['
 
                                             <?php 
 											
-											$rpt= mysql_query("SELECT r.EmployeeID from hrm_employee_reporting r inner join hrm_employee e on r.EmployeeID=e.EMployeeID where e.EmpStatus='A' AND e.CompanyId=".$CompanyId." AND (r.AppraiserId=".$EmployeeId." OR r.ReviewerId=".$EmployeeId." OR r.HodId=".$EmployeeId.")",$con2); 
+											$rpt= mysql_query("SELECT r.EmployeeID from hrm_employee_reporting r inner join hrm_employee e on r.EmployeeID=e.EMployeeID where e.EmpStatus='A' AND e.CompanyId=".$CompanyId." AND (r.AppraiserId=".$EmployeeId." OR r.ReviewerId=".$EmployeeId." OR r.HodId=".$EmployeeId.")",$con); 
 											$rowst=mysql_num_rows($rpt); $array_et = array();
   if($rowst>0){while($rpvt=mysql_fetch_array($rpt)){$array_et[]=$rpvt['EmployeeID'];} $eet = implode(',', $array_et);}
 											
