@@ -318,7 +318,7 @@ if($_REQUEST['hq']>0){ $qry='(d.Hq_vc='.$_REQUEST['hq'].' OR d.Hq_fc='.$_REQUEST
 elseif($_REQUEST['s']>0){ $qry='StateId='.$_REQUEST['s']; $qryy='StateId='.$_REQUEST['s']; }
 elseif($_REQUEST['t']>0){ $qry="(d.Terr_vc=".$_REQUEST['t']." OR d.Terr_fc=".$_REQUEST['t'].")"; $qryy='StateId='.$_REQUEST['s']; }
 
-$sHQ = mysql_query("SELECT HqId,HqName,StateName FROM hrm_headquater hq inner join hrm_state s on hq.StateId=s.StateId where hq.CompanyId=".$CompanyId." where HQStatus='A' group by HqName ASC order by HqName ASC",$con); 
+$sHQ = mysql_query("SELECT HqId,HqName,StateName FROM hrm_headquater hq inner join hrm_state s on hq.StateId=s.StateId where hq.CompanyId=".$CompanyId." AND hq.HQStatus='A' group by HqName ASC order by HqName ASC",$con); 
 ////$sHQ = mysql_query("SELECT HqId,HqName FROM hrm_headquater where ".$qryy." order by HqName ASC",$con); 
 while($rHQ=mysql_fetch_assoc($sHQ))
 { 
