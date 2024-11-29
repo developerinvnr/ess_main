@@ -27,7 +27,7 @@ function OpenClearanceF(SId,ei,d,ci)
  //01-HR, 02-R&D, 03-PD, 04/21-Production, 05-Processing, 06/19-Slaes, 07-Logistics, 08/20-Finance, 09-IT, 10-Legal, 11-Admin, 12-Marketing, 24-QA, 25-FS
  if(d==11)
  { var win=window.open("SepAdminClearForm.php?act=act&v=v&ss=vty&cc=it@~t~1212&p=value&a=app&true=false&si="+SId+"&ei="+ei,"leaveForm","menubar=no,scrollbars=yes,resizable=no,directories=no,width=850,height=500");}
- if(d==9)
+ if(d==9 || d==66)
  { var win=window.open("SepItClearForm.php?act=act&v=v&ss=vty&cc=it@~t~1212&p=value&a=app&true=false&si="+SId+"&ei="+ei,"leaveForm","menubar=no,scrollbars=yes,resizable=no,directories=no,width=850,height=500");}
  if(d==08 || d==20)
  { var win=window.open("SepAccClearForm.php?act=act&v=v&ss=vty&cc=it@~t~1212&p=value&a=app&true=false&si="+SId+"&ei="+ei+"&ci="+ci,"leaveForm","menubar=no,scrollbars=yes,resizable=no,directories=no,width=1320,height=650");}
@@ -160,13 +160,13 @@ $sqlDept=mysql_query("select DepartmentCode from hrm_department where Department
 	  
 <?php if($_REQUEST['d']==8 OR $_REQUEST['d']==20) { ?>
  <td class="TableHead1" align="center"><?php if($res['Acc_NOC']=='N'){echo '<font color="#FF8000">PENDING</font>';}elseif($res['Acc_NOC']=='Y'){ echo '<font color="#008000">SUBMITTED</font>';}?></td>
-<?php } if($_REQUEST['d']==9) { ?>	 
+<?php } if($_REQUEST['d']==9 || $_REQUEST['d']==66) { ?>	 
  <td class="TableHead1" align="center"><?php if($res['IT_NOC']=='N'){echo '<font color="#FF8000">PENDING</font>';}elseif($res['IT_NOC']=='Y'){ echo '<font color="#008000">SUBMITTED</font>';}?></td>
 <?php } if($_REQUEST['d']==11) { ?>	
  <td class="TableHead1" align="center"><?php if($res['Admin_NOC']=='N'){echo '<font color="#FF8000">PENDING</font>';}elseif($res['Admin_NOC']=='Y'){ echo '<font color="#008000">SUBMITTED</font>';}?></td>
 <?php } ?>
 	  
-<?php if($_REQUEST['d']==9){?>
+<?php if($_REQUEST['d']==9 || $_REQUEST['d']==66){?>
 <td style="font-size:12px;font-family:Times New Roman;" align="center"><a href="#" onClick="FunClickHistoryReq(<?php echo $res['EmployeeID']; ?>)">Click</a></td>
 <?php } ?>
 
@@ -178,7 +178,7 @@ $sqlDept=mysql_query("select DepartmentCode from hrm_department where Department
 	   <?php } elseif($_REQUEST['d']==20 AND ($res['HR_NOC']=='Y' OR $res['Acc_HrNOC']=='R')){?>
 	  <a href="javascript:OpenClearanceF(<?php echo $res['EmpSepId'].', '.$EmployeeId.', '.$_REQUEST['d'].', '.$CompanyId;?>)"><font color="#008000"><b>Click</b></font></a>
 	  
-	  <?php } elseif($_REQUEST['d']==9){ ?> 
+	  <?php } elseif($_REQUEST['d']==9 || $_REQUEST['d']==66 ){ ?> 
 	  <a href="javascript:OpenClearanceF(<?php echo $res['EmpSepId'].', '.$EmployeeId.', '.$_REQUEST['d'];?>)"><font color="#008000"><b>Click</b></font></a><?php } ?> 
 	  <?php } else { echo ''; }?>
 	  </td>

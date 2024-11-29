@@ -41,7 +41,7 @@ elseif($_REQUEST['value']=='MyAssetName' && $_REQUEST['empid']>0)
  $sqlMax=mysqli_query($con,"select AssetEmpReqId from hrm_asset_employee_request where EmployeeID=".$ei);  $rowMax=mysqli_num_rows($sqlMax); 
  $ReqNo=$rowMax+1;
     
- $sElg=mysqli_query($con,"select Mobile_Hand_Elig from hrm_employee_eligibility where EmployeeID=".$_REQUEST['empid']." AND Status='A'"); $rElig=mysql_fetch_assoc($sElg);
+ $sElg=mysqli_query($con,"select Mobile_Hand_Elig from hrm_employee_eligibility where EmployeeID=".$_REQUEST['empid']." AND Status='A'"); $rElig=mysqli_fetch_assoc($sElg);
  if($rElig['Mobile_Hand_Elig']=='Y'){ $sub_qry="1=1"; }
  else{ $sub_qry="an.AssetNId!=11 AND an.AssetNId!=12 AND an.AssetNId!=18"; }
  

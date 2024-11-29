@@ -1,6 +1,6 @@
-<?php 
+<?php session_start();
 require_once('config/config.php');
-
+if($_SESSION['login'] = true){require_once('AdminMenuSession.php');} else {$msg= "Session Expiry...............";}
 if($_REQUEST['action']='export') 
 { 
   
@@ -11,13 +11,14 @@ if($_REQUEST['action']='export')
  echo "Sn\tEmpCode\tName\tDepartment\tGarde\tDesignation\tTermination\tResignation Date\tRelieving Date\tType of Exit\tEmp Apply\tRep Approved\tRep Approval Deviation\tHOD Approved\tHOD Approval Deviation\tHR Approved\tHR Approval Deviation\tEmp Clearance Date\tRepExit Date\tRepExit Deviation \tRep\Departmental Clearance Date\tRep\Department Clearance Deviation\tLogistic Clearance Date\tLogistic Clearance Deviation \tIT Clearance Date\tIT Clearance Deviation\tHR Clearance Date\tHR Clearance Deviation\tAccount Clearance Date\tAccount Clearance Deviation\tTotal Deviation";
  print("\n");
 if($_REQUEST['value'] == 'All'){
+  
     $sql=mysql_query("select s.*,EmpCode,Fname,Sname,Lname,GradeValue,DesigName,DepartmentName,VCode from hrm_employee_separation s 
 INNER JOIN hrm_employee e ON s.EmployeeID=e.EmployeeID 
 INNER JOIN hrm_employee_general g on s.EmployeeID=g.EmployeeID 
 inner join hrm_grade gr on g.GradeId=gr.GradeId 
 inner join hrm_department d on g.DepartmentId=d.DepartmentId 
 inner join hrm_designation de on g.DesigId=de.DesigId 
-where s.ResignationStatus=4 
+where s.ResignationStatus=4 AND e.CompanyId=".$CompanyId."
 order by s.Emp_ResignationDate DESC", $con);
 }else{
 $sql=mysql_query("select s.*,EmpCode,Fname,Sname,Lname,GradeValue,DesigName,DepartmentName,VCode from hrm_employee_separation s 
@@ -27,7 +28,7 @@ inner join hrm_grade gr on g.GradeId=gr.GradeId
 inner join hrm_department d on g.DepartmentId=d.DepartmentId 
 inner join hrm_designation de on g.DesigId=de.DesigId 
 where s.ResignationStatus=4 
-AND g.DepartmentId=".$_REQUEST['value']." 
+AND g.DepartmentId=".$_REQUEST['value']." AND e.CompanyId=".$CompanyId."
 order by s.Emp_ResignationDate DESC", $con); 
 } 
 $row=mysql_num_rows($sql);
