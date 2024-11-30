@@ -138,8 +138,12 @@ $FFD=date("Y",strtotime($rrY['FromDate'])); $TTD=date("Y",strtotime($rrY['ToDate
 <option value="<?php echo $resD2['DepartmentId']; ?>"><?php echo $resD2['DepartmentCode']; ?></option><?php } ?>
 <option value="0"><?php echo 'All'; ?></option>
 </select>
+
    &nbsp;&nbsp;
-<a href="#" onClick="PrintCopensation(<?php echo $_REQUEST['y'].', '.$CompanyId.', '.$_REQUEST['d']; ?>)" style="font-size:12px;">Print</a>&nbsp;&nbsp;<a href="#" onClick="ExportCopensation(<?php echo $_REQUEST['y'].', '.$CompanyId.', '.$_REQUEST['d']; ?>)" style="font-size:12px;">Export Excel</a></td>
+<?php if($_REQUEST['d']>=0){ ?>
+<a href="#" onClick="PrintCopensation(<?php echo $_REQUEST['y'].', '.$CompanyId.', '.$_REQUEST['d']; ?>)" style="font-size:12px;">Print</a>&nbsp;&nbsp;<a href="#" onClick="ExportCopensation(<?php echo $_REQUEST['y'].', '.$CompanyId.', '.$_REQUEST['d']; ?>)" style="font-size:12px;">Export Excel</a>
+<?php } ?>
+</td>
    </tr>
    </table>
   </td>
@@ -182,7 +186,7 @@ $FFD=date("Y",strtotime($rrY['FromDate'])); $TTD=date("Y",strtotime($rrY['ToDate
    <td align="center"><input class="text2" id="tTot" value="0" readonly/></td>
 </tr>  
 <?php if($_REQUEST['d']>0){ $sql=mysql_query("select e.EmployeeID,EmpCode,Fname,Sname,Lname from hrm_employee e INNER JOIN hrm_employee_general g ON e.EmployeeID=g.EmployeeID where g.DepartmentId=".$_REQUEST['d']." AND g.DateJoining<'".$TD.'-03-31'."' AND e.CompanyId=".$CompanyId." order by e.ECode ASC", $con); }
-elseif($_REQUEST['d']==0){ $sql=mysql_query("select e.EmployeeID,EmpCode,Fname,Sname,Lname from hrm_employee e INNER JOIN hrm_employee_general g ON e.EmployeeID=g.EmployeeID where g.DateJoining<'".$TD.'-03-31'."' AND e.CompanyId=".$CompanyId." order by e.ECode ASC", $con); }
+//elseif($_REQUEST['d']==0){ $sql=mysql_query("select e.EmployeeID,EmpCode,Fname,Sname,Lname from hrm_employee e INNER JOIN hrm_employee_general g ON e.EmployeeID=g.EmployeeID where g.DateJoining<'".$TD.'-03-31'."' AND e.CompanyId=".$CompanyId." order by e.ECode ASC", $con); }
  $sn=1; while($res=mysql_fetch_assoc($sql)){ 
 
 $sql1=mysql_query("select Tot_GrossMonth from hrm_employee_ctc c INNER JOIN ".$PayTable1." mp ON c.EmployeeID=mp.EmployeeID where c.EmployeeID=".$res['EmployeeID']." AND CtcCreatedDate<='".date($FD.'-04-30')."' AND Month=04 AND Year=".$FD." AND Tot_Gross>0 AND CtcId=(select MAX(CtcId) from hrm_employee_ctc where hrm_employee_ctc.EmployeeID=".$res['EmployeeID']." AND CtcCreatedDate<='".date($FD.'-04-30')."')", $con); 

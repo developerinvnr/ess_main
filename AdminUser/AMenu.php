@@ -75,7 +75,13 @@
 	  <?php if($_SESSION['Master']==1 OR $_SESSION['Mas_Thought']==1){?><li><a href="Thought.php">Thought for the Day</a></li>
 	                                                                    <li><a href="SendThought.php">Send Today Event</a></li><?php } ?>
       <?php if(($_SESSION['UserType']=="S" OR $_SESSION['UserType']=="M") AND ($_SESSION['Master']==1 OR $_SESSION['Mas_NewCompany']==1)){?><li><a href="NewCompany.php">Create New Company</a></li><?php } ?>
-      <?php if($_SESSION['Master']==1 OR $_SESSION['Mas_Restructuring']==1){?><li><a href="NewComRestr.php?ee=ere&pp=prp&d=<?php echo $D; ?>&y=<?php echo date("Y"); ?>">Restructuring</a></li><?php } //NewComRestr.php ?>
+      
+	  <?php if($_SESSION['Master']==1 OR $_SESSION['Mas_Restructuring']==1){?>
+	  
+	  <?php /*<li><a href="NewComRestr.php?ee=ere&pp=prp&d=<?php echo $D; ?>&y=<?php echo date("Y"); ?>">Restructuring</a></li>*/ ?>
+	  <li><a href="NewCoreRestr.php?ee=ere&pp=prp&d=<?php echo $D; ?>&y=<?php echo date("Y"); ?>">Core Mapping</a></li>
+	  
+	  <?php } //NewComRestr.php ?>
 
       <li><b>Training/ Conference</b></li>
       <?php if($_SESSION['Processing']==1 OR $_SESSION['Pro_Training']==1){?><li><a href="ComTraining.php?Y=<?php echo date("Y"); ?>&page=1">Training</a></li><?php } ?>
@@ -513,7 +519,7 @@
      <?php if($_SESSION['Report']==1 OR $_SESSION['Report_AnnualSalary_Report']==1){?><li><a href="ReportsAnnualsalary.php?YI=<?php echo $YearId; ?>">Annual Salary Report</a></li><?php } ?>
 	 
       <li><a href="ReportsMonthlyVal.php?act=true&wew=e%e@er%rdd=012&y=<?php echo $YearId; ?>&d=0&yy=utu&mailto=promt">Paid Values</a></li>
-	  <li><a href="ReportsMonthActualVal.php?act=true&wew=e%e@er%rdd=012&y=<?php echo $YearId; ?>&d=0&yy=utu&mailto=promt">Actual Values</a></li> 
+	  <li><a href="ReportsMonthActualVal.php?act=true&wew=e%e@er%rdd=012&y=<?php echo $YearId; ?>&d=&yy=utu&mailto=promt">Actual Values</a></li> 
 	 
 	 
 	 </ul>
