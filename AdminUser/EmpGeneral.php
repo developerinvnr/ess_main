@@ -193,15 +193,20 @@ if($_POST['DeptName']!='' AND $_POST['DeptName']!=0)  //AND $_POST['DeptName']==
 	 
  if($_POST['EmpStatus']=='D')
  {
-
- $cnn=mysql_connect('184.168.127.72','vnressus_hrims_user','hrims@192');
+     
+     $check_move = mysql_query("SELECT MoveRep from hrm_employee WHERE EmployeeID=$EMPID",$con);
+     $chk = mysql_fetch_assoc($check_move);
+     if($chk =='Y'){
+          $cnn=mysql_connect('184.168.127.72','vnressus_hrims_user','hrims@192');
  $db=mysql_select_db('vnressus_hrims', $cnn);  
 
- $SqlUp1 = mysql_query("UPDATE hrm_employee SET EmpStatus='D',  DateOfResignation='".$Reg."', DateOfSepration='".$Sep."', CreatedBy=".$UserId.",CreatedDate='".date('Y-m-d')."',YearId=".$YearId." WHERE EmployeeID=".$EMPID, $cnn);
- $SqlUp2 = mysql_query("UPDATE hrm_employee_general SET RepEmployeeID=0, ReportingName='', ReportingDesigId=0,  ReportingContactNo='', ReportingEmailId='' WHERE RepEmployeeID=".$EMPID, $cnn);
- $SqlUp3 = mysql_query("UPDATE hrm_employee_reporting SET AppraiserId=0 WHERE AppraiserId=".$EMPID, $cnn);
- $SqlUp4 = mysql_query("UPDATE hrm_employee_reporting SET ReviewerId=0 WHERE ReviewerId=".$EMPID, $cnn);
- $SqlUp5 = mysql_query("UPDATE hrm_employee_reporting SET HodId=0 WHERE HodId=".$EMPID, $cnn);
+ $SqlUp1 = mysql_query("UPDATE hrm_employee SET EmpStatus='D',  DateOfResignation='".$Reg."', DateOfSepration='".$Sep."', CreatedBy=".$UserId.",CreatedDate='".date('Y-m-d')."',YearId=".$YearId." WHERE  VCode='' and EmployeeID=".$EMPID, $cnn);
+//  $SqlUp2 = mysql_query("UPDATE hrm_employee_general SET RepEmployeeID=0, ReportingName='', ReportingDesigId=0,  ReportingContactNo='', ReportingEmailId='' WHERE  RepEmployeeID=".$EMPID, $cnn);
+//  $SqlUp3 = mysql_query("UPDATE hrm_employee_reporting SET AppraiserId=0 WHERE AppraiserId=".$EMPID, $cnn);
+//  $SqlUp4 = mysql_query("UPDATE hrm_employee_reporting SET ReviewerId=0 WHERE ReviewerId=".$EMPID, $cnn);
+//  $SqlUp5 = mysql_query("UPDATE hrm_employee_reporting SET HodId=0 WHERE HodId=".$EMPID, $cnn);
+     }
+     
 
  }
 	 
