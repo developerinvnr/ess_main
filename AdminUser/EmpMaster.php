@@ -213,7 +213,7 @@ function VessNewEmp(ci,ui)
  </div>
 <?php  if($_REQUEST['DpId'] AND $_REQUEST['DpId']!=''){
 
-$selQ="e.EmployeeID, e.CandidateId, EmpCode, Fname, Sname, Lname, EmpStatus, SubmitSelfAsset, HqName, DateJoining, DepartmentCode, DesigName, Gender, Married, DR, DateConfirmationYN, ConfirmHR, Req_DrivLic, exam_allow, KRAUnBlock, DateConfirmation, UseApps, MoveRep, Unblock_Covid";
+$selQ="e.EmployeeID, e.CandidateId, EmpCode, e.VCode, Fname, Sname, Lname, EmpStatus, SubmitSelfAsset, HqName, DateJoining, DepartmentCode, DesigName, Gender, Married, DR, DateConfirmationYN, ConfirmHR, Req_DrivLic, exam_allow, KRAUnBlock, DateConfirmation, UseApps, MoveRep, Unblock_Covid";
 
 $join="hrm_employee e LEFT JOIN hrm_employee_general g ON e.EmployeeID=g.EmployeeID LEFT JOIN hrm_employee_personal p ON e.EmployeeID=p.EmployeeID LEFT JOIN hrm_department d ON g.DepartmentId=d.DepartmentId LEFT JOIN hrm_designation de ON g.DesigId=de.DesigId LEFT JOIN hrm_headquater hq ON g.HqId=hq.HqId";
 
@@ -237,7 +237,10 @@ $sqlDP = mysql_query("SELECT ".$selQ." FROM ".$join." WHERE ".$stsCon." AND ".$d
 	  if($resDP['DR']=='Y'){$MS='Dr.';} elseif($resDP['Gender']=='M'){$MS='Mr.';} elseif($resDP['Gender']=='F' AND $resDP['Married']=='Y'){$MS='Mrs.';} elseif($resDP['Gender']=='F' AND $resDP['Married']=='N'){$MS='Miss.';}  $Name=$MS.' '.$resDP['Fname'].' '.$resDP['Sname'].' '.$resDP['Lname'];
 	  $LEC=strlen($resDP['EmpCode']); 
       if($LEC==1){$EC='000'.$resDP['EmpCode'];} if($LEC==2){$EC='00'.$resDP['EmpCode'];} if($LEC==3){$EC='0'.$resDP['EmpCode'];} if($LEC>=4){$EC=$resDP['EmpCode'];}
-      
+    
+      if($resDP['VCode'] =='V'){
+          $EC = $resDP['EmpCode'];
+      }
        $sqlch=mysql_query("select * from hrm_employee_separation where EmployeeID=".$resDP['EmployeeID']." AND Rep_Approved!='C' AND Hod_Approved!='C' AND HR_Approved!='C'", $con); $rowch=mysql_num_rows($sqlch);
       
 ?>
