@@ -317,7 +317,7 @@ elseif(($_POST['LeaveType']=='CL' OR $_POST['LeaveType']=='CH') AND ($NNum1==7 O
   elseif($_POST['LeaveType']=='EL' AND $TotDays>$_POST['BalEL']){ $msg='Error!.. Please check apply no of day EL.!'; }
   elseif($_POST['LeaveType']=='FL' AND $TotDays>$_POST['BalOL']){ $msg='Error!.. Please check apply no of day FL.!'; }
   elseif($_POST['LeaveType']=='EL' AND $TotDays<3){ $msg='Error!.. EL can be taken minimum for 3 days.'; }                           // OR date("w",strtotime(date($N1)))==0 
-  elseif($_POST['LeaveType']=='EL' AND $TotDays==3 AND (date("w",strtotime(date($FrDate)))==0 OR date("w",strtotime(date($ToDate)))==0)){ $msg='Error!.. EL can`t combined any holiday, sunday if apply total number of day leave is 3'; }
+  //elseif($_POST['LeaveType']=='EL' AND $TotDays==3 AND (date("w",strtotime(date($FrDate)))==0 OR date("w",strtotime(date($ToDate)))==0)){ $msg='Error!.. EL can`t combined any holiday, sunday if apply total number of day leave is 3'; }
   /*
    elseif($_POST['LeaveType']=='FL' AND $_POST['OpHo']==0 AND $PNum1!=7 AND $rP1PLa==0 AND $rP1PLp==0 AND $NNum1!=7 AND $rN1PLa==0 AND $rN1PLp==0)
   { $msg='1Error!.. FL combined only with prefix or suffix from PL'; }
