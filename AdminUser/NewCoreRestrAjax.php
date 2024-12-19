@@ -71,6 +71,79 @@ if(isset($_POST['Act']) && $_POST['Act']=="ApplyCore")
 	  
 <?php } 
 
+
+if(isset($_POST['Act']) && $_POST['Act']=="ApplyVCore")
+{ 
+    /*SELECT d.id,d.department_name FROM org_function org 
+     LEFT JOIN function_vertical_mapping fvm ON fvm.org_function_id = org.id
+     LEFT JOIN vertical v ON v.id = fvm.vertical_id AND fvm.org_function_id = org.id
+     LEFT JOIN fun_vertical_dept_mapping fvdm ON fvdm.function_vertical_id = fvm.id 
+     LEFT JOIN department d ON d.id = fvdm.department_id 
+    WHERE org.id =2 AND v.id=1*/
+    $nm=$_POST['nm'];
+    if($nm=='Ver')
+    {
+      $idnm='Verr'; $nmm='Dept';
+      $qry="select v.id,v.vertical_name as value from core_verticals v left join core_vertical_function_mapping vf on v.id=vf.vertical_id where vf.org_function_id=".$_POST['v']." group by v.vertical_name order by vertical_name ASC";
+    }
+    elseif($nm=='Dept')
+    {
+      $idnm='Deptt'; $nmm='SubDept';
+      //$qry="select d.id,d.department_name as value from core_departments d left join core_vertical_department_mapping vdm on d.id=vdm.department_id where vdm.function_vertical_id=".$_POST['v']." group by d.department_name order by d.department_name ASC";
+      $qry="select d.id,d.department_name as value FROM core_functions cf 
+       left join core_vertical_function_mapping cvfm on cvfm.org_function_id = cf.id 
+       left join core_verticals v on v.id = cvfm.vertical_id and cvfm.org_function_id = cf.id 
+       left join core_vertical_department_mapping cvdm on cvdm.function_vertical_id = cvfm.id 
+       left join core_departments d on d.id = cvdm.department_id 
+       where cf.id=".$_POST['fun']." and v.id=".$_POST['v']." group by d.department_name order by d.department_name ASC";
+    }
+    elseif($nm=='SubDept')
+    {
+      $idnm='SubDeptt'; $nmm=' ';
+      $qry="select subd.id,sub_department_name as value from core_sub_department_master subd left join core_sub_department_mapping subdm on subd.id=subdm.sub_department_id left join core_vertical_department_mapping vd on subdm.fun_vertical_dept_id=vd.id where vd.department_id=".$_POST['v']." group by subd.sub_department_name order by sub_department_name";
+    }
+    elseif($nm=='Desig')
+    {
+      $idnm='Desigg'; $nmm=' '; //Grade
+      $qry="select de.id,designation_name as value from core_designation de left join core_designation_department_mapping dde on de.id=dde.designation_id where dde.department_id=".$_POST['v']." group by de.designation_name order by de.designation_name";
+    }
+    elseif($nm=='Sec')
+    {
+      $idnm='Secc'; $nmm=' ';
+      $qry="select sec.id,sec.section_name as value from core_section sec where is_active=1 group by section_name order by section_name";
+    }
+    elseif($nm=='Hq')
+    {
+      $idnm='Hqq'; $nmm=' ';
+      $qry="select id,city_village_name as value from core_city_village_by_state WHERE is_active=1 and state_id=".$_POST['v']." group by city_village_name order by city_village_name";
+    }    
+    elseif($nm=='Zone')
+    {
+      $idnm='Z2onee'; $nmm='Region';
+      $qry="select z.id,z.zone_name  as value from core_zones z left join core_bu_zone_mapping bz on z.id=bz.zone_id where is_active=1 and bz.business_unit_id=".$_POST['v']." group by zone_name order by zone_name";
+    }
+    elseif($nm=='Region')
+    {
+      $idnm='R2egionn'; $nmm='Terr';
+      $qry="select r.id,r.region_name as value from core_regions r left join core_zone_region_mapping zr on r.id = zr.region_id where is_active=1 and zr.zone_id=".$_POST['v']." group by region_name order by region_name";
+    }
+    elseif($nm=='Terr')
+    {
+      $idnm='T2errr'; $nmm='';
+      $qry="select t.id,t.territory_name as value from core_territory t left join core_region_territory rt on t.id = rt.territory_id where is_active=1 and rt.region_id=".$_POST['v']." group by territory_name order by territory_name";
+    }
+    //echo $qry;
+    //echo $idnm;
+    ?>
+      <select name="<?=$nm."_".$no?>" id="<?=$nm."_".$no?>" onChange="ApplyCore(this.value,<?=$_POST['no']?>,'<?=$idnm?>','<?=$nmm?>')" class="tdll">
+	    <option style="background-color:#DBD3E2; " value="0">Select</option>
+      <?php $sql = mysql_query($qry, $con); while($res = mysql_fetch_array($sql)){ ?>
+	     <option value="<?php echo $res['id']; ?>"><?=$res['value']?></option><?php } ?>
+      </select> 
+	  
+<?php }
+
+
 elseif(isset($_POST['Act']) && $_POST['Act']=="UpdateCoreMapping")
 {
   $qry = mysql_query("select * from core_ess_mapping where EmployeeID=".$_POST['empid']); $row = mysql_num_rows($qry);

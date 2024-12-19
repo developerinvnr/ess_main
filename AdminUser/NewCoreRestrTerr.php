@@ -83,8 +83,8 @@ function ApplyVCore(v,no,idnm,nm)
   document.getElementById(idnm+'_'+no).value=v;  
   if(nm!='')
   { 
-   document.getElementById("vID").value=v; document.getElementById("noID").value=no; document.getElementById("nmID").value=nm; 
-   var url = 'NewCoreRestrAjax.php';  var pars = 'Act=ApplyCore&v='+v+'&no='+no+'&nm='+nm; 
+   document.getElementById("vVID").value=v; document.getElementById("noVID").value=no; document.getElementById("nmVID").value=nm; 
+   var url = 'NewCoreRestrAjax.php';  var pars = 'Act=ApplyVCore&v='+v+'&no='+no+'&nm='+nm; 
    var myAjax = new Ajax.Request(
    url, 
    {
@@ -126,14 +126,14 @@ function FunSave(no,hq,uid,t)
    var Region = document.getElementById("Regionn_"+no).value;
    var Terr = document.getElementById("Terrr_"+no).value;
    }
-  }else if(t=='VC')
-  { 
+   else if(t=='VC')
+   { 
     document.getElementById("noVID").value=no; 
     var Bu = document.getElementById("B2uu_"+no).value;
     var Zone = document.getElementById("Z2onee_"+no).value; 
     var Region = document.getElementById("R2egionn_"+no).value;
     var Terr = document.getElementById("T2errr_"+no).value;
-  }
+   }
 
    if(Region==0 || Terr==0){ alert("please check the selected value!"); return false; } //Bu==0 || Zone==0 || 
    else
@@ -156,11 +156,23 @@ function show_MappingCoreLoc(originalRequest)
   if(document.getElementById("RstVal").value==1)
   { 
     alert("Data save successfully!"); 
+   if(t=='FC')
+   {
     document.getElementById("ffont"+noID+"_"+t).innerHTML='saved'; 
     document.getElementById(t+"_save_"+noID).style.display='none';
     document.getElementById(t+"_edit_"+noID).style.display='block';
+   }
+   else
+   {
+    document.getElementById("vfont"+noVID+"_"+t).innerHTML='saved'; 
+    document.getElementById(t+"_save_"+noVID).style.display='none';
+    document.getElementById(t+"_edit_"+noVID).style.display='block';
+   } 
   }
-  else{ alert("Error.."); document.getElementById("ffont"+noID+"_"+t).value=''; }
+  else
+  { alert("Error.."); 
+    if(t=='FC'){ document.getElementById("ffont"+noID+"_"+t).value=''; }else{ document.getElementById("ffont"+noVID+"_"+t).value=''; }
+  }
 }
 
 
@@ -450,7 +462,7 @@ $sql = mysql_query("select Hq_vc, HqName, StateName from hrm_sales_dealer d left
 
   <td class="tdc">
 	<span id="Span2Terr_<?=$no?>">
-  <select name="Terr_<?=$no?>" id="Terr_<?=$no?>" onChange="ApplyVCore(this.value,<?=$no?>,'T2errr','')" class="tdll">
+  <select name="Terr_<?=$no?>" id="Terr_<?=$no?>" onChange="ApplyVCore(this.value,<?=$no?>,'T2errr',' ')" class="tdll">
     <option value="0">Select</option>
     <?php foreach ($bTr as $key => $value) { ?>
       <option value="<?=$key?>" <?php if($ress['New_HQVC']==$key){echo 'selected';}?>><?=$value?></option>
