@@ -54,7 +54,7 @@ function ApplyCore(v,no,idnm,nm)
   if(nm!='')
   { 
    document.getElementById("vID").value=v; document.getElementById("noID").value=no; document.getElementById("nmID").value=nm; 
-   var url = 'NewCoreRestrAjax.php';  var pars = 'Act=ApplyCore&v='+v+'&no='+no+'&nm='+nm;
+   var url = 'NewCoreRestrAjax.php';  var pars = 'Act=ApplyCore&v='+v+'&no='+no+'&nm='+nm; 
    var myAjax = new Ajax.Request(
    url, 
    {
@@ -71,6 +71,36 @@ function show_ApplyCore(originalRequest)
   var noID=document.getElementById('noID').value; 
   var nmID=document.getElementById('nmID').value; 
   document.getElementById('Span'+nmID+'_'+noID).innerHTML = originalRequest.responseText; 
+  if(nmID=='SubDept'){ ApplyCore(vID,noID,'Sec');  }
+  else if(nmID=='Sec'){ ApplyCore(vID,noID,'Desig');  }
+}
+
+
+
+/*********** VC *************************/
+function ApplyVCore(v,no,idnm,nm)
+{  
+  document.getElementById(idnm+'_'+no).value=v;  
+  if(nm!='')
+  { 
+   document.getElementById("vID").value=v; document.getElementById("noID").value=no; document.getElementById("nmID").value=nm; 
+   var url = 'NewCoreRestrAjax.php';  var pars = 'Act=ApplyCore&v='+v+'&no='+no+'&nm='+nm; 
+   var myAjax = new Ajax.Request(
+   url, 
+   {
+    method: 'post', 
+    parameters: pars,
+    onComplete: show_Apply2Core
+     
+   });
+  }    
+}
+function show_Apply2Core(originalRequest)
+{ 
+  var vID=document.getElementById('vID').value;
+  var noID=document.getElementById('noID').value; 
+  var nmID=document.getElementById('nmID').value; 
+  document.getElementById('Span2'+nmID+'_'+noID).innerHTML = originalRequest.responseText; 
   if(nmID=='SubDept'){ ApplyCore(vID,noID,'Sec');  }
   else if(nmID=='Sec'){ ApplyCore(vID,noID,'Desig');  }
 }
@@ -367,51 +397,51 @@ $sql = mysql_query("select Hq_vc, HqName, StateName from hrm_sales_dealer d left
         $rowss = mysql_num_rows($sqll); $ress = mysql_fetch_assoc($sqll); ?> 
 
   <td class="tdc">
-   <span id="SpanBu_<?=$no?>">
-	  <select name="Bu_<?=$no?>" id="Bu_<?=$no?>" onChange="ApplyCore(this.value,<?=$no?>,'Buu','Zone')" class="tdll"> 
+   <span id="Span2Bu_<?=$no?>">
+	  <select name="Bu_<?=$no?>" id="Bu_<?=$no?>" onChange="ApplyVCore(this.value,<?=$no?>,'B2uu','Zone')" class="tdll"> 
     <option value="0">Select</option> 
     <?php foreach ($bBu as $key => $value) { ?>
       <option value="<?=$key?>" <?php if($ress['VC_BUId']==$key){echo 'selected';}?>><?=$value?></option>
      <?php } ?>
 	  </select> 
     </span>
-    <input type="hidden" id="Buu_<?=$no?>" value="<?php if($ress['VC_BUId']==''){echo 0;}else{echo $ress['VC_BUId']; }?>" />
+    <input type="hidden" id="B2uu_<?=$no?>" value="<?php if($ress['VC_BUId']==''){echo 0;}else{echo $ress['VC_BUId']; }?>" />
 	</td>	
 
   <td class="tdc">
-	<span id="SpanZone_<?=$no?>">
-  <select name="Zone_<?=$no?>" id="Zone_<?=$no?>" onChange="ApplyCore(this.value,<?=$no?>,'Zonee','Region')" class="tdll">
+	<span id="Span2Zone_<?=$no?>">
+  <select name="Zone_<?=$no?>" id="Zone_<?=$no?>" onChange="ApplyVCore(this.value,<?=$no?>,'Z2onee','Region')" class="tdll">
     <option value="0">Select</option>
     <?php foreach ($bZn as $key => $value) { ?>
       <option value="<?=$key?>" <?php if($ress['VC_ZoneId']==$key){echo 'selected';}?>><?=$value?></option>
     <?php } ?>
 	</select> 
   </span>
-  <input type="hidden" id="Zonee_<?=$no?>" value="<?php if($ress['VC_ZoneId']==''){echo 0;}else{echo $ress['VC_ZoneId']; }?>" />
+  <input type="hidden" id="Z2onee_<?=$no?>" value="<?php if($ress['VC_ZoneId']==''){echo 0;}else{echo $ress['VC_ZoneId']; }?>" />
 	</td>
 
   <td class="tdc">
-	<span id="SpanRegion_<?=$no?>">
-  <select name="Region_<?=$no?>" id="Region_<?=$no?>" onChange="ApplyCore(this.value,<?=$no?>,'Regionn','Terr')" class="tdll">
+	<span id="Span2Region_<?=$no?>">
+  <select name="Region_<?=$no?>" id="Region_<?=$no?>" onChange="ApplyVCore(this.value,<?=$no?>,'R2egionn','Terr')" class="tdll">
     <option value="0">Select</option>
     <?php foreach ($bRg as $key => $value) { ?>
       <option value="<?=$key?>" <?php if($ress['VC_RegionId']==$key){echo 'selected';}?>><?=$value?></option>
     <?php } ?>
 	</select> 
   </span>
-  <input type="hidden" id="Regionn_<?=$no?>" value="<?php if($ress['VC_RegionId']==''){echo 0;}else{echo $ress['VC_RegionId']; }?>" />
+  <input type="hidden" id="R2egionn_<?=$no?>" value="<?php if($ress['VC_RegionId']==''){echo 0;}else{echo $ress['VC_RegionId']; }?>" />
 	</td>
 
   <td class="tdc">
-	<span id="SpanTerr_<?=$no?>">
-  <select name="Terr_<?=$no?>" id="Terr_<?=$no?>" onChange="ApplyCore(this.value,<?=$no?>,'Terrr','')" class="tdll">
+	<span id="Span2Terr_<?=$no?>">
+  <select name="Terr_<?=$no?>" id="Terr_<?=$no?>" onChange="ApplyVCore(this.value,<?=$no?>,'T2errr','')" class="tdll">
     <option value="0">Select</option>
     <?php foreach ($bTr as $key => $value) { ?>
       <option value="<?=$key?>" <?php if($ress['New_HQVC']==$key){echo 'selected';}?>><?=$value?></option>
     <?php } ?>
 	</select> 
   </span>
-  <input type="hidden" id="Terrr_<?=$no?>" value="<?php if($ress['New_HQVC']==''){echo 0;}else{echo $ress['New_HQVC']; }?>" />
+  <input type="hidden" id="T2errr_<?=$no?>" value="<?php if($ress['New_HQVC']==''){echo 0;}else{echo $ress['New_HQVC']; }?>" />
 	</td>
 
   <td class="tdc" style="color:<?php if($rowss>0){echo '#009300';}?>">
