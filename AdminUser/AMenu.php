@@ -76,7 +76,7 @@
 	                                                                    <li><a href="SendThought.php">Send Today Event</a></li><?php } ?>
       <?php if(($_SESSION['UserType']=="S" OR $_SESSION['UserType']=="M") AND ($_SESSION['Master']==1 OR $_SESSION['Mas_NewCompany']==1)){?><li><a href="NewCompany.php">Create New Company</a></li><?php } ?>
       
-	  <?php if($_SESSION['Mas_Restructuring']==1 AND ($UserId==9 OR $UserId==10 OR $UserId==14  OR $UserId==41)){?>
+	  <?php if($_SESSION['Mas_Restructuring']==1 AND ($UserId==9 OR $UserId==10 OR $UserId==14  OR $UserId==41 OR $UserId==53)){?>
 	  
 	  <?php /*<li><a href="NewComRestr.php?ee=ere&pp=prp&d=<?php echo $D; ?>&y=<?php echo date("Y"); ?>">Restructuring</a></li>*/ ?>
 	  <li><a href="NewCoreRestr.php?ee=ere&pp=prp&d=<?php echo $D; ?>&y=<?php echo date("Y"); ?>">Core Mapping</a></li>
