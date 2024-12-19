@@ -93,7 +93,7 @@ function FunSave(no,hq,uid,t)
    var Zone = document.getElementById("Zonee_"+no).value; 
    var Region = document.getElementById("Regionn_"+no).value;
    var Terr = document.getElementById("Terrr_"+no).value;
-   if(Bu==0 || Zone==0 || Region==0 || Terr==0){ alert("please check the selected value!"); return false; }
+   if(Region==0 || Terr==0){ alert("please check the selected value!"); return false; } //Bu==0 || Zone==0 || 
    else
    {
     var url = 'NewCoreRestrAjax.php';  var pars = 'Act=UpdateCoreTerrMapping&no='+no+'&uid='+uid+'&t='+t+'&Hq='+hq+'&Bu='+Bu+'&Zone='+Zone+'&Region='+Region+'&Terr='+Terr;
