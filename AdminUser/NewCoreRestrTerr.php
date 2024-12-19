@@ -97,12 +97,12 @@ function ApplyVCore(v,no,idnm,nm)
 }
 function show_Apply2Core(originalRequest)
 { 
-  var vID=document.getElementById('vID').value;
-  var noID=document.getElementById('noID').value; 
-  var nmID=document.getElementById('nmID').value; 
+  var vID=document.getElementById('vVID').value;
+  var noID=document.getElementById('noVID').value; 
+  var nmID=document.getElementById('nmVID').value; 
   document.getElementById('Span2'+nmID+'_'+noID).innerHTML = originalRequest.responseText; 
-  if(nmID=='SubDept'){ ApplyCore(vID,noID,'Sec');  }
-  else if(nmID=='Sec'){ ApplyCore(vID,noID,'Desig');  }
+  if(nmID=='SubDept'){ ApplyCore(vVID,noVID,'Sec');  }
+  else if(nmID=='Sec'){ ApplyCore(vVID,noVID,'Desig');  }
 }
 
 
@@ -118,11 +118,23 @@ function FunSave(no,hq,uid,t)
   var agree = confirm('Are you sure you want to update the records');
   if(agree)
   {
-   document.getElementById("noID").value=no;
+   if(t=='FC')
+   { 
+   document.getElementById("noID").value=no; 
    var Bu = document.getElementById("Buu_"+no).value;
    var Zone = document.getElementById("Zonee_"+no).value; 
    var Region = document.getElementById("Regionn_"+no).value;
    var Terr = document.getElementById("Terrr_"+no).value;
+   }
+  }else if(t=='VC')
+  { 
+    document.getElementById("noVID").value=no; 
+    var Bu = document.getElementById("B2uu_"+no).value;
+    var Zone = document.getElementById("Z2onee_"+no).value; 
+    var Region = document.getElementById("R2egionn_"+no).value;
+    var Terr = document.getElementById("T2errr_"+no).value;
+  }
+
    if(Region==0 || Terr==0){ alert("please check the selected value!"); return false; } //Bu==0 || Zone==0 || 
    else
    {
@@ -164,6 +176,10 @@ function ExportData(type)
 <input type="hidden" id="vID" value="<?=$_POST['v']?>" />  
 <input type="hidden" id="noID" value="<?=$_POST['no']?>" />
 <input type="hidden" id="nmID" value="<?=$_POST['nm']?>" />
+
+<input type="hidden" id="vVID" value="<?=$_POST['v']?>" />  
+<input type="hidden" id="noVID" value="<?=$_POST['no']?>" />
+<input type="hidden" id="nmVID" value="<?=$_POST['nm']?>" />
 <span id="DivSpan"></span>
 <table class="table" border="0">  
 <tr>
