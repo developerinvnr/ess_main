@@ -429,7 +429,7 @@ $sql = mysql_query("select Hq_vc, HqName, StateName from hrm_sales_dealer d left
     <?php } ?>
 	</select> 
   </span>
-  <input type="hidden" id="R2egionn_<?=$no?>" value="<?php if($ress['VC_RegionId']==''){echo 0;}else{echo $ress['VC_RegionId']; }?>" />
+  <input type="" id="R2egionn_<?=$no?>" value="<?php if($ress['VC_RegionId']==''){echo 0;}else{echo $ress['VC_RegionId']; }?>" />
 	</td>
 
   <td class="tdc">
@@ -441,7 +441,7 @@ $sql = mysql_query("select Hq_vc, HqName, StateName from hrm_sales_dealer d left
     <?php } ?>
 	</select> 
   </span>
-  <input type="hidden" id="T2errr_<?=$no?>" value="<?php if($ress['New_HQVC']==''){echo 0;}else{echo $ress['New_HQVC']; }?>" />
+  <input type="" id="T2errr_<?=$no?>" value="<?php if($ress['New_HQVC']==''){echo 0;}else{echo $ress['New_HQVC']; }?>" />
 	</td>
 
   <td class="tdc" style="color:<?php if($rowss>0){echo '#009300';}?>">
