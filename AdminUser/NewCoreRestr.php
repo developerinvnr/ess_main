@@ -65,7 +65,13 @@ function OpenRow(sn,n)
     
 function ApplyCore(v,no,idnm,nm)
 {  
+  
   document.getElementById(idnm+'_'+no).value=v; 
+  if(v==0)
+  {
+    var v = document.getElementById("Deptt_"+no).value;
+  }
+
   if(nm!='')
   {
    if(nm=='Ver'){ document.getElementById("funid").value=v; }
