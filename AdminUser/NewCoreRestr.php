@@ -245,7 +245,7 @@ else{ $subQ="1=1"; $subV="1=1"; $subD="1=1"; }
 /*************************************************************************************************/
 
 //$sFun=mysql_query("select f.* from core_functions f left join core_vertical_function_mapping vf on f.id=vf.org_function_id left join core_vertical_department_mapping vd on vf.id=vd.function_vertical_id where f.is_active=1 and ".$subV." group by function_name order by function_name ASC",$con); 
-$sFun=mysql_query("select * from core_functions where f.is_active=1 group by function_name order by function_name ASC",$con); 
+$sFun=mysql_query("select * from core_functions where is_active=1 group by function_name order by function_name ASC",$con); 
 while($rFun=mysql_fetch_assoc($sFun)){ $aFun[$rFun['id']]=strtoupper($rFun['function_name']); }
 
 $sVer=mysql_query("select v.* from core_verticals v left join core_vertical_function_mapping vf on v.id=vf.vertical_id left join core_vertical_department_mapping vd on vf.id=vd.function_vertical_id where v.is_active=1 and ".$subV." group by vertical_name order by vertical_name ASC",$con); 
