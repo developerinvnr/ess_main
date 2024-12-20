@@ -254,13 +254,15 @@ else{ $subQ="1=1"; $subV="1=1"; $subD="1=1"; }
 $sFun=mysql_query("select * from core_functions where is_active=1 group by function_name order by function_name ASC",$con); 
 while($rFun=mysql_fetch_assoc($sFun)){ $aFun[$rFun['id']]=strtoupper($rFun['function_name']); }
 
-$sVer=mysql_query("select v.* from core_verticals v left join core_vertical_function_mapping vf on v.id=vf.vertical_id left join core_vertical_department_mapping vd on vf.id=vd.function_vertical_id where v.is_active=1 and ".$subV." group by vertical_name order by vertical_name ASC",$con); 
+//$sVer=mysql_query("select v.* from core_verticals v left join core_vertical_function_mapping vf on v.id=vf.vertical_id left join core_vertical_department_mapping vd on vf.id=vd.function_vertical_id where v.is_active=1 and ".$subV." group by vertical_name order by vertical_name ASC",$con);
+$sVer=mysql_query("select * from core_verticals where is_active=1 group by vertical_name order by vertical_name ASC",$con); 
 while($rVer=mysql_fetch_assoc($sVer)){ $aVer[$rVer['id']]=strtoupper($rVer['vertical_name']); }
 
 $sDept=mysql_query("select d.* from core_departments d where d.is_active=1 and ".$subD." group by department_name order by department_name ASC",$con);
 while($rDept=mysql_fetch_array($sDept)){ $aDept[$rDept['id']]=strtoupper($rDept['department_name']); }
 
-$sSubDept=mysql_query("select subd.* from core_sub_department_master subd left join core_sub_department_mapping subdm on subd.id=subdm.sub_department_id left join core_vertical_department_mapping vd on subdm.fun_vertical_dept_id=vd.id where subd.is_active=1 and ".$subV." group by sub_department_name order by sub_department_name",$con); 
+//$sSubDept=mysql_query("select subd.* from core_sub_department_master subd left join core_sub_department_mapping subdm on subd.id=subdm.sub_department_id left join core_vertical_department_mapping vd on subdm.fun_vertical_dept_id=vd.id where subd.is_active=1 and ".$subV." group by sub_department_name order by sub_department_name",$con); 
+$sSubDept=mysql_query("select * from core_sub_department_master where is_active=1 group by sub_department_name order by sub_department_name",$con);
 while($rSubDept=mysql_fetch_array($sSubDept)){ $aSubDept[$rSubDept['id']]=strtoupper($rSubDept['sub_department_name']); }
 
 $sSec = mysql_query("select * from core_section WHERE is_active=1 order by section_name",$con);
