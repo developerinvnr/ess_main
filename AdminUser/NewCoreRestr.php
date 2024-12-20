@@ -400,6 +400,9 @@ while($rCostC = mysql_fetch_array($sCostC)){ $aCostC[$rCostC['id']]=strtoupper($
   <select name="Sec_<?=$no?>" id="Sec_<?=$no?>" onChange="ApplyCore(this.value,<?=$no?>,'Secc',' ')" class="tdll">
     <?php if($ress['EmpSection']>0)
           {
+           ?>
+           <option value="0">Select</option>
+           <?php 
            foreach ($aSec as $key => $value) 
            { ?><option value="<?=$key?>" <?php if($ress['EmpSection']==$key){echo 'selected';}?>><?=$value?></option><?php } ?>
     <?php }else {?><option value="0">Select</option><?php } ?>   
