@@ -258,7 +258,8 @@ while($rFun=mysql_fetch_assoc($sFun)){ $aFun[$rFun['id']]=strtoupper($rFun['func
 $sVer=mysql_query("select * from core_verticals where is_active=1 group by vertical_name order by vertical_name ASC",$con); 
 while($rVer=mysql_fetch_assoc($sVer)){ $aVer[$rVer['id']]=strtoupper($rVer['vertical_name']); }
 
-$sDept=mysql_query("select d.* from core_departments d where d.is_active=1 and ".$subD." group by department_name order by department_name ASC",$con);
+//$sDept=mysql_query("select d.* from core_departments d where d.is_active=1 and ".$subD." group by department_name order by department_name ASC",$con);
+$sDept=mysql_query("select * from core_departments where is_active=1 group by department_name order by department_name ASC",$con);
 while($rDept=mysql_fetch_array($sDept)){ $aDept[$rDept['id']]=strtoupper($rDept['department_name']); }
 
 //$sSubDept=mysql_query("select subd.* from core_sub_department_master subd left join core_sub_department_mapping subdm on subd.id=subdm.sub_department_id left join core_vertical_department_mapping vd on subdm.fun_vertical_dept_id=vd.id where subd.is_active=1 and ".$subV." group by sub_department_name order by sub_department_name",$con); 
