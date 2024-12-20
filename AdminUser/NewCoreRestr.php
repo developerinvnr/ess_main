@@ -93,7 +93,7 @@ function show_ApplyCore(originalRequest)
   var nmID=document.getElementById('nmID').value; 
   document.getElementById('Span'+nmID+'_'+noID).innerHTML = originalRequest.responseText; 
   if(nmID=='SubDept'){ ApplyCore(vID,noID,'SubDeptt','Sec');  }
-  else if(nmID=='Sec'){ ApplyCore(vID,noID,'Secc','Desig'); alert("bb");  }
+  else if(nmID=='Sec'){ ApplyCore(vID,noID,'Secc','Desig');   }
 }
 
 
@@ -288,7 +288,7 @@ while($rCostC = mysql_fetch_array($sCostC)){ $aCostC[$rCostC['id']]=strtoupper($
  left join hrm_state st on g.CostCenter=st.StateId
  left join hrm_headquater hq on g.HqId=hq.HqId
  left join hrm_department_section sec on g.EmpSection=sec.SectionId
- WHERE e.EmpStatus='A' AND e.CompanyId=".$CompanyId." AND ".$subQ." order by e.ECode ASC limit 0,5", $con);
+ WHERE e.EmpStatus='A' AND e.CompanyId=".$CompanyId." AND ".$subQ." order by e.ECode ASC", $con);
  $no=1; 
  while($res = mysql_fetch_assoc($sql))
  { 
@@ -443,11 +443,10 @@ while($rCostC = mysql_fetch_array($sCostC)){ $aCostC[$rCostC['id']]=strtoupper($
 
   <td class="tdc">
 	<span id="SpanHq_<?=$no?>">
+  
   <select name="Hq_<?=$no?>" id="Hq_<?=$no?>" onChange="ApplyCore(this.value,<?=$no?>,'Hqq',' ')" class="tdll">
-    <option value="0">Select</option>
-    <?php foreach ($aHq as $key => $value) { ?>
-      <option value="<?=$key?>" <?php if($ress['HqId']==$key){echo 'selected';}?>><?=$value?></option>
-    <?php } ?>
+   <?php if($ress['HqId']>0){ $sHq = mysql_query("select city_village_name from core_city_village_by_state WHERE id=".$ress['HqId'],$con);
+    $rHq = mysql_fetch_assoc($sHq); ?><option value="<?=$ress['HqId']?>"><?=$rHq['city_village_name']?></option><?php } else { ?><option value="0">Select</option><?php } ?>
 	</select> 
   </span>
   <input type="hidden" id="Hqq_<?=$no?>" value="<?php if($ress['HqId']==''){echo 0;}else{echo $ress['HqId']; }?>" />
