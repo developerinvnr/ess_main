@@ -399,9 +399,8 @@ while($rCostC = mysql_fetch_array($sCostC)){ $aCostC[$rCostC['id']]=strtoupper($
     <?php if($ress['EmpSection']>0)
           {
            foreach ($aSec as $key => $value) 
-           { ?><option value="<?=$key?>" <?php if($ress['EmpSection']==$key){echo 'selected';}?>><?=$value?></option>
-     <?php }else{ ?><option value="0">Select</option><?php } ?>
-    <?php } ?>   
+           { ?><option value="<?=$key?>" <?php if($ress['EmpSection']==$key){echo 'selected';}?>><?=$value?></option><?php } ?>
+    <?php }else {?><option value="0">Select</option><?php } ?>   
 	</select> 
   </span>
   <input type="hidden" id="Secc_<?=$no?>" value="<?php if($ress['EmpSection']==''){echo 0;}else{echo $ress['EmpSection']; }?>" />
