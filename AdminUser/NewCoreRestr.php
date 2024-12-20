@@ -88,12 +88,13 @@ function ApplyCore(v,no,idnm,nm)
 }
 function show_ApplyCore(originalRequest)
 { 
-  var vID=document.getElementById('vID').value;
+  var vID=document.getElementById('vID').value; 
   var noID=document.getElementById('noID').value; 
   var nmID=document.getElementById('nmID').value; 
   document.getElementById('Span'+nmID+'_'+noID).innerHTML = originalRequest.responseText; 
-  if(nmID=='SubDept'){ ApplyCore(vID,noID,'SubDeptt','Sec');  }
-  else if(nmID=='Sec'){ ApplyCore(vID,noID,'Secc','Desig');   }
+  if(nmID=='SubDept'){ ApplyCore(0,noID,'SubDeptt','Sec');  }
+  else if(nmID=='Sec'){ ApplyCore(0,noID,'Secc','Desig');   }
+  
 }
 
 
@@ -107,7 +108,7 @@ function FunSave(no,empid,uid,comid)
    var Ver = document.getElementById("Verr_"+no).value; 
    var Dept = document.getElementById("Deptt_"+no).value;
    var SubDept = document.getElementById("SubDeptt_"+no).value;
-   var Sec = document.getElementById("Secc_"+no).value;
+   var Sec = document.getElementById("Secc_"+no).value; 
    var Desig = document.getElementById("Desigg_"+no).value; 
    var Grade = document.getElementById("Gradee_"+no).value; 
    var CostC = document.getElementById("CostCC_"+no).value; 
@@ -243,7 +244,8 @@ else{ $subQ="1=1"; $subV="1=1"; $subD="1=1"; }
 /*************************************************************************************************/
 /*************************************************************************************************/
 
-$sFun=mysql_query("select f.* from core_functions f left join core_vertical_function_mapping vf on f.id=vf.org_function_id left join core_vertical_department_mapping vd on vf.id=vd.function_vertical_id where f.is_active=1 and ".$subV." group by function_name order by function_name ASC",$con); 
+//$sFun=mysql_query("select f.* from core_functions f left join core_vertical_function_mapping vf on f.id=vf.org_function_id left join core_vertical_department_mapping vd on vf.id=vd.function_vertical_id where f.is_active=1 and ".$subV." group by function_name order by function_name ASC",$con); 
+$sFun=mysql_query("select * from core_functions where f.is_active=1 group by function_name order by function_name ASC",$con); 
 while($rFun=mysql_fetch_assoc($sFun)){ $aFun[$rFun['id']]=strtoupper($rFun['function_name']); }
 
 $sVer=mysql_query("select v.* from core_verticals v left join core_vertical_function_mapping vf on v.id=vf.vertical_id left join core_vertical_department_mapping vd on vf.id=vd.function_vertical_id where v.is_active=1 and ".$subV." group by vertical_name order by vertical_name ASC",$con); 
