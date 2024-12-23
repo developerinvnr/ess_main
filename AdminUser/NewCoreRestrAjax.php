@@ -205,7 +205,7 @@ elseif(isset($_POST['Act']) && $_POST['Act']=="UpdateCoreTerrMapping")
 }
 
 
-
+/*
 elseif(isset($_POST['Act']) && $_POST['Act']=="ProcessMapping")
 {
   if($_POST['v']=='E')
@@ -257,7 +257,7 @@ elseif(isset($_POST['Act']) && $_POST['Act']=="ProcessMapping")
   echo '<input type="hidden" id="RstVal" value='.$result.' />';
   echo '<input type="hidden" id="PrsVal" value='.$_POST['v'].' />';
 }
-
+*/
 
 
 ?> 
