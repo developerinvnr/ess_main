@@ -76,13 +76,16 @@
 	                                                                    <li><a href="SendThought.php">Send Today Event</a></li><?php } ?>
       <?php if(($_SESSION['UserType']=="S" OR $_SESSION['UserType']=="M") AND ($_SESSION['Master']==1 OR $_SESSION['Mas_NewCompany']==1)){?><li><a href="NewCompany.php">Create New Company</a></li><?php } ?>
       
-	  <?php if($_SESSION['Mas_Restructuring']==1 AND ($UserId==9 OR $UserId==10 OR $UserId==14  OR $UserId==41 OR $UserId==53)){?>
+	  <?php if($_SESSION['Mas_Restructuring']==1 AND ($UserId==9 OR $UserId==10 OR $UserId==14  OR $UserId==41 OR $UserId==53 OR $UserId==5)){?>
 	  
 	  <?php /*<li><a href="NewComRestr.php?ee=ere&pp=prp&d=<?php echo $D; ?>&y=<?php echo date("Y"); ?>">Restructuring</a></li>*/ ?>
 	  <li><a href="NewCoreRestr.php?ee=ere&pp=prp&d=<?php echo $D; ?>&y=<?php echo date("Y"); ?>">Core Mapping</a></li>
 	  <li><a href="NewCoreRestrLoc.php?ee=ere&pp=prp&d=<?php echo $D; ?>&y=<?php echo date("Y"); ?>">Core Mapping : Zn/Rg/Tr</a></li>
 	  <li><a href="NewCoreRestrTerr.php?ee=ere&pp=prp&d=FC&y=<?php echo date("Y"); ?>">Core Mapping : Territory</a></li>
-	  <li><a href="NewCoreRestrProcess.php?ee=ere&pp=prp&d=FC&y=<?php echo date("Y"); ?>">Mapping : Final Process</a></li>
+	  
+	  <?php if($_SESSION['Mas_Restructuring']==1 AND ($UserId==9 OR $UserId==10 OR $UserId==14 OR $UserId==41 OR $UserId==53)){?>
+	   <li><a href="NewCoreRestrProcess.php?ee=ere&pp=prp&d=FC&y=<?php echo date("Y"); ?>">Mapping : Final Process</a></li>
+	  <?php } ?>
 	  
 	  <?php } //NewComRestr.php ?>
 
