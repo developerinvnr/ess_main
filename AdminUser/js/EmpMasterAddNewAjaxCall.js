@@ -11,6 +11,7 @@ function DeptSelect(value) {
 function show_NewDeptSelect(originalRequest)
 { document.getElementById('DesigSpan').innerHTML = originalRequest.responseText; }
 
+
 /*                                               //DesigSelect
 function DesigSelect(value) {  
    var url = 'DesigSelect.php';	var pars = 'Desigid='+value;	var myAjax = new Ajax.Request(

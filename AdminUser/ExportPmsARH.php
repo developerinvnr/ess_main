@@ -10,7 +10,7 @@ $FD=date("Y",strtotime($rY['FromDate'])); $TD=date("Y",strtotime($rY['ToDate']))
 if($_REQUEST['ee']=='Dept')
  { 
   $name='Department Wise'; 
-  if($_REQUEST['value']>0){ $sqlA=mysql_query("select DepartmentName from hrm_department where DepartmentId=".$_REQUEST['value'], $con); $resA=mysql_fetch_assoc($sqlA); $name2=$resA['DepartmentName']; }else{$name2='All_Department';}
+  if($_REQUEST['value']>0){ $sqlA=mysql_query("select department_code as DepartmentName from core_departments where id=".$_REQUEST['value'], $con); $resA=mysql_fetch_assoc($sqlA); $name2=$resA['DepartmentName']; }else{$name2='All_Department';}
  }
 
 $xls_filename = 'Employee_Reporting_'.$PRD.'-'.$name2.'.xls';
@@ -27,16 +27,16 @@ print("\n");
 if($_REQUEST['ee']=='Dept')
 {  
   if($_REQUEST['value']==0)
-  { $sql=mysql_query("select e.EmployeeID, EmpCode, Fname, Sname, Lname, g.DepartmentId, g.DesigId, g.HqId, g.GradeId, EmpPmsId, Appraiser_EmployeeID, Reviewer_EmployeeID, HOD_EmployeeID, HR_CurrDesigId, HR_CurrGradeId, HR_Curr_DepartmentId from hrm_employee_general g INNER JOIN hrm_employee e ON g.EmployeeID=e.EmployeeID INNER JOIN hrm_employee_pms p ON e.EmployeeID=p.EmployeeID where e.CompanyId=".$_REQUEST['c']." AND e.EmpStatus='A' AND (p.Appraiser_EmployeeID!='' OR p.Appraiser_EmployeeID!=0) AND g.DateJoining<='".$Y."-06-30' AND p.AssessmentYear=".$_REQUEST['YI']." order by e.ECode ASC", $con); }
-  else{ $sql=mysql_query("select e.EmployeeID, EmpCode, Fname, Sname, Lname, g.DepartmentId, g.DesigId, g.HqId, g.GradeId, EmpPmsId, Appraiser_EmployeeID, Reviewer_EmployeeID, HOD_EmployeeID, HR_CurrDesigId, HR_CurrGradeId, HR_Curr_DepartmentId from hrm_employee_general g INNER JOIN hrm_employee e ON g.EmployeeID=e.EmployeeID INNER JOIN hrm_employee_pms p ON e.EmployeeID=p.EmployeeID where e.CompanyId=".$_REQUEST['c']." AND e.EmpStatus='A' AND (p.Appraiser_EmployeeID!='' OR p.Appraiser_EmployeeID!=0) AND g.DateJoining<='".$Y."-06-30' AND p.AssessmentYear=".$_REQUEST['YI']." AND p.HR_Curr_DepartmentId=".$_REQUEST['value']." order by e.ECode ASC", $con); }
+  { $sql=mysql_query("select e.EmployeeID, EmpCode, Fname, Sname, Lname, g.DepartmentId, g.DesigId, g.HqId, g.GradeId, EmpPmsId, Appraiser_EmployeeID, Reviewer_EmployeeID, HOD_EmployeeID, HR_CurrDesigId, HR_CurrGradeId, HR_Curr_DepartmentId from hrm_employee_general g INNER JOIN hrm_employee e ON g.EmployeeID=e.EmployeeID INNER JOIN hrm_employee_pms p ON e.EmployeeID=p.EmployeeID where e.CompanyId=".$_REQUEST['c']." AND e.EmpStatus='A' AND (p.Appraiser_EmployeeID!='' OR p.Appraiser_EmployeeID!=0) AND g.DateJoining<='".$Y."-09-30' AND p.AssessmentYear=".$_REQUEST['YI']." order by e.ECode ASC", $con); }
+  else{ $sql=mysql_query("select e.EmployeeID, EmpCode, Fname, Sname, Lname, g.DepartmentId, g.DesigId, g.HqId, g.GradeId, EmpPmsId, Appraiser_EmployeeID, Reviewer_EmployeeID, HOD_EmployeeID, HR_CurrDesigId, HR_CurrGradeId, HR_Curr_DepartmentId from hrm_employee_general g INNER JOIN hrm_employee e ON g.EmployeeID=e.EmployeeID INNER JOIN hrm_employee_pms p ON e.EmployeeID=p.EmployeeID where e.CompanyId=".$_REQUEST['c']." AND e.EmpStatus='A' AND (p.Appraiser_EmployeeID!='' OR p.Appraiser_EmployeeID!=0) AND g.DateJoining<='".$Y."-09-30' AND p.AssessmentYear=".$_REQUEST['YI']." AND p.HR_Curr_DepartmentId=".$_REQUEST['value']." order by e.ECode ASC", $con); }
 }
 
 $no=1;
  while($res=mysql_fetch_array($sql))
  {
-  $sqlDept=mysql_query("select DepartmentCode from hrm_department where DepartmentId=".$res['HR_Curr_DepartmentId'], $con); 
-  $sqlDesig=mysql_query("select DesigName,DesigCode from hrm_designation where DesigId=".$res['HR_CurrDesigId'], $con); 
-  $sqlG=mysql_query("select GradeValue from hrm_grade where GradeId=".$res['HR_CurrGradeId'], $con);  
+  $sqlDept=mysql_query("select select department_name as DepartmentCode from core_departments where id=".$res['HR_Curr_DepartmentId'], $con); 
+  $sqlDesig=mysql_query("select designation_name as DesigName,designation_code DesigCode from core_designation where id=".$res['HR_CurrDesigId'], $con); 
+  $sqlG=mysql_query("select grade_name as GradeValue from core_grades where id=".$res['HR_CurrGradeId'], $con);  
   $resDept=mysql_fetch_assoc($sqlDept);  $resDesig=mysql_fetch_assoc($sqlDesig); $resG=mysql_fetch_assoc($sqlG);
   $sqlE1=mysql_query("select Fname, Sname, Lname from hrm_employee where EmployeeID=".$res['Appraiser_EmployeeID'], $con); 
   $sqlE2=mysql_query("select Fname, Sname, Lname from hrm_employee where EmployeeID=".$res['Reviewer_EmployeeID'], $con); 

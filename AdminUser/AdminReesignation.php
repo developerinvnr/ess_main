@@ -73,7 +73,7 @@ function  SelectDeptEmp(v)
 					   <td style="width:180px;"></td>
 	                   <td style="font-size:11px; width:150px;">Select Department :-</td>
                        <td class="td1" style="font-size:11px; width:150px;">
-                       <select style="font-size:11px; width:150px; height:18px; background-color:#DDFFBB; display:block;" name="DepartmentE" id="DepartmentE" onChange="SelectDeptEmp(this.value)"><option value="" style="margin-left:0px; background-color:#84D9D5;" selected>Select Department</option><?php $SqlDepartment=mysql_query("select * from hrm_department where CompanyId=".$CompanyId." order by DepartmentName ASC", $con); while($ResDepartment=mysql_fetch_array($SqlDepartment)) { ?><option value="<?php echo $ResDepartment['DepartmentId']; ?>"><?php echo '&nbsp;'.$ResDepartment['DepartmentCode'];?></option><?php } ?></select>
+                       <select style="font-size:11px; width:150px; height:18px; background-color:#DDFFBB; display:block;" name="DepartmentE" id="DepartmentE" onChange="SelectDeptEmp(this.value)"><option value="" style="margin-left:0px; background-color:#84D9D5;" selected>Select Department</option><?php $SqlDepartment=mysql_query("select * from core_departments where is_active=1 order by department_name", $con); while($ResDepartment=mysql_fetch_array($SqlDepartment)) { ?><option value="<?php echo $ResDepartment['id']; ?>"><?php echo '&nbsp;'.$ResDepartment['department_name'];?></option><?php } ?></select>
 					   <input type="hidden" name="ComId" id="ComId" value="<?php echo $CompanyId; ?>" /> 
 					   <input type="hidden" name="DId" id="DId" value="<?php echo $_REQUEST['DpId']; ?>" />
                       </td>
@@ -103,7 +103,7 @@ function  SelectDeptEmp(v)
 	<td align="center" style="color:#FFFFFF;" class="All_50"><b>Retired</b></td>
  </tr>
 <?php if($_REQUEST['DpId'] AND $_REQUEST['DpId']!='') { 
-      $sqlDP = mysql_query("SELECT e.EmployeeID,EmpCode,Fname,Sname,Lname,HqId,DepartmentId,DesigId,Gender,Married FROM hrm_employee e LEFT JOIN hrm_employee_general g ON e.EmployeeID=g.EmployeeID LEFT JOIN hrm_employee_personal p ON e.EmployeeID=p.EmployeeID WHERE e.EmpStatus='A' AND e.CompanyId=".$CompanyId." AND g.DepartmentId=".$_REQUEST['DpId']." order by e.ECode", $con); 
+      $sqlDP = mysql_query("SELECT e.EmployeeID,EmpCode,Fname,Sname,Lname,HqId,DepartmentId,DesigId,Gender,Married,TerrId FROM hrm_employee e LEFT JOIN hrm_employee_general g ON e.EmployeeID=g.EmployeeID LEFT JOIN hrm_employee_personal p ON e.EmployeeID=p.EmployeeID WHERE e.EmpStatus='A' AND e.CompanyId=".$CompanyId." AND g.DepartmentId=".$_REQUEST['DpId']." order by e.ECode", $con); 
 	  
       $Sno=1;  while($resDP = mysql_fetch_assoc($sqlDP)) { 
 if($resDP['Gender']=='M'){$M='Mr.';} elseif($resDP['Gender']=='F' AND $resDP['Married']=='Y'){$M='Mrs.';} elseif($resDP['Gender']=='F' AND $resDP['Married']=='N'){$M='Miss.';} 
@@ -115,15 +115,21 @@ if($resDP['Gender']=='M'){$M='Mr.';} elseif($resDP['Gender']=='F' AND $resDP['Ma
 		<td align="center" style="" class="All_50">&nbsp;<?php echo $EC; ?></td>
 		<td style="" class="All_250">&nbsp;<?php echo $Name; ?></td>
 		<td style="" class="All_120">&nbsp;
-		<?php $sqlHQ = mysql_query("SELECT HqName FROM hrm_headquater WHERE HqId=".$resDP['HqId'], $con) or die(mysql_error()); 
-		      $resHQ = mysql_fetch_assoc($sqlHQ); echo $resHQ['HqName'];?>
+		<?php $sqlTerr = mysql_query("SELECT territory_name FROM core_territory WHERE id=".$resDP['TerrId'], $con); 
+		      $resTerr = mysql_fetch_assoc($sqlTerr);
+		
+		
+		$sqlHQ = mysql_query("SELECT city_village_name FROM core_city_village_by_state WHERE id=".$resDP['HqId'], $con); 
+		      $resHQ = mysql_fetch_assoc($sqlHQ); 
+		      
+		      if($resTerr['territory_name']!=''){echo $resTerr['territory_name']; }else{ echo $resHQ['city_village_name']; }?>
 		</td>
 		<td style="" class="All_100">&nbsp;
-		<?php $sqlDept = mysql_query("SELECT DepartmentCode FROM hrm_department WHERE DepartmentId=".$resDP['DepartmentId'], $con) or die(mysql_error()); 
+		<?php $sqlDept = mysql_query("SELECT department_code as DepartmentCode FROM core_departments WHERE id=".$resDP['DepartmentId'], $con) or die(mysql_error()); 
 		      $resDept = mysql_fetch_assoc($sqlDept); echo $resDept['DepartmentCode'];?>
 		</td>
 		<td style="" class="All_300">&nbsp;
-		<?php $sqlDesig = mysql_query("SELECT DesigName FROM hrm_designation WHERE DesigId=".$resDP['DesigId'], $con) or die(mysql_error()); 
+		<?php $sqlDesig = mysql_query("SELECT designation_name DesigName FROM core_designation WHERE id=".$resDP['DesigId'], $con) or die(mysql_error()); 
 		      $resDesig = mysql_fetch_assoc($sqlDesig); echo $resDesig['DesigName'];?>
 		</td>
 		<td align="center" valign="middle" class="All_50">

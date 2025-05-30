@@ -78,7 +78,8 @@ function EditElig()
  document.getElementById("Mobile_RembPost").disabled = false; 
  document.getElementById("Mobile_RembPost_Period").disabled = false;
  document.getElementById("Mobile_RembPost_Period_Rmk").disabled = false; 
- document.getElementById("prepaid").checked=true; document.getElementById("postpaid").checked=true;
+ //document.getElementById("prepaid").checked=true; 
+ //document.getElementById("postpaid").checked=true;
  document.getElementById("Mobile_RembPost").value = document.getElementById("H_Mobile_RembPost").value; 
  document.getElementById("Mobile_RembPost_Period").value = document.getElementById("H_Mobile_RembPost_Period").value;
  document.getElementById("Mobile_RembPost_Period_Rmk").value = document.getElementById("H_Mobile_RembPost_Period_Rmk").value;
@@ -220,13 +221,22 @@ $SqlEv = mysql_query("SELECT EmpVertical FROM hrm_employee_general WHERE Employe
 <input type="hidden" Name="H_Mobile_Rmk" id="H_Mobile_Rmk" value="<?php echo trim($rElig['Mobile_Rmk']); ?>"/>
 <input type="hidden" Name="H_Mobile_WithGPS" id="H_Mobile_WithGPS" value="<?php echo trim($rElig['Mobile_WithGPS']); ?>"/>
 <input type="hidden" Name="H_Mobile_WithGPS_Rmk" id="H_Mobile_WithGPS_Rmk" value="<?php echo trim($rElig['Mobile_WithGPS_Rmk']); ?>"/>
+
+<?php /*
 <input type="hidden" Name="H_Mobile_Remb" id="H_Mobile_Remb" value="<?php echo trim($rElig['Mobile_Remb']); ?>"/>
 <input type="hidden" Name="H_Mobile_Remb_Period" id="H_Mobile_Remb_Period" value="<?php echo trim($rElig['Mobile_Remb_Period']); ?>"/>
 <input type="hidden" Name="H_Mobile_Remb_Period_Rmk" id="H_Mobile_Remb_Period_Rmk" value="<?php echo trim($rElig['Mobile_Remb_Period_Rmk']); ?>"/>
 
 <input type="hidden" Name="H_Mobile_RembPost" id="H_Mobile_RembPost" value="<?php echo trim($rElig['Mobile_RembPost']); ?>"/>
 <input type="hidden" Name="H_Mobile_RembPost_Period" id="H_Mobile_RembPost_Period" value="<?php echo trim($rElig['Mobile_RembPost_Period']); ?>"/>
-<input type="hidden" Name="H_Mobile_RembPost_Period_Rmk" id="H_Mobile_RembPost_Period_Rmk" value="<?php echo trim($rElig['Mobile_RembPost_Period_Rmk']); ?>"/>
+<input type="hidden" Name="H_Mobile_RembPost_Period_Rmk" id="H_Mobile_RembPost_Period_Rmk" value="<?php echo trim($rElig['Mobile_RembPost_Period_Rmk']); ?>"/>*/?>
+
+<input type="hidden" Name="H_Mobile_Remb" id="H_Mobile_Remb" value=""/>
+<input type="hidden" Name="H_Mobile_Remb_Period" id="H_Mobile_Remb_Period" value=""/>
+<input type="hidden" Name="H_Mobile_Remb_Period_Rmk" id="H_Mobile_Remb_Period_Rmk" value=""/>
+<input type="hidden" Name="H_Mobile_RembPost" id="H_Mobile_RembPost" value=""/>
+<input type="hidden" Name="H_Mobile_RembPost_Period" id="H_Mobile_RembPost_Period" value=""/>
+<input type="hidden" Name="H_Mobile_RembPost_Period_Rmk" id="H_Mobile_RembPost_Period_Rmk" value=""/>
 
 
 

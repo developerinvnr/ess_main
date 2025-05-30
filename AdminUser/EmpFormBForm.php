@@ -83,6 +83,14 @@ if(isset($_POST['SubmitKRA']))
 }
 
 
+if($_REQUEST['act']=='deletedata' && $_REQUEST['id']>0)
+{
+ $sql=mysql_query("delete from hrm_employee_pms_behavioralformb where BehavioralFormBId=".$_REQUEST['id'],$con);    
+ //echo "delete from hrm_employee_pms_behavioralformb where BehavioralFormBId=".$_REQUEST['id'];
+    
+}
+
+
 ?>
 <html>
 <head>
@@ -112,6 +120,16 @@ function FunSubTgt(bid,prd,tgt,wgt,lgc)
   var yid=document.getElementById("YId").value;
   var win = window.open("setformbtgt.php?act=setkratgt&n=2&valueins=true&checkalpha=false&d=12&pa=4&y=2&fbid="+bid+"&prd="+prd+"&yy=t1t&tgt="+tgt+"&e="+e+"&lgc="+lgc+"&wgt="+wgt+"&c="+c+"&yid="+yid, "QForm", "menubar=no,scrollbars=yes,resizable=no,directories=no,width=1200,height=600"); 
 } 
+
+
+function deleteFormB(bid,YId,EmpId,CId,T,vId)
+{
+  var agree = confirm("Are you sure?");
+  if(agree)
+  {
+  window.location="EmpFormBForm.php?act=deletedata&id="+bid+"&YId="+YId+"&EmpId="+EmpId+"&CId="+CId+"&T="+T+"&vId="+vId;
+  }
+}
 
 
 function FunChangeformB(T,Id,BId,DId,GId,EId)
@@ -156,7 +174,7 @@ function ValidationAchive(FormBForm)
 <?php $sqlE=mysql_query("select * from hrm_employee where EmployeeID=".$_REQUEST['EmpId'], $con); $resE=mysql_fetch_array($sqlE); $Ename=$resE['Fname'].' '.$resE['Sname'].' '.$resE['Lname']; 
 $cdn=$resE['EmpCode'].'&nbsp;:&nbsp;'.$resE['Fname'].' '.$resE['Sname'].' '.$resE['Lname'].'&nbsp;-&nbsp;'; 
 
-$sqlDoj=mysql_query("select DateJoining,GradeId,DepartmentId,EmpVertical from hrm_employee_general where EmployeeID=".$_REQUEST['EmpId'],$con); $resDoj=mysql_fetch_assoc($sqlDoj);
+$sqlDoj=mysql_query("select DateJoining,GradeId,DepartmentId,EmpVertical,grade_name from hrm_employee_general g left join core_grades gr on g.GradeId=gr.id where EmployeeID=".$_REQUEST['EmpId'],$con); $resDoj=mysql_fetch_assoc($sqlDoj);
 ?>
 
 <?php
@@ -174,7 +192,7 @@ $sqlBB=mysql_query("select * from hrm_employee_pms_behavioralformb where YearId=
       <td style="width:100px;" class="h11">&nbsp;EmpCode :</td>
       <td style="width:80px;" class="h12"><?php echo $resE['EmpCode']; ?></td>
       <td style="width:60px;" class="h11">Name :</td>
-      <td style="width:250px;" class="h12"><?php echo $Ename; ?></td>
+      <td style="width:250px;" class="h12"><?php echo $Ename .' ('.$resDoj['grade_name'].')'; ?></td>
   </tr>
  </table>
  </td>
@@ -232,7 +250,7 @@ $sqlBB=mysql_query("select * from hrm_employee_pms_behavioralformb where YearId=
       <td class="tdc" style="width:80px;font-family:Times New Roman; font-size:14px;"><b>Logic</b></td>
       <td class="tdc" style="width:80px;font-family:Times New Roman; font-size:14px;"><b>Period</b></td>
       <td class="tdc" style="width:60px;font-family:Times New Roman; font-size:14px;"><b>Target</b></td>
-	  <?php if($rowBB==0 AND $_REQUEST['T']=='E'){ ?><td class="tdc" style="width:60px;font-family:Times New Roman; font-size:14px;"><b>Action</b></td><?php } ?>
+	  <?php //if($rowBB==0 AND $_REQUEST['T']=='E'){ ?><td class="tdc" style="width:60px;font-family:Times New Roman; font-size:14px;"><b>Action</b></td><?php //} ?>
      </tr>
 <?php /**********************************************************/ ?>
 <?php if($_REQUEST['vId']=='y'){ $qsub="fbg.Vertical=".$resDoj['EmpVertical']; }
@@ -249,8 +267,10 @@ else
 }
 */
 
-$sqlBY=mysql_query("select fb.* from hrm_pms_formb fb INNER JOIN hrm_employee_pms_behavioralformb fbg ON fb.FormBId=fbg.FormBId where fb.SkillStatus='A' AND fbg.YearId=".$_REQUEST['YId']." AND fbg.EmpId=".$_REQUEST['EmpId']." order by FormBId", $con); 
-$rowBY=mysql_num_rows($sqlBY); ?>
+$sqlBY=mysql_query("select fb.*,fbg.BehavioralFormBId from hrm_pms_formb fb INNER JOIN hrm_employee_pms_behavioralformb fbg ON fb.FormBId=fbg.FormBId where fb.SkillStatus='A' AND fbg.YearId=".$_REQUEST['YId']." AND fbg.EmpId=".$_REQUEST['EmpId']." order by FormBId", $con); 
+$rowBY=mysql_num_rows($sqlBY);
+
+?>
 <input type="hidden" id="RowCountV" name="RowCountV" value="<?=$rowBY?>" />
 <?php $i=1; while($resBY=mysql_fetch_array($sqlBY)){ ?>
 
@@ -262,11 +282,14 @@ $rowBY=mysql_num_rows($sqlBY); ?>
   <td class="font1" align="center" style="font-size:12px;"><?php echo $resBY['Logic']; ?></td>
   <td class="font1" align="center" style="font-size:12px;"><?php echo $resBY['Period']; ?></td>
   <td class="font1" align="center" style="font-size:12px;"><span <?php if($resBY['Period']!='Annual' AND $resBY['Period']!=''){ echo 'style="cursor:pointer;text-decoration:underline;color:#000099;"';} if($resBY['Period']!='Annual' AND $resBY['Period']!=''){ ?> onClick="FunFormBTgt(<?php echo $YearId.','.$resBY['FormBId']; ?>,'<?php echo $resBY['Period']; ?>',<?php echo $resBY['Target'].','.intval($resBY['Weightage']); ?>,'<?php echo $resBY['Logic']; ?>')" <?php } ?>  ><?php echo $resBY['Target']; ?></span></td>
-  <?php if($rowBB==0 AND $_REQUEST['T']=='E'){ ?>
+  <?php //if($rowBB==0 AND $_REQUEST['T']=='E'){ ?>
   <td class="font1" align="center">&nbsp;
+  
+
+  <span style="cursor:pointer;color:#007500;" onclick="deleteFormB(<?=$resBY['BehavioralFormBId']?>,<?=$_REQUEST['YId']?>,<?=$_REQUEST['EmpId']?>,<?=$_REQUEST['CId']?>,'E','n')"><u><img src="images/delete.png" border="0"></u></span>
   <input type="hidden" id="FormBIdM_<?=$i?>" name="FormBIdM_<?=$i?>" value="<?=$resBY['FormBId']?>" />
   </td>
-  <?php } ?>
+  <?php //} ?>
  </tr> 
    
 <?php $i++; } $j=$i; ?>

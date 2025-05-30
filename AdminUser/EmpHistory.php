@@ -12,12 +12,16 @@
 function PrinP() { document.getElementById("PrintTD").style.display='none'; window.print(); window.close();}
 </script>
 <body leftmargin="0" topmargin="0" marginwidth="0" marginheight="0" bgcolor="#E0DBE3">	
-<?php $sqlE=mysql_query("select EmpCode, Fname, Sname, Lname, CompanyId, DepartmentId, DesigId, GradeId, HqId, Gender, DR, Married, DateJoining, EmpStatus, DateOfSepration, DOB, EmailId_Vnr, VNRExpYear, PreviousExpYear from hrm_employee INNER JOIN hrm_employee_general ON hrm_employee.EmployeeID=hrm_employee_general.EmployeeID INNER JOIN hrm_employee_personal ON hrm_employee.EmployeeID=hrm_employee_personal.EmployeeID where hrm_employee.EmployeeID=".$EmployeeId, $con); $resE=mysql_fetch_assoc($sqlE); 
+<?php $sqlE=mysql_query("select EmpCode, Fname, Sname, Lname, CompanyId, DepartmentId, DesigId, GradeId, HqId, Gender, DR, Married, DateJoining, EmpStatus, DateOfSepration, DOB, EmailId_Vnr, VNRExpYear, TerrId, PreviousExpYear from hrm_employee INNER JOIN hrm_employee_general ON hrm_employee.EmployeeID=hrm_employee_general.EmployeeID INNER JOIN hrm_employee_personal ON hrm_employee.EmployeeID=hrm_employee_personal.EmployeeID where hrm_employee.EmployeeID=".$EmployeeId, $con); $resE=mysql_fetch_assoc($sqlE); 
 if($resE['DR']=='Y'){$M='Dr.';} elseif($resE['Gender']=='M'){$M='Mr.';} elseif($resE['Gender']=='F' AND $resE['Married']=='Y'){$M='Mrs.';} elseif($resE['Gender']=='F' AND $resE['Married']=='N'){$M='Miss.';}  $Name=$M.' '.$resE['Fname'].' '.$resE['Sname'].' '.$resE['Lname']; 
-$sqlD=mysql_query("select DepartmentName from hrm_department where DepartmentId=".$resE['DepartmentId'], $con); $resD=mysql_fetch_assoc($sqlD);
-$sqlDe=mysql_query("select DesigName from hrm_designation where DesigId=".$resE['DesigId'], $con); $resDe=mysql_fetch_assoc($sqlDe);
-$sqlG=mysql_query("select GradeValue from hrm_grade where GradeId=".$resE['GradeId'], $con); $resG=mysql_fetch_assoc($sqlG);
-$sqlHq=mysql_query("select HqName from hrm_headquater where HqId=".$resE['HqId'], $con); $resHq=mysql_fetch_assoc($sqlHq); 
+$sqlD=mysql_query("select department_name as DepartmentName from core_departments where id=".$resE['DepartmentId'], $con); $resD=mysql_fetch_assoc($sqlD);
+$sqlDe=mysql_query("select designation_name as DesigName from core_designation where id=".$resE['DesigId'], $con); $resDe=mysql_fetch_assoc($sqlDe);
+$sqlG=mysql_query("select grade_name as GradeValue from core_grades where id=".$resE['GradeId'], $con); $resG=mysql_fetch_assoc($sqlG);
+$sqlHq=mysql_query("select city_village_name as HqName from core_city_village_by_state where id=".$resE['HqId'], $con); $resHq=mysql_fetch_assoc($sqlHq); 
+$sqlTerr=mysql_query("select territory_name from core_territory where id=".$resE['TerrId'], $con); $resTerr=mysql_fetch_assoc($sqlTerr);
+
+if($resE['TerrId']>0){$Hq=$resTerr['territory_name'];}else{$Hq=$resHq['HqName']; }
+
 $sqlPms=mysql_query("select AppraiserId, HodId from hrm_employee_reporting_pmskra where EmployeeID=".$EmployeeId, $con); $resPms=mysql_fetch_assoc($sqlPms); 
 $sqlRe=mysql_query("select Fname, Sname, Lname, Gender, DR, Married from hrm_employee INNER JOIN hrm_employee_general ON hrm_employee.EmployeeID=hrm_employee_general.EmployeeID INNER JOIN hrm_employee_personal ON hrm_employee.EmployeeID=hrm_employee_personal.EmployeeID where hrm_employee.EmployeeID=".$resPms['AppraiserId'], $con); $resRe=mysql_fetch_assoc($sqlRe); 
 if($resRe['DR']=='Y'){$MRe='Dr.';} elseif($resRe['Gender']=='M'){$MRe='Mr.';} elseif($resRe['Gender']=='F' AND $resRe['Married']=='Y'){$MRe='Mrs.';} elseif($resRe['Gender']=='F' AND $resRe['Married']=='N'){$MRe='Miss.';}  $NameRe=$MRe.' '.$resRe['Fname'].' '.$resRe['Sname'].' '.$resRe['Lname'];
@@ -66,7 +70,7 @@ elseif($EmployeeId==944 OR $EmployeeId==945)
 			</tr>
 			<tr>
 			  <td class="head" style="width:100px;" valign="top">&nbsp;Location</td>
-			  <td class="data" style="width:250px;text-transform:uppercase;" valign="top">&nbsp;<?php echo $resHq['HqName']; ?></td>
+			  <td class="data" style="width:250px;text-transform:uppercase;" valign="top">&nbsp;<?php echo $Hq; ?></td>
 			  <td class="head" style="width:100px;" valign="top">&nbsp;DOJ</td>
 			  <td class="data" style="width:225px;" valign="top">&nbsp;<?php echo date("d-m-Y",strtotime($resE['DateJoining'])); ?></td>
 			</tr>

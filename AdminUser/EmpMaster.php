@@ -142,11 +142,16 @@ function VessNewEmp(ci,ui)
 					   <td style="width:140px;" class="heading">Employee Master</td>
 	                   <td class="tdr" style="width:80px;"><b>Department :</b></td>
                        <td class="tdl" style="width:3px;">
-                       <select style="font-size:11px; width:120px; height:18px; background-color:#DDFFBB; display:block;" name="DepartmentE" id="DepartmentE" onChange="SelectDeptEmp(this.value)"><?php if($_REQUEST['DpId'] AND $_REQUEST['DpId']!='') { if($_REQUEST['DpId']=='All'){$DN='ALL';} else { $SqlDep=mysql_query("select * from hrm_department where CompanyId=".$CompanyId." AND DepartmentId=".$_REQUEST['DpId'], $con); $ResDep=mysql_fetch_array($SqlDep); $DN=$ResDep['DepartmentCode']; }?><option value="<?php echo $_REQUEST['DpId']; ?>"><?php echo '&nbsp;'.$DN;?></option><?php } else { ?><option value="" style="margin-left:0px; background-color:#84D9D5;" selected>Select Department</option><?php } ?>   
-<?php $SqlDepartment=mysql_query("select * from hrm_department where CompanyId=".$CompanyId." order by DepartmentName ASC", $con); while($ResDepartment=mysql_fetch_array($SqlDepartment)) { ?><option value="<?php echo $ResDepartment['DepartmentId']; ?>"><?php echo $ResDepartment['DepartmentCode'];?></option><?php } ?>
-<option value="All" >ALL</option></select>
-	  <input type="hidden" name="ComId" id="ComId" value="<?php echo $CompanyId; ?>" /> 
-                      </td>
+    <select style="font-size:11px; width:120px; height:18px; background-color:#DDFFBB; display:block;" name="DepartmentE" id="DepartmentE" onChange="SelectDeptEmp(this.value)">
+    <option value="" style="margin-left:0px; background-color:#84D9D5;" <?php if($_REQUEST['DpId']==''){echo 'selected';}?>>Select Department</option>                    
+    <?php $sDept=mysql_query("select * from core_departments where is_active=1 order by department_name", $con); 
+		 while($rDept=mysql_fetch_array($sDept)) { ?>
+		 <option value="<?=$rDept['id']?>" <?php if($_REQUEST['DpId']==$rDept['id']){echo 'selected';}?>><?='&nbsp;'.$rDept['department_name'];?></option>
+		 <?php } ?>
+     <option value="All" <?php if($_REQUEST['DpId']=='All'){echo 'selected';}?>>ALL</option>
+  </select>
+	  <input type="hidden" name="ComId" id="ComId" value="<?php echo $CompanyId; ?>" /> </td>
+
 					  <td style="width:10px;">&nbsp;</td>
 					  <td class="tdr" style="width:50px;"><b>Status :</b></td>
 					  <td class="td1" style="font-size:11px; width:120px;">
@@ -217,31 +222,46 @@ $selQ="e.EmployeeID, e.CandidateId, EmpCode, e.VCode, Fname, Sname, Lname, EmpSt
 
 $join="hrm_employee e LEFT JOIN hrm_employee_general g ON e.EmployeeID=g.EmployeeID LEFT JOIN hrm_employee_personal p ON e.EmployeeID=p.EmployeeID LEFT JOIN hrm_department d ON g.DepartmentId=d.DepartmentId LEFT JOIN hrm_designation de ON g.DesigId=de.DesigId LEFT JOIN hrm_headquater hq ON g.HqId=hq.HqId";
 
-if($_REQUEST['s']=='A'){ $stsCon="e.EmpStatus='A' AND e.VCode=''"; }
-elseif($_REQUEST['s']=='D'){ $stsCon="e.EmpStatus='D' AND e.VCode=''"; }
-elseif($_REQUEST['s']=='All'){ $stsCon="e.EmpStatus!='De' AND e.VCode=''"; }
-elseif($_REQUEST['s']=='VA'){ $stsCon="e.EmpStatus='A' AND e.VCode='V'"; }
-elseif($_REQUEST['s']=='VD'){ $stsCon="e.EmpStatus='D' AND e.VCode='V'"; }
-elseif($_REQUEST['s']=='VAll'){ $stsCon="e.EmpStatus!='De' AND e.VCode='V'"; }
+if($_REQUEST['s']=='A'){ $QSts="e.EmpStatus='A' AND (e.VCode='' || e.VCode= null)"; }
+elseif($_REQUEST['s']=='D'){ $QSts="e.EmpStatus='D' AND(e.VCode='' || e.VCode= null)"; }
+elseif($_REQUEST['s']=='All'){ $QSts="e.EmpStatus!='De' AND e.VCode=''"; }
+elseif($_REQUEST['s']=='VA'){ $QSts="e.EmpStatus='A' AND e.VCode='V'"; }
+elseif($_REQUEST['s']=='VD'){ $QSts="e.EmpStatus='D' AND e.VCode='V'"; }
+elseif($_REQUEST['s']=='VAll'){ $QSts="e.EmpStatus!='De' AND e.VCode='V'"; }
 
-//if($_REQUEST['s']=='All'){ $stsCon="e.EmpStatus!='De'"; }
-//else{ $stsCon="e.EmpStatus='".$_REQUEST['s']."'"; }
+if($_REQUEST['DpId']>0){ $Qdept="g.DepartmentId=".$_REQUEST['DpId']; }elseif($_REQUEST['DpId']=='All'){ $Qdept="1=1"; }
 
-
-if($_REQUEST['DpId']=='All'){ $deptCon="1=1"; }else{ $deptCon="g.DepartmentId=".$_REQUEST['DpId']; }
-//echo "SELECT ".$selQ." FROM ".$join." WHERE ".$stsCon." AND ".$deptCon." AND e.CompanyId=".$CompanyId." order by e.ECode";die;
-$sqlDP = mysql_query("SELECT ".$selQ." FROM ".$join." WHERE ".$stsCon." AND ".$deptCon." AND e.CompanyId=".$CompanyId." order by e.ECode", $con);
-
+  $qry = "SELECT e.EmployeeID, e.EmpCode, e.EmpStatus, concat(Fname, ' ', Sname, ' ', Lname) as Name, e.SubmitSelfAsset, e.CandidateId, e.UseApps, e.MoveRep, e.Unblock_Covid, Req_DrivLic, exam_allow, KRAUnBlock, g.*, DR, Gender, Married, function_name, vertical_name, department_name, department_code, sub_department_name, section_name, designation_name, grade_name, state_name, city_village_name, business_unit_name, zone_name, region_name, territory_name,
+  CASE 
+  WHEN DR = 'Y' THEN 'Dr.'
+  WHEN Gender = 'M' THEN 'Mr.'
+  WHEN Gender = 'F' AND Married = 'Y' THEN 'Mrs.'
+  WHEN Gender = 'F' AND Married = 'N' THEN 'Miss.'
+  ELSE '' END as Greeting FROM hrm_employee_general g 
+  left join hrm_employee e ON g.EmployeeID=e.EmployeeID 
+  left join hrm_employee_personal p on g.EmployeeID=p.EmployeeID
+  left join core_functions fun on g.EmpFunction=fun.id
+  left join core_verticals ver on g.EmpVertical=ver.id
+  left join core_departments dept on g.DepartmentId=dept.id
+  left join core_sub_department_master subdept on g.SubDepartmentId=subdept.id
+  left join core_section sec on g.EmpSection=sec.id
+  left join core_designation desig on g.DesigId=desig.id
+  left join core_grades gr on g.GradeId=gr.id
+  left join core_states st on g.CostCenter=st.id
+  left join core_city_village_by_state vlg on g.HqId=vlg.id 
+  left join core_business_unit Bu on g.BUId=Bu.id
+  left join core_zones Zn on g.ZoneId=Zn.id
+  left join core_regions Rg on g.RegionId=Rg.id
+  left join core_territory Tr on g.TerrId=Tr.id 
+  WHERE ".$QSts." AND ".$Qdept." AND e.CompanyId=".$CompanyId." order by e.ECode ASC";
+  $sqlDP = mysql_query($qry,$con); 
+  $Sno=1;  while($resDP = mysql_fetch_assoc($sqlDP)) { 
 	  
-      $Sno=1;  while($resDP = mysql_fetch_assoc($sqlDP)) { 
-	  if($resDP['DR']=='Y'){$MS='Dr.';} elseif($resDP['Gender']=='M'){$MS='Mr.';} elseif($resDP['Gender']=='F' AND $resDP['Married']=='Y'){$MS='Mrs.';} elseif($resDP['Gender']=='F' AND $resDP['Married']=='N'){$MS='Miss.';}  $Name=$MS.' '.$resDP['Fname'].' '.$resDP['Sname'].' '.$resDP['Lname'];
-	  $LEC=strlen($resDP['EmpCode']); 
+	$LEC=strlen($resDP['EmpCode']); 
       if($LEC==1){$EC='000'.$resDP['EmpCode'];} if($LEC==2){$EC='00'.$resDP['EmpCode'];} if($LEC==3){$EC='0'.$resDP['EmpCode'];} if($LEC>=4){$EC=$resDP['EmpCode'];}
     
-      if($resDP['VCode'] =='V'){
-          $EC = $resDP['EmpCode'];
-      }
-       $sqlch=mysql_query("select * from hrm_employee_separation where EmployeeID=".$resDP['EmployeeID']." AND Rep_Approved!='C' AND Hod_Approved!='C' AND HR_Approved!='C'", $con); $rowch=mysql_num_rows($sqlch);
+  if($resDP['VCode'] =='V'){ $EC = $resDP['EmpCode']; }
+  $sqlch=mysql_query("select * from hrm_employee_separation where EmployeeID=".$resDP['EmployeeID']." AND Rep_Approved!='C' AND Hod_Approved!='C' AND HR_Approved!='C'", $con); $rowch=mysql_num_rows($sqlch);
       
 ?>
  <div class="tbody">
@@ -249,14 +269,30 @@ $sqlDP = mysql_query("SELECT ".$selQ." FROM ".$join." WHERE ".$stsCon." AND ".$d
  <tr style="background-color:<?php if($rowch>0){echo '#FFFF6C';}else{echo '#FFFFFF';} ?>;"> 
   <td class="tdc"><?php echo $Sno; ?></td>
   <td class="tdc"><?php echo $EC; ?></td>
-  <td class="tdl">&nbsp;<?php echo ucwords(strtolower($Name)); ?></td>
-  <td class="tdl">&nbsp;<?php echo ucwords(strtolower($resDP['HqName']));?></td>
-  <td class="tdc"><?php echo $resDP['DepartmentCode'];?></td>
-  <td class="tdl">&nbsp;<?php echo ucwords(strtolower($resDP['DesigName']));?></td>
+  <td class="tdl">&nbsp;<?php echo $resDP['Greeting'].' '.ucwords(strtolower($resDP['Name'])); ?></td>
+  <?php if($res['TerrId']>0){$Hq=$resDP['territory_name'];}else{$Hq=$resDP['city_village_name']; } ?>
+  <td class="tdl">&nbsp;<?php echo ucwords(strtolower($Hq));?></td>
+  <td class="tdc"><?php echo $resDP['department_name'];?></td>
+  <td class="tdl">&nbsp;
+    <?php echo ucwords(strtolower($resDP['designation_name']));
+    
+    if($resDP['DesigSuffix']!=null || $resDP['DesigSuffix']!='' )
+    {
+        if($resDP['DesigSuffix']=='Department'){
+            echo ' - '.$resDP['department_name'];
+        }elseif($resDP['DesigSuffix']=='SubDepartment'){
+             echo ' - '.$resDP['sub_department_name'];
+        }elseif($resDP['DesigSuffix']=='Section'){
+             echo ' - '.$resDP['section_name'];
+        }
+    }
+    ?>
+  
+  </td>
   <td class="tdc" bgcolor="<?php if($resDP['EmpStatus']=='D'){echo '#FBE4BB';}?>"><?php echo $resDP['EmpStatus']; ?></td>
   <td class="tdc"><a href="#"><img src="images/edit.png" border="0" alt="Edit" onClick="edit(<?php echo $resDP['EmployeeID']; ?>)"></a>
   <?php if($_SESSION['User_Permission']=='Edit'){?>&nbsp;&nbsp;<a href="#"><img src="images/key.png" alt="ChangeKey" border="0" onClick="ChangeKey(<?php echo $resDP['EmployeeID']; ?>)"></a><?php /*&nbsp;&nbsp;&nbsp;&nbsp;<a href="#"><img src="images/delete.png" alt="Delete" border="0" onClick="del(<?php echo $resDP['EmployeeID']; ?>)"></a><?php */?> <?php } ?></td>
-
+  
   <td class="tdc"><?php if($_SESSION['User_Permission']=='Edit'){?><a href="javascript:ClickConf(<?php echo $resDP['EmployeeID']; ?>)"><?php if($resDP['DateConfirmationYN']=='Y' AND $resDP['ConfirmHR']=='Y'){echo '<b style="color:#008000;">Y</b>';}elseif(($resDP['DateConfirmationYN']=='Y' AND $resDP['ConfirmHR']=='N') OR ($resDP['DateConfirmationYN']=='N' AND $resDP['ConfirmHR']=='Y') OR ($resDP['DateConfirmationYN']=='N' AND $resDP['ConfirmHR']=='YY')){echo '<b style="color:#F27900;">P</b>';}elseif($resDP['DateConfirmationYN']=='N' AND $resDP['ConfirmHR']=='N'){echo '<b style="color:#C0C0C0;">N</b>';} ?></a><?php } ?></td>
 
   <td align="center" style="font:Georgia; font-size:11px; width:60px;">

@@ -187,7 +187,7 @@ if($_REQUEST['action']=='LeaveMonth' && $_REQUEST['v']!='')
 	    //$sqlUp=mysql_query("update hrm_employee_monthlyleave_balance set OpeningCL=".$resME['BalanceCL'].", OpeningSL=".$resME['BalanceSL'].", OpeningPL=".$resME['BalancePL'].", OpeningEL=".$resME['BalanceEL'].", OpeningOL=".$resME['BalanceOL'].", OpeningML=".$resME['BalanceML'].", BalanceCL=".$resME['BalanceCL'].", BalanceSL=".$resME['BalanceSL'].", BalancePL=".$resME['BalancePL'].", BalanceEL=".$resME['BalanceEL'].", BalanceOL=".$resME['BalanceOL'].", BalanceML=".$resME['BalanceML'].", CreatedBy=".$UserId.", CreatedDate='".date("Y-m-d")."', YearId=".$YearId." where EmployeeID=".$id." AND Month=".$NM." AND Year=".$NY, $con); 
 	    
 	}
-	if($rowME2==0){ $sqlUp=mysql_query("insert into hrm_employee_monthlyleave_balance(EmployeeID, EC, Month, Year, OpeningCL, OpeningSL, OpeningPL, OpeningEL, OpeningOL, OpeningML, BalanceCL, BalanceSL, BalancePL, BalanceEL, BalanceOL, BalanceML, CreatedBy, CreatedDate, YearId) values(".$id.", ".$resME['EC'].", ".$NM.", ".$NY.", ".$resME['BalanceCL'].", ".$resME['BalanceSL'].", ".$resME['BalancePL'].", ".$resME['BalanceEL'].", ".$resME['BalanceOL'].", ".$resME['BalanceML'].", ".$resME['BalanceCL'].", ".$resME['BalanceSL'].", ".$resME['BalancePL'].", ".$resME['BalanceEL'].", ".$resME['BalanceOL'].", ".$resME['BalanceML'].", ".$UserId.", '".date("Y-m-d")."', ".$YearId.")", $con); }
+	if($rowME2==0){ $sqlUp=mysql_query("insert into hrm_employee_monthlyleave_balance(EmployeeID, EC, Month, Year, OpeningCL, OpeningSL, OpeningPL, OpeningEL, OpeningOL, OpeningML, BalanceCL, BalanceSL, BalancePL, BalanceEL, BalanceOL, BalanceML, CreatedBy, CreatedDate, YearId) values(".$id.", '".$resME['EC']."', ".$NM.", ".$NY.", ".$resME['BalanceCL'].", ".$resME['BalanceSL'].", ".$resME['BalancePL'].", ".$resME['BalanceEL'].", ".$resME['BalanceOL'].", ".$resME['BalanceML'].", ".$resME['BalanceCL'].", ".$resME['BalanceSL'].", ".$resME['BalancePL'].", ".$resME['BalanceEL'].", ".$resME['BalanceOL'].", ".$resME['BalanceML'].", ".$UserId.", '".date("Y-m-d")."', ".$YearId.")", $con); }
 	}
 	
 	//Att Process //
@@ -249,10 +249,12 @@ $SqlLWP=mysql_query("select count(DISTINCT AttDate)as LWP from hrm_employee_atte
    $TotalPaidDay=$TotalDayWithSunEL-$TotELSun;
    $TotalWorkingDay=26;
    
+   
    /***************** hrm_employee_monthlyleave_balance open ******************/
    $SL=mysql_query("select * from hrm_employee_monthlyleave_balance where EmployeeID=".$id." AND Month='".$NM."' AND Year='".$NY."'", $con);  $RowL=mysql_num_rows($SL);
    if($RowL>0) 
-   { $RL=mysql_fetch_assoc($SL); 
+   { 
+     $RL=mysql_fetch_assoc($SL); 
 	 if($NM!=1)
 	 { 
 	  $TotBalCL=$RL['OpeningCL']-$TotalCL; $TotBalSL=$RL['OpeningSL']-$TotalSL; 
@@ -266,7 +268,9 @@ $SqlLWP=mysql_query("select count(DISTINCT AttDate)as LWP from hrm_employee_atte
 	  $TotBalFL=$RL['TotOL']-$TotalFL; $TotBalML=$RL['TotML']-$TotalML; 
 	 } 	            
 	                
-	 $sUpL=mysql_query("UPDATE hrm_employee_monthlyleave_balance set AvailedCL='".$TotalCL."', AvailedSL='".$TotalSL."', AvailedPL='".$TotalPL."', AvailedEL='".$TotalEL."', AvailedML='".$TotalML."', AvailedOL='".$TotalFL."', AvailedTL='".$TotalTL."', BalanceCL='".$TotBalCL."', BalanceSL='".$TotBalSL."', BalancePL='".$TotBalPL."', BalanceEL='".$TotBalEL."', BalanceML='".$TotBalML."', BalanceOL='".$TotBalFL."', MonthAtt_TotLeave='".$TotalLeaveCount."', MonthAtt_TotOD='".$TotalOnDuties."', MonthAtt_TotHO='".$TotalHoliday."', MonthAtt_TotPR='".$TotalPR."', MonthAtt_TotAP='".$TotalAbsent."', MonthAtt_TotWorkDay='".$TotalWorkingDay."', MonthAtt_TotLWP='".$TotalLWP."', MonthAtt_TotPaidDay='".$TotalPaidDay."' where EmployeeID=".$id." AND Month='".$NM."' AND Year='".$NY."'", $con); }
+	 $sUpL=mysql_query("UPDATE hrm_employee_monthlyleave_balance set AvailedCL='".$TotalCL."', AvailedSL='".$TotalSL."', AvailedPL='".$TotalPL."', AvailedEL='".$TotalEL."', AvailedML='".$TotalML."', AvailedOL='".$TotalFL."', AvailedTL='".$TotalTL."', BalanceCL='".$TotBalCL."', BalanceSL='".$TotBalSL."', BalancePL='".$TotBalPL."', BalanceEL='".$TotBalEL."', BalanceML='".$TotBalML."', BalanceOL='".$TotBalFL."', MonthAtt_TotLeave='".$TotalLeaveCount."', MonthAtt_TotOD='".$TotalOnDuties."', MonthAtt_TotHO='".$TotalHoliday."', MonthAtt_TotPR='".$TotalPR."', MonthAtt_TotAP='".$TotalAbsent."', MonthAtt_TotWorkDay='".$TotalWorkingDay."', MonthAtt_TotLWP='".$TotalLWP."', MonthAtt_TotPaidDay='".$TotalPaidDay."' where EmployeeID=".$id." AND Month='".$NM."' AND Year='".$NY."'", $con); 
+       
+   }
 	/**************** hrm_employee_monthlyleave_balance close **************/
    
     if($sUpL) 
@@ -361,6 +365,7 @@ $SqlLWP=mysql_query("select count(DISTINCT AttDate)as LWP from hrm_employee_atte
         }
 	    else
 	    {
+	        
 	    $sqlUp=mysql_query("update hrm_employee_monthlyleave_balance set OpeningCL=0, OpeningSL=".$OSL.", OpeningPL=0, OpeningOL=0, CreditedCL=7, CreditedSL=".$CSL.", CreditedPL=".$CPL.", CreditedEL=".$CEL.", CreditedOL=".$COL.", TotCL=7, TotSL=".$TSL.", TotPL=".$TPL.", TotEL=".$TEL.", TotOL=".$TOL.", EnCashEL=".$EnCashEL.", BalanceCL=7, BalanceSL=".$TSL.", BalancePL=".$TPL.", BalanceEL=".$BalEL.", BalanceOL=".$TOL." where EmployeeID=".$id." AND Month=".$NMM." AND Year=".$NYY, $con);	
 	    }
        }
@@ -395,7 +400,7 @@ if($_REQUEST['action']=='PayMonth' && $_REQUEST['v']!='')
   while($res=mysql_fetch_assoc($sql))
   {  
     $id=$res['EmployeeID'];
-    $sqlE=mysql_query("select e.EmployeeID,EmpCode,DepartmentId,DesigId,GradeId,DateJoining,HqId,CostCenter,DateOfSepration from hrm_employee e INNER JOIN hrm_employee_general g ON e.EmployeeID=g.EmployeeID where e.CompanyId=".$CompanyId." AND e.EmployeeID=".$id, $con); 
+    $sqlE=mysql_query("select e.EmployeeID,EmpCode,DepartmentId,DesigId,GradeId,DateJoining,HqId,CostCenter,DateOfSepration,TerrId,SubDepartmentId,EmpFunction,EmpVertical from hrm_employee e INNER JOIN hrm_employee_general g ON e.EmployeeID=g.EmployeeID where e.CompanyId=".$CompanyId." AND e.EmployeeID=".$id, $con); 
     $resE=mysql_fetch_assoc($sqlE);
     
     $sqlME=mysql_query("select * from hrm_employee_monthlyleave_balance where Year=".$Y." AND EmployeeID=".$id." AND Month=".$m."", $con); 
@@ -488,7 +493,7 @@ if($_REQUEST['action']=='PayMonth' && $_REQUEST['v']!='')
        else
        {
         $TWD=$WorkDay;  //26
-        if($resME['MonthAtt_TotAP']>0){ $ActPD=$TWD-$resME['MonthAtt_TotAP']; }else{ $ActPD=$TWD; }
+        if($resME['MonthAtt_TotAP']>0 || $resME['MonthAtt_TotLWP']>0){ $ActPD=$TWD-($resME['MonthAtt_TotAP']+$resME['MonthAtt_TotLWP']); }else{ $ActPD=$TWD; }
 		if($PrDay>0){ $PaidDay=$ActPD; }else{ $PaidDay=0; }   //$aa=2;
        }
      /**************************************************/
@@ -587,22 +592,22 @@ if($_REQUEST['action']=='PayMonth' && $_REQUEST['v']!='')
 	  //else{ $ESCI=0; $ComESCI=0; }
 	  
 	  
+	  if($resCTC['Communication_Allowance']>0 AND $PaidDay>0) {$Comm_Allow=$resCTC['Communication_Allowance']/12;}else{$Comm_Allow=0;}
+	  if($resCTC['Car_Allowance']>0 AND $PaidDay>0) {$Car_Allow=$resCTC['Car_Allowance']/12;}else{$Car_Allow=0;}
+	  
 	  if($resCTC['ESCI']>0){ $ESCI=ceil(($TotGross*0.75)/100); $ComESCI=round((($TotGross*3.25)/100), 1, PHP_ROUND_HALF_UP); }
 	 else{ $ESCI=0; $ComESCI=0; } //round( 1.55, 1, PHP_ROUND_HALF_UP);
-	 
-	 
-	  
 	  
 	  $TotDeduct=$TotPF_Emp+$ESCI+$NPS;
 	  $Tot_NetAmount=$TotGross-$TotDeduct;
 	  $YI=$YearId;
 	  $sqlME2=mysql_query("select * from hrm_employee_monthlypayslip where EmployeeID=".$id." AND Month=".$m." AND Year=".$Y."", $con); $rowME2=mysql_num_rows($sqlME2);
 	  if($rowME2>0)
-	  { $sqlUp=mysql_query("update hrm_employee_monthlypayslip set DepartmentId=".$resE['DepartmentId'].", DesigId=".$DesigId.", GradeId=".$GradeId.", HqId=".$resE['HqId'].", StateId=".$resE['CostCenter'].", TotalDay=".$WorkDay.", PaidDay=".$PaidDay.", Absent=".$Absent.", ActualBasic=".$resCTC['BAS_Value'].", Basic=".$Basic.",  Stipend=".$Stip.", Hra=".$HRA.", Convance=".$Con.", TA='".$TA."', Car_Allowance=".$Car.", Bonus_Month=".$Bonus.", Special=".$Special.", CEA_Ded=".$CEA.", MA_Ded=".$MR.", LTA_Ded=".$LTA.", EPF_Employee=".$Emp_PF.", EPF_Employer=".$Contri_PF.", ESCI_Employee=".$ESCI.", ESCI_Employer=".$ComESCI.", NPS_Value='".$NPS."', EPS_Employee=".$Emp_EPS.", EPS_Employer=".$Contri_EPS.", EDLI_Employee=".$Emp_EDLI.", EDLI_Employer=".$Contri_EDLI.", EPF_AdminCharge_Employee=".$Emp_PFAdminCharge.", EPF_AdminCharge_Employer=".$Contri_PFAdminCharge.", EDLI_AdminCharge_Employee=".$Emp_EDLIAdminCharge.", EDLI_AdminCharge_Employer=".$Contri_EDLIAdminCharge.", Tot_Pf_Employee=".$TotPF_Emp.", Tot_Pf_Employer=".$TotPF_Contri.", Tot_Pf=".$TotPF.", Tot_Gross=".$TotGross.", Tot_Deduct=".$TotDeduct.", Tot_NetAmount=".$Tot_NetAmount.", PaySlipCreatedBy=".$UserId.", PaySlipCreatedDate='".date("Y-m-d")."', PaySlipYearId=".$YearId." where EmployeeID=".$id." AND Month=".$m." AND Year=".$Y."", $con); }
+	  { $sqlUp=mysql_query("update hrm_employee_monthlypayslip set DepartmentId=".$resE['DepartmentId'].", DesigId=".$DesigId.", GradeId=".$GradeId.", HqId=".$resE['HqId'].", StateId=".$resE['CostCenter'].", FunId=".$resE['EmpFunction'].", VerId=".$resE['EmpVertical'].", SubDeptId=".$resE['SubDepartmentId'].", TerrId=".$resE['TerrId'].", TotalDay=".$WorkDay.", PaidDay=".$PaidDay.", Absent=".$Absent.", ActualBasic=".$resCTC['BAS_Value'].", Basic=".$Basic.",  Stipend=".$Stip.", Hra=".$HRA.", Convance=".$Con.", TA='".$TA."', Car_Allowance=".$Car.", Bonus_Month=".$Bonus.", Special=".$Special.", CEA_Ded=".$CEA.", MA_Ded=".$MR.", LTA_Ded=".$LTA.", EPF_Employee=".$Emp_PF.", EPF_Employer=".$Contri_PF.", ESCI_Employee=".$ESCI.", ESCI_Employer=".$ComESCI.", NPS_Value='".$NPS."', EPS_Employee=".$Emp_EPS.", EPS_Employer=".$Contri_EPS.", EDLI_Employee=".$Emp_EDLI.", EDLI_Employer=".$Contri_EDLI.", EPF_AdminCharge_Employee=".$Emp_PFAdminCharge.", EPF_AdminCharge_Employer=".$Contri_PFAdminCharge.", EDLI_AdminCharge_Employee=".$Emp_EDLIAdminCharge.", EDLI_AdminCharge_Employer=".$Contri_EDLIAdminCharge.", Tot_Pf_Employee=".$TotPF_Emp.", Tot_Pf_Employer=".$TotPF_Contri.", Tot_Pf=".$TotPF.", Communication_Allow='".$Comm_Allow."', Car_Allow='".$Car_Allow."', Tot_Gross=".$TotGross.", Tot_Deduct=".$TotDeduct.", Tot_NetAmount=".$Tot_NetAmount.", PaySlipCreatedBy=".$UserId.", PaySlipCreatedDate='".date("Y-m-d")."', PaySlipYearId=".$YearId." where EmployeeID=".$id." AND Month=".$m." AND Year=".$Y."", $con); }
 	  if($rowME2==0)
 	  {
 	      
-	   $sqlUp=mysql_query("insert into hrm_employee_monthlypayslip(EmployeeID, Month, Year, DepartmentId, DesigId, GradeId, HqId, StateId, TotalDay, PaidDay, Absent, ActualBasic, Basic, Stipend, Hra, Convance, TA, Car_Allowance, Bonus_Month, Special, CEA_Ded, MA_Ded, LTA_Ded, EPF_Employee, EPF_Employer, ESCI_Employee, ESCI_Employer, NPS_Value, EPS_Employee, EPS_Employer, EDLI_Employee, EDLI_Employer, EPF_AdminCharge_Employee, EPF_AdminCharge_Employer, EDLI_AdminCharge_Employee, EDLI_AdminCharge_Employer, Tot_Pf_Employee, Tot_Pf_Employer, Tot_Pf, Tot_Gross, Tot_Deduct, Tot_NetAmount, PaySlipCreatedBy, PaySlipCreatedDate, PaySlipYearId) values(".$id.", ".$m.", ".$Y.", ".$resE['DepartmentId'].", ".$DesigId.", ".$GradeId.", ".$resE['HqId'].", ".$resE['CostCenter'].", ".$WorkDay.", ".$PaidDay.", ".$Absent.", ".$resCTC['BAS_Value'].", ".$Basic.",  ".$Stip.", ".$HRA.", ".$Con.", '".$TA."', ".$Car.", ".$Bonus.", ".$Special.", ".$CEA.", ".$MR.", ".$LTA.", ".$Emp_PF.", ".$Contri_PF.", ".$ESCI.", ".$ComESCI.", '".$NPS."', ".$Emp_EPS.", ".$Contri_EPS.", ".$Emp_EDLI.", ".$Contri_EDLI.", ".$Emp_PFAdminCharge.", ".$TotPF_Contri.", ".$Emp_EDLIAdminCharge.", ".$Contri_EDLIAdminCharge.", ".$TotPF_Emp.", ".$TotPF_Contri.", ".$TotPF.", ".$TotGross.", ".$TotDeduct.", ".$Tot_NetAmount.", ".$UserId.", '".date("Y-m-d")."', ".$YI.")", $con); }
+	   $sqlUp=mysql_query("insert into hrm_employee_monthlypayslip(EmployeeID, Month, Year, DepartmentId, DesigId, GradeId, HqId, StateId, FunId, VerId, SubDeptId, TerrId, TotalDay, PaidDay, Absent, ActualBasic, Basic, Stipend, Hra, Convance, TA, Car_Allowance, Bonus_Month, Special, CEA_Ded, MA_Ded, LTA_Ded, EPF_Employee, EPF_Employer, ESCI_Employee, ESCI_Employer, NPS_Value, EPS_Employee, EPS_Employer, EDLI_Employee, EDLI_Employer, EPF_AdminCharge_Employee, EPF_AdminCharge_Employer, EDLI_AdminCharge_Employee, EDLI_AdminCharge_Employer, Tot_Pf_Employee, Tot_Pf_Employer, Tot_Pf, Communication_Allow, Car_Allow, Tot_Gross, Tot_Deduct, Tot_NetAmount, PaySlipCreatedBy, PaySlipCreatedDate, PaySlipYearId) values(".$id.", ".$m.", ".$Y.", ".$resE['DepartmentId'].", ".$DesigId.", ".$GradeId.", ".$resE['HqId'].", ".$resE['CostCenter'].", ".$resE['EmpFunction'].", ".$resE['EmpVertical'].", ".$resE['SubDepartmentId'].", ".$resE['TerrId'].", ".$WorkDay.", ".$PaidDay.", ".$Absent.", ".$resCTC['BAS_Value'].", ".$Basic.",  ".$Stip.", ".$HRA.", ".$Con.", '".$TA."', ".$Car.", ".$Bonus.", ".$Special.", ".$CEA.", ".$MR.", ".$LTA.", ".$Emp_PF.", ".$Contri_PF.", ".$ESCI.", ".$ComESCI.", '".$NPS."', ".$Emp_EPS.", ".$Contri_EPS.", ".$Emp_EDLI.", ".$Contri_EDLI.", ".$Emp_PFAdminCharge.", ".$TotPF_Contri.", ".$Emp_EDLIAdminCharge.", ".$Contri_EDLIAdminCharge.", ".$TotPF_Emp.", ".$TotPF_Contri.", ".$TotPF.", '".$Comm_Allow."', '".$Car_Allow."', ".$TotGross.", ".$TotDeduct.", ".$Tot_NetAmount.", ".$UserId.", '".date("Y-m-d")."', ".$YI.")", $con); }
 	 } 
 	 
 /* TDS Component Process Open */	/* TDS Component Process Open */	/* TDS Component Process Open */	

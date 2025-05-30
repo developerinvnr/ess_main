@@ -100,7 +100,7 @@ $sql=mysql_query("select hrm_employee.EmpCode,Fname,Sname,Lname,DepartmentId,Dat
 } else { $sql=mysql_query("select hrm_employee.EmpCode,Fname,Sname,Lname,DepartmentId,DateJoining,DOB,DateOfResignation,DateOfSepration,hrm_employee_separation.* from hrm_employee_separation INNER JOIN hrm_employee ON hrm_employee_separation.EmployeeID=hrm_employee.EmployeeID INNER JOIN hrm_employee_general ON hrm_employee.EmployeeID=hrm_employee_general.EmployeeID where hrm_employee.CompanyId=".$CompanyId." order by hrm_employee_separation.Emp_ResignationDate DESC", $con); } 
 $SNo=1; while($res=mysql_fetch_array($sql)){ 
 $m=date('m',strtotime($res['Emp_ResignationDate'])); if($m==4){$mn='APR';}elseif($m==5){$mn='MAY';}elseif($m==6){$mn='JUN';}elseif($m==7){$mn='JUL';}elseif($m==8){$mn='AUG';}elseif($m==9){$mn='SEP';}elseif($m==10){$mn='OCT';}elseif($m==11){$mn='NOV';}elseif($m==12){$mn='DEC';}elseif($m==1){$mn='JAN';}elseif($m==2){$mn='FEB';}elseif($m==3){$mn='MAR';}
-$sqlD=mysql_query("select DepartmentCode from hrm_department where DepartmentId=".$res['DepartmentId'],$con); $resD=mysql_fetch_assoc($sqlD);
+$sqlD=mysql_query("select department_name as DepartmentCode from core_departments where id=".$res['DepartmentId'],$con); $resD=mysql_fetch_assoc($sqlD);
 $sqlEInt=mysql_query("select ComName,Location,Designation from hrm_employee_separation_exitint where EmpSepId=".$res['EmpSepId'],$con); $resEInt=mysql_fetch_assoc($sqlEInt);
 ?>
 <tr>

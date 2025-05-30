@@ -628,6 +628,30 @@ function EnterAppKra(v,n)
   var MScore=document.getElementById("AppKRAScore"+n).value=Math.round(((EScore/KRATarget)*KRAWeight)*100)/100;
   var Score=document.getElementById("KraScore"+n).value=MScore;
  }
+ else if(lgc=='Logic18')
+ {
+  var Per50=Math.round(((KRATarget*50)/100)*100)/100; var Per60=Math.round(((KRATarget*60)/100)*100)/100; var Per69=Math.round(((KRATarget*69)/100)*100)/100;  var Per70=Math.round(((KRATarget*70)/100)*100)/100; var Per79=Math.round(((KRATarget*79)/100)*100)/100; var Per80=Math.round(((KRATarget*80)/100)*100)/100;  var Per20=Math.round(((KRATarget*20)/100)*100)/100;  var Per120=Math.round((KRATarget+Per20)*100)/100;  var Per25=Math.round(((KRATarget*25)/100)*100)/100;  var Per75=Math.round(((KRATarget*75)/100)*100)/100; 
+  if(AppKRARating<Per60){var EScore=document.getElementById("AppKRALogic"+n).value=0;}
+  else if(AppKRARating>=Per60 && AppKRARating<=Per69){var EScore=document.getElementById("AppKRALogic"+n).value=Per25;}
+  else if(AppKRARating>=Per70 && AppKRARating<=Per79){var EScore=document.getElementById("AppKRALogic"+n).value=Per50;}
+  else if(AppKRARating>=Per80 && AppKRARating<=Per120){var EScore=document.getElementById("AppKRALogic"+n).value=KRATarget;}
+  else{var EScore=document.getElementById("AppKRALogic"+n).value=0;}
+  var MScore=document.getElementById("AppKRAScore"+n).value=Math.round(((EScore/KRATarget)*KRAWeight)*100)/100;
+  var Score=document.getElementById("KraScore"+n).value=MScore;
+ }
+ else if(lgc=='Logic19')
+ {
+  var Per70=Math.round(((KRATarget*70)/100)*100)/100;   
+  var Per80=Math.round(((KRATarget*80)/100)*100)/100;
+  var Per50=Math.round(((KRATarget*50)/100)*100)/100;     
+  if(AppKRARating<Per70){var EScore=document.getElementById("AppKRALogic"+i).value=0;}
+  else if(AppKRARating>=Per70 && AppKRARating<=Per80){var EScore=document.getElementById("AppKRALogic"+n).value=Per50;}
+  else if(AppKRARating>=Per80 && AppKRARating<=KRATarget){var EScore=document.getElementById("AppKRALogic"+n).value=KRATarget;}
+  else{var EScore=document.getElementById("AppKRALogic"+n).value=0;}     
+   var MScore=document.getElementById("AppKRAScore"+n).value=Math.round(((EScore/KRATarget)*KRAWeight)*100)/100;
+  var Score=document.getElementById("KraScore"+n).value=MScore;     
+ }  
+ 
   FunCal();  
 }	
 
@@ -1057,6 +1081,29 @@ function EnterAppKraSub(v,i,j)
   else{var EScore=document.getElementById("AppKRALogic"+i+"_"+j).value=0;}
   var MScore=document.getElementById("AppKRAScore"+i+"_"+j).value=Math.round(((EScore/Target)*Weight)*100)/100;
   var Score=document.getElementById("KraScoreSub"+i+"_"+j).value=MScore;
+ }
+ else if(lgc=='Logic18')
+ {
+  var Per50=Math.round(((Target*50)/100)*100)/100; var Per60=Math.round(((Target*60)/100)*100)/100; var Per69=Math.round(((Target*69)/100)*100)/100;  var Per70=Math.round(((Target*70)/100)*100)/100; var Per79=Math.round(((Target*79)/100)*100)/100; var Per80=Math.round(((Target*80)/100)*100)/100;  var Per20=Math.round(((Target*20)/100)*100)/100;  var Per120=Math.round((Target+Per20)*100)/100;  var Per25=Math.round(((Target*25)/100)*100)/100;  var Per75=Math.round(((Target*75)/100)*100)/100; 
+  if(Rating<Per60){var EScore=document.getElementById("AppKRALogic"+i+"_"+j).value=0;}
+  else if(Rating>=Per60 && Rating<=Per69){var EScore=document.getElementById("AppKRALogic"+i+"_"+j).value=Per25;}
+  else if(Rating>=Per70 && Rating<=Per79){var EScore=document.getElementById("AppKRALogic"+i+"_"+j).value=Per50;}
+  else if(Rating>=Per80 && Rating<=Per120){var EScore=document.getElementById("AppKRALogic"+i+"_"+j).value=Target;}
+  else{var EScore=document.getElementById("AppKRALogic"+i+"_"+j).value=0;}
+  var MScore=document.getElementById("AppKRAScore"+i+"_"+j).value=Math.round(((EScore/Target)*Weight)*100)/100;
+  var Score=document.getElementById("KraScoreSub"+i+"_"+j).value=MScore;
+ }
+ else if(lgc=='Logic19')
+ {
+  var Per70=Math.round(((Target*70)/100)*100)/100;   
+  var Per80=Math.round(((Target*80)/100)*100)/100;
+  var Per50=Math.round(((Target*50)/100)*100)/100;     
+  if(Rating<Per70){var EScore=document.getElementById("AppKRALogic"+i+"_"+j).value=0;}
+  else if(Rating>=Per70 && Rating<=Per80){var EScore=document.getElementById("AppKRALogic"+i+"_"+j).value=Per50;}
+  else if(Rating>=Per80 && Rating<=Target){var EScore=document.getElementById("AppKRALogic"+i+"_"+j).value=Target;}
+  else{var EScore=document.getElementById("AppKRALogic"+i+"_"+j).value=0;}     
+   var MScore=document.getElementById("AppKRAScore"+i+"_"+j).value=Math.round(((EScore/Target)*Weight)*100)/100;
+  var Score=document.getElementById("KraScoreSub"+i+"_"+j).value=MScore;     
  }
   
   FunCal();

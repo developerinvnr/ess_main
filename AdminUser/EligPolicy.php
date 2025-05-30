@@ -281,7 +281,7 @@ function show_Dreturn(originalRequest)
 		   <td class="tdc"><input class="input" id="PolicyName" name="PolicyName" value="<?=$Pn?>"/></td>
 		   <td class="tdc"><select class="input" id="DeptName" name="DeptName[]" multiple="multiple" style="height:100px;">
 		   <option value="0" <?php if($rN['DeptId']==0){echo 'selected';}?>>Select</option>
-		   <?php $sD=mysql_query("select DepartmentId,DepartmentCode from hrm_department where CompanyId=".$CompanyId." order by DepartmentName ASC",$con); while($rD=mysql_fetch_assoc($sD)){ 
+		   <?php $sD=mysql_query("select id as DepartmentId, department_code as DepartmentCode from core_departments where is_active=1 order by department_name",$con); while($rD=mysql_fetch_assoc($sD)){ 
 		   
 		   $sql=mysql_query("select * from hrm_master_eligibility_policy_dept where PolicyId=".$_REQUEST['pfi']." AND DeptId=".$rD['DeparmentId']." and Sts=1",$con); $row=mysql_num_rows($sql);
 		   ?>
@@ -308,7 +308,7 @@ function show_Dreturn(originalRequest)
            <td class="tdc"><?=$sn?></td>
 		   <td class="tdl">&nbsp;<?=$res['PolicyName']?></td>
 		   <td class="tdl">&nbsp;
-		   <?php $sqlD=mysql_query("select DepartmentCode from hrm_master_eligibility_policy_dept pd inner join hrm_department d on pd.DeptId=d.DepartmentId where pd.PolicyId=".$res['PolicyId']." AND pd.Sts=1",$con); 
+		   <?php $sqlD=mysql_query("select department_code as DepartmentCode from hrm_master_eligibility_policy_dept pd inner join core_departments d on pd.DeptId=d.id where pd.PolicyId=".$res['PolicyId']." AND pd.Sts=1",$con); 
 		   $rowD=mysql_num_rows($sqlD);  $no=1;
 		   while($resD=mysql_fetch_assoc($sqlD)){ echo $resD['DepartmentCode']; if($no<$rowD){echo ', ';} $no++; }?></td>
            <td class="tdc" style="width:50px;">

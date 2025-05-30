@@ -29,22 +29,35 @@ $csv_output .= '"29",'; $csv_output .= '"30",'; $csv_output .= '"31",';
 $csv_output .= "\n";		
 
 # Get Users Details form the DB #$result = mysql_query("SELECT * from formResults WHERE formID = '$formID'" );
-if($_REQUEST['D']!='All'){ $sql=mysql_query("select hrm_employee.EmployeeID,EmpCode,Fname,Sname,Lname,DepartmentId,DesigId,HqId,RepEmployeeID from hrm_employee INNER JOIN hrm_employee_general ON hrm_employee.EmployeeID=hrm_employee_general.EmployeeID where hrm_employee.EmpStatus='A' AND hrm_employee_general.DepartmentId=".$_REQUEST['D']." AND hrm_employee.CompanyId=".$_REQUEST['C']." order by ECode ASC", $con); }
-if($_REQUEST['D']=='All'){ $sql=mysql_query("select hrm_employee.*,hrm_employee_general.* from hrm_employee INNER JOIN hrm_employee_general ON hrm_employee.EmployeeID=hrm_employee_general.EmployeeID where hrm_employee.EmpStatus='A' AND hrm_employee.CompanyId=".$_REQUEST['C']." order by ECode ASC", $con); } 
+if($_REQUEST['D']!='All'){ $sql=mysql_query("select hrm_employee.EmployeeID,EmpCode,Fname,Sname,Lname,g.HqId, g.TerrId, department_name, sub_department_name, section_name, designation_name, grade_name, state_name, city_village_name, territory_name,RepEmployeeID from hrm_employee INNER JOIN hrm_employee_general ON hrm_employee.EmployeeID=hrm_employee_general.EmployeeID left join core_departments dept on g.DepartmentId=dept.id
+  left join core_sub_department_master subdept on g.SubDepartmentId=subdept.id
+  left join core_section sec on g.EmpSection=sec.id
+  left join core_designation desig on g.DesigId=desig.id
+  left join core_grades gr on g.GradeId=gr.id
+  left join core_states st on g.CostCenter=st.id
+  left join core_city_village_by_state vlg on g.HqId=vlg.id
+  left join core_territory Tr on g.TerrId=Tr.id where hrm_employee.EmpStatus='A' AND hrm_employee_general.DepartmentId=".$_REQUEST['D']." AND hrm_employee.CompanyId=".$_REQUEST['C']." order by ECode ASC", $con); }
+if($_REQUEST['D']=='All'){ $sql=mysql_query("select hrm_employee.EmployeeID,EmpCode,Fname,Sname,Lname,g.HqId, g.TerrId, department_name, sub_department_name, section_name, designation_name, grade_name, state_name, city_village_name, territory_name,RepEmployeeID from hrm_employee INNER JOIN hrm_employee_general ON hrm_employee.EmployeeID=hrm_employee_general.EmployeeID left join core_departments dept on g.DepartmentId=dept.id
+  left join core_sub_department_master subdept on g.SubDepartmentId=subdept.id
+  left join core_section sec on g.EmpSection=sec.id
+  left join core_designation desig on g.DesigId=desig.id
+  left join core_grades gr on g.GradeId=gr.id
+  left join core_states st on g.CostCenter=st.id
+  left join core_city_village_by_state vlg on g.HqId=vlg.id
+  left join core_territory Tr on g.TerrId=Tr.id where hrm_employee.EmpStatus='A' AND hrm_employee.CompanyId=".$_REQUEST['C']." order by ECode ASC", $con); } 
 $Sno=1; $rows=mysql_num_rows($sql); $sn=1; while($res=mysql_fetch_array($sql)) { 
 if($res['Sname']==''){ $Ename=trim($res['Fname']).' '.trim($res['Lname']); }
 else{ $Ename=trim($res['Fname']).' '.trim($res['Sname']).' '.trim($res['Lname']); }    
 //$Ename=$res['Fname'].' '.$res['Sname'].' '.$res['Lname']; 
 $month=$_REQUEST['m'];
-$sqlDept=mysql_query("select DepartmentCode,DepartmentName from hrm_department where DepartmentId=".$res['DepartmentId'], $con); $resDept=mysql_fetch_assoc($sqlDept);
-//$sqlDesig=mysql_query("select DesigCode,DesigName from hrm_designation where DesigId=".$res['DesigId'], $con); $resDesig=mysql_fetch_assoc($sqlDesig);
-$sqlHQ=mysql_query("select HqName from hrm_headquater where HqId=".$res['HqId'], $con); $resHQ=mysql_fetch_assoc($sqlHQ);
+
 
 //$csv_output .= '"'.str_replace('"', '""', $sn).'",';
 $csv_output .= '"'.str_replace('"', '""', $res['EmpCode']).'",';
 $csv_output .= '"'.str_replace('"', '""', $Ename).'",';
-$csv_output .= '"'.str_replace('"', '""',$resDept['DepartmentName']).'",';
-$csv_output .= '"'.str_replace('"', '""', $resHQ['HqName']).'",';
+$csv_output .= '"'.str_replace('"', '""',$res['department_name']).'",';
+if($res['TerrId']>0){$Hq=$res['territory_name'];}else{$Hq=$res['city_village_name']; }
+$csv_output .= '"'.str_replace('"', '""', $Hq).'",';
  
 for($i=1; $i<=31; $i++) { $sqlAtt=mysql_query("SELECT * FROM ".$AttTable." WHERE EmployeeID =".$res['EmployeeID']." AND AttDate='".date($_REQUEST['Y']."-".$_REQUEST['m']."-".$i)."'", $con); $resAtt=mysql_fetch_array($sqlAtt); 
 $csv_output .= '"'.str_replace('"', '""', $resAtt['AttValue']).'",';

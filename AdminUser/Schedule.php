@@ -209,11 +209,11 @@ function validateEdit(KraformEdit){
    <td>
     <?php $sY=mysql_query("select * from hrm_year where YearId=".$_REQUEST['ey']."", $con); $rY=mysql_fetch_assoc($sY); 
           $FD=date("Y",strtotime($rY['FromDate'])); $TD=date("Y",strtotime($rY['ToDate'])); $PRD=$FD.'-'.$TD; ?>
-   <font class="td1">&nbsp;&nbsp;<b>Year:</b>&nbsp;&nbsp;</font><select style="font-size:12px; width:115px; background-color:#DDFFBB;" name="YearID" id="YearID" onChange="SelectYear(this.value)"><option value="<?php echo $_REQUEST['ey']; ?>" style="margin-left:0px;" selected><?php echo $FD; if($_REQUEST['ey']<=5){ echo '-'.$TD; } ?></option>
+   <font class="td1">&nbsp;&nbsp;<b>Year:</b>&nbsp;&nbsp;</font><select style="font-size:12px; width:115px; background-color:#DDFFBB;" name="YearID" id="YearID" onChange="SelectYear(this.value)"><option value="<?php echo $_REQUEST['ey']; ?>" style="margin-left:0px;" selected><?php echo $FD; if($_REQUEST['ey']<=5 OR $_REQUEST['ey']>13){ echo '-'.$TD; } ?></option>
 <?php for($i=$YearId+1; $i>=1; $i--){	
 	  $s2Y=mysql_query("select * from hrm_year where YearId=".$i,$con); $r2Y=mysql_fetch_assoc($s2Y);
 	  $FD2=date("Y",strtotime($r2Y['FromDate'])); $TD2=date("Y",strtotime($r2Y['ToDate'])); ?>
-<?php if($_REQUEST['ey']!=$i){ ?><option value="<?php echo $i; ?>"><?php echo $FD2; if($i<=5){ echo '-'.$TD2; }  ?></option><?php } ?>
+<?php if($_REQUEST['ey']!=$i){ ?><option value="<?php echo $i; ?>"><?php echo $FD2; if($i<=5 OR $i>13){ echo '-'.$TD2; }  ?></option><?php } ?>
 <?php } ?></select>
    <input type="button" style="width:90px; background-color:#FFB0D8;" value="refresh" onClick="EditRefresh(<?php echo $_REQUEST['ey']; ?>)"/>
    <font class="font4" style="left">&nbsp;&nbsp;&nbsp;<b><?php echo $msg; ?></b></font>

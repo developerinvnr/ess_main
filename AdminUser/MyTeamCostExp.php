@@ -43,7 +43,7 @@ if($_REQUEST['action']=='Over') {  }
  }
  elseif($_REQUEST['action']=='Dept')
  { 
-  $sqlDe=mysql_query("select DepartmentName,DepartmentCode from hrm_department where DepartmentId=".$_REQUEST['value'], $con); $resDe=mysql_fetch_assoc($sqlDe); $Action='DEPARTMENT_'.$resDe['DepartmentCode'];
+  $sqlDe=mysql_query("select * from core_departments where id=".$_REQUEST['value'], $con); $resDe=mysql_fetch_assoc($sqlDe); $Action='DEPARTMENT_'.$resDe['department_code'];
   $query='AND g.DepartmentId='.$_REQUEST['value']; 
   $ExtQuery='DeptId='.$_REQUEST['value']; $HodId=0; $DeptId=$_REQUEST['value']; $Rev2Id=0; $RevId=0; $AppId=0;
  } 

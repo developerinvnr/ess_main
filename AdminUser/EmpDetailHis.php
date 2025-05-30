@@ -12,12 +12,18 @@
 function PrinP() { document.getElementById("PrintTD").style.display='none'; window.print(); window.close();}
 </script>
 <body leftmargin="0" topmargin="0" marginwidth="0" marginheight="0" bgcolor="#E0DBE3">	
-<?php $sqlE=mysql_query("select EmpCode, Fname, Sname, Lname, CompanyId, DepartmentId, DesigId, GradeId, HqId, Gender, DR, Married, DateJoining, DOB, EmailId_Vnr, VNRExpYear, PreviousExpYear from hrm_employee INNER JOIN hrm_employee_general ON hrm_employee.EmployeeID=hrm_employee_general.EmployeeID INNER JOIN hrm_employee_personal ON hrm_employee.EmployeeID=hrm_employee_personal.EmployeeID where hrm_employee.EmployeeID=".$EmployeeId, $con); $resE=mysql_fetch_assoc($sqlE); 
+<?php $sqlE=mysql_query("select EmpCode, Fname, Sname, Lname, CompanyId, g.HqId, g.TerrId, department_name, sub_department_name, section_name, designation_name, grade_name, state_name, city_village_name, territory_name, Gender, DR, Married, DateJoining, DOB, EmailId_Vnr, VNRExpYear, PreviousExpYear from hrm_employee e INNER JOIN hrm_employee_general g ON e.EmployeeID=g.EmployeeID INNER JOIN hrm_employee_personal p ON e.EmployeeID=p.EmployeeID left join core_departments dept on g.DepartmentId=dept.id
+  left join core_sub_department_master subdept on g.SubDepartmentId=subdept.id
+  left join core_section sec on g.EmpSection=sec.id
+  left join core_designation desig on g.DesigId=desig.id
+  left join core_grades gr on g.GradeId=gr.id
+  left join core_states st on g.CostCenter=st.id
+  left join core_city_village_by_state vlg on g.HqId=vlg.id
+  left join core_territory Tr on g.TerrId=Tr.id where e.EmployeeID=".$EmployeeId, $con); $resE=mysql_fetch_assoc($sqlE); 
 if($resE['DR']=='Y'){$M='Dr.';} elseif($resE['Gender']=='M'){$M='Mr.';} elseif($resE['Gender']=='F' AND $resE['Married']=='Y'){$M='Mrs.';} elseif($resE['Gender']=='F' AND $resE['Married']=='N'){$M='Miss.';}  $Name=$M.' '.$resE['Fname'].' '.$resE['Sname'].' '.$resE['Lname']; 
-$sqlD=mysql_query("select DepartmentName from hrm_department where DepartmentId=".$resE['DepartmentId'], $con); $resD=mysql_fetch_assoc($sqlD);
-$sqlDe=mysql_query("select DesigName from hrm_designation where DesigId=".$resE['DesigId'], $con); $resDe=mysql_fetch_assoc($sqlDe);
-$sqlG=mysql_query("select GradeValue from hrm_grade where GradeId=".$resE['GradeId'], $con); $resG=mysql_fetch_assoc($sqlG);
-$sqlHq=mysql_query("select HqName from hrm_headquater where HqId=".$resE['HqId'], $con); $resHq=mysql_fetch_assoc($sqlHq); 
+
+
+
 $sqlPms=mysql_query("select * from hrm_employee_reporting where EmployeeID=".$EmployeeId, $con); $resPms=mysql_fetch_assoc($sqlPms); 
 $sqlRe=mysql_query("select Fname, Sname, Lname, Gender, DR, Married from hrm_employee INNER JOIN hrm_employee_general ON hrm_employee.EmployeeID=hrm_employee_general.EmployeeID INNER JOIN hrm_employee_personal ON hrm_employee.EmployeeID=hrm_employee_personal.EmployeeID where hrm_employee.EmployeeID=".$resPms['AppraiserId'], $con); $resRe=mysql_fetch_assoc($sqlRe); 
 if($resRe['DR']=='Y'){$MRe='Dr.';} elseif($resRe['Gender']=='M'){$MRe='Mr.';} elseif($resRe['Gender']=='F' AND $resRe['Married']=='Y'){$MRe='Mrs.';} elseif($resRe['Gender']=='F' AND $resRe['Married']=='N'){$MRe='Miss.';}  $NameRe=$MRe.' '.$resRe['Fname'].' '.$resRe['Sname'].' '.$resRe['Lname'];
@@ -43,13 +49,15 @@ if($resHo['DR']=='Y'){$MHo='Dr.';} elseif($resHo['Gender']=='M'){$MHo='Mr.';} el
 			</tr>
 			<tr>
 			  <td class="head" style="width:100px;" valign="top">&nbsp;Designation</td>
-			  <td class="data" style="width:250px;text-transform:uppercase;" valign="top">&nbsp;<?php echo $resDe['DesigName']; ?></td>
+			  <td class="data" style="width:250px;text-transform:uppercase;" valign="top">&nbsp;<?php echo $resE['designation_name']; ?></td>
 			  <td class="head" style="width:100px;" valign="top">&nbsp;Department</td>
-			  <td class="data" style="width:225px;text-transform:uppercase;" valign="top">&nbsp;<?php echo $resD['DepartmentName']; ?></td>
+			  <td class="data" style="width:225px;text-transform:uppercase;" valign="top">&nbsp;<?php echo $resE['department_name']; ?></td>
 			</tr>
+			<?php if($resE['TerrId']>0){$Hq=$resE['territory_name'];}else{$Hq=$resE['city_village_name']; } ?>
 			<tr>
 			  <td class="head" style="width:100px;" valign="top">&nbsp;Location</td>
-			  <td class="data" style="width:250px;text-transform:uppercase;" valign="top">&nbsp;<?php echo $resHq['HqName']; ?></td>
+			  <td class="data" style="width:250px;text-transform:uppercase;" valign="top">&nbsp;<?php echo $Hq; ?></td>
+			  
 			  <td class="head" style="width:100px;" valign="top">&nbsp;DOJ</td>
 			  <td class="data" style="width:225px;" valign="top">&nbsp;<?php echo date("d-m-Y",strtotime($resE['DateJoining'])); ?></td>
 			</tr>

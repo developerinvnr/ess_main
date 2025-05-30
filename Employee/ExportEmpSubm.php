@@ -10,10 +10,10 @@ header("Content-Disposition: attachment; filename=$xls_filename");
 header("Pragma: no-cache");
 header("Expires: 0");
 $sep = "\t"; 
-echo "Sn\tEmpCode\tName\tDepartment\tPeriod\tHRA\tLTA\tCEA\tChap VI-A(Sec-80D MIP)\tChap VI-A(Sec-80DD)\tChap VI-A(Sec-80DDB)\tChap VI-A(Sec-80E)\tChap VI-A(Sec-80U)\tSec-80C(Sec 80CCC)\tSec-80C(LIC)\tSec-80C(Defferred Annuity)\tSec-80C(PPF)\tSec-80C(Deposit PostOffice/Bank)\tSec-80C(ULIP of UTI/LIC)\tSec-80C(Principal Loan (Housing Loan) Repayment)\tSec-80C(Mutual Funds)\tSec-80C(Investment in infrastructure Bonds)\tSec-80C(Children- Tution Fee)\tSec-80C(Deposit in NHB)\tSec-80C(Deposit In NSC)\tSec-80C(Sukanya Samriddhi)\tSec-80C(Others (please specify) Employee Provident Fund)\tSec-80CCD NPS\tCorporate NPS Scheme\tPrev-Employment(Form 16 / Form 12 B)\tPrev-Employment(Salary paid - Sec.10 Exemption )\tPrev-Employment(PROFESSIOAL TAX)\tPrev-Employment(PROVIDENT FUND)\tPrev-Employment(INCOME TAX)\tSec-24(Interest on Housing Loan)\tSec-24(Interest if the loan is taken before 01/04/99)";
+echo "Sn\tEmpCode\tName\tDepartment\tSubmit_Status\tFillDate\tPlace\tSubmitted Date\tPeriod\tRegime\tHRA\tLTA\tCEA\tChap VI-A(Sec-80D MIP)\tChap VI-A(Sec-80DD)\tChap VI-A(Sec-80DDB)\tChap VI-A(Sec-80E)\tChap VI-A(Sec-80U)\tSec-80C(Sec 80CCC)\tSec-80C(LIC)\tSec-80C(Defferred Annuity)\tSec-80C(PPF)\tSec-80C(Deposit PostOffice/Bank)\tSec-80C(ULIP of UTI/LIC)\tSec-80C(Principal Loan (Housing Loan) Repayment)\tSec-80C(Mutual Funds)\tSec-80C(Investment in infrastructure Bonds)\tSec-80C(Children- Tution Fee)\tSec-80C(Deposit in NHB)\tSec-80C(Deposit In NSC)\tSec-80C(Sukanya Samriddhi)\tSec-80C(Others (please specify) Employee Provident Fund)\tSec-80CCD NPS\tCorporate NPS Scheme\tPrev-Employment(Form 16 / Form 12 B)\tPrev-Employment(Salary paid - Sec.10 Exemption )\tPrev-Employment(PROFESSIOAL TAX)\tPrev-Employment(PROVIDENT FUND)\tPrev-Employment(INCOME TAX)\tSec-24(Interest on Housing Loan)\tSec-24(Interest if the loan is taken before 01/04/99)";
 print("\n");
 
-$sql=mysql_query("select sb.*,EmpCode,Fname,Sname,Lname,DepartmentName from hrm_employee_investment_submissiona sb inner join hrm_employee e on sb.EmployeeID=e.EmployeeID inner join hrm_employee_general g on sb.EmployeeID=g.EmployeeID inner join hrm_department d on g.DepartmentId=d.DepartmentId where Period='".$_REQUEST['prd']."' order by e.EmpCode ASC", $con);
+$sql=mysql_query("select sb.*,EmpCode,Fname,Sname,Lname,department_name as DepartmentName from hrm_employee_investment_submissiona sb inner join hrm_employee e on sb.EmployeeID=e.EmployeeID inner join hrm_employee_general g on sb.EmployeeID=g.EmployeeID left join core_departments d on g.DepartmentId=d.id where Period='".$_REQUEST['prd']."' order by e.ECode ASC", $con);
 
  $no=1;
  while($res=mysql_fetch_array($sql))
@@ -28,8 +28,17 @@ $sql=mysql_query("select sb.*,EmpCode,Fname,Sname,Lname,DepartmentName from hrm_
   $schema_insert .= $no.$sep;
   $schema_insert .= $EC.$sep;
   $schema_insert .= $res['Fname'].' '.$res['Sname'].' '.$res['Lname'].$sep;
-  $schema_insert .= $res['DepartmentName'].$sep;		
+  $schema_insert .= $res['DepartmentName'].$sep;
+  
+  $fs='';
+  if($res['FormSubmit']=='YY'){ $fs='Submit'; }
+  elseif($res['FormSubmit']=='Y'){ $fs='Draft'; }
+  $schema_insert .= $fs.$sep;
+  $schema_insert .= $res['Inv_Date'].$sep;
+  $schema_insert .= $res['Place'].$sep;
+  $schema_insert .= $res['SubmittedDate'].$sep;
   $schema_insert .= $res['Period'].$sep;
+  $schema_insert .= $res['Regime'].$sep;
   $schema_insert .= $res['HRA'].$sep;
   $schema_insert .= $res['LTA'].$sep;
   $schema_insert .= $res['CEA'].$sep;

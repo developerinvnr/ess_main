@@ -21,7 +21,7 @@ $csv_output .= '"TOTAL",';
 $csv_output .= '"%",';
 $csv_output .= "\n";		
 
-$sql=mysql_query("select DepartmentId,DepartmentName from hrm_department where DeptStatus='A' AND CompanyId=".$_REQUEST['c']." order by DepartmentName ASC",$con); 
+$sql=mysql_query("select id as DepartmentId,department_name as DepartmentName from core_departments where is_active=1 order by department_name",$con); 
 $SNo=1; while($res=mysql_fetch_array($sql)){ $Today=date("Y-m-d");
 	  
 $csv_output .= '"'.str_replace('"', '""', $res['DepartmentName']).'",';

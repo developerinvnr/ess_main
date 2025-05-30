@@ -2,7 +2,7 @@
 if ($_POST['For'] == 'RecuitToEss' && $_POST['sn'] != '' && $_POST['ecode'] != '' && $_POST['comid'] != '' && $_POST['ncode'] != '' && $_POST['uid'] != '') {
     $ec = $_POST['ecode'];
     $com = $_POST['comid'];
-    $con2 = mysql_connect('localhost', 'hrims_user', 'hrims@192');
+    $con2 = mysql_connect('localhost', 'vnrseed2_hrims', '5Az*hcHimJkE');
     $db2 = mysql_select_db('recruitment_to_ess', $con2);
     $sql = mysql_query("select * from employee_general where DataMove='N' and EmpCode=" . $_POST['ecode'] . " and CompanyId=" . $_POST['comid'] . " ", $con2);
     $row = mysql_num_rows($sql);
@@ -41,9 +41,9 @@ if ($_POST['For'] == 'RecuitToEss' && $_POST['sn'] != '' && $_POST['ecode'] != '
         $rFmM = mysql_fetch_assoc($sFmM);
         $rFmS = mysql_fetch_assoc($sFmS);
 
-        $con = mysql_connect('localhost', 'hrims_user', 'hrims@192');
+        $con = mysql_connect('localhost', 'vnrseed2_hrims', '5Az*hcHimJkE');
         $db = mysql_select_db('hrims', $con);
-        $sR = mysql_query("select Fname,Sname,Lname,DesigId,MobileNo_Vnr,EmailId_Vnr from hrm_employee e inner join hrm_employee_general g on e.EmployeeId=g.EmployeeID where e.EmployeeID=" . $res['A_ReportingManager'], $con);
+        $sR = mysql_query("select Fname,Sname,Lname,DesigId,MobileNo_Vnr,EmailId_Vnr from hrm_employee e LEFT join hrm_employee_general g on e.EmployeeId=g.EmployeeID where e.EmployeeID=" . $res['A_ReportingManager'], $con);
         $rR = mysql_fetch_assoc($sR);
         $Rname = trim($rR['Fname']) . ' ' . trim($rR['Sname']) . ' ' . trim($rR['Lname']);
 
@@ -54,13 +54,24 @@ if ($_POST['For'] == 'RecuitToEss' && $_POST['sn'] != '' && $_POST['ecode'] != '
 
             // $sql2 = mysql_query("SELECT MAX(EmployeeID) as EmpID FROM hrm_employee where CompanyId=".$_POST['comid']." AND EmpCode!=11001 AND EmployeeID<=100000", $con); $res2 = mysql_fetch_assoc($sql2);
             $sql2 = mysql_query("SELECT MAX(EmployeeID) as EmpID FROM hrm_employee where  EmpCode!=11001 AND EmployeeID<=100000", $con);
+
+
+
+
             $res2 = mysql_fetch_assoc($sql2);
             $NextEmpID = $res2['EmpID'] + 1;
             // print_r($NextEmpID);die;
-            $InsE = mysql_query("insert into hrm_employee(EmployeeID, EmpCode, ECode, CandidateId, EmpType, EmpStatus, Fname, Sname, Lname, CompanyId, CreatedBy, CreatedDate, YearId)values(" . $NextEmpID . ",'" . $_POST['ncode'] . "', '" . $_POST['ncode'] . "', " . $res['CandidateId'] . ", '" . $res['EmpType'] . "', '" . $res['EmpStatus'] . "', '" . trim($res['FName']) . "', '" . trim($res['MName']) . "', '" . trim($res['LName']) . "',  " . $_POST['comid'] . ", " . $_POST['uid'] . ", '" . date("Y-m-d") . "', " . $_POST['uid'] . ")", $con);
+            $InsE = mysql_query("insert into hrm_employee(EmployeeID, EmpCode, ECode,EmpCode_New, CandidateId, EmpType, EmpStatus, Fname, Sname, Lname, CompanyId, CreatedBy, CreatedDate, YearId)values(" . $NextEmpID . ",'" . $_POST['ncode'] . "', '" . $_POST['ncode'] . "','" . $_POST['ncode'] . "', " . $res['CandidateId'] . ", '" . $res['EmpType'] . "', '" . $res['EmpStatus'] . "', '" . trim($res['FName']) . "', '" . trim($res['MName']) . "', '" . trim($res['LName']) . "',  " . $_POST['comid'] . ", " . $_POST['uid'] . ", '" . date("Y-m-d") . "', " . $_POST['uid'] . ")", $con);
             if ($InsE) {
                 $sEmpID = mysql_query("SELECT EmployeeID FROM hrm_employee where EmpCode='" . $_POST['ncode'] . "' AND EmpStatus!='De' AND CompanyId=" . $_POST['comid'], $con);
                 $rEmpID = mysql_fetch_assoc($sEmpID);
+
+
+                if ($res['DepartmentId'] == 15) {
+                    $InsE = mysql_query("update hrm_employee set is_ojas_user=1 where EmployeeID=" . $rEmpID['EmployeeID'], $con);
+                }
+
+
                 if ($res['T_StateHq'] > 0) {
                     $state = $res['T_StateHq'];
                 } else {
@@ -125,7 +136,7 @@ if ($_POST['For'] == 'RecuitToEss' && $_POST['sn'] != '' && $_POST['ecode'] != '
                 $CurrAdd = $rad['pre_address'] . " - " . $rad['pre_city'] . " - " . $rad['pre_dist'] . " (" . $rad['pre_state'] . ")";
                 $ParAdd = $rad['perm_address'] . " - " . $rad['perm_city'] . " - " . $rad['perm_dist'] . " (" . $rad['perm_state'] . ")";
 
-                $InsG = mysql_query("insert into hrm_employee_general(EmployeeID, EC, FileNo, DateJoining, DOB, DOB_dm, GradeId, CostCenter, HqId, DepartmentId, DesigId, PositionCode,PosSeq,PosVR, MobileNo_Vnr, MobileNo2_Vnr, Apply_Bond, Bond_Year, BankName,BranchName,AccountNo,BankIfscCode,PfAccountNo, PF_UAN, EsicAllow, EsicNo, RepEmployeeID, ReportingName, ReportingDesigId, ReportingContactNo, ReportingEmailId,  	EmpVertical, CreatedBy, CreatedDate, SysDate) values('" . $rEmpID['EmployeeID'] . "', '" . $_POST['ncode'] . "', '" . $_POST['ncode'] . "', '" . $res['JoinOnDt'] . "', '" . $res['DOB'] . "', '" . date("0000-m-d", strtotime($res['DOB'])) . "', '" . $res['Grade'] . "', '" . $state . "', '" . $hq . "', '" . $res['DepartmentId'] . "', '" . $res['DesigId'] . "', '" . $res['PositionCode'] . "','" . $res['PosSeq'] . "', '" . $res['PosVR'] . "', '" . $res['Contact1'] . "', '" . $res['Contact2'] . "','" . $Sbod . "', '" . $NByr . "', '" . $rpf['bank_name'] . "','" . $rpf['branch_name'] . "','" . $rpf['acc_number'] . "','" . $rpf['ifsc_code'] . "', '" . $rpf['pf_acc_no'] . "', '" . $rpf['UAN'] . "', '" . $esicallow . "', '" . $rpf['esic_no'] . "', '" . $res['A_ReportingManager'] . "', '" . $Rname . "', '" . $rR['DesigId'] . "', '" . $rR['MobileNo_Vnr'] . "', '" . $rR['EmailId_Vnr'] . "', '" . $res['Vertical'] . "',  " . $_POST['uid'] . ", '" . date("Y-m-d") . "', '" . date("Y-m-d") . "')", $con);
+                $InsG = mysql_query("insert into hrm_employee_general(EmployeeID, EC, FileNo, DateJoining, DOB, DOB_dm, GradeId, CostCenter, HqId, DepartmentId,SubDepartmentId,Section, DesigId,DesigSuffix, PositionCode,PosSeq,PosVR, MobileNo_Vnr, MobileNo2_Vnr, Apply_Bond, Bond_Year, BankName,BranchName,AccountNo,BankIfscCode,PfAccountNo, PF_UAN, EsicAllow, EsicNo, RepEmployeeID, ReportingName, ReportingDesigId, ReportingContactNo, ReportingEmailId,  	EmpVertical,ZoneId,RegionId, CreatedBy, CreatedDate, SysDate) values(" . $rEmpID['EmployeeID'] . ", '" . $_POST['ncode'] . "', '" . $_POST['ncode'] . "', '" . $res['JoinOnDt'] . "', '" . $res['DOB'] . "', '" . date("0000-m-d", strtotime($res['DOB'])) . "', '" . $res['Grade'] . "', '" . $state . "', '" . $hq . "', '" . $res['DepartmentId'] . "','" . $res['SubDepartment'] . "','" . $res['Section'] . "', '" . $res['DesigId'] . "','" . $res['DesigSuffix'] . "', '" . $res['PositionCode'] . "','" . $res['PosSeq'] . "', '" . $res['PosVR'] . "', '" . $res['Contact1'] . "', '" . $res['Contact2'] . "','" . $Sbod . "', '" . $NByr . "', '" . $rpf['bank_name'] . "','" . $rpf['branch_name'] . "','" . $rpf['acc_number'] . "','" . $rpf['ifsc_code'] . "', '" . $rpf['pf_acc_no'] . "', '" . $rpf['UAN'] . "', '" . $esicallow . "', '" . $rpf['esic_no'] . "', '" . $res['A_ReportingManager'] . "', '" . $Rname . "', '" . $rR['DesigId'] . "', '" . $rR['MobileNo_Vnr'] . "', '" . $rR['EmailId_Vnr'] . "', '" . $res['Vertical'] . "',   '" . $res['Zone'] . "','" . $res['Region'] . "'," . $_POST['uid'] . ",'" . date("Y-m-d") . "', '" . date("Y-m-d") . "')", $con);
 
                 if ($res['A_ReportingManager'] != 0 && $res['A_ReportingManager'] != '') {
                     $SqlUpRe = mysql_query("UPDATE hrm_employee_reporting SET AppraiserId=" . $res['A_ReportingManager'] . " WHERE EmployeeID=" . $rEmpID['EmployeeID'], $con);
@@ -155,7 +166,16 @@ if ($_POST['For'] == 'RecuitToEss' && $_POST['sn'] != '' && $_POST['ecode'] != '
 
                 $InsC = mysql_query("insert into hrm_employee_contact(EmployeeID, EC, Curradd, CurrAdd_PinNo, ParAdd, ParAdd_PinNo, EmgContactNo, EmgRelation, EmgName, Emg_Contact1, Emg_Person1, Emp_Relation1, Emg_Contact2, Emg_Person2, Emp_Relation2, Personal_RefName, Personal_RefContactNo, Personal_RefDesig, Personal_RefEmailId, Personal_RefRelation, Personal_RefCompany, Personal_RefAdd, Prof_RefName, Prof_RefContactNo, Prof_RefDesig, Prof_RefEmailId, Prof_RefCompany, CreatedBy, CreatedDate, YearId) values('" . $rEmpID['EmployeeID'] . "', '" . $_POST['ncode'] . "', '" . addslashes($CurrAdd) . "', '" . $rad['pre_pin'] . "', '" . addslashes($ParAdd) . "', '" . $rad['perm_pin'] . "', '" . $res['EmgContPhone_One'] . "', '" . $res['EmgContRelation_One'] . "', '" . $res['EmgContName_One'] . "', '" . $res['EmgContPhone_One'] . "', '" . $res['EmgContName_One'] . "', '" . $res['EmgContRelation_One'] . "', '" . $res['EmgContPhone_Two'] . "', '" . $res['EmgContName_Two'] . "', '" . $res['EmgContRelation_Two'] . "', '" . $rRf2['name'] . "', '" . $rRf2['contact'] . "', '" . $rRf2['designation'] . "', '" . $rRf2['email'] . "', '" . $rRf2['rel_with_person'] . "', '" . $rRf2['company'] . "', '', '" . $rRf['name'] . "', '" . $rRf['contact'] . "','" . $rRf['designation'] . "','" . $rRf['email'] . "','" . $rRf['company'] . "', '" . $_POST['uid'] . "', '" . date("Y-m-d") . "', '" . $_POST['yid'] . "')", $con);
 
-                $IncCtc = mysql_query("insert into hrm_employee_ctc(EmployeeID, EC, CHILD_EDU_ALL_Value, LTA_Value, BAS_Value, HRA_Value, Bonus_Month, SPECIAL_ALL_Value, NetMonthSalary_Value, GrossSalary_PostAnualComponent_Value, GRATUITY_Value, Tot_GrossMonth, Tot_Gross_Annual, PF_Employee_Contri_Value, PF_Employee_Contri_Annul, PF_Employer_Contri_Value, PF_Employer_Contri_Annul, Mediclaim_Policy, Tot_CTC, ESCI, AnnualESCI, Status, CtcCreatedBy, CtcCreatedDate, CtcYearId, SalChangeDate, SystDate)values(" . $rEmpID['EmployeeID'] . ", " . $ec . ", '" . $rctc['childedu'] . "', '" . $rctc['lta'] . "', '" . $rctc['basic'] . "', '" . $rctc['hra'] . "', '" . $rctc['bonus'] . "', '" . $rctc['special_alw'] . "', '" . $rctc['netMonth'] . "', '" . $rctc['grsM_salary'] . "', '" . $rctc['gratuity'] . "', '" . $rctc['grsM_salary'] . "', '" . $rctc['anualgrs'] . "', '" . $rctc['emplyPF'] . "', '" . $rctc['emplyerPF'] . "', '" . $rctc['emplyPF'] . "', '" . $rctc['emplyerPF'] . "', '" . $rctc['medical'] . "', '" . $rctc['total_ctc'] . "', '" . $rctc['emplyESIC'] . "', '" . $rctc['emplyerESIC'] . "', 'A', '" . $_POST['uid'] . "', '" . date("Y-m-d", strtotime($res['JoinOnDt'])) . "', '" . $_POST['yid'] . "', '" . date("Y-m-d", strtotime($res['JoinOnDt'])) . "', '" . date("Y-m-d") . "')", $con);
+                $IncCtc = mysql_query("insert into hrm_employee_ctc(EmployeeID, EC, CHILD_EDU_ALL_Value, LTA_Value, BAS_Value, HRA_Value, Bonus_Month, 
+     SPECIAL_ALL_Value, NetMonthSalary_Value, GrossSalary_PostAnualComponent_Value, GRATUITY_Value, Tot_GrossMonth, Tot_Gross_Annual,
+      PF_Employee_Contri_Value, PF_Employee_Contri_Annul, PF_Employer_Contri_Value, PF_Employer_Contri_Annul, Mediclaim_Policy, Tot_CTC, VariablePay,TotCtc,Car_Allowance,Communication_Allowance,Total_Gross_CTC,
+      ESCI, AnnualESCI, Status, CtcCreatedBy, CtcCreatedDate, CtcYearId, SalChangeDate, SystDate)values(" . $rEmpID['EmployeeID'] . ",
+       " . $ec . ", '" . $rctc['childedu'] . "', '" . $rctc['lta'] . "', '" . $rctc['basic'] . "', '" . $rctc['hra'] . "', '" . $rctc['bonus'] . "', 
+       '" . $rctc['special_alw'] . "', '" . $rctc['netMonth'] . "', '" . $rctc['grsM_salary'] . "', '" . $rctc['gratuity'] . "', '" . $rctc['grsM_salary'] . "', 
+       '" . $rctc['anualgrs'] . "', '" . $rctc['emplyPF'] . "', '" . $rctc['emplyerPF'] . "', '" . $rctc['emplyPF'] . "', '" . $rctc['emplyerPF'] . "',
+        '" . $rctc['medical'] . "', '" . $rctc['fixed_ctc'] . "','" . $rctc['performance_pay'] . "','" . $rctc['total_ctc'] . "','" . $rctc['car_allowance_amount'] . "','" . $rctc['communication_allowance_amount'] . "','" . $rctc['total_gross_ctc'] . "', '" . $rctc['emplyESIC'] . "', '" . $rctc['emplyerESIC'] . "', 'A', '" . $_POST['uid'] . "', 
+        '" . date("Y-m-d", strtotime($res['JoinOnDt'])) . "', 
+      '" . $_POST['yid'] . "', '" . date("Y-m-d", strtotime($res['JoinOnDt'])) . "', '" . date("Y-m-d") . "')", $con);
                 /**********************Vehicle Information****************************/
                 /**************************************************/
                 $InVehicle = mysql_query("INSERT INTO `hrm_employee_vehicle`(`EmployeeID`, `EmpCode`, `brand`, `model_name`, `model_no`, `dealer_name`, `dealer_contact`, `purchase_date`, `price`, `registration_no`,
@@ -196,7 +216,10 @@ if ($_POST['For'] == 'RecuitToEss' && $_POST['sn'] != '' && $_POST['ecode'] != '
                     $rDe = mysql_fetch_assoc($sDe);
                 }
 
-                $sqlUhis = mysql_query("insert into hrm_pms_appraisal_history(EmpPmsId, EmpCode, EmpName, Current_Grade, Proposed_Grade, Department, Current_Designation, Proposed_Designation, SalaryChange_Date, SystemDate, Salary_Basic, Salary_HRA, Bonus_Month, Salary_SA, Previous_GrossSalaryPM, Current_GrossSalaryPM, CompanyId, YearId) values(0, '" . $ec . "', '" . $EnameE . "', '" . $resMax['Current_Grade'] . "', '" . $rG['GradeValue'] . "', '" . $rD['DepartmentName'] . "', '" . $rDe['Current_Designation'] . "', '" . $rDe['DesigName'] . "', '" . date("Y-m-d", strtotime($res['JoinOnDt'])) . "', '" . date("Y-m-d") . "', '" . $rctc['basic'] . "', '" . $rctc['hra'] . "', '" . $rctc['bonus'] . "', '" . $rctc['special_alw'] . "', '" . $rctc['grsM_salary'] . "', '" . $rctc['grsM_salary'] . "', '" . $_POST['comid'] . "', " . $_POST['uid'] . ")", $con);
+
+                $variablePay = round(($rctc['anualgrs'] * 5) / 100);
+                $totalCTC = $variablePay + $rctc['total_ctc'];
+                $sqlUhis = mysql_query("insert into hrm_pms_appraisal_history(EmpPmsId, EmpCode, EmpName, Current_Grade, Proposed_Grade, Department, Current_Designation, Proposed_Designation, SalaryChange_Date, SystemDate, Salary_Basic, Salary_HRA, Bonus_Month, Salary_SA, Previous_GrossSalaryPM, Current_GrossSalaryPM,VariablePay,TotCtc, CompanyId, YearId) values(0, '" . $ec . "', '" . $EnameE . "', '" . $resMax['Current_Grade'] . "', '" . $rG['GradeValue'] . "', '" . $rD['DepartmentName'] . "', '" . $rDe['Current_Designation'] . "', '" . $rDe['DesigName'] . "', '" . date("Y-m-d", strtotime($res['JoinOnDt'])) . "', '" . date("Y-m-d") . "', '" . $rctc['basic'] . "', '" . $rctc['hra'] . "', '" . $rctc['bonus'] . "', '" . $rctc['special_alw'] . "', '" . $rctc['grsM_salary'] . "', '" . $rctc['grsM_salary'] . "'," . $variablePay . "," . $totalCTC . ", '" . $_POST['comid'] . "', " . $_POST['uid'] . ")", $con);
                 /******************History **************************/
 
 
@@ -220,7 +243,8 @@ if ($_POST['For'] == 'RecuitToEss' && $_POST['sn'] != '' && $_POST['ecode'] != '
 
 
 
-                $InsElg = mysql_query("INSERT INTO hrm_employee_eligibility(
+                $InsElg = mysql_query(
+                    "INSERT INTO hrm_employee_eligibility(
     EmployeeID, EC, Lodging_CategoryA, Lodging_CategoryB, Lodging_CategoryC, 
     DA_Outside_Hq, DA_Outside_Hq_Rmk, DA_Inside_Hq, DA_Inside_Hq_Rmk, 
     Travel_TwoWeeKM, Travel_TwoWeeKM_Rmk, Travel_FourWeeKM, Travel_FourWeeKM_Rmk, 
@@ -266,6 +290,7 @@ VALUES (
     '" . $relg['Term_Insurance_Rmk'] . "', 
     '" . $relg['Laptop'] . "', 
     '" . $relg['Laptop_Remark'] . "', 
+      '" . $relg['Mobile_Remb_Period_Rmk'] . "', 
     '" . $relg['Mobile_RembPost'] . "', 
     '" . $relg['Mobile_RembPost_Period'] . "', 
     '" . $relg['Mobile_RembPost_Period_Rmk'] . "', 
@@ -273,8 +298,9 @@ VALUES (
     " . $_POST['uid'] . ", 
     '" . date("Y-m-d") . "', 
     " . $_POST['yid'] . ", 
-    '" . date("Y-m-d") . "')", 
-$con);
+    '" . date("Y-m-d") . "')",
+                    $con
+                );
 
 
 
@@ -462,7 +488,7 @@ $con);
                 /*-----------------------------------------------------------------------------------*/
 
                 if ($InsG && $InsP) {
-                    $con2 = mysql_connect('localhost', 'hrims_user', 'hrims@192');
+                    $con2 = mysql_connect('localhost', 'vnrseed2_hrims', '5Az*hcHimJkE');
                     $db2 = mysql_select_db('recruitment_to_ess', $con2);
                     $Up = mysql_query("update employee_general set DataMove='Y' where EmpCode=" . $_POST['ecode'] . " and CompanyId=" . $_POST['comid'] . "", $con2);
                     if ($Up) {

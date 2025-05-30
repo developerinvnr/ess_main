@@ -427,7 +427,7 @@ function FunEnterAch(v,i) //LogScr Scor
   else{var EScore=document.getElementById("LogScr"+i).value=0;}
   var MScore=document.getElementById("Scor"+i).value=Math.round(((EScore/tgt)*wgt)*100)/100;
  }
-  else if(lgc=='Logic18')
+ else if(lgc=='Logic18')
  {
   var Per50=Math.round(((tgt*50)/100)*100)/100; var Per60=Math.round(((tgt*60)/100)*100)/100; var Per69=Math.round(((tgt*69)/100)*100)/100;
   var Per70=Math.round(((tgt*70)/100)*100)/100; var Per79=Math.round(((tgt*79)/100)*100)/100; var Per80=Math.round(((tgt*80)/100)*100)/100;

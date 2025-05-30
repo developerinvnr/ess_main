@@ -370,10 +370,10 @@ function RefFun(ei,m,y,d)
 <?php if($_REQUEST['Y']!=$i){ ?><option value="<?php echo $i; ?>"><?php echo $i; ?></option><?php } ?>
 <?php } ?></select></td> 
 		   <td class="td1" style="font-size:11px;"> 
-		   <select style="font-size:11px; width:100px; height:19px; background-color:#DDFFBB; display:block;" name="Department" id="Department" onChange="SelectDept(this.value, <?php echo $_REQUEST['m'].', '.$_REQUEST['Y']; ?>)">
+		   <select style="font-size:11px; width:150px; height:19px; background-color:#DDFFBB; display:block;" name="Department" id="Department" onChange="SelectDept(this.value, <?php echo $_REQUEST['m'].', '.$_REQUEST['Y']; ?>)">
 
-<?php $SqlD2=mysql_query("select DepartmentId,DepartmentCode from hrm_department where CompanyId=".$CompanyId." AND DeptStatus='A' order by DepartmentCode ASC", $con); 
-      while($ResD2=mysql_fetch_array($SqlD2)) { ?><option value="<?php echo $ResD2['DepartmentId']; ?>" <?php if($_REQUEST['d']==$ResD2['DepartmentId']){ echo 'selected';}?>><?php echo $ResD2['DepartmentCode'];?></option><?php } ?><option value="All" <?php if($_REQUEST['d']=='All'){ echo 'selected';}?>>All</option></select></td>
+<?php $SqlD2=mysql_query("select * from core_departments where is_active=1 order by department_name", $con); 
+      while($ResD2=mysql_fetch_array($SqlD2)) { ?><option value="<?php echo $ResD2['id']; ?>" <?php if($_REQUEST['d']==$ResD2['id']){ echo 'selected';}?>><?php echo $ResD2['department_name'];?></option><?php } ?><option value="All" <?php if($_REQUEST['d']=='All'){ echo 'selected';}?>>All</option></select></td>
       
       <td><input type="text" style="width:200px;height:19px; background-color:#DDFFBB;" id="Searchkey" name="Searchkey" placeholder="search from code or name" value="<?=$_REQUEST['seh']?>"/></td>
       
@@ -450,14 +450,14 @@ elseif($_REQUEST['d']=='All')
 if($ConDQ!='') 
 {
 
-$sql_statement=mysql_query("select e.EmployeeID,EmpCode,Fname,Sname,Lname,TimeApply,InTime,OutTime,DepartmentCode from hrm_employee e INNER JOIN hrm_employee_general g ON e.EmployeeID=g.EmployeeID INNER JOIN hrm_department d on g.DepartmentId=d.DepartmentId where e.EmpStatus='A' AND e.TimeApply='Y' AND ".$ConDQ." AND e.CompanyId=".$CompanyId." order by ECode ASC", $con);
+$sql_statement=mysql_query("select e.EmployeeID,EmpCode,Fname,Sname,Lname,TimeApply,InTime,OutTime,department_code from hrm_employee e INNER JOIN hrm_employee_general g ON e.EmployeeID=g.EmployeeID INNER JOIN core_departments d on g.DepartmentId=d.id where e.EmpStatus='A' AND e.TimeApply='Y' AND ".$ConDQ." AND e.CompanyId=".$CompanyId." order by ECode ASC", $con);
 
 $total_records = mysql_num_rows($sql_statement);
 if(isset($_GET['page'])) $page = $_GET['page']; else $page = 1;
 $offset = 15;
 if ($page){ $from = ($page * $offset) - $offset; }else{ $from = 0; }
 
-$SqlEmp=mysql_query("select e.EmployeeID,EmpCode,Fname,Sname,Lname,TimeApply,InTime,OutTime,DepartmentCode from hrm_employee e INNER JOIN hrm_employee_general g ON e.EmployeeID=g.EmployeeID INNER JOIN hrm_department d on g.DepartmentId=d.DepartmentId where e.EmpStatus='A' AND e.TimeApply='Y' AND ".$ConDQ." AND e.CompanyId=".$CompanyId." order by ECode ASC LIMIT ".$from.",".$offset, $con); //$from.",".$offset
+$SqlEmp=mysql_query("select e.EmployeeID,EmpCode,Fname,Sname,Lname,TimeApply,InTime,OutTime,department_code from hrm_employee e INNER JOIN hrm_employee_general g ON e.EmployeeID=g.EmployeeID INNER JOIN core_departments d on g.DepartmentId=d.id where e.EmpStatus='A' AND e.TimeApply='Y' AND ".$ConDQ." AND e.CompanyId=".$CompanyId." order by ECode ASC LIMIT ".$from.",".$offset, $con); //$from.",".$offset
 
 
 

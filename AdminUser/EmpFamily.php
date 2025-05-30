@@ -613,7 +613,7 @@ function FucCheckCH(v,i)
 <img src="images/Addnew.png" <?php if($j>1) { echo 'style="display:none;"';} ?> border="0" id="FaddImg_<?php echo $j; ?>" onClick="FamilyShowRow2(<?php echo $j; ?>)"/>
 <img src="images/Minusnew.png" id="FminusImg_<?php echo $j; ?>" <?php if($j>=1){ echo 'style="display:none;"'; } ?> border="0" onClick="FamilyHideRow2(<?php echo $j; ?>)"/></td>
 <td><table bgcolor="#FFFFFF" style="display:none;" id="FRow_<?php echo $j; ?>"><tr>
-  <td class="All_120" align="left"><select name="AnyRelation<?php echo $j; ?>" id="AnyRelation<?php echo $j; ?>" class="All_120" disabled onChange="FucCheckCH(this.value,<?php echo $j; ?>)">
+  <td class="All_120" align="left"><select name="AnyRelation<?php echo $j; ?>" id="AnyRelation<?php echo $j; ?>" class="All_120" disabled >
                                    <option style="background-color:#DBD3E2;" value="" selected>Select</option>
 								   <option value="SON">SON</option>
 								   <option value="DAUGHTER">DAUGHTER</option>

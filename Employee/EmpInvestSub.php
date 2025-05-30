@@ -45,6 +45,12 @@ function ExportSubmission()
  var prd=document.getElementById("Prd").value;  
  window.open("ExportEmpSubm.php?action=SubmExport&value=v&prd="+prd,"ExportForm","menubar=yes,scrollbars=yes,resizable=no,directories=no,width=20,height=20"); 
 }  
+
+function ExportSubmissionOnlySubmitted()
+{
+ var prd=document.getElementById("Prd").value;  
+ window.open("ExportEmpSubmSubmitted.php?action=SubmExport&value=v&prd="+prd,"ExportForm","menubar=yes,scrollbars=yes,resizable=no,directories=no,width=20,height=20"); 
+} 
   
 </Script>
 </head>
@@ -85,13 +91,14 @@ function ExportSubmission()
 </select></td>
 					  
 					  <td class="td1" style="font-size:11px; width:138px;" align="right">
-<?php if($_REQUEST['dd']!='All'){ $sqlDept=mysql_query("select DepartmentCode from hrm_department where DepartmentId=".$_REQUEST['dd'], $con); $resDept=mysql_fetch_assoc($sqlDept); $dept=$resDept['DepartmentCode'];}if($_REQUEST['dd']=='All'){$dept='All';} ?>					  
+<?php if($_REQUEST['dd']!='All'){ $sqlDept=mysql_query("select department_name as DepartmentCode from core_departments where id=".$_REQUEST['dd'], $con); $resDept=mysql_fetch_assoc($sqlDept); $dept=$resDept['DepartmentCode'];}if($_REQUEST['dd']=='All'){$dept='All';} ?>					  
 <select style="font-size:14px;width:140px;background-color:#DDFFBB;font-family:Times New Roman;" name="Dept" id="Dept" onChange="SelectDept(this.value)"><option value="<?php echo $_REQUEST['dd']; ?>" style="margin-left:0px;" selected>&nbsp;<?php echo $dept; ?></option>
-<?php $SqlDept=mysql_query("select * from hrm_department where CompanyId=".$CompanyId." order by DepartmentName ASC", $con); while($ResDept=mysql_fetch_array($SqlDept)) { ?>
-                       <option value="<?php echo $ResDept['DepartmentId']; ?>"><?php echo '&nbsp;'.$ResDept['DepartmentCode'];?></option><?php } ?>
+<?php $SqlDept=mysql_query("select * from core_departments where is_active=1 order by department_name ASC", $con); while($ResDept=mysql_fetch_array($SqlDept)) { ?>
+                       <option value="<?php echo $ResDept['id']; ?>"><?php echo '&nbsp;'.$ResDept['department_name'];?></option><?php } ?>
 					   <option value="All">&nbsp;All</option>
 					   </select></td>
-					   <td style="width:150px; text-align:center;"><a href="#" onClick="ExportSubmission()" style="color:#00509F; font-size:12px;">Export Excel</a></td>
+					   <td style="width:150px; text-align:center;"><a href="#" onClick="ExportSubmission()" style="color:#00509F; font-size:12px;">Verified Export Excel</a></td>
+					   <td style="width:150px; text-align:center;"><a href="#" onClick="ExportSubmissionOnlySubmitted()" style="color:#00509F; font-size:12px;">Submitted Export Excel</a></td>
 					 </tr>
                   </table>
 				</td>
@@ -119,7 +126,7 @@ function ExportSubmission()
 <?php if($_REQUEST['dd']=='All') { $sql = mysql_query("SELECT hrm_employee.*, DepartmentId from hrm_employee INNER JOIN hrm_employee_general ON hrm_employee.EmployeeID=hrm_employee_general.EmployeeID WHERE hrm_employee.EmpStatus='A' AND hrm_employee.CompanyId=".$CompanyId, $con); }
       else { $sql = mysql_query("SELECT hrm_employee.*, DepartmentId from hrm_employee INNER JOIN hrm_employee_general ON hrm_employee.EmployeeID=hrm_employee_general.EmployeeID WHERE hrm_employee.EmpStatus='A' AND hrm_employee.CompanyId=".$CompanyId." AND hrm_employee_general.DepartmentId=".$_REQUEST['dd'], $con); }
 $no=1; while($res = mysql_fetch_array($sql)) { 
-$sqlDept=mysql_query("select DepartmentCode from hrm_department where DepartmentId=".$res['DepartmentId'], $con);  $resDept=mysql_fetch_assoc($sqlDept);?>
+$sqlDept=mysql_query("select department_name as DepartmentCode from core_departments where id=".$res['DepartmentId'], $con);  $resDept=mysql_fetch_assoc($sqlDept);?>
 
 <?php $Ms2=mysql_query("select IvstDecIdSb,Inv_Date,FormSubmit,SubmittedDate from hrm_employee_investment_submission where EmployeeID=".$res['EmployeeID']." AND Period='".$_REQUEST['prd']."' ", $con); $rowMs2=mysql_num_rows($Ms2); $resMs2=mysql_fetch_array($Ms2); if($rowMs2>0){$IdSub=$resMs2['IvstDecIdSb'];}else{$IdSub=0;} ?>
 
@@ -150,8 +157,8 @@ if($resMs['Month']==1){$m1='January';}elseif($resMs['Month']==2){$m1='February';
 </td>
 
 </tr>
-<?php } ?>
-<?php $no++;} ?> 
+<?php $no++; } ?>
+<?php } ?> 
    </table>
  </td>
 </tr> 

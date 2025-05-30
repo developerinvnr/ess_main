@@ -315,7 +315,7 @@ if ($_SESSION['login'] = true) {
                                                                 </tr>
                                                                 <?php
 
-                                                                $con2 = mysql_connect('localhost', 'hrims_user', 'hrims@192');
+                                                                $con2 = mysql_connect('localhost', 'vnrseed2_hrims', '5Az*hcHimJkE');
                                                                 $db2 = mysql_select_db('recruitment_to_ess', $con2);
                                                                 $sql = mysql_query("select * from `employee_general` where DataMove='N' order by EmpCode ASC", $con2);
                                                                 $sn = 1;
@@ -331,10 +331,10 @@ if ($_SESSION['login'] = true) {
                                                                         <td class="tdc" style="width:5%;"><?= $res['EmpCode'] ?></td>
                                                                         <td class="tdl" style="width:20%"><?= $res['FName'] . ' ' . $res['MName'] . ' ' . $res['LName'] ?></td>
 
-                                                                        <?php $con = mysql_connect('localhost', 'hrims_user', 'hrims@192');
+                                                                        <?php $con = mysql_connect('localhost', 'vnrseed2_hrims', '5Az*hcHimJkE');
                                                                         $db = mysql_select_db('hrims', $con);
-                                                                        $sD = mysql_query("select DepartmentCode from hrm_department where DepartmentId=" . $res['DepartmentId'], $con);
-                                                                        $sDe = mysql_query("select DesigName from hrm_designation where DesigId=" . $res['DesigId'], $con);
+                                                                        $sD = mysql_query("select department_name from core_departments where id=" . $res['DepartmentId'], $con);
+                                                                        $sDe = mysql_query("select designation_name from core_designation where id=" . $res['DesigId'], $con);
                                                                         $sG = mysql_query("select GradeValue from hrm_grade where GradeId=" . $res['Grade'], $con);
                                                                         $sS = mysql_query("select StateName from hrm_state where StateId=" . $res['T_StateHq'], $con);
                                                                         $sHq = mysql_query("select HqName from hrm_headquater where HqId=" . $res['T_LocationHq'], $con);
@@ -347,8 +347,8 @@ if ($_SESSION['login'] = true) {
                                                                         $rHq = mysql_fetch_assoc($sHq);
                                                                         $rSF = mysql_fetch_assoc($sSF);
                                                                         $rHqF = mysql_fetch_assoc($sHqF); ?>
-                                                                        <td class="tdl" style="width:11%;"><?= $rD['DepartmentCode'] ?></td>
-                                                                        <td class="tdl" style="width:20%;"><?= $rDe['DesigName'] ?></td>
+                                                                        <td class="tdl" style="width:11%;"><?= $rD['department_name'] ?></td>
+                                                                        <td class="tdl" style="width:20%;"><?= $rDe['designation_name'] ?></td>
                                                                         <td class="tdl" style="width:8%;"><?= $res['PositionCode'] ?></td>
                                                                         <td class="tdl" style="width:8%;"><?= $res['PosVR'] ?></td>
                                                                         <td class="tdc" style="width:5%;"><?= $rG['GradeValue'] ?></td>
@@ -491,7 +491,7 @@ if ($_SESSION['login'] = true) {
                                                                                                     <td class="tdl"><?= $rad['perm_address'] . ', ' . $rad['perm_city'] . ', ' . $rad['perm_dist'] . ', (' . $rad['perm_state'] . '), Pin No-' . $rad['perm_pin'] ?></td>
                                                                                                 </tr>
 
-                                                                                                <?php $con2 = mysql_connect('localhost', 'hrims_user', 'hrims@192');
+                                                                                                <?php $con2 = mysql_connect('localhost', 'vnrseed2_hrims', '5Az*hcHimJkE');
                                                                                                 $db2 = mysql_select_db('recruitment_to_ess', $con2);
                                                                                                 $sFm = mysql_query("select * from employee_family where EmpCode=" . $res['EmpCode'] . " AND CompanyId=" . $res['CompanyId'], $con2);
                                                                                                 $rowFm = mysql_num_rows($sFm);

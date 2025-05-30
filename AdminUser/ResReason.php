@@ -18,7 +18,7 @@
 	 <tr>
 	  <td>
 	  <table border="0">
-<?php $sql=mysql_query("select Emp_ResignationDate,Emp_RelievingDate,Emp_Reason,EmpCode,Fname,Sname,Lname,DepartmentName,DesigName from hrm_employee_separation s INNER JOIN hrm_employee e ON s.EmployeeID=e.EmployeeID INNER JOIN hrm_employee_general g ON s.EmployeeID=g.EmployeeID INNER JOIN hrm_department d ON g.DepartmentId=d.DepartmentId INNER JOIN hrm_designation de ON g.DesigId=de.DesigId where s.EmpSepId=".$_REQUEST['id'], $con); $res=mysql_fetch_assoc($sql); 
+<?php $sql=mysql_query("select Emp_ResignationDate,Emp_RelievingDate,Emp_Reason,EmpCode,Fname,Sname,Lname,department_name as DepartmentName,designation_name as DesigName from hrm_employee_separation s INNER JOIN hrm_employee e ON s.EmployeeID=e.EmployeeID INNER JOIN hrm_employee_general g ON s.EmployeeID=g.EmployeeID LEFT JOIN core_departments d ON g.DepartmentId=d.id LEFT JOIN core_designation de ON g.DesigId=de.id where s.EmpSepId=".$_REQUEST['id'], $con); $res=mysql_fetch_assoc($sql); 
 ?>		   
 	   <tr><td colspan="2" width="450" align="center" valign="top" style="font-family:Times New Roman;font-size:16px;"><b>Resignation Reason/Details</b></td></tr>
 	   <tr><td>&nbsp;</td></tr>

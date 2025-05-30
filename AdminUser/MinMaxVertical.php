@@ -119,10 +119,10 @@ function validateEdit(formEdit){
   <td style="width:2px;">&nbsp;</td>
   <td width="400" class="heading"><u>Setting Vertical/Section Minimun/ Maximum:</u></td>    
   <td class="td1" style="font-size:14px;width:210px;font-family:Times New Roman;" >&nbsp;
-	<select class="tdsel" style="background-color:#DDFFBB;width:200px;" name="DeptId" id="DeptId" onChange="SelectDept(this.value)"><?php $sD=mysql_query("select * from hrm_department where CompanyId=".$CompanyId." order by DepartmentName asc", $con); while($rD=mysql_fetch_assoc($sD)){ ?><option value="<?php echo $rD['DepartmentId'];?>" <?php if($_REQUEST['d']==$rD['DepartmentId']){echo 'selected';} ?>><?php echo strtoupper($rD['DepartmentName']); ?></option><?php }?></select></td>
+	<select class="tdsel" style="background-color:#DDFFBB;width:200px;" name="DeptId" id="DeptId" onChange="SelectDept(this.value)"><?php $sD=mysql_query("select * from core_departments where is_active=1 order by department_name", $con); while($rD=mysql_fetch_assoc($sD)){ ?><option value="<?php echo $rD['id'];?>" <?php if($_REQUEST['d']==$rD['id']){echo 'selected';} ?>><?php echo strtoupper($rD['department_name']); ?></option><?php }?></select></td>
   <td class="font4" style="left">&nbsp;&nbsp;&nbsp;<b><?php echo $msg; ?></b></td>
  </tr>
-  
+  <?php $sDD=mysql_query("select department_name from core_departments where id=".$_REQUEST['d'], $con); $rDD=mysql_fetch_assoc($sDD); ?>
 <tr>
 <td colspan="5" align="left" id="type" valign="top">             
  <table border="0" width="90%">
@@ -144,9 +144,9 @@ function validateEdit(formEdit){
 
  <tr bgcolor="#7a6189" style="height:25px;">
   <td class="th" style="width:5%;"><b>Sn</b></td>
-  <td class="th" style="width:10%;"><b>Department</b></td>
-  <td class="th" style="width:20%;"><b>Vertical</b></td>
-  <td class="th" style="width:20%;"><b>Section</b></td>
+  <td class="th" style="width:15%;"><b>Department</b></td>
+  <td class="th" style="width:15%;"><b>Vertical</b></td>
+  <td class="th" style="width:15%;"><b>Section</b></td>
   <td class="th" style="width:10%;"><b>Min. Grade</b></td>
   <td class="th" style="width:10%;"><b>Max. Grade</b></td>
   <td class="th" style="width:10%;"><b>Min. CTC</b></td>
@@ -159,21 +159,23 @@ function validateEdit(formEdit){
 <input type="hidden" id="DepId" name="DepId" value="<?php echo $_REQUEST['d']; ?>" /> 
 <tr>
  <td class="tdc"><?php echo $SNo; ?></td>
- <td class="tdl"><?php echo $resRat['DepartmentName'];?></td>
+ <td class="tdl"><?php echo $rDD['department_name'];?></td>
   <td class="tdl"><select name="VerticalId" id="VerticalId" class="tdinput" style="width:99%;">
-  <?php $sqlV=mysql_query("select * from hrm_department_vertical where ComId=".$CompanyId." AND DeptId=".$_REQUEST['d']." order by VerticalName ASC", $con); while($resV=mysql_fetch_array($sqlV)){ ?>
-  <option value="<?php echo $resV['VerticalId'];?>"><?php echo $resV['VerticalName'];?></option><?php } ?></select></td>
+  <option value="0">Select</option>
+  <?php $sqlV=mysql_query("select * from core_verticals where is_active=1 order by vertical_name ASC", $con); while($resV=mysql_fetch_array($sqlV)){ ?>
+  <option value="<?php echo $resV['id'];?>"><?php echo $resV['vertical_name'];?></option><?php } ?></select></td>
   
   <td class="tdl"><select name="SectionId" id="SectionId" class="tdinput" style="width:99%;">
-  <?php $sqlS=mysql_query("select * from hrm_department_section where ComId=".$CompanyId." AND DeptId=".$_REQUEST['d']." order by SectionName ASC", $con); while($resS=mysql_fetch_array($sqlS)){ ?>
-  <option value="<?php echo $resS['SectionId'];?>"><?php echo $resS['SectionName'];?></option><?php } ?></select></td>
+  <option value="0">Select</option>
+  <?php $sqlS=mysql_query("select * from core_section where is_active=1 order by section_name ASC", $con); while($resS=mysql_fetch_array($sqlS)){ ?>
+  <option value="<?php echo $resS['id'];?>"><?php echo $resS['section_name'];?></option><?php } ?></select></td>
   
   <td class="tdc"><select name="Min_GradeId" id="Min_GradeId" class="tdinput" style="width:99%;">
-  <?php $sqlG=mysql_query("select GradeId,GradeValue from hrm_grade where CompanyId=".$CompanyId." AND GradeStatus='A' AND GradeId>60 order by GradeId asc",$con); while($resG=mysql_fetch_assoc($sqlG)){ ?>
+  <?php $sqlG=mysql_query("select id as GradeId,grade_name as GradeValue from core_grades where is_active=1 and company_id=".$CompanyId." order by id asc",$con); while($resG=mysql_fetch_assoc($sqlG)){ ?>
   <option value="<?php echo $resG['GradeId']; ?>"><?php echo $resG['GradeValue']; ?></option><?php } ?></select></td>
   
   <td class="tdc"><select name="Max_GradeId" id="Max_GradeId" class="tdinput" style="width:99%;">
-  <?php $sqlG=mysql_query("select GradeId,GradeValue from hrm_grade where CompanyId=".$CompanyId." AND GradeStatus='A' AND GradeId>60 order by GradeId asc",$con); while($resG=mysql_fetch_assoc($sqlG)){ ?>
+  <?php $sqlG=mysql_query("select id as GradeId,grade_name as GradeValue from core_grades where is_active=1 and company_id=".$CompanyId." order by id asc",$con); while($resG=mysql_fetch_assoc($sqlG)){ ?>
   <option value="<?php echo $resG['GradeId']; ?>"><?php echo $resG['GradeValue']; ?></option><?php } ?></select></td>
   
   <td class="tdl"><input name="Min_Ctc" id="Min_Ctc" class="EditInput" style="width:99%;border:hidden;text-align:right; padding-right:2px;" value="" /></td>
@@ -187,12 +189,12 @@ function validateEdit(formEdit){
  
 <?php 
 //$sqlRat=mysql_query("select a.*,b.VerticalName,c.DepartmentName,s.SectionName from hrm_pms_vertical_increment a inner join hrm_department_vertical b on a.VerticalId=b.VerticalId inner join hrm_department c on a.DepId=c.DepartmentId left join hrm_department_section s on a.SectionId=s.SectionId where a.ComId=".$CompanyId." AND a.DepId=".$_REQUEST['d']." order by b.VerticalName ASC, s.SectionName, a.Min_GradeId ASC, s.SectionName ASC ", $con); 
-$sqlRat=mysql_query("select a.*,c.DepartmentName,s.SectionName from hrm_pms_vertical_increment a inner join hrm_department c on a.DepId=c.DepartmentId left join hrm_department_section s on a.SectionId=s.SectionId where a.ComId=".$CompanyId." AND a.DepId=".$_REQUEST['d']." order by s.SectionName, a.Min_GradeId ASC, s.SectionName ASC ", $con);
+$sqlRat=mysql_query("select a.*,c.department_name as DepartmentName,s.section_name as SectionName from hrm_pms_vertical_increment a left join core_departments c on a.DepId=c.id left join core_section s on a.SectionId=s.id where a.ComId=".$CompanyId." AND a.DepId=".$_REQUEST['d']." order by s.section_name, a.Min_GradeId ASC, s.section_name ASC ", $con);
 
 $SNo=1; while($resRat=mysql_fetch_array($sqlRat)) {
 
-$sqlG1=mysql_query("select GradeValue from hrm_grade where GradeId=".$resRat['Min_GradeId']);
-$sqlG2=mysql_query("select GradeValue from hrm_grade where GradeId=".$resRat['Max_GradeId']);
+$sqlG1=mysql_query("select grade_name as GradeValue from core_grades where id=".$resRat['Min_GradeId']);
+$sqlG2=mysql_query("select grade_name as GradeValue from core_grades where id=".$resRat['Max_GradeId']);
 $resG1=mysql_fetch_assoc($sqlG1); $resG2=mysql_fetch_assoc($sqlG2); ?>
 
 <?php if(isset($_REQUEST['action']) && $_REQUEST['action']=="edit" && $_REQUEST['eid']==$resRat['VerIncId']){ ?>
@@ -203,19 +205,21 @@ $resG1=mysql_fetch_assoc($sqlG1); $resG2=mysql_fetch_assoc($sqlG2); ?>
   <td class="tdc"><?php echo $SNo; ?></td>
   <td class="tdl"><?php echo $resRat['DepartmentName'];?></td>
   <td class="tdl"><select name="VerticalId" id="VerticalId" class="tdinput" style="width:99%;">
-  <?php $sqlV=mysql_query("select * from hrm_department_vertical where ComId=".$CompanyId." AND DeptId=".$_REQUEST['d']." order by VerticalName ASC", $con); while($resV=mysql_fetch_array($sqlV)){ ?>
-  <option value="<?php echo $resV['VerticalId'];?>" <?php if($resRat['VerticalId']==$resV['VerticalId']){echo 'selected';}?>><?php echo $resV['VerticalName'];?></option><?php } ?></select></td>
+  <?php if($resRat['VerticalId']==0){echo '<option value="0">Select</option>'; } ?>
+  <?php $sqlV=mysql_query("select * from core_verticals where is_active=1 order by vertical_name ASC", $con); while($resV=mysql_fetch_array($sqlV)){ ?>
+  <option value="<?php echo $resV['id'];?>" <?php if($resRat['VerticalId']>0 && $resRat['VerticalId']==$resV['id']){echo 'selected';}?>><?php echo $resV['vertical_name'];?></option><?php } ?></select></td>
   
   <td class="tdl"><select name="SectionId" id="SectionId" class="tdinput" style="width:99%;">
-  <?php $sqlS=mysql_query("select * from hrm_department_section where ComId=".$CompanyId." AND DeptId=".$_REQUEST['d']." order by SectionName ASC", $con); while($resS=mysql_fetch_array($sqlS)){ ?>
-  <option value="<?php echo $resS['SectionId'];?>" <?php if($resRat['SectionId']==$resS['SectionId']){echo 'selected';}?>><?php echo $resS['SectionName'];?></option><?php } ?></select></td>
+  <?php if($resRat['SectionId']==0){echo '<option value="0">Select</option>'; } ?>
+  <?php $sqlS=mysql_query("select * from core_section where is_active=1 order by section_name ASC", $con); while($resS=mysql_fetch_array($sqlS)){ ?>
+  <option value="<?php echo $resS['id'];?>" <?php if($resRat['SectionId']>0 && $resRat['SectionId']==$resS['id']){echo 'selected';}?>><?php echo $resS['section_name'];?></option><?php } ?></select></td>
   
   <td class="tdc"><select name="Min_GradeId" id="Min_GradeId" class="tdinput" style="width:99%;">
-  <?php $sqlG=mysql_query("select GradeId,GradeValue from hrm_grade where CompanyId=".$CompanyId." AND GradeStatus='A' AND GradeId>60 order by GradeId asc",$con); while($resG=mysql_fetch_assoc($sqlG)){ ?>
+  <?php $sqlG=mysql_query("select id as GradeId,grade_name as GradeValue from core_grades where is_active=1 and company_id=".$CompanyId." order by id asc",$con); while($resG=mysql_fetch_assoc($sqlG)){ ?>
   <option value="<?php echo $resG['GradeId']; ?>" <?php if($resRat['Min_GradeId']==$resG['GradeId']){echo 'selected';}?>><?php echo $resG['GradeValue']; ?></option><?php } ?></select></td>
   
   <td class="tdc"><select name="Max_GradeId" id="Max_GradeId" class="tdinput" style="width:99%;">
-  <?php $sqlG=mysql_query("select GradeId,GradeValue from hrm_grade where CompanyId=".$CompanyId." AND GradeStatus='A' AND GradeId>60 order by GradeId asc",$con); while($resG=mysql_fetch_assoc($sqlG)){ ?>
+  <?php $sqlG=mysql_query("select id as GradeId,grade_name as GradeValue from core_grades where is_active=1 and company_id=".$CompanyId." order by id asc",$con); while($resG=mysql_fetch_assoc($sqlG)){ ?>
   <option value="<?php echo $resG['GradeId']; ?>" <?php if($resRat['Max_GradeId']==$resG['GradeId']){echo 'selected';}?>><?php echo $resG['GradeValue']; ?></option><?php } ?></select></td>
   
   <td class="tdl"><input name="Min_Ctc" id="Min_Ctc" class="EditInput" style="width:99%;border:hidden;text-align:right; padding-right:2px;" value="<?php echo floatval($resRat['Min_Ctc']); ?>" /></td>

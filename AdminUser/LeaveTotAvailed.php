@@ -110,10 +110,10 @@ if($_REQUEST['m']==9){$SelM='September';} if($_REQUEST['m']==10){$SelM='October'
 	      </select></td> 
 	  <td style="width:90px; font-family:Times New Roman;color:#4F3C6F;font-size:14px;" align="right";><b>Department</b>&nbsp;</td>	  
 	  <td style="width:122px;"><select style="font-size:11px; width:120px; height:19px; background-color:#DDFFBB; display:block;" name="Department" id="Department" onChange="SelectMonthDept(this.value)">
-<?php if($_REQUEST['D']!='All') { $sqlD=mysql_query("select DepartmentCode from hrm_department where DepartmentId=".$_REQUEST['D'], $con); $resD=mysql_fetch_assoc($sqlD); ?> 
+<?php if($_REQUEST['D']!='All') { $sqlD=mysql_query("select department_name as DepartmentCode from core_departments where id=".$_REQUEST['D'], $con); $resD=mysql_fetch_assoc($sqlD); ?> 
                       <option value="<?php echo $_REQUEST['D']; ?>" style="margin-left:0px; background-color:#84D9D5;">&nbsp;<?php echo $resD['DepartmentCode']; ?></option>  
 <?php  } else { ?>	  <option value="All" style="margin-left:0px; background-color:#84D9D5;">&nbsp;All</option><?php } ?>						   
-					   <?php $SqlDepartment=mysql_query("select * from hrm_department where CompanyId=".$CompanyId." AND DeptStatus='A' order by DepartmentName ASC", $con); while($ResDepartment=mysql_fetch_array($SqlDepartment)) { ?><option value="<?php echo $ResDepartment['DepartmentId']; ?>"><?php echo '&nbsp;'.$ResDepartment['DepartmentCode'];?></option><?php } ?><option value="All">&nbsp;All</option></select>
+					   <?php $SqlDepartment=mysql_query("select * from core_departments where is_active=1 order by department_name", $con); while($ResDepartment=mysql_fetch_array($SqlDepartment)) { ?><option value="<?php echo $ResDepartment['id']; ?>"><?php echo '&nbsp;'.$ResDepartment['department_name'];?></option><?php } ?><option value="All">&nbsp;All</option></select>
 					   <input type="hidden" name="ComId" id="ComId" value="<?php echo $CompanyId; ?>" /> 
 					   <input type="hidden" name="YearId" id="YearId" value="<?php echo $YearId; ?>" />
 	 </td> 
@@ -317,7 +317,7 @@ if($_REQUEST['D']!='All' AND $_REQUEST['st']!='A'){ $SqlEmp=mysql_query("select 
 	  
 $Sno=1; $SqlRows=mysql_num_rows($SqlEmp); while($ResEmp=mysql_fetch_array($SqlEmp)) { 
 $Ename=$ResEmp['Fname'].' '.$ResEmp['Sname'].' '.$ResEmp['Lname']; 
-$sqlDept=mysql_query("select DepartmentCode,DepartmentName from hrm_department where DepartmentId=".$ResEmp['DepartmentId'], $con); $resDept=mysql_fetch_assoc($sqlDept); 
+$sqlDept=mysql_query("select department_name as DepartmentCode from core_departments where id=".$ResEmp['DepartmentId'], $con); $resDept=mysql_fetch_assoc($sqlDept); 
 ?>
 <?php if($_REQUEST['D']!='All'){ ?>
 <div class="tbody">

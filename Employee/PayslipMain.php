@@ -8,41 +8,41 @@
    <td class="td13c" style='width:120px;'>&nbsp;EC</td>
    <td class="td13"  style='width:150px;'>&nbsp;<?php echo $EC; ?></td>
    <td class="td13c" style='width:150px;'>&nbsp;NAME</td>
-   <td class="td13" style='width:410px;' colspan="3">&nbsp;<?php echo $Ename; ?></td>
+   <td class="td13" style='width:410px;' colspan="3">&nbsp;<?php echo $ResPay['Greeting'].' '.strtoupper($ResPay['Name']); ?></td>
   </tr>
    <tr style="height:23px;">
    <td class="td13c">&nbsp;COSTCENTER</td>
-   <td class="td13">&nbsp;<?php echo strtoupper($resE['StateName']); ?></td>
-   <td class="td13c">&nbsp;<?php if($FunValue!='' AND date("Y-m-d")>='2022-04-01'){echo 'FUNCTION'; }else{ echo 'DEPARTMENT';} ?></td>
-   <td class="td13" colspan="3">&nbsp;<?php if($FunValue!='' AND date("Y-m-d")>='2022-04-01'){ echo strtoupper($FunValue); }else{ echo strtoupper($DeptValue); } ?></td>
+   <td class="td13">&nbsp;<?php echo strtoupper($state); ?></td>
+   <td class="td13c">&nbsp;DEPARTMENT</td>
+   <td class="td13" colspan="3">&nbsp;<?php echo strtoupper($dept); ?></td>
   </tr>
   <tr style="height:23px;">
    <td class="td13c" style='width:100px;'>&nbsp;GRADE</td>
-   <td class="td13" style='width:120px;'>&nbsp;<?php echo strtoupper($GradeValue); ?></td>
+   <td class="td13" style='width:120px;'>&nbsp;<?php echo strtoupper($grade); ?></td>
    <td class="td13c">&nbsp;DESIGNATION</td>
-   <td class="td13" colspan="3">&nbsp;<?php echo strtoupper($DesigValue); ?></td>
+   <td class="td13" colspan="3">&nbsp;<?php echo strtoupper($desig); ?></td>
   </tr>
   <tr style="height:23px;">
    <td class="td13c">&nbsp;HEADQUARTER</td>
-   <td class="td13">&nbsp;<?php echo strtoupper($resE['HqName']); ?></td>
+   <td class="td13">&nbsp;<?php echo strtoupper($hq); ?></td>
    <td class="td13c">&nbsp;GENDER</td>
-   <td class="td13" colspan="3">&nbsp;<?php if($resE['Gender']=='M'){echo 'MALE';}else {echo 'FEMALE'; } ?></td>
+   <td class="td13" colspan="3">&nbsp;<?php if($ResPay['Gender']=='M'){echo 'MALE';}else {echo 'FEMALE'; } ?></td>
   </tr>
   <tr style="height:23px;">
    <td class="td13c">&nbsp;DATE-OF-BIRTH</td>
-   <td class="td13">&nbsp;<?php echo date("d-m-Y", strtotime($resE['DOB'])); ?></td>
+   <td class="td13">&nbsp;<?php echo date("d-m-Y", strtotime($ResPay['DOB'])); ?></td>
    <td class="td13c">&nbsp;DATE-OF-JOINING</td>
-   <td class="td13">&nbsp;<?php echo date("d-m-Y", strtotime($resE['DateJoining'])); ?></td>
+   <td class="td13">&nbsp;<?php echo date("d-m-Y", strtotime($ResPay['DateJoining'])); ?></td>
    <td class="td13c">&nbsp;PF NO.</td>
-   <td class="td13">&nbsp;<?php echo strtoupper($resE['PfAccountNo']); ?></td>
+   <td class="td13">&nbsp;<?php echo strtoupper($ResPay['PfAccountNo']); ?></td>
   </tr>
   <tr style="height:23px;">
    <td class="td13c">&nbsp;BANK A/C NO.</td>
-   <td class="td13">&nbsp;<?php echo $resE['AccountNo']; ?></td>
+   <td class="td13">&nbsp;<?php echo $ResPay['AccountNo']; ?></td>
    <td class="td13c">&nbsp;BANK NAME</td>
-   <td class="td13">&nbsp;<?php echo $resE['BankName']; ?></td>
+   <td class="td13">&nbsp;<?php echo $ResPay['BankName']; ?></td>
    <td class="td13c">&nbsp;PAN NO.</td>
-   <td class="td13">&nbsp;<?php echo $resE['PanNo']; ?></td>
+   <td class="td13">&nbsp;<?php echo $ResPay['PanNo']; ?></td>
   </tr>
   <tr style="height:23px;">
    <td class="td13c">&nbsp;TOTAL DAYS</td>
@@ -153,6 +153,21 @@
 	  <td class="td13">&nbsp;NOTICE PAY</td>
       <td class="td14r"><?php echo intval($ResPay['NoticePay']); ?>&nbsp;</td>
      </tr>
+     <?php } if($ResPay['Deputation_Allow']>0){ ?>
+	 <tr style="height:23px;">
+      <td class="td13">&nbsp;DEPUTATION ALLOWANCE</td>
+      <td class="td14r"><?php echo intval($ResPay['Deputation_Allow']); ?>&nbsp;</td>
+     </tr>
+     <?php } if($ResPay['Communication_Allow']>0){ ?>
+	 <tr style="height:23px;">
+      <td class="td13">&nbsp;COMMUNICATION ALLOWANCE</td>
+      <td class="td14r"><?php echo intval($ResPay['Communication_Allow']); ?>&nbsp;</td>
+     </tr>
+     <?php } if($ResPay['Car_Allow']>0){ ?>
+	 <tr style="height:23px;">
+      <td class="td13">&nbsp;CAR ALLOWANCE</td>
+      <td class="td14r"><?php echo intval($ResPay['Car_Allow']); ?>&nbsp;</td>
+     </tr>
      <?php } if($ResPay['PP_Inc']>0){ ?>
 	 <tr style="height:23px;">
 	  <td class="td13">&nbsp;PERFORMANCE INCENTIVE</td>
@@ -233,6 +248,13 @@
       <td class="td13">&nbsp;ARREAR FOR LV-ENCASH</td>
       <td class="td14r"><?php echo intval($ResPay['Arr_LvEnCash']); ?>&nbsp;</td>
      </tr>
+     
+     <?php } if($ResPay['Arr_Communication_Allow']!=0){ ?>
+	 <tr style="height:23px;">
+      <td class="td13">&nbsp;ARREAR FOR COMMUNICATION ALLOWANCE</td>
+      <td class="td14r"><?php echo intval($ResPay['Arr_Communication_Allow']); ?>&nbsp;</td>
+     </tr>
+     
 	 <?php } if($ResPay['YCea']>0){ ?>
 	 <tr style="height:23px;">
       <td class="td13">&nbsp;CHILD EDUCATION ALLOWANCE</td>
@@ -296,10 +318,15 @@
      <td class="td13">&nbsp;VOLUNTARY CONTRIBUTION</td>
      <td class="td14r">&nbsp;<?php echo intval($ResPay['VolContrib']); ?></td>
     </tr>
+    <?php } if($ResPay['IDCard_Recovery']>0){ ?>  
+    <tr style="height:23px;">
+     <td class="td13">&nbsp;ID CARD RECOVERY</td>
+     <td class="td14r">&nbsp;<?php echo intval($ResPay['IDCard_Recovery']); ?></td> 
+    </tr>
     <?php } if($ResPay['DeductAdjmt']>0){ ?>  
     <tr style="height:23px;">
      <td class="td13">&nbsp;DEDUCTION ADJUSTMENT</td>
-     <td class="td14r">&nbsp;<?php echo intval($ResPay['DeductAdjmt']); ?></td>  
+     <td class="td14r">&nbsp;<?php echo intval($ResPay['DeductAdjmt']); ?></td> 
     </tr>
     <?php } if($ResPay['RecConAllow']>0) { ?>  
     <tr style="height:23px;">
@@ -322,8 +349,8 @@
   </tr>
 
 <?php 
-$TotGross=$ResPay['Tot_Gross']+$ResPay['Bonus']+$ResPay['DA']+$ResPay['Arreares']+$ResPay['LeaveEncash']+$ResPay['Incentive']+$ResPay['VariableAdjustment']+$ResPay['PerformancePay']+$ResPay['PP_year']+$ResPay['CCA']+$ResPay['RA']+$ResPay['Arr_Basic']+$ResPay['Arr_Hra']+$ResPay['Arr_Spl']+$ResPay['Arr_Conv']+$ResPay['Arr_Bonus']+$ResPay['Arr_LTARemb']+$ResPay['Arr_RA']+$ResPay['Arr_PP']+$ResPay['YCea']+$ResPay['YMr']+$ResPay['YLta']+$ResPay['Car_Allowance']+$ResPay['Car_Allowance_Arr']+$ResPay['VarRemburmnt']+$ResPay['TA']+$ResPay['Arr_LvEnCash']+$ResPay['Bonus_Adjustment']+$ResPay['PP_Inc']+$ResPay['NoticePay']+$ResPay['NPS'];
-$TotDeduct=$ResPay['TDS']+$ResPay['Tot_Deduct']+$ResPay['Arr_Pf']+$ResPay['VolContrib']+$ResPay['Arr_Esic']+$ResPay['DeductAdjmt']+$ResPay['RecConAllow']+$ResPay['RA_Recover']+$ResPay['RecSplAllow'];
+$TotGross=$ResPay['Tot_Gross']+$ResPay['Bonus']+$ResPay['DA']+$ResPay['Arreares']+$ResPay['LeaveEncash']+$ResPay['Incentive']+$ResPay['VariableAdjustment']+$ResPay['PerformancePay']+$ResPay['PP_year']+$ResPay['CCA']+$ResPay['RA']+$ResPay['Arr_Basic']+$ResPay['Arr_Hra']+$ResPay['Arr_Spl']+$ResPay['Arr_Conv']+$ResPay['Arr_Bonus']+$ResPay['Arr_LTARemb']+$ResPay['Arr_RA']+$ResPay['Arr_PP']+$ResPay['YCea']+$ResPay['YMr']+$ResPay['YLta']+$ResPay['Car_Allowance']+$ResPay['Car_Allowance_Arr']+$ResPay['VarRemburmnt']+$ResPay['TA']+$ResPay['Arr_LvEnCash']+$ResPay['Bonus_Adjustment']+$ResPay['PP_Inc']+$ResPay['NoticePay']+$ResPay['NPS']+$ResPay['Deputation_Allow']+$ResPay['Communication_Allow']+$ResPay['Car_Allow']+$ResPay['Arr_Communication_Allow'];
+$TotDeduct=$ResPay['TDS']+$ResPay['Tot_Deduct']+$ResPay['Arr_Pf']+$ResPay['VolContrib']+$ResPay['Arr_Esic']+$ResPay['DeductAdjmt']+$ResPay['RecConAllow']+$ResPay['RA_Recover']+$ResPay['RecSplAllow']+$ResPay['IDCard_Recovery'];
 $TotNetAmount=$TotGross-$TotDeduct; 
 $TotAnnGross=$ResGross['Gross']+$ResBon['Bon']+$ResDa['Da']+$ResArr['Arr']+$ResLeEn['LeEn']+$ResInc['Inc']+$ResVarA['VarA']+$ResPerP['PerP']+$ResCcA['CcA']+$ResRaS['RaS'];
 $TotAnnDeduct=$ResTds['Tds']+$ResDed['Ded'];

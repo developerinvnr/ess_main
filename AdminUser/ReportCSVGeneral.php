@@ -6,83 +6,83 @@ $FD=date("Y",strtotime($rY['FromDate'])); $TD=date("Y",strtotime($rY['ToDate']))
 
 if($_REQUEST['action']='GeneralExport') 
 { 
- if($_REQUEST['value']=='All') {$DeptV='All_Employee';}
-  else{ $sqlDeptV=mysql_query("select DepartmentCode from hrm_department where DepartmentId=".$_REQUEST['value'], $con); $resDeptV=mysql_fetch_assoc($sqlDeptV); 
-        $DeptV=$resDeptV['DepartmentCode'];}
-  
-#  Create the Column Headings
-$csv_output .= '"Sn",';
-$csv_output .= '"EmpCode",'; 
-$csv_output .= '"Name",';
-$csv_output .= '"Department",';
-$csv_output .= '"DesigCode",';
-$csv_output .= '"DesigName",';
-$csv_output .= '"Grade",';
-$csv_output .= '"Bonus Category",';
-$csv_output .= '"Vertical",';
-$csv_output .= '"Section",';
 
-$csv_output .= '"FileNo",';	
-$csv_output .= '"DOJ",';	
-$csv_output .= '"DOC",';
-$csv_output .= '"DOB",';
-$csv_output .= '"Age",';
+    $xls_filename = 'General_reports.xls';
+    header("Content-Type: application/xls");
+    header("Content-Disposition: attachment; filename=$xls_filename");
+    header("Pragma: no-cache"); header("Expires: 0"); $sep = "\t"; 
+    echo "Sn \tEmpCode \tName \tStatus \tResigned \tFunction \tVertical \tDepartment \tSub Department \tSection \tBonus Category \tDesignation \tGrade \tDOJ \tState \tBU \tZone \tRegion \tHQ \tSub Location \tMobile \tMobile-2 \tEmail \tReporting Name \tReporting Contact \tReporting Email \tFile No \tDOB \tAge \tVNR Exp \tPrevious Exp \tBankName \tA/C No \tIFSC \tBranch \tAddress \tInsu. No \tPF No \tUAN No \tESIC No"; //$TotalExp
+    print("\n");
 
-$csv_output .= '"Zone",';
-$csv_output .= '"Region",';
-$csv_output .= '"CostCenter",';
-$csv_output .= '"HQ",';
-$csv_output .= '"Location",';
+    if($_REQUEST['dept']>0){ $Qdept="g.DepartmentId=".$_REQUEST['dept']; }elseif($_REQUEST['dept']=='All'){ $Qdept="1=1"; }
+    if($_REQUEST['sts']=='All'){ $QSts="e.EmpStatus!='De'"; }else{ $QSts="e.EmpStatus='".$_REQUEST['sts']."'"; } 
+    $qry = "SELECT e.EmployeeID, e.EmpCode, e.EmpStatus, concat(Fname, ' ', Sname, ' ', Lname) as Name, g.*, DR, Gender, Married, DOB, function_name, vertical_name, department_name, sub_department_name, section_name, designation_name, grade_name, state_name, city_village_name, business_unit_name, zone_name, region_name, territory_name, 
+  CASE 
+  WHEN DR = 'Y' THEN 'Dr.'
+  WHEN Gender = 'M' THEN 'Mr.'
+  WHEN Gender = 'F' AND Married = 'Y' THEN 'Mrs.'
+  WHEN Gender = 'F' AND Married = 'N' THEN 'Miss.'
+  ELSE '' END as Greeting FROM hrm_employee_general g 
+  left join hrm_employee e ON g.EmployeeID=e.EmployeeID 
+  left join hrm_employee_personal p on g.EmployeeID=p.EmployeeID
+  left join core_functions fun on g.EmpFunction=fun.id
+  left join core_verticals ver on g.EmpVertical=ver.id
+  left join core_departments dept on g.DepartmentId=dept.id
+  left join core_sub_department_master subdept on g.SubDepartmentId=subdept.id
+  left join core_section sec on g.EmpSection=sec.id
+  left join core_designation desig on g.DesigId=desig.id
+  left join core_grades gr on g.GradeId=gr.id
+  left join core_states st on g.CostCenter=st.id
+  left join core_city_village_by_state vlg on g.HqId=vlg.id 
+  left join core_business_unit Bu on g.BUId=Bu.id
+  left join core_zones Zn on g.ZoneId=Zn.id
+  left join core_regions Rg on g.RegionId=Rg.id
+  left join core_territory Tr on g.TerrId=Tr.id 
+  WHERE ".$QSts." AND ".$Qdept." AND e.CompanyId=".$_REQUEST['C']." order by e.ECode ASC";
+    $sql = mysql_query($qry, $con); $no=1;
+    while($res=mysql_fetch_array($sql))
+    {
+      $ResAppSts='No';    
+      $sqlch=mysql_query("select * from hrm_employee_separation where EmployeeID=".$res['EmployeeID']." AND Rep_Approved!='C' AND Hod_Approved!='C' AND HR_Approved!='C'", $con); $rowch=mysql_num_rows($sqlch);
+      if($rowch>0 OR $res['EmpStatus']=='D'){ $ResAppSts='Yes'; }
+      
+      
+      $schema_insert = "";
+      $schema_insert .= $no.$sep;	
+      $schema_insert .= $res['EmpCode'].$sep;
+      $schema_insert .= $res['Name'].$sep;
+      $schema_insert .= $res['EmpStatus'].$sep;
+      $schema_insert .= $ResAppSts.$sep;
+      $schema_insert .= $res['function_name'].$sep;
+      $schema_insert .= $res['vertical_name'].$sep;
+      $schema_insert .= $res['department_name'].$sep;
+      $schema_insert .= $res['sub_department_name'].$sep;
+      $schema_insert .= $res['section_name'].$sep;
 
-$csv_output .= '"Mobile",';
-$csv_output .= '"Email-ID",';
-$csv_output .= '"VNR Exp",';
-$csv_output .= '"Pre Exp",'; 
-$csv_output .= '"Total Exp",'; 
+      $sBw=mysql_query("select Category from hrm_bonus_wages where BWageId=".$res['BWageId'],$con); $rBw=mysql_fetch_assoc($sBw);
+      $schema_insert .= $rBw['Category'].$sep;
 
-$csv_output .= '"BankName",';
-$csv_output .= '"A/C No",';
-$csv_output .= '"IFSC",';
-$csv_output .= '"Branch",';
-$csv_output .= '"Address",';
+      $schema_insert .= $res['designation_name'].$sep;
+      $schema_insert .= $res['grade_name'].$sep;
+      $schema_insert .= date("d-m-Y",strtotime($res['DateJoining'])).$sep;
+      $schema_insert .= $res['state_name'].$sep;
+      $schema_insert .= $res['business_unit_name'].$sep;
+      $schema_insert .= $res['zone_name'].$sep;
+      $schema_insert .= $res['region_name'].$sep;
+      if($res['TerrId']>0){$Hq=$res['territory_name'];}else{$Hq=$res['city_village_name']; }
+      $schema_insert .= $Hq.$sep;
+      $schema_insert .= $res['SubLocation'].$sep;
+      
+      $schema_insert .= $res['MobileNo_Vnr'].$sep;
+      $schema_insert .= $res['MobileNo2_Vnr'].$sep;
+      $schema_insert .= $res['EmailId_Vnr'].$sep;
+      $schema_insert .= $res['ReportingName'].$sep;
+      $schema_insert .= $res['ReportingContactNo'].$sep;
+      $schema_insert .= $res['ReportingEmailId'].$sep;
+      $schema_insert .= $res['FileNo'].$sep;
+      $schema_insert .= date("d-m-Y",strtotime($res['DOB'])).$sep;
 
-$csv_output .= '"BankName",';
-$csv_output .= '"A/C No",';
-$csv_output .= '"IFSC",';
-$csv_output .= '"Branch",';
-$csv_output .= '"Address",';
-$csv_output .= '"Insu. No",';
-$csv_output .= '"PF No",';
-$csv_output .= '"PF UAN",';
-//$csv_output .= '"ESIC No",'; 
-$csv_output .= '"ReportingName",'; 
-$csv_output .= '"ReportingDesignation",';
-$csv_output .= '"ReportingEmailID",'; 
-$csv_output .= '"ReportingContact",';
-$csv_output .= "\n";		
-
-# Get Users Details form the DB #$result = mysql_query("SELECT * from formResults WHERE formID = '$formID'" );
- if($_REQUEST['value']=='All') {$sql=mysql_query("select hrm_employee.*, hrm_employee_general.* from hrm_employee_general INNER JOIN hrm_employee ON hrm_employee_general.EmployeeID=hrm_employee.EmployeeID where hrm_employee.CompanyId=".$_REQUEST['C']." AND hrm_employee.EmpStatus='A' order by ECode ASC", $con); }
-else {$sql=mysql_query("select hrm_employee.*, hrm_employee_general.* from hrm_employee_general INNER JOIN hrm_employee ON hrm_employee_general.EmployeeID=hrm_employee.EmployeeID where hrm_employee_general.DepartmentId=".$_REQUEST['value']." AND hrm_employee.CompanyId=".$_REQUEST['C']." AND hrm_employee.EmpStatus='A' order by ECode ASC", $con); } 
-$Sno=1; while($res=mysql_fetch_array($sql)){ 
-    
-    if($res['Sname']==''){ $Ename=trim($res['Fname']).' '.trim($res['Lname']); }
-else{ $Ename=trim($res['Fname']).' '.trim($res['Sname']).' '.trim($res['Lname']); }
-    //$Ename=$res['Fname'].' '.$res['Sname'].' '.$res['Lname']; 
-$sqlDept=mysql_query("select DepartmentCode,DepartmentName from hrm_department where DepartmentId=".$res['DepartmentId'], $con); $resDept=mysql_fetch_assoc($sqlDept);
-$sqlDesig=mysql_query("select DesigCode,DesigName from hrm_designation where DesigId=".$res['DesigId'], $con); $resDesig=mysql_fetch_assoc($sqlDesig);
-$sqlGrade=mysql_query("select GradeValue from hrm_grade where GradeId=".$res['GradeId'], $con); $resGrade=mysql_fetch_assoc($sqlGrade);
-
-
-if($res['RetiStatus']=='Y'){ $DOJ=date("d-M-y", strtotime($res['RetiDate'])); } else{ $DOJ=date("d-M-y", strtotime($res['DateJoining'])); }
-if($res['DateConfirmation']!='1970-01-01' AND $res['DateConfirmation']!='0000-00-00' AND $res['RetiStatus']=='N') { $DOC=date("d-M-y", strtotime($res['DateConfirmation'])); }else{$DOC='';}
-
-//$timestamp_start = strtotime($res['DOB']);  
-//$timestamp_end = strtotime(date("Y-m-d")); $difference = abs($timestamp_end - $timestamp_start); 
-//$days = floor($difference/(60*60*24)); $months = floor($difference/(60*60*24*30)); 
-//$years2 = $difference/(60*60*24*365); //$Y2=$years2*12; $M22=$months-$Y2;
-//$AgeMain=number_format($years2, 1);
-
+/**********************************************************************/
 $dos=date("d-m-Y",strtotime($res['DOB']));
 $localtime = getdate();
 $today = $localtime['mday']."-".$localtime['mon']."-".$localtime['year'];
@@ -118,21 +118,16 @@ elseif($months>=84 AND $months<96){$m1=$months-84; $l=strlen($m1);if($l==1){$mnt
 elseif($months>=96 AND $months<108){$m1=$months-96; $l=strlen($m1);if($l==1){$mnt='8.0'.$m1;}else{$mnt='8.'.$m1;} }
 $str_a = explode('.',$mnt);
 $AgeMain=($years+$str_a[0]).'.'.$str_a[1];
+/**********************************************************************/  
+      $schema_insert .= $AgeMain.$sep;
 
-
-if($res['RepEmployeeID']>0){
-$sqlRn=mysql_query("select DesigId from hrm_employee_general where EmployeeID=".$res['RepEmployeeID'], $con); $resRn=mysql_fetch_assoc($sqlRn);
-$sqlDesigR=mysql_query("select DesigCode from hrm_designation where DesigId=".$resRn['DesigId'], $con); $resDesigR=mysql_fetch_assoc($sqlDesigR); }
-
-//$timestamp_start = strtotime($res['DateJoining']);  
-//$timestamp_end = strtotime(date("Y-m-d")); $difference = abs($timestamp_end - $timestamp_start); 
-//$days = floor($difference/(60*60*24)); $months = floor($difference/(60*60*24*30)); 
-//$years = $difference/(60*60*24*365); /* $Y2=$years*12;  $M2=$months-$Y2; */ 
-//$VNRExpMain=number_format($years, 1); $TotalExp=$VNRExpMain+$res['PreviousExpYear'];
-
+/**********************************************************************/
 $dos=date("d-m-Y",strtotime($res['DateJoining']));
 $localtime = getdate();
 $today = $localtime['mday']."-".$localtime['mon']."-".$localtime['year'];
+if($res['EmpStatus']!='A' AND $res['DateOfSepration']>='2011-01-01')
+{ $today = date("d-m-Y",strtotime($res['DateOfSepration'])); }
+
 $dob_a = explode("-", $dos);
 $today_a = explode("-", $today);
 $dob_d = $dob_a[0];$dob_m = $dob_a[1];$dob_y = $dob_a[2];
@@ -166,53 +161,11 @@ elseif($months>=84 AND $months<96){$m1=$months-84; $l=strlen($m1);if($l==1){$mnt
 elseif($months>=96 AND $months<108){$m1=$months-96; $l=strlen($m1);if($l==1){$mnt='8.0'.$m1;}else{$mnt='8.'.$m1;} }
 $str_a = explode('.',$mnt);
 $VNRExpMain=($years+$str_a[0]).'.'.$str_a[1];
+/**********************************************************************/
+      $schema_insert .= $VNRExpMain.$sep;
 
-$csv_output .= '"'.str_replace('"', '""', $Sno).'",';
-$csv_output .= '"'.str_replace('"', '""', $res['EmpCode']).'",';
-$csv_output .= '"'.str_replace('"', '""', $Ename).'",';
-$csv_output .= '"'.str_replace('"', '""', $resDept['DepartmentCode']).'",';
-$csv_output .= '"'.str_replace('"', '""', $resDesig['DesigCode']).'",';
-$csv_output .= '"'.str_replace('"', '""', $resDesig['DesigName']).'",';
-$csv_output .= '"'.str_replace('"', '""', $resGrade['GradeValue']).'",';
-
-if($res['BWageId']==0){ $sB=mysql_query("select BWageId from hrm_employee_general where EmployeeID=".$res['EmployeeID'],$con); $rB=mysql_fetch_assoc($sB);
-	    $sqlCat=mysql_query("select Category from hrm_bonus_wages where BWageId=".$rB['BWageId'], $con); }else{ $sqlCat=mysql_query("select Category from hrm_bonus_wages where BWageId=".$res['BWageId'], $con); } $resCat=mysql_fetch_assoc($sqlCat);
-	    $resCat=mysql_fetch_assoc($sqlCat);
-$csv_output .= '"'.str_replace('"', '""', strtoupper($resCat['Category'])).'",';
-
-
-$sqlVer=mysql_query("select VerticalName from hrm_department_vertical where VerticalId=".$res['EmpVertical'], $con); $resVer=mysql_fetch_assoc($sqlVer);
-$sqlHQ=mysql_query("select HqName from hrm_headquater where HqId=".$res['HqId'], $con); $resHQ=mysql_fetch_assoc($sqlHQ);
-$sqlCC=mysql_query("select StateName from hrm_state where StateId=".$res['CostCenter'], $con); $resCC=mysql_fetch_assoc($sqlCC);
-
-$sqlRId=mysql_query("select RegionId from hrm_sales_verhq where HqId=".$res['HqId']." AND Vertical=".$res['EmpVertical']." AND DeptId=".$res['DepartmentId'], $con); $resRId=mysql_fetch_assoc($sqlRId);
-
-$sqlRR=mysql_query("select RegionName,ZoneId from hrm_sales_region where RegionId=".$resRId['RegionId'], $con); $resRR=mysql_fetch_assoc($sqlRR);
-$sqlZZ=mysql_query("select ZoneName from hrm_sales_zone where ZoneId=".$resRR['ZoneId'], $con); $resZZ=mysql_fetch_assoc($sqlZZ);
-
-
-
-$csv_output .= '"'.str_replace('"', '""', $resVer['VerticalName']).'",';
-
-$sqlSec=mysql_query("select SectionName from hrm_department_section where SectionId=".$res['EmpSection'], $con); $resSec=mysql_fetch_assoc($sqlSec);
-$csv_output .= '"'.str_replace('"', '""', $resSec['SectionName']).'",';
-
-$csv_output .= '"'.str_replace('"', '""', $res['FileNo']).'",';
-$csv_output .= '"'.str_replace('"', '""', $DOJ).'",';
-$csv_output .= '"'.str_replace('"', '""', $DOC).'",';	
-$csv_output .= '"'.str_replace('"', '""', date("d-M-y", strtotime($res['DOB']))).'",';
-$csv_output .= '"'.str_replace('"', '""', $AgeMain).'",';
-$csv_output .= '"'.str_replace('"', '""', $resZZ['ZoneName']).'",';
-$csv_output .= '"'.str_replace('"', '""', $resRR['RegionName']).'",';
-$csv_output .= '"'.str_replace('"', '""', $resCC['StateName']).'",';
-$csv_output .= '"'.str_replace('"', '""', $resHQ['HqName']).'",';
-$csv_output .= '"'.str_replace('"', '""', $res['SubLocation']).'",';
-
-$csv_output .= '"'.str_replace('"', '""', $res['MobileNo_Vnr']).'",';
-$csv_output .= '"'.str_replace('"', '""', $res['EmailId_Vnr']).'",';
-$csv_output .= '"'.str_replace('"', '""', $VNRExpMain).'",';
-$csv_output .= '"'.str_replace('"', '""', $res['PreviousExpYear']).'",';
-
+      $schema_insert .=  $res['PreviousExpYear'].$sep;
+/**********************************************************************/
 $chr="."; $val=''; $Tot1=0; $Tot2=0;
 $Vfirst = strtok($VNRExpMain, $chr); $Ofirst = strtok($res['PreviousExpYear'], $chr);
 $Tot1=$Vfirst+$Ofirst;     
@@ -224,38 +177,25 @@ if($tot2==24){ $val=($Tot1+2).'.00'; }
 elseif($tot2==12){ $val=($Tot1+1).'.00'; }
 elseif($tot2>12 && $tot2<24){ $v1=$tot2-12; if($v1<=9){$v2='0'.$v1;}else{$v2=$v1;} $val=($Tot1+1).'.'.$v2; }
 elseif($tot2<12){ $v1=$tot2; if($v1<=9){$v2='0'.$v1;}else{$v2=$v1;} $val=$Tot1.'.'.$v2; }
-$csv_output .= '"'.str_replace('"', '""', $val).'",';
+/**********************************************************************/
+      //$schema_insert .= $val.$sep;
 
-$csv_output .= '"'.str_replace('"', '""', $res['BankName']).'",';
-$csv_output .= '"'.str_replace('"', '""', $res['AccountNo']).'",';
-$csv_output .= '"'.str_replace('"', '""', $res['BankIfscCode']).'",';
-$csv_output .= '"'.str_replace('"', '""', $res['BranchName']).'",';
-$csv_output .= '"'.str_replace('"', '""', $res['BranchAdd']).'",';
+      $schema_insert .= $res['BankName'].$sep;
+      $schema_insert .= $res['AccountNo'].$sep;
+      $schema_insert .= $res['BankIfscCode'].$sep;
+      $schema_insert .= $res['BranchName'].$sep;
+      $schema_insert .= $res['BranchAdd'].$sep;
+      $schema_insert .= $res['InsuCardNo'].$sep;
+      $schema_insert .= $res['PfAccountNo'].$sep;
+      $schema_insert .= $res['PF_UAN'].$sep;
+      $schema_insert .= $res['EsicNo'].$sep;
 
-$csv_output .= '"'.str_replace('"', '""', $res['BankName2']).'",';
-$csv_output .= '"'.str_replace('"', '""', $res['AccountNo2']).'",';
-$csv_output .= '"'.str_replace('"', '""', $res['BankIfscCode2']).'",';
-$csv_output .= '"'.str_replace('"', '""', $res['BranchName2']).'",';
-$csv_output .= '"'.str_replace('"', '""', $res['BranchAdd2']).'",';
-$csv_output .= '"'.str_replace('"', '""', $res['InsuCardNo']).'",';
-$csv_output .= '"'.str_replace('"', '""', $res['PfAccountNo']).'",';
-$csv_output .= '"'.str_replace('"', '""', $res['PF_UAN']).'",';
-//$csv_output .= '"'.str_replace('"', '""', $res['EsicNo']).'",';
-$csv_output .= '"'.str_replace('"', '""', $res['ReportingName']).'",';
-$csv_output .= '"'.str_replace('"', '""', $resDesigR['DesigCode']).'",';
-$csv_output .= '"'.str_replace('"', '""', $res['ReportingEmailId']).'",';
-$csv_output .= '"'.str_replace('"', '""', $res['ReportingContactNo']).'",';
-$csv_output .= "\n";
-$Sno++; }
-
-# Close the MySql connection
-mysql_close($con);
-# Set the headers so the file downloads
-header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
-header("Content-Length: " . strlen($csv_output));
-header("Content-type: text/x-csv");
-header("Content-Disposition: attachment; filename=Employee_GeneralReports_".$DeptV.".csv");
-echo $csv_output;
-exit;
+                  
+      $schema_insert = str_replace($sep."$", "", $schema_insert);
+      $schema_insert = preg_replace("/\r\n|\n\r|\n|\r/", " ", $schema_insert);
+      $schema_insert .= "\t";
+      print(trim($schema_insert)); print "\n"; 
+      $no++;
+    }
 }
 ?>

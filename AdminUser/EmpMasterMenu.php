@@ -63,6 +63,15 @@
 <a href="EmpLeave.php?ID=<?php echo $EMPID;?>&Event=Edit&p=le&m=<?php echo date("m"); ?>&y=<?php echo date("Y"); ?>&ok=true"><img id="Img_leave1" src="images/Eleave1.png" border="0"/></a><?php } ?>
   </td>
 </tr>	
+
+<?php } if($resEm['mas_elig']==1) { ?>
+<tr>
+  <td align="center">
+  <?php if($_REQUEST['p']=='el'){?><img src="images/Eelig.png" border="0" id="Img_elig"/><?php } else { ?>
+  <a href="EmpElig.php?ID=<?php echo $EMPID; ?>&Event=Edit&p=el&ok=true"><img id="Img_elig1" src="images/Eelig1.png" border="0"/></a><?php } ?>   
+  </td>
+</tr>
+
 <?php } if($resEm['mas_ctc']==1) { ?>
 <tr>
   <td align="center">
@@ -70,13 +79,7 @@
   <a href="EmpCtc.php?ID=<?php echo $EMPID; ?>&Event=Edit&p=ct&ok=true"><img id="Img_ctc1" src="images/Ectc1.png" border="0"/></a><?php } ?>   
   </td>
 </tr> 
-<?php } if($resEm['mas_elig']==1) { ?>
-<tr>
-  <td align="center">
-  <?php if($_REQUEST['p']=='el'){?><img src="images/Eelig.png" border="0" id="Img_elig"/><?php } else { ?>
-  <a href="EmpElig.php?ID=<?php echo $EMPID; ?>&Event=Edit&p=el&ok=true"><img id="Img_elig1" src="images/Eelig1.png" border="0"/></a><?php } ?>   
-  </td>
-</tr>	
+	
 
 <?php } if($resEm['mas_chec']==1) { ?>					   
 <tr>

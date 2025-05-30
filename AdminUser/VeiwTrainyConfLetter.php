@@ -16,7 +16,7 @@ function PrintLetter(E,C)
 <a href="#" onClick="PrintLetter(<?php echo $_REQUEST['E'].','.$_REQUEST['C']; ?>)" style="text-decoration:none;"><font id="FonPC" style="color:#000099;">Print</font></a>&nbsp;&nbsp;</td></tr>
 <?php  //if($_REQUEST['action']=='Letter') {$sql=mysql_query("SELECT hrm_employee.*,hrm_employee_confletter.DesigId,Married,DR,Gender,DateJoining,DateConfirmation,ConfLetterId FROM hrm_employee INNER JOIN hrm_employee_general ON hrm_employee.EmployeeID=hrm_employee_general.EmployeeID INNER JOIN hrm_employee_personal ON hrm_employee.EmployeeID=hrm_employee_personal.EmployeeID INNER JOIN hrm_employee_confletter ON hrm_employee.EmployeeID=hrm_employee_confletter.EmployeeID WHERE hrm_employee.EmployeeID=".$_REQUEST['E']." AND hrm_employee_confletter.Status='A'", $con) or die(mysql_error()); 
 
-if($_REQUEST['action']=='Letter') {$sql=mysql_query("SELECT e.*,DesigName,GradeValue,cl.GradeId,cl.DesigId,Married,DR,Gender,DateJoining,DateConfirmation,ConfLetterId FROM hrm_employee e INNER JOIN hrm_employee_general g ON e.EmployeeID=g.EmployeeID INNER JOIN hrm_employee_personal p ON e.EmployeeID=p.EmployeeID INNER JOIN hrm_employee_confletter cl ON e.EmployeeID=cl.EmployeeID INNER JOIN hrm_designation de ON cl.DesigId=de.DesigId INNER JOIN hrm_grade gr ON cl.GradeId=gr.GradeId WHERE e.EmployeeID=".$_REQUEST['E']." AND cl.Status='A'", $con) or die(mysql_error()); 
+if($_REQUEST['action']=='Letter') {$sql=mysql_query("SELECT e.*,designation_name as DesigName,grade_name as GradeValue,cl.GradeId,cl.DesigId,Married,DR,Gender,DateJoining,DateConfirmation,ConfLetterId FROM hrm_employee e INNER JOIN hrm_employee_general g ON e.EmployeeID=g.EmployeeID INNER JOIN hrm_employee_personal p ON e.EmployeeID=p.EmployeeID INNER JOIN hrm_employee_confletter cl ON e.EmployeeID=cl.EmployeeID left JOIN core_designation de ON cl.DesigId=de.id left JOIN core_grades gr ON cl.GradeId=gr.id WHERE e.EmployeeID=".$_REQUEST['E']." AND cl.Status='A'", $con) or die(mysql_error()); 
 
 $res=mysql_fetch_assoc($sql); $Ename=$res['Fname'].' '.$res['Sname'].' '.$res['Lname'];  
 if($res['DR']=='Y'){$M='Dr.';}elseif($res['Gender']=='M'){$M='Mr.';} elseif($res['Gender']=='F' AND $res['Married']=='Y'){$M='Mrs.';} elseif($res['Gender']=='F' AND $res['Married']=='N'){$M='Miss.';} $NameE=$M.' '.$Ename;
@@ -26,11 +26,11 @@ $sql2=mysql_query("SELECT * FROM hrm_employee_confletter WHERE EmployeeID=".$_RE
 
 //echo "select GradeValue from hrm_grade GradeId=".$res2['Current_GradeId'];
 
-$g=mysql_fetch_assoc(mysql_query("select GradeValue from hrm_grade where GradeId=".$res2['Current_GradeId'],$con));
-$g2=mysql_fetch_assoc(mysql_query("select GradeValue from hrm_grade where GradeId=".$res2['GradeId'],$con));
+$g=mysql_fetch_assoc(mysql_query("select grade_name as GradeValue from core_grades where id=".$res2['Current_GradeId'],$con));
+$g2=mysql_fetch_assoc(mysql_query("select grade_name as GradeValue from core_grades where id=".$res2['GradeId'],$con));
 
-$de=mysql_fetch_assoc(mysql_query("select DesigName from hrm_designation where DesigId=".$res2['Current_DesigId'],$con));
-$de2=mysql_fetch_assoc(mysql_query("select DesigName from hrm_designation where DesigId=".$res2['DesigId'],$con));
+$de=mysql_fetch_assoc(mysql_query("select designation_name as DesigName from core_designation where id=".$res2['Current_DesigId'],$con));
+$de2=mysql_fetch_assoc(mysql_query("select designation_name as DesigName from core_designation where id=".$res2['DesigId'],$con));
 
 ?> 			
 

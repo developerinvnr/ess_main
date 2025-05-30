@@ -34,93 +34,78 @@ elseif($_REQUEST['Y']==$BY AND $_REQUEST['M']<12)
 else
 { $PayTable='hrm_employee_monthlypayslip_'.$_REQUEST['Y']; $LeaveTable='hrm_employee_monthlyleave_balance_'.$_REQUEST['Y'];  }
 
-$sqlE=mysql_query("select Fname,Sname,Lname,EmpCode,DesigId,DepartmentId,GradeId,Gender,PanNo,CostCenter,AccountNo,BankName,PfAccountNo,g.HqId,DOB,DateJoining,DR,Married,StateName,HqName from hrm_employee e INNER JOIN hrm_employee_general g ON e.EmployeeID=g.EmployeeID INNER JOIN hrm_employee_personal p ON e.EmployeeID=p.EmployeeID INNER JOIN hrm_headquater hq ON g.HqId=hq.HqId INNER JOIN hrm_state s ON g.CostCenter=s.StateId where e.EmployeeID=".$_REQUEST['E'], $con); $resE=mysql_fetch_assoc($sqlE); 
-//$sqlDesig=mysql_query("select DesigName from hrm_designation where DesigId=".$resE['DesigId'], $con); $resDesig=mysql_fetch_assoc($sqlDesig);
-//$sqlD=mysql_query("select DepartmentName from hrm_department where DepartmentId=".$resE['DepartmentId'], $con); $resD=mysql_fetch_assoc($sqlD);
-//$sqlG=mysql_query("select GradeValue from hrm_grade where GradeId=".$resE['GradeId'], $con); $resG=mysql_fetch_assoc($sqlG);
-$SqlCC=mysql_query("select StateName from hrm_state where StateId=".$resE['CostCenter'], $con); $resCC=mysql_fetch_assoc($SqlCC);
-$sqlHq=mysql_query("select HqName from hrm_headquater where HqId=".$resE['HqId'], $con); $resHq=mysql_fetch_assoc($sqlHq);
-if($resE['DR']=='Y'){$M='Dr.';} elseif($resE['Gender']=='M'){$M='Mr.';} elseif($resE['Gender']=='F' AND $resE['Married']=='Y'){$M='Mrs.';} elseif($resE['Gender']=='F' AND $resE['Married']=='N'){$M='Miss.';}  
-$Ename=$M.' '.$resE['Fname'].' '.$resE['Sname'].' '.$resE['Lname']; $LEC=strlen($resE['EmpCode']); 
-if($LEC==1){$EC='000'.$resE['EmpCode'];} if($LEC==2){$EC='00'.$resE['EmpCode'];} if($LEC==3){$EC='0'.$resE['EmpCode'];} if($LEC>=4){$EC=$resE['EmpCode'];}
+if($_REQUEST['Y']>=2025)
+ {
+    
+  $sel="p.*, e.EmpCode, concat(Fname, ' ', Sname, ' ', Lname) as Name, DateJoining, p.HqId, p.TerrId, MobileNo_Vnr, EmailId_Vnr, DR, Gender, Married, PanNo, CostCenter, AccountNo, BankName, PfAccountNo, DOB, DateJoining, function_name, vertical_name, department_name, sub_department_name, designation_name, grade_name, state_name, city_village_name, territory_name,
+  CASE 
+  WHEN DR = 'Y' THEN 'Dr.'
+  WHEN Gender = 'M' THEN 'Mr.'
+  WHEN Gender = 'F' AND Married = 'Y' THEN 'Mrs.'
+  WHEN Gender = 'F' AND Married = 'N' THEN 'Miss.'
+  ELSE '' END as Greeting";    
+  
+  $join="p 
+  left join hrm_employee_general g ON p.EmployeeID=g.EmployeeID
+  left join hrm_employee e ON g.EmployeeID=e.EmployeeID 
+  left join hrm_employee_personal pr on g.EmployeeID=pr.EmployeeID
+  left join core_functions fun on p.FunId=fun.id
+  left join core_verticals ver on p.VerId=ver.id
+  left join core_departments dept on p.DepartmentId=dept.id
+  left join core_sub_department_master subdept on p.SubDeptId=subdept.id
+  left join core_designation desig on p.DesigId=desig.id
+  left join core_grades gr on p.GradeId=gr.id
+  left join core_states st on p.StateId=st.id
+  left join core_city_village_by_state vlg on p.HqId=vlg.id 
+  left join core_territory Tr on p.TerrId=Tr.id";
+ }
+ else
+ {
+        
+    $sel="p.*, e.EmpCode, concat(Fname, ' ', Sname, ' ', Lname) as Name, DateJoining, p.HqId, p.TerrId, MobileNo_Vnr, EmailId_Vnr, DR, Gender, Married, PanNo, CostCenter, AccountNo, BankName, PfAccountNo, DOB, DateJoining, DepartmentName as department_name, DesigName as designation_name, GradeValue as grade_name, StateName as state_name, hq.HqName as city_village_name,
+  CASE 
+  WHEN DR = 'Y' THEN 'Dr.'
+  WHEN Gender = 'M' THEN 'Mr.'
+  WHEN Gender = 'F' AND Married = 'Y' THEN 'Mrs.'
+  WHEN Gender = 'F' AND Married = 'N' THEN 'Miss.'
+  ELSE '' END as Greeting";    
+   
+  $join="p 
+  left join hrm_employee_general g ON p.EmployeeID=g.EmployeeID
+  left join hrm_employee e ON g.EmployeeID=e.EmployeeID 
+  left join hrm_employee_personal pr on g.EmployeeID=pr.EmployeeID
+  left join hrm_department dept on p.DepartmentId=dept.DepartmentId
+  left join hrm_designation desig on p.DesigId=desig.DesigId
+  left join hrm_grade gr on p.GradeId=gr.GradeId
+  left join hrm_state st on p.StateId=st.StateId
+  left join hrm_headquater hq on p.HqId=hq.HqId"; 
+ }
+    
+  $cond="p.EmployeeID=".$_REQUEST['E']." AND p.Month=".$_REQUEST['M']." AND p.Year=".$_REQUEST['Y']."";
 
-
-$SqlPay=mysql_query("SELECT * FROM ".$PayTable." WHERE EmployeeID=".$_REQUEST['E']." AND Month=".$_REQUEST['M']." AND YEAR=".$_REQUEST['Y']."", $con); 
+$SqlPay=mysql_query("SELECT ".$sel." FROM ".$PayTable." ".$join." WHERE ".$cond, $con); 
 
 $RowPay=mysql_num_rows($SqlPay);
  if($RowPay==0)
  { 
-  $SqlPay=mysql_query("SELECT * FROM hrm_employee_monthlypayslip WHERE EmployeeID=".$_REQUEST['E']." AND Month=".$_REQUEST['M']." AND Year=".$_REQUEST['Y']."", $con); $ResPay=mysql_fetch_assoc($SqlPay);
+  $SqlPay=mysql_query("SELECT ".$sel." FROM hrm_employee_monthlypayslip ".$join." WHERE ".$cond, $con); $ResPay=mysql_fetch_assoc($SqlPay);
   
  }
  else{$ResPay=mysql_fetch_assoc($SqlPay); }
  
+ $LEC = strlen($ResPay['EmpCode']);
+ if($LEC==1){$EC='000'.$ResPay['EmpCode'];} if($LEC==2){$EC='00'.$ResPay['EmpCode'];} if($LEC==3){$EC='0'.$ResPay['EmpCode'];} if($LEC>=4){$EC=$ResPay['EmpCode'];}
  
-    if($ResPay['GradeId']>0)
-    {
-     $SqlG=mysql_query("SELECT GradeValue FROM hrm_grade WHERE GradeId=".$ResPay['GradeId'], $con); 
-     //echo 'G1='."SELECT GradeValue FROM hrm_grade WHERE GradeId=".$ResPay['GradeId']; 
-     $ResG=mysql_fetch_assoc($SqlG); 
-     $GradeValue=$ResG['GradeValue'];
-    }
-    else 
-    { $SqlG=mysql_query("SELECT GradeValue FROM hrm_grade WHERE GradeId=".$resE['GradeId'], $con); 
-    //echo 'G2='."SELECT GradeValue FROM hrm_grade WHERE GradeId=".$resE['GradeId']; 
-    $ResG=mysql_fetch_assoc($SqlG); 
-     $GradeValue=$ResG['GradeValue']; 
-    }
-    
-    
-    if($ResPay['DepartmentId']>0)
-    {
-     $SqlD=mysql_query("SELECT DepartmentName,FunName FROM hrm_department WHERE DepartmentId=".$ResPay['DepartmentId'], $con); $ResD=mysql_fetch_assoc($SqlD); 
-     $DeptValue=$ResD['DepartmentName']; $FunValue=$ResD['FunName'];
-    }
-    else 
-    { $SqlD=mysql_query("SELECT DepartmentName,FunName FROM hrm_department WHERE DepartmentId=".$resE['DepartmentId'], $con); $ResD=mysql_fetch_assoc($SqlD); 
-     $DeptValue=$ResD['DepartmentName']; $FunValue=$ResD['FunName'];
-        
-    }
-    
-    /*
-    if($ResPay['DepartmentId']>0)
-    {
-     $SqlD=mysql_query("SELECT DepartmentName FROM hrm_department WHERE DepartmentId=".$ResPay['DepartmentId'], $con); 
-     //echo 'D1='."SELECT DepartmentName FROM hrm_department WHERE DepartmentId=".$ResPay['DepartmentId'];
-     $ResD=mysql_fetch_assoc($SqlD); 
-     $DeptValue=$ResD['DepartmentName'];
-    }
-    else 
-    { $SqlD=mysql_query("SELECT DepartmentName FROM hrm_department WHERE DepartmentId=".$resE['DepartmentId'], $con); 
-    //echo 'D2='."SELECT DepartmentName FROM hrm_department WHERE DepartmentId=".$resE['DepartmentId'];
-    $ResD=mysql_fetch_assoc($SqlD); 
-     $DeptValue=$ResD['DepartmentName']; 
-        
-    }
-    */
-    
-    if($ResPay['DesigId']>0)
-    {
-     $SqlDe=mysql_query("SELECT DesigName FROM hrm_designation WHERE DesigId=".$ResPay['DesigId'], $con); 
-     //echo 'De1='."SELECT DesigName FROM hrm_designation WHERE DesigId=".$ResPay['DesigId'];
-     $ResDe=mysql_fetch_assoc($SqlDe); 
-     $DesigValue=$ResDe['DesigName'];
-    }
-    else 
-    { $SqlDe=mysql_query("SELECT DesigName FROM hrm_designation WHERE DesigId=".$resE['DesigId'], $con); 
-    //echo 'De2='."SELECT DesigName FROM hrm_designation WHERE DesigId=".$resE['DesigId'];
-    $ResDe=mysql_fetch_assoc($SqlDe); 
-     $DesigValue=$ResDe['DesigName']; 
-        
-    }
-
-
-//$GradeValue=$ResPay['GradeValue'];
-
-/*if($ResPay['DesigId']>0){ $sqlDesig=mysql_query("select DesigName from hrm_designation where DesigId=".$ResPay['DesigId'], $con); $resDesig=mysql_fetch_assoc($sqlDesig); }
-if($ResPay['DepartmentId']>0){ $sqlD=mysql_query("select DepartmentName from hrm_department where DepartmentId=".$ResPay['DepartmentId'], $con); $resD=mysql_fetch_assoc($sqlD); }
-if($ResPay['GradeId']>0){ $sqlG=mysql_query("select GradeValue from hrm_grade where GradeId=".$ResPay['GradeId'], $con); $resG=mysql_fetch_assoc($sqlG); }*/
-
+ $fun=''; $vert=''; $dept=''; $subdept=''; $desig=''; $grade=''; $state=''; $hq=''; 
+  if($ResPay['function_name']!=''){ $fun=$ResPay['function_name']; }
+  if($ResPay['vertical_name']!=''){ $vert=$ResPay['vertical_name']; }
+  if($ResPay['department_name']!=''){ $dept=$ResPay['department_name']; }
+  if($ResPay['sub_department_name']!=''){ $subdept=$ResPay['sub_department_name']; }
+  if($ResPay['designation_name']!=''){ $desig=$ResPay['designation_name']; }
+  if($ResPay['grade_name']!=''){ $grade=$ResPay['grade_name']; }
+  if($ResPay['state_name']!=''){$state=$ResPay['state_name'];}
+  if($ResPay['TerrId']>0){$hq=$ResPay['territory_name'];}else{$hq=$ResPay['city_village_name']; } 
+ 
 
 if($_REQUEST['M']==1){$SelM='January';} if($_REQUEST['M']==2){$SelM='February';} if($_REQUEST['M']==3){$SelM='March';}if($_REQUEST['M']==4){$SelM='April';} 
 if($_REQUEST['M']==5){$SelM='May';} if($_REQUEST['M']==6){$SelM='June';} if($_REQUEST['M']==7){$SelM='July';} if($_REQUEST['M']==8){$SelM='August';} 
@@ -137,7 +122,15 @@ if($_REQUEST['M']==9){$SelM='September';} if($_REQUEST['M']==10){$SelM='October'
 <tr>
  <td style="width:100px;" align="center" valign="middle">
   <table style="width:100px;">
-   <tr><td align="center" style="width:100px;"><img src="../images/VNRLogo3.png" border="0" style="width:100px; height:130px;"/></td></tr>
+   <tr>
+   <td align="center" style="width:100px;">
+        <?php if($_REQUEST['C']==3){?>
+        <img src="../images/vnrnursery_logo.png" border="0" height="50"/>
+        <?php }else{?>
+        <img src="../images/VNRLogo3.png" border="0" style="width:100px; height:130px;"/>
+        <?php }?>
+   </td>
+   </tr>
   </table>
  </td>
  <td style="width:580px;" align="center">

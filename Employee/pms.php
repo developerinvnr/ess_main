@@ -111,11 +111,44 @@ window.onload = startBlink;
 <?php /****************************************** Form Start **************************/ ?>
 <?php /***************** PersonalDetails **************************/ ?>
 <?php $LEC=strlen($EmpCode); if($LEC==1){$EC='000'.$EmpCode;} if($LEC==2){$EC='00'.$EmpCode;} if($LEC==3){$EC='0'.$EmpCode;} if($LEC>=4){$EC=$EmpCode;} 
-$sqlDe=mysql_query("select DesigName from hrm_designation where DesigId=".$_SESSION['Desig'], $con); 
-$sqlD=mysql_query("select DepartmentCode,FunName from hrm_department where DepartmentId=".$_SESSION['Dept'], $con);
-$sqlG=mysql_query("select GradeValue from hrm_grade where GradeId=".$_SESSION['Grade'], $con);
-$resD=mysql_fetch_assoc($sqlD); $resDe=mysql_fetch_assoc($sqlDe); $resG=mysql_fetch_assoc($sqlG); 
-$sqlH=mysql_query("select HqName from hrm_headquater where HqId=".$_SESSION['Hq'],$con); $resH=mysql_fetch_assoc($sqlH); 
+
+//$_SESSION['PmsYear'] $_SESSION['KraYear'] if($_SESSION['eAppform']=='Y'){echo '<b>PMS:</b>&nbsp;'.$_SESSION['PmsYear'];} if($_SESSION['eKraform']=='Y')
+if($_SESSION['eAppform']=='Y' AND $_SESSION['PmsYear']<=12)
+{
+ $sqlDe=mysql_query("select DesigName from hrm_designation where DesigId=".$_SESSION['Desig'], $con); 
+ $sqlD=mysql_query("select DepartmentCode,FunName from hrm_department where DepartmentId=".$_SESSION['Dept'], $con);
+ $sqlG=mysql_query("select GradeValue from hrm_grade where GradeId=".$_SESSION['Grade'], $con);
+ $resD=mysql_fetch_assoc($sqlD); $resDe=mysql_fetch_assoc($sqlDe); $resG=mysql_fetch_assoc($sqlG); 
+ $sqlH=mysql_query("select HqName from hrm_headquater where HqId=".$_SESSION['Hq'],$con); $resH=mysql_fetch_assoc($sqlH);    
+}
+elseif($_SESSION['eAppform']=='Y' AND $_SESSION['PmsYear']>=13)
+{
+ $sqlDe=mysql_query("select designation_name as DesigName from core_designation where id=".$_SESSION['Desig'], $con); 
+ $sqlD=mysql_query("select department_code as DepartmentCode from core_departments where id=".$_SESSION['Dept'], $con);
+ $sqlG=mysql_query("select grade_name as GradeValue from core_grades where id=".$_SESSION['Grade'], $con);
+ $resD=mysql_fetch_assoc($sqlD); $resDe=mysql_fetch_assoc($sqlDe); $resG=mysql_fetch_assoc($sqlG); 
+ $sqlH=mysql_query("select city_village_name as HqName from core_city_village_by_state where id=".$_SESSION['Hq'],$con); $resH=mysql_fetch_assoc($sqlH);
+ $sqlF=mysql_query("select function_name as FunName from core_functions where id=".$_SESSION['Function'],$con); $resF=mysql_fetch_assoc($sqlF);
+}
+elseif($_SESSION['eKraform']=='Y' AND $_SESSION['PmsYear']<=12)
+{
+ $sqlDe=mysql_query("select DesigName from hrm_designation where DesigId=".$_SESSION['Desig'], $con); 
+ $sqlD=mysql_query("select DepartmentCode,FunName from hrm_department where DepartmentId=".$_SESSION['Dept'], $con);
+ $sqlG=mysql_query("select GradeValue from hrm_grade where GradeId=".$_SESSION['Grade'], $con);
+ $resD=mysql_fetch_assoc($sqlD); $resDe=mysql_fetch_assoc($sqlDe); $resG=mysql_fetch_assoc($sqlG); 
+ $sqlH=mysql_query("select HqName from hrm_headquater where HqId=".$_SESSION['Hq'],$con); $resH=mysql_fetch_assoc($sqlH);    
+}
+elseif($_SESSION['eKraform']=='Y' AND $_SESSION['PmsYear']>=13)
+{
+ $sqlDe=mysql_query("select designation_name as DesigName from core_designation where id=".$_SESSION['Desig'], $con); 
+ $sqlD=mysql_query("select department_code as DepartmentCode from core_departments where id=".$_SESSION['Dept'], $con);
+ $sqlG=mysql_query("select grade_name as GradeValue from core_grades where id=".$_SESSION['Grade'], $con);
+ $resD=mysql_fetch_assoc($sqlD); $resDe=mysql_fetch_assoc($sqlDe); $resG=mysql_fetch_assoc($sqlG); 
+ $sqlH=mysql_query("select city_village_name as HqName from core_city_village_by_state where id=".$_SESSION['Hq'],$con); $resH=mysql_fetch_assoc($sqlH);
+ $sqlF=mysql_query("select function_name as FunName from core_functions where id=".$_SESSION['Function'],$con); $resF=mysql_fetch_assoc($sqlF);
+}
+
+
 
 $sqlAp=mysql_query("select Fname,Sname,Lname,Gender,Married,DR from hrm_employee e INNER JOIN hrm_employee_personal p ON e.EmployeeID=p.EmployeeID where e.EmployeeID=".$resY['Appraiser_EmployeeID'],$con); $resAp=mysql_fetch_assoc($sqlAp);  
 if($resAp['DR']=='Y'){$M='Dr.';}elseif($resAp['Gender']=='M'){$M='Mr.';} elseif($resAp['Gender']=='F' AND $resAp['Married']=='Y'){$M='Mrs.';} elseif($resAp['Gender']=='F' AND $resAp['Married']=='N'){$M='Miss.';}  
@@ -159,7 +192,7 @@ else{ $NameHo=$M3.' '.$resHo['Fname'].' '.$resHo['Lname']; }
    </tr>
    <tr>
 	<td class="head">&nbsp;Designation</td><td class="data">&nbsp;<?php if($resSetH['Show_GradeDesig']=='Y'){ echo $resDe['DesigName']; } ?></td>
-    <td class="head">&nbsp;<?php if($resD['FunName']==''){echo 'Department';}else{echo 'Function';}?></td><td class="data">&nbsp;<?php if($resD['FunName']==''){ echo $resD['DepartmentCode']; }else{ echo $resD['FunName']; } ?></td>
+    <td class="head">&nbsp;<?php if($_SESSION['Function']>0){echo 'Function';}else{echo 'Department';}?></td><td class="data">&nbsp;<?php if($_SESSION['Function']>0){ if($resF['FunName']!=''){echo $resF['FunName'];}else{echo $resD['FunName'];} }else{ echo $resD['DepartmentCode']; } ?></td>
    </tr>
    <tr>
 	<td class="head">&nbsp;Grade</td>

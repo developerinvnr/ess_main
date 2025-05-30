@@ -13,14 +13,20 @@ if($_SESSION['login'] = true){require_once('PhpFile/DepartmentP.php'); } else {$
 <meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
 <link type="text/css" href="css/body.css" rel="stylesheet" />
 <link type="text/css" href="css/pro_dropdown_3.css" rel="stylesheet"/>
-<style> .font { color:#ffffff; font-family:Georgia; font-size:11px; width:250px;} .font4 { color:#1FAD34; font-family:Georgia; font-size:13px; height:10px;}
-.span {display:none; font-family:Courier New; font-size:14px; }.span1 {display:block; font-family:Courier New; font-size:14px; }
-.fontButton { background-color:#7a6189; color:#009393; font-family:Georgia; font-size:13px;}
+<style type="text/css">
+.thc{ font-family:Times New Roman;font-size:14px;height:25px;text-align:center; background-color:#7a6189;color:#FFFFFF;font-weight:bold; }
+.tdl{ font-family:Times New Roman;font-size:14px;text-align:left;background-color:#FFFFFF; }
+.tdc{ font-family:Times New Roman;font-size:14px;text-align:center;background-color:#FFFFFF; }
+.inner_table{height:400px;overflow-y:auto;width:auto;}
 </style>
-<script type="text/javascript" src="js/stuHover.js" ></script>
+<!-- <script type="text/javascript" src="js/stuHover.js" ></script>
 <script type="text/javascript" src="js/Prototype.js"></script>
-<script type="text/javascript" src="js/MandatoryAjaxCall.js"></script>
+<script type="text/javascript" src="js/MandatoryAjaxCall.js"></script> -->
+<script src="js/jquery-1.9.1.js"></script>
+<script type="text/javascript" src="js/jquery.freezeheader.js"></script>
 <Script type="text/javascript">window.history.forward(1);
+$(document).ready(function () { $("#table1").freezeHeader({ 'height': '450px' }); })
+
 function deleteDept(value) { var agree=confirm("Are you sure you want to delete this record?");
 if (agree) { var a = document.getElementById("DeptId").value; var x = "Department.php?action=delete&did="+a;  window.location=x;}}
 
@@ -51,19 +57,16 @@ function validate(formDept)
 	</tr>
 	 <tr>
 	  <td valign="top" align="center"  width="100%" id="MainWindow"><br>
-<?php //************************************************************************************************************************************************************?>
-<?php //**********************************************START*****START*****START******START******START***************************************************************?>
-<?php //************************************************************************************************************************************************************?>
+<?php //**********************************************************************?>
+<?php //********************START*****START*****START******START******START**********************************?>
+<?php //********************************************************************?>
 	  
 <table border="0" style="margin-top:0px; width:100%; height:300px;">
  <tr>
   <td align="left" height="20" valign="top" colspan="3">
    <table border="0">
     <tr>
-	  <td align="right" width="350" class="heading">Department</td>
-	  <td align="left">
-	    <b><span id="Vtype" class="span">: -&nbsp;Department</span></b>
-	  </td>
+	  <td align="left" width="350" class="heading">Department Name:</td>
 	  <td class="font4" style="left">&nbsp;&nbsp;&nbsp;<b><?php echo $msg; ?></b></td>
 	</tr>
    </table>
@@ -71,63 +74,53 @@ function validate(formDept)
  </tr>
 <?php if(($_SESSION['UserType']=='M' OR $_SESSION['UserType']=='S' OR $_SESSION['UserType']=='A' OR $_SESSION['UserType']=='U') AND $_SESSION['login'] = true AND ($_SESSION['Master']==1 OR $_SESSION['Mas_DetailMand_Dept']==1)) { ?>	
  <tr>
- <td style="width:100px;" valign="top" align="center">&nbsp;
-   <table border="0" cellpadding="0px;" align="center">
-<tr><td align="center">&nbsp;</td></tr>
-  </table>
- </td>
- <td width="100">&nbsp;</td>
- <?php //*********************************************** Open Department ******************************************************?> 
- <td align="left" id="type" valign="top" style="display:block;">             
- <form  name="formDept" method="post" onSubmit="return validate(this)">
-   <table border="0">
-    <tr>
-	 <td align="left"><table border="0" width="550">
-	   <tr>
-		  <td class="td1" style="font-size:11px; width:380px;" valign="top">
-		   <span id="Dept">
-		      <table>
-			     <tr><td style="font-size:11px; height:18px;">Department :</td><td><input name="DeptName" id="DeptName" style="font-size:11px; width:220px; height:18px;"/></td></tr>
-			     <tr><td style="font-size:11px; height:18px;">Code :&nbsp;</td><td><input name="DeptCode" id="DeptCode" style="font-size:11px; width:150px; height:18px;"/></td></tr>
-			  </table>
-		   </span>
-		   </td>
-		  <td align="right" style="font-size:11px; width:180px;">
-		                <select style="width:180px; background-color:#F1EDF8;" name="DeptSelect" id="DeptSelect" size="8" onChange="selectDept(this.value)">
-	<?php $SqlDept=mysql_query("select * from hrm_department where DeptStatus='A' AND CompanyId=".$CompanyId." order by DepartmentId ASC", $con); while($ResDept=mysql_fetch_array($SqlDept)) { ?>
-						<option value="<?php echo $ResDept['DepartmentId']; ?>"><?php echo $ResDept['DepartmentCode']; ?>&nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;<?php echo $ResDept['DepartmentName']; ?></option><?php } ?>
-						</select>
-		 </td>
-		</tr>
-	  </table>
+
+ <?php //*********************************************** Open Department******************************************************?> 
+<td align="left" id="type" valign="top" style="display:block; width:100%">             
+   <table border="0" width="60%">
+   
+	<tr>
+	  <td align="left" width="100%">
+	     <table border="1" width="100%" bgcolor="#FFFFFF" id="table1" cellspacing="0" style="width:100%;">
+		 <div class="thead">
+		 <thead>
+ <tr bgcolor="#7a6189">
+   <td class="thc" style="width:50;">Sn</td>
+   <?php /*<td class="thc" style="width:50;">Dept-Id</td>*/?>
+   <td class="thc" style="width:150;">Name</td>
+   <td class="thc" style="width:100;">Code</td>
+ </tr>
+</thead>
+</div>
+<?php $sql=mysql_query("select * from core_departments where is_active=1 order by department_name", $con); $SNo=1; while($res=mysql_fetch_array($sql)) { ?>
+<div class="tbody">
+ <tbody>
+		  <tr>
+		   <td class="tdc"><?php echo $SNo; ?></td>
+		   <?php /*<td class="tdc">&nbsp;<?php echo $res['id']; ?></td>*/ ?>
+		   <td class="tdl">&nbsp;<?php echo $res['department_name']; ?></td>
+ 		   <td class="tdc"><?php echo $res['department_code']; ?></td>
+		 </tr>
+ </tbody>
+</div>		 
+<?php $SNo++;} ?>
+         <tr><td bgcolor="#B6E9E2" colspan="10"></td></tr>
+		     
+			
+		 </table>
 	  </td>
     </tr>
-<?php if($_SESSION['User_Permission']=='Edit'){?>	  
-   <tr>
-      <td align="Right" class="fontButton"><table border="0" width="550">
-		<tr>
-		 
-		 <td align="right"><input type="submit" name="ChangeDept" id="ChangeDept" style="width:90px; display:none;" value="change"></td>
-		 <td align="right" style="width:70px;"><input type="button" name="DeleteDept" id="DeleteDept" value="delete" style="width:90px; display:none;" disabled onClick="deleteDept()">
-		                                       <input type="submit" name="AddNewDept" id="AddNewDept" style="width:90px; display:block;" value="add new"></td>
-		<td align="right" style="width:80px;"><input type="button" name="back" id="back" style="width:90px;" value="back" onClick="javascript:window.location='Index.php?log=<?php echo $_SESSION['logCheckUser']; ?>'"/></td>									   
-		 <td align="right" style="width:70px;"><input type="button" name="RefreshDept" id="RefreshDept" style="width:90px;" value="refresh" onClick="javascript:window.location='Department.php'"/></td>
-		</tr></table>
-      </td>
-   </tr>
-<?php } ?>
-  </table>
- </form>     
+  </table>  
 </td>
-<?php //*********************************************** Close Department******************************************************?>    
+<?php //*********************************************** Close Department******************************************************?>
 
  </tr>
 <?php } ?> 
 </table>
 		
-<?php //************************************************************************************************************************************************************?>
-<?php //**********************************************END*****END*****END******END******END***************************************************************?>
-<?php //************************************************************************************************************************************************************?>
+<?php //******************************************************************************?>
+<?php //**********************END*****END*****END******END******END********************************?>
+<?php //************************************************************************************?>
 		
 	  </td>
 	</tr>

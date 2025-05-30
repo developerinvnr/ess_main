@@ -76,7 +76,7 @@ if($_REQUEST['y']!=0)
 }
 
 
-if($_REQUEST['d']>0){ $sqlD=mysql_query("select DepartmentName from hrm_department where DepartmentId=".$_REQUEST['d'], $con); $resD=mysql_fetch_assoc($sqlD); } ?>	     
+if($_REQUEST['d']>0){ $sqlD=mysql_query("select department_name as DepartmentName from core_departments where id=".$_REQUEST['d'], $con); $resD=mysql_fetch_assoc($sqlD); } ?>	     
 	  <b style="color:#3A7500">[ Year:&nbsp;<?php echo $PRD; ?> ]</b>&nbsp;&nbsp; 
 	  <?php if($_REQUEST['d']>0){ ?><b style="color:#3A7500">[ Department:&nbsp;<?php echo $resD['DepartmentName']; ?> ]</b>&nbsp;&nbsp;  <?php } ?>	  
 	  </td>
@@ -101,7 +101,7 @@ if($_REQUEST['d']>0){ $sqlD=mysql_query("select DepartmentName from hrm_departme
 <?php } ?>
    <td align="center" class="font" style="width:100px;">TOTAL</td>
   </tr>
-<?php $Selstar='SUM(Basic) as Bas,SUM(Hra) as Hra,SUM(Convance) as Con, SUM(Car_Allowance) as CarAll, SUM(Bonus_Month) as BonusM, SUM(VarRemburmnt) as VarRemburmnt, SUM(TA) as Ta, SUM(Special) as Spe,SUM(Bonus) as Bon,SUM(DA) as Da,SUM(Arreares) as Arr,SUM(LeaveEncash) as Lea,SUM(Incentive) as Inc,SUM(VariableAdjustment) as Var,SUM(PerformancePay) as Per,SUM(CCA) as Cca,SUM(RA) as Ra,SUM(Arr_Basic) as ArrBas,SUM(Arr_Hra) as ArrHra,SUM(Arr_Spl) as ArrSpl,SUM(Arr_Conv) as ArrCon,SUM(YCea) as Ycea,SUM(YMr) as Ymr,SUM(YLta) as Ylta,SUM(Tot_Pf_Employee) as TotPfEmp,SUM(TDS) as Tds,SUM(ESCI_Employee) as Esic,SUM(Arr_Pf) as ArrPf,SUM(Arr_Esic) as ArrEsic,SUM(VolContrib) as ValCon,SUM(DeductAdjmt) as DedAduj,SUM(CEA_Ded) as Dedcea,SUM(MA_Ded) as dedma,SUM(LTA_Ded) as Dedlta, SUM(Arr_LvEnCash) as ArrLvEncash, SUM(Arr_Bonus) as ArrBonus, SUM(Arr_RA) as ArrRA, SUM(Bonus_Adjustment) as Bonus_Adjustment, SUM(PP_Inc) as PP_Inc, SUM(NPS_Value) as NPS, SUM(RecSplAllow) as RecSplAllow'; 
+<?php $Selstar='SUM(Basic) as Bas,SUM(Hra) as Hra,SUM(Convance) as Con, SUM(Car_Allowance) as CarAll, SUM(Bonus_Month) as BonusM, SUM(VarRemburmnt) as VarRemburmnt, SUM(TA) as Ta, SUM(Special) as Spe,SUM(Bonus) as Bon,SUM(DA) as Da,SUM(Arreares) as Arr,SUM(LeaveEncash) as Lea,SUM(Incentive) as Inc,SUM(VariableAdjustment) as Var,SUM(PerformancePay) as Per,SUM(CCA) as Cca,SUM(RA) as Ra,SUM(Arr_Basic) as ArrBas,SUM(Arr_Hra) as ArrHra,SUM(Arr_Spl) as ArrSpl,SUM(Arr_Conv) as ArrCon,SUM(YCea) as Ycea,SUM(YMr) as Ymr,SUM(YLta) as Ylta,SUM(Tot_Pf_Employee) as TotPfEmp,SUM(TDS) as Tds,SUM(ESCI_Employee) as Esic,SUM(Arr_Pf) as ArrPf,SUM(Arr_Esic) as ArrEsic,SUM(VolContrib) as ValCon,SUM(DeductAdjmt) as DedAduj,SUM(CEA_Ded) as Dedcea,SUM(MA_Ded) as dedma,SUM(LTA_Ded) as Dedlta, SUM(Arr_LvEnCash) as ArrLvEncash, SUM(Arr_Bonus) as ArrBonus, SUM(Arr_RA) as ArrRA, SUM(Bonus_Adjustment) as Bonus_Adjustment, SUM(PP_Inc) as PP_Inc, SUM(NPS_Value) as NPS, SUM(RecSplAllow) as RecSplAllow, SUM(PP_year) as PPy, SUM(Deputation_Allow)as Deputation_Allow, SUM(IDCard_Recovery)as IDCard_Recovery, SUM(Communication_Allow) as Communication_Allow, SUM(Car_Allow) as Car_Allow, SUM(Arr_Communication_Allow) as Arr_Communication_Allow'; 
 
 if($_REQUEST['d']>0){
  $sql4=mysql_query("select ".$Selstar." from ".$PayTable1." mp INNER JOIN hrm_employee e ON mp.EmployeeID=e.EmployeeID INNER JOIN hrm_employee_general g ON mp.EmployeeID=g.EmployeeID where g.DepartmentId=".$_REQUEST['d']." AND e.CompanyId=".$_REQUEST['c']." AND Month=4 AND Year=".$FD, $con); $sql5=mysql_query("select ".$Selstar." from ".$PayTable1." mp INNER JOIN hrm_employee e ON mp.EmployeeID=e.EmployeeID INNER JOIN hrm_employee_general g ON mp.EmployeeID=g.EmployeeID where g.DepartmentId=".$_REQUEST['d']." AND e.CompanyId=".$_REQUEST['c']." AND Month=5 AND Year=".$FD, $con); $sql6=mysql_query("select ".$Selstar." from ".$PayTable1." mp INNER JOIN hrm_employee e ON mp.EmployeeID=e.EmployeeID INNER JOIN hrm_employee_general g ON mp.EmployeeID=g.EmployeeID where g.DepartmentId=".$_REQUEST['d']." AND e.CompanyId=".$_REQUEST['c']." AND Month=6 AND Year=".$FD, $con); $sql7=mysql_query("select ".$Selstar." from ".$PayTable1." mp INNER JOIN hrm_employee e ON mp.EmployeeID=e.EmployeeID INNER JOIN hrm_employee_general g ON mp.EmployeeID=g.EmployeeID where g.DepartmentId=".$_REQUEST['d']." AND e.CompanyId=".$_REQUEST['c']." AND Month=7 AND Year=".$FD, $con); $sql8=mysql_query("select ".$Selstar." from ".$PayTable1." mp INNER JOIN hrm_employee e ON mp.EmployeeID=e.EmployeeID INNER JOIN hrm_employee_general g ON mp.EmployeeID=g.EmployeeID where g.DepartmentId=".$_REQUEST['d']." AND e.CompanyId=".$_REQUEST['c']." AND Month=8 AND Year=".$FD, $con); $sql9=mysql_query("select ".$Selstar." from ".$PayTable1." mp INNER JOIN hrm_employee e ON mp.EmployeeID=e.EmployeeID INNER JOIN hrm_employee_general g ON mp.EmployeeID=g.EmployeeID where g.DepartmentId=".$_REQUEST['d']." AND e.CompanyId=".$_REQUEST['c']." AND Month=9 AND Year=".$FD, $con); $sql10=mysql_query("select ".$Selstar." from ".$PayTable1." mp INNER JOIN hrm_employee e ON mp.EmployeeID=e.EmployeeID INNER JOIN hrm_employee_general g ON mp.EmployeeID=g.EmployeeID where g.DepartmentId=".$_REQUEST['d']." AND e.CompanyId=".$_REQUEST['c']." AND Month=10 AND Year=".$FD, $con); $sql11=mysql_query("select ".$Selstar." from ".$PayTable1." mp INNER JOIN hrm_employee e ON mp.EmployeeID=e.EmployeeID INNER JOIN hrm_employee_general g ON mp.EmployeeID=g.EmployeeID where g.DepartmentId=".$_REQUEST['d']." AND e.CompanyId=".$_REQUEST['c']." AND Month=11 AND Year=".$FD, $con); $sql12=mysql_query("select ".$Selstar." from ".$PayTable1." mp INNER JOIN hrm_employee e ON mp.EmployeeID=e.EmployeeID INNER JOIN hrm_employee_general g ON mp.EmployeeID=g.EmployeeID where g.DepartmentId=".$_REQUEST['d']." AND e.CompanyId=".$_REQUEST['c']." AND Month=12 AND Year=".$FD, $con); $sql1=mysql_query("select ".$Selstar." from ".$PayTable2." mp INNER JOIN hrm_employee e ON mp.EmployeeID=e.EmployeeID INNER JOIN hrm_employee_general g ON mp.EmployeeID=g.EmployeeID where g.DepartmentId=".$_REQUEST['d']." AND e.CompanyId=".$_REQUEST['c']." AND Month=1 AND Year=".$TD, $con); $sql2=mysql_query("select ".$Selstar." from ".$PayTable2." mp INNER JOIN hrm_employee e ON mp.EmployeeID=e.EmployeeID INNER JOIN hrm_employee_general g ON mp.EmployeeID=g.EmployeeID where g.DepartmentId=".$_REQUEST['d']." AND e.CompanyId=".$_REQUEST['c']." AND Month=2 AND Year=".$TD, $con); $sql3=mysql_query("select ".$Selstar." from ".$PayTable2." mp INNER JOIN hrm_employee e ON mp.EmployeeID=e.EmployeeID INNER JOIN hrm_employee_general g ON mp.EmployeeID=g.EmployeeID where g.DepartmentId=".$_REQUEST['d']." AND e.CompanyId=".$_REQUEST['c']." AND Month=3 AND Year=".$TD, $con); 
@@ -686,20 +686,101 @@ if($_REQUEST['d']>0){
 <?php $TotBonus_Adjustment=$res4['Bonus_Adjustment']+$res5['Bonus_Adjustment']+$res6['Bonus_Adjustment']+$res7['Bonus_Adjustment']+$res8['Bonus_Adjustment']+$res9['Bonus_Adjustment']+$res10['Bonus_Adjustment']+$res11['Bonus_Adjustment']+$res12['Bonus_Adjustment']+$res1['Bonus_Adjustment']+$res2['Bonus_Adjustment']+$res3['Bonus_Adjustment']; ?>  
    <td align="right" class="font1" bgcolor="#97CBFF" style="font-size:12px;font-weight:bold;"><?php echo number_format($TotBonus_Adjustment); ?>&nbsp;</td> </tr>
    
+<?php /**** Deputation Allowance ****/ ?>
+<tr id="TR<?php echo '35'; ?>">
+   <td align="center" style="width:50px;"><input type="checkbox" id="Chk<?php echo '35'; ?>" onClick="FucChk(<?php echo '35'; ?>)" /></td> 
+   <td align="center" style="width:50px;" class="font1">&nbsp;<?php echo '35'; ?>&nbsp;</td>
+   <td class="font1">&nbsp;<?php echo 'DEPUTATION ALLOWANCE'; ?></td>
+   <td class="font1r"><?php echo number_format(floatval($res4['Deputation_Allow'])); ?>&nbsp;</td>
+   <td class="font1r"><?php echo number_format(floatval($res5['Deputation_Allow'])); ?>&nbsp;</td>
+   <td class="font1r"><?php echo number_format(floatval($res6['Deputation_Allow'])); ?>&nbsp;</td>
+   <td class="font1r"><?php echo number_format(floatval($res7['Deputation_Allow'])); ?>&nbsp;</td>
+   <td class="font1r"><?php echo number_format(floatval($res8['Deputation_Allow'])); ?>&nbsp;</td>
+   <td class="font1r"><?php echo number_format(floatval($res9['Deputation_Allow'])); ?>&nbsp;</td>
+   <td class="font1r"><?php echo number_format(floatval($res10['Deputation_Allow'])); ?>&nbsp;</td>
+   <td class="font1r"><?php echo number_format(floatval($res11['Deputation_Allow'])); ?>&nbsp;</td>
+   <td class="font1r"><?php echo number_format(floatval($res12['Deputation_Allow'])); ?>&nbsp;</td>
+   <td class="font1r"><?php echo number_format(floatval($res1['Deputation_Allow'])); ?>&nbsp;</td>
+   <td class="font1r"><?php echo number_format(floatval($res2['Deputation_Allow'])); ?>&nbsp;</td>
+   <td class="font1r"><?php echo number_format(floatval($res3['Deputation_Allow'])); ?>&nbsp;</td>
+<?php $TotDeputation_Allow=$res4['Deputation_Allow']+$res5['Deputation_Allow']+$res6['Deputation_Allow']+$res7['Deputation_Allow']+$res8['Deputation_Allow']+$res9['Deputation_Allow']+$res10['Deputation_Allow']+$res11['Deputation_Allow']+$res12['Deputation_Allow']+$res1['Deputation_Allow']+$res2['Deputation_Allow']+$res3['Deputation_Allow']; ?>  
+   <td align="right" class="font1" bgcolor="#97CBFF" style="font-size:12px;font-weight:bold;"><?php echo number_format($TotDeputation_Allow); ?>&nbsp;</td> </tr>  
+   
+<?php /**** COMMUNICATION Allowance ****/ ?>
+<tr id="TR<?php echo '35'; ?>">
+   <td align="center" style="width:50px;"><input type="checkbox" id="Chk<?php echo '35'; ?>" onClick="FucChk(<?php echo '35'; ?>)" /></td> 
+   <td align="center" style="width:50px;" class="font1">&nbsp;<?php echo '35'; ?>&nbsp;</td>
+   <td class="font1">&nbsp;<?php echo 'COMMUNICATION ALLOWANCE'; ?></td>
+   <td class="font1r"><?php echo number_format(floatval($res4['Communication_Allow'])); ?>&nbsp;</td>
+   <td class="font1r"><?php echo number_format(floatval($res5['Communication_Allow'])); ?>&nbsp;</td>
+   <td class="font1r"><?php echo number_format(floatval($res6['Communication_Allow'])); ?>&nbsp;</td>
+   <td class="font1r"><?php echo number_format(floatval($res7['Communication_Allow'])); ?>&nbsp;</td>
+   <td class="font1r"><?php echo number_format(floatval($res8['Communication_Allow'])); ?>&nbsp;</td>
+   <td class="font1r"><?php echo number_format(floatval($res9['Communication_Allow'])); ?>&nbsp;</td>
+   <td class="font1r"><?php echo number_format(floatval($res10['Communication_Allow'])); ?>&nbsp;</td>
+   <td class="font1r"><?php echo number_format(floatval($res11['Communication_Allow'])); ?>&nbsp;</td>
+   <td class="font1r"><?php echo number_format(floatval($res12['Communication_Allow'])); ?>&nbsp;</td>
+   <td class="font1r"><?php echo number_format(floatval($res1['Communication_Allow'])); ?>&nbsp;</td>
+   <td class="font1r"><?php echo number_format(floatval($res2['Communication_Allow'])); ?>&nbsp;</td>
+   <td class="font1r"><?php echo number_format(floatval($res3['Communication_Allow'])); ?>&nbsp;</td>
+<?php $Communication_Allow=$res4['Communication_Allow']+$res5['Communication_Allow']+$res6['Communication_Allow']+$res7['Communication_Allow']+$res8['Communication_Allow']+$res9['Communication_Allow']+$res10['Communication_Allow']+$res11['Communication_Allow']+$res12['Communication_Allow']+$res1['Communication_Allow']+$res2['Communication_Allow']+$res3['Communication_Allow']; ?>  
+   <td align="right" class="font1" bgcolor="#97CBFF" style="font-size:12px;font-weight:bold;"><?php echo number_format($Communication_Allow); ?>&nbsp;</td> </tr>
+   
+ <?php /**** CAR Allowance ****/ ?>
+<tr id="TR<?php echo '35'; ?>">
+   <td align="center" style="width:50px;"><input type="checkbox" id="Chk<?php echo '35'; ?>" onClick="FucChk(<?php echo '35'; ?>)" /></td> 
+   <td align="center" style="width:50px;" class="font1">&nbsp;<?php echo '35'; ?>&nbsp;</td>
+   <td class="font1">&nbsp;<?php echo 'CAR ALLOWANCE'; ?></td>
+   <td class="font1r"><?php echo number_format(floatval($res4['Car_Allow'])); ?>&nbsp;</td>
+   <td class="font1r"><?php echo number_format(floatval($res5['Car_Allow'])); ?>&nbsp;</td>
+   <td class="font1r"><?php echo number_format(floatval($res6['Car_Allow'])); ?>&nbsp;</td>
+   <td class="font1r"><?php echo number_format(floatval($res7['Car_Allow'])); ?>&nbsp;</td>
+   <td class="font1r"><?php echo number_format(floatval($res8['Car_Allow'])); ?>&nbsp;</td>
+   <td class="font1r"><?php echo number_format(floatval($res9['Car_Allow'])); ?>&nbsp;</td>
+   <td class="font1r"><?php echo number_format(floatval($res10['Car_Allow'])); ?>&nbsp;</td>
+   <td class="font1r"><?php echo number_format(floatval($res11['Car_Allow'])); ?>&nbsp;</td>
+   <td class="font1r"><?php echo number_format(floatval($res12['Car_Allow'])); ?>&nbsp;</td>
+   <td class="font1r"><?php echo number_format(floatval($res1['Car_Allow'])); ?>&nbsp;</td>
+   <td class="font1r"><?php echo number_format(floatval($res2['Car_Allow'])); ?>&nbsp;</td>
+   <td class="font1r"><?php echo number_format(floatval($res3['Car_Allow'])); ?>&nbsp;</td>
+<?php $Car_Allow=$res4['Car_Allow']+$res5['Car_Allow']+$res6['Car_Allow']+$res7['Car_Allow']+$res8['Car_Allow']+$res9['Car_Allow']+$res10['Car_Allow']+$res11['Car_Allow']+$res12['Car_Allow']+$res1['Car_Allow']+$res2['Car_Allow']+$res3['Car_Allow']; ?>  
+   <td align="right" class="font1" bgcolor="#97CBFF" style="font-size:12px;font-weight:bold;"><?php echo number_format($Car_Allow); ?>&nbsp;</td> </tr> 
+   
+<?php /**** ARR Communication Allowance ****/ ?>
+<tr id="TR<?php echo '35'; ?>">
+   <td align="center" style="width:50px;"><input type="checkbox" id="Chk<?php echo '35'; ?>" onClick="FucChk(<?php echo '35'; ?>)" /></td> 
+   <td align="center" style="width:50px;" class="font1">&nbsp;<?php echo '35'; ?>&nbsp;</td>
+   <td class="font1">&nbsp;<?php echo 'ARR. COMMUNICATION ALLOWANCE'; ?></td>
+   <td class="font1r"><?php echo number_format(floatval($res4['Arr_Communication_Allow'])); ?>&nbsp;</td>
+   <td class="font1r"><?php echo number_format(floatval($res5['Arr_Communication_Allow'])); ?>&nbsp;</td>
+   <td class="font1r"><?php echo number_format(floatval($res6['Arr_Communication_Allow'])); ?>&nbsp;</td>
+   <td class="font1r"><?php echo number_format(floatval($res7['Arr_Communication_Allow'])); ?>&nbsp;</td>
+   <td class="font1r"><?php echo number_format(floatval($res8['Arr_Communication_Allow'])); ?>&nbsp;</td>
+   <td class="font1r"><?php echo number_format(floatval($res9['Arr_Communication_Allow'])); ?>&nbsp;</td>
+   <td class="font1r"><?php echo number_format(floatval($res10['Arr_Communication_Allow'])); ?>&nbsp;</td>
+   <td class="font1r"><?php echo number_format(floatval($res11['Arr_Communication_Allow'])); ?>&nbsp;</td>
+   <td class="font1r"><?php echo number_format(floatval($res12['Arr_Communication_Allow'])); ?>&nbsp;</td>
+   <td class="font1r"><?php echo number_format(floatval($res1['Arr_Communication_Allow'])); ?>&nbsp;</td>
+   <td class="font1r"><?php echo number_format(floatval($res2['Arr_Communication_Allow'])); ?>&nbsp;</td>
+   <td class="font1r"><?php echo number_format(floatval($res3['Arr_Communication_Allow'])); ?>&nbsp;</td>
+<?php $Arr_Communication_Allow=$res4['Arr_Communication_Allow']+$res5['Arr_Communication_Allow']+$res6['Arr_Communication_Allow']+$res7['Arr_Communication_Allow']+$res8['Arr_Communication_Allow']+$res9['Arr_Communication_Allow']+$res10['Arr_Communication_Allow']+$res11['Arr_Communication_Allow']+$res12['Arr_Communication_Allow']+$res1['Arr_Communication_Allow']+$res2['Arr_Communication_Allow']+$res3['Arr_Communication_Allow']; ?>  
+   <td align="right" class="font1" bgcolor="#97CBFF" style="font-size:12px;font-weight:bold;"><?php echo number_format($Arr_Communication_Allow); ?>&nbsp;</td> </tr>   
+   
+   
 <?php /**** Gross ****/ ?>
 <?php
-$TotG4=$res4['Bas']+$res4['Hra']+$res4['Con']+$res4['Ta']+$res4['Spe']+$res4['BonusM']+$res4['Da']+$res4['Inc']+$res4['Per']+$res4['Lea']+$res4['Var']+$res4['VarRemburmnt']+$res4['Cca']+$res4['Ra']+$res4['Bon']+$res4['Ycea']+$res4['Ymr']+$res4['Ylta']+$res4['ArrBas']+$res4['ArrHra']+$res4['ArrCon']+$res4['ArrSpl']+$res4['CarAll']+$res4['ArrLvEncash']+$res4['ArrBonus']+$res4['ArrRA']+$res4['Bonus_Adjustment']+$res4['PP_Inc'];
-$TotG5=$res5['Bas']+$res5['Hra']+$res5['Con']+$res5['Ta']+$res5['Spe']+$res5['BonusM']+$res5['Da']+$res5['Inc']+$res5['Per']+$res5['Lea']+$res5['Var']+$res5['VarRemburmnt']+$res5['Cca']+$res5['Ra']+$res5['Bon']+$res5['Ycea']+$res5['Ymr']+$res5['Ylta']+$res5['ArrBas']+$res5['ArrHra']+$res5['ArrCon']+$res5['ArrSpl']+$res5['CarAll']+$res5['ArrLvEncash']+$res5['ArrBonus']+$res5['ArrRA']+$res5['Bonus_Adjustment']+$res5['PP_Inc'];
-$TotG6=$res6['Bas']+$res6['Hra']+$res6['Con']+$res6['Ta']+$res6['Spe']+$res6['BonusM']+$res6['Da']+$res6['Inc']+$res6['Per']+$res6['Lea']+$res6['Var']+$res6['VarRemburmnt']+$res6['Cca']+$res6['Ra']+$res6['Bon']+$res6['Ycea']+$res6['Ymr']+$res6['Ylta']+$res6['ArrBas']+$res6['ArrHra']+$res6['ArrCon']+$res6['ArrSpl']+$res6['CarAll']+$res6['ArrLvEncash']+$res6['ArrBonus']+$res6['ArrRA']+$res6['Bonus_Adjustment']+$res6['PP_Inc'];
-$TotG7=$res7['Bas']+$res7['Hra']+$res7['Con']+$res7['Ta']+$res7['Spe']+$res7['BonusM']+$res7['Da']+$res7['Inc']+$res7['Per']+$res7['Lea']+$res7['Var']+$res7['VarRemburmnt']+$res7['Cca']+$res7['Ra']+$res7['Bon']+$res7['Ycea']+$res7['Ymr']+$res7['Ylta']+$res7['ArrBas']+$res7['ArrHra']+$res7['ArrCon']+$res7['ArrSpl']+$res7['CarAll']+$res7['ArrLvEncash']+$res7['ArrBonus']+$res7['ArrRA']+$res7['Bonus_Adjustment']+$res7['PP_Inc'];
-$TotG8=$res8['Bas']+$res8['Hra']+$res8['Con']+$res8['Ta']+$res8['Spe']+$res8['BonusM']+$res8['Da']+$res8['Inc']+$res8['Per']+$res8['Lea']+$res8['Var']+$res8['VarRemburmnt']+$res8['Cca']+$res8['Ra']+$res8['Bon']+$res8['Ycea']+$res8['Ymr']+$res8['Ylta']+$res8['ArrBas']+$res8['ArrHra']+$res8['ArrCon']+$res8['ArrSpl']+$res8['CarAll']+$res8['ArrLvEncash']+$res8['ArrBonus']+$res8['ArrRA']+$res8['Bonus_Adjustment']+$res8['PP_Inc'];
-$TotG9=$res9['Bas']+$res9['Hra']+$res9['Con']+$res9['Ta']+$res9['Spe']+$res9['BonusM']+$res9['Da']+$res9['Inc']+$res9['Per']+$res9['Lea']+$res9['Var']+$res9['VarRemburmnt']+$res9['Cca']+$res9['Ra']+$res9['Bon']+$res9['Ycea']+$res9['Ymr']+$res9['Ylta']+$res9['ArrBas']+$res9['ArrHra']+$res9['ArrCon']+$res9['ArrSpl']+$res9['CarAll']+$res9['ArrLvEncash']+$res9['ArrBonus']+$res9['ArrRA']+$res9['Bonus_Adjustment']+$res9['PP_Inc']; 
-$TotG10=$res10['Bas']+$res10['Hra']+$res10['Con']+$res10['Ta']+$res10['Spe']+$res10['BonusM']+$res10['Da']+$res10['Inc']+$res10['Per']+$res10['Lea']+$res10['Var']+$res10['VarRemburmnt']+$res10['Cca']+$res10['Ra']+$res10['Bon']+$res10['Ycea']+$res10['Ymr']+$res10['Ylta']+$res10['ArrBas']+$res10['ArrHra']+$res10['ArrCon']+$res10['ArrSpl']+$res10['CarAll']+$res10['ArrLvEncash']+$res10['ArrBonus']+$res10['ArrRA']+$res10['Bonus_Adjustment']+$res10['PP_Inc'];
-$TotG11=$res11['Bas']+$res11['Hra']+$res11['Con']+$res11['Ta']+$res11['Spe']+$res11['BonusM']+$res11['Da']+$res11['Inc']+$res11['Per']+$res11['Lea']+$res11['Var']+$res11['VarRemburmnt']+$res11['Cca']+$res11['Ra']+$res11['Bon']+$res11['Ycea']+$res11['Ymr']+$res11['Ylta']+$res11['ArrBas']+$res11['ArrHra']+$res11['ArrCon']+$res11['ArrSpl']+$res11['CarAll']+$res11['ArrLvEncash']+$res11['ArrBonus']+$res11['ArrRA']+$res11['Bonus_Adjustment']+$res11['PP_Inc'];
-$TotG12=$res12['Bas']+$res12['Hra']+$res12['Con']+$res12['Ta']+$res12['Spe']+$res12['BonusM']+$res12['Da']+$res12['Inc']+$res12['Per']+$res12['Lea']+$res12['Var']+$res12['VarRemburmnt']+$res12['Cca']+$res12['Ra']+$res12['Bon']+$res12['Ycea']+$res12['Ymr']+$res12['Ylta']+$res12['ArrBas']+$res12['ArrHra']+$res12['ArrCon']+$res12['ArrSpl']+$res12['CarAll']+$res12['ArrLvEncash']+$res12['ArrBonus']+$res12['ArrRA']+$res12['Bonus_Adjustment']+$res12['PP_Inc'];
-$TotG1=$res1['Bas']+$res1['Hra']+$res1['Con']+$res1['Ta']+$res1['Spe']+$res1['BonusM']+$res1['Da']+$res1['Inc']+$res1['Per']+$res1['Lea']+$res1['Var']+$res1['VarRemburmnt']+$res1['Cca']+$res1['Ra']+$res1['Bon']+$res1['Ycea']+$res1['Ymr']+$res1['Ylta']+$res1['ArrBas']+$res1['ArrHra']+$res1['ArrCon']+$res1['ArrSpl']+$res1['CarAll']+$res1['ArrLvEncash']+$res1['ArrBonus']+$res1['ArrRA']+$res1['PP_Inc']; 
-$TotG2=$res2['Bas']+$res2['Hra']+$res2['Con']+$res2['Ta']+$res2['Spe']+$res2['BonusM']+$res2['Da']+$res2['Inc']+$res2['Per']+$res2['Lea']+$res2['Var']+$res2['VarRemburmnt']+$res2['Cca']+$res2['Ra']+$res2['Bon']+$res2['Ycea']+$res2['Ymr']+$res2['Ylta']+$res2['ArrBas']+$res2['ArrHra']+$res2['ArrCon']+$res2['ArrSpl']+$res2['CarAll']+$res2['ArrLvEncash']+$res2['ArrBonus']+$res2['ArrRA']+$res1['Bonus_Adjustment']+$res2['PP_Inc']; 
-$TotG3=$res3['Bas']+$res3['Hra']+$res3['Con']+$res3['Ta']+$res3['Spe']+$res3['BonusM']+$res3['Da']+$res3['Inc']+$res3['Per']+$res3['Lea']+$res3['Var']+$res3['VarRemburmnt']+$res3['Cca']+$res3['Ra']+$res3['Bon']+$res3['Ycea']+$res3['Ymr']+$res3['Ylta']+$res3['ArrBas']+$res3['ArrHra']+$res3['ArrCon']+$res3['ArrSpl']+$res3['CarAll']+$res3['ArrLvEncash']+$res3['ArrBonus']+$res3['ArrRA']+$res2['Bonus_Adjustment']+$res3['PP_Inc']; 
+$TotG4=$res4['Bas']+$res4['Hra']+$res4['Con']+$res4['Ta']+$res4['Spe']+$res4['BonusM']+$res4['Da']+$res4['Inc']+$res4['Per']+$res4['Lea']+$res4['Var']+$res4['VarRemburmnt']+$res4['Cca']+$res4['Ra']+$res4['Bon']+$res4['Ycea']+$res4['Ymr']+$res4['Ylta']+$res4['ArrBas']+$res4['ArrHra']+$res4['ArrCon']+$res4['ArrSpl']+$res4['CarAll']+$res4['ArrLvEncash']+$res4['ArrBonus']+$res4['ArrRA']+$res4['Bonus_Adjustment']+$res4['PP_Inc']+$res4['PPy']+$res4['Deputation_Allow']+$res4['Communication_Allow']+$res4['Car_Allow']+$res4['Arr_Communication_Allow'];
+$TotG5=$res5['Bas']+$res5['Hra']+$res5['Con']+$res5['Ta']+$res5['Spe']+$res5['BonusM']+$res5['Da']+$res5['Inc']+$res5['Per']+$res5['Lea']+$res5['Var']+$res5['VarRemburmnt']+$res5['Cca']+$res5['Ra']+$res5['Bon']+$res5['Ycea']+$res5['Ymr']+$res5['Ylta']+$res5['ArrBas']+$res5['ArrHra']+$res5['ArrCon']+$res5['ArrSpl']+$res5['CarAll']+$res5['ArrLvEncash']+$res5['ArrBonus']+$res5['ArrRA']+$res5['Bonus_Adjustment']+$res5['PP_Inc']+$res5['PPy']+$res5['Deputation_Allow']+$res5['Communication_Allow']+$res5['Car_Allow']+$res5['Arr_Communication_Allow'];
+$TotG6=$res6['Bas']+$res6['Hra']+$res6['Con']+$res6['Ta']+$res6['Spe']+$res6['BonusM']+$res6['Da']+$res6['Inc']+$res6['Per']+$res6['Lea']+$res6['Var']+$res6['VarRemburmnt']+$res6['Cca']+$res6['Ra']+$res6['Bon']+$res6['Ycea']+$res6['Ymr']+$res6['Ylta']+$res6['ArrBas']+$res6['ArrHra']+$res6['ArrCon']+$res6['ArrSpl']+$res6['CarAll']+$res6['ArrLvEncash']+$res6['ArrBonus']+$res6['ArrRA']+$res6['Bonus_Adjustment']+$res6['PP_Inc']+$res6['PPy']+$res6['Deputation_Allow']+$res6['Communication_Allow']+$res6['Car_Allow']+$res6['Arr_Communication_Allow'];
+$TotG7=$res7['Bas']+$res7['Hra']+$res7['Con']+$res7['Ta']+$res7['Spe']+$res7['BonusM']+$res7['Da']+$res7['Inc']+$res7['Per']+$res7['Lea']+$res7['Var']+$res7['VarRemburmnt']+$res7['Cca']+$res7['Ra']+$res7['Bon']+$res7['Ycea']+$res7['Ymr']+$res7['Ylta']+$res7['ArrBas']+$res7['ArrHra']+$res7['ArrCon']+$res7['ArrSpl']+$res7['CarAll']+$res7['ArrLvEncash']+$res7['ArrBonus']+$res7['ArrRA']+$res7['Bonus_Adjustment']+$res7['PP_Inc']+$res7['PPy']+$res7['Deputation_Allow']+$res7['Communication_Allow']+$res7['Car_Allow']+$res7['Arr_Communication_Allow'];
+$TotG8=$res8['Bas']+$res8['Hra']+$res8['Con']+$res8['Ta']+$res8['Spe']+$res8['BonusM']+$res8['Da']+$res8['Inc']+$res8['Per']+$res8['Lea']+$res8['Var']+$res8['VarRemburmnt']+$res8['Cca']+$res8['Ra']+$res8['Bon']+$res8['Ycea']+$res8['Ymr']+$res8['Ylta']+$res8['ArrBas']+$res8['ArrHra']+$res8['ArrCon']+$res8['ArrSpl']+$res8['CarAll']+$res8['ArrLvEncash']+$res8['ArrBonus']+$res8['ArrRA']+$res8['Bonus_Adjustment']+$res8['PP_Inc']+$res8['PPy']+$res8['Deputation_Allow']+$res8['Communication_Allow']+$res8['Car_Allow']+$res8['Arr_Communication_Allow'];
+$TotG9=$res9['Bas']+$res9['Hra']+$res9['Con']+$res9['Ta']+$res9['Spe']+$res9['BonusM']+$res9['Da']+$res9['Inc']+$res9['Per']+$res9['Lea']+$res9['Var']+$res_9['VarRemburmnt']+$res9['Cca']+$res9['Ra']+$res9['Bon']+$res9['Ycea']+$res9['Ymr']+$res9['Ylta']+$res9['ArrBas']+$res9['ArrHra']+$res9['ArrCon']+$res9['ArrSpl']+$res9['CarAll']+$res9['ArrLvEncash']+$res9['ArrBonus']+$res9['ArrRA']+$res9['Bonus_Adjustment']+$res9['PP_Inc']+$res9['PPy']+$res9['Deputation_Allow']+$res9['Communication_Allow']+$res9['Car_Allow']+$res9['Arr_Communication_Allow']; 
+$TotG10=$res10['Bas']+$res10['Hra']+$res10['Con']+$res10['Ta']+$res10['Spe']+$res10['BonusM']+$res10['Da']+$res10['Inc']+$res10['Per']+$res10['Lea']+$res10['Var']+$res10['VarRemburmnt']+$res10['Cca']+$res10['Ra']+$res10['Bon']+$res10['Ycea']+$res10['Ymr']+$res10['Ylta']+$res10['ArrBas']+$res10['ArrHra']+$res10['ArrCon']+$res10['ArrSpl']+$res10['CarAll']+$res10['ArrLvEncash']+$res10['ArrBonus']+$res10['ArrRA']+$res10['Bonus_Adjustment']+$res10['PP_Inc']+$res10['PPy']+$res10['Deputation_Allow']+$res10['Communication_Allow']+$res10['Car_Allow']+$res10['Arr_Communication_Allow'];
+$TotG11=$res11['Bas']+$res11['Hra']+$res11['Con']+$res11['Ta']+$res11['Spe']+$res11['BonusM']+$res11['Da']+$res11['Inc']+$res11['Per']+$res11['Lea']+$res11['Var']+$res11['VarRemburmnt']+$res11['Cca']+$res11['Ra']+$res11['Bon']+$res11['Ycea']+$res11['Ymr']+$res11['Ylta']+$res11['ArrBas']+$res11['ArrHra']+$res11['ArrCon']+$res11['ArrSpl']+$res11['CarAll']+$res11['ArrLvEncash']+$res11['ArrBonus']+$res11['ArrRA']+$res11['Bonus_Adjustment']+$res11['PP_Inc']+$res11['PPy']+$res11['Deputation_Allow']+$res11['Communication_Allow']+$res11['Car_Allow']+$res11['Arr_Communication_Allow'];
+$TotG12=$res12['Bas']+$res12['Hra']+$res12['Con']+$res12['Ta']+$res12['Spe']+$res12['BonusM']+$res12['Da']+$res12['Inc']+$res12['Per']+$res12['Lea']+$res12['Var']+$res12['VarRemburmnt']+$res12['Cca']+$res12['Ra']+$res12['Bon']+$res12['Ycea']+$res12['Ymr']+$res12['Ylta']+$res12['ArrBas']+$res12['ArrHra']+$res12['ArrCon']+$res12['ArrSpl']+$res12['CarAll']+$res12['ArrLvEncash']+$res12['ArrBonus']+$res12['ArrRA']+$res12['Bonus_Adjustment']+$res12['PP_Inc']+$res12['PPy']+$res12['Deputation_Allow']+$res12['Communication_Allow']+$res12['Car_Allow']+$res12['Arr_Communication_Allow'];
+$TotG1=$res1['Bas']+$res1['Hra']+$res1['Con']+$res1['Ta']+$res1['Spe']+$res1['BonusM']+$res1['Da']+$res1['Inc']+$res1['Per']+$res1['Lea']+$res1['Var']+$res1['VarRemburmnt']+$res1['Cca']+$res1['Ra']+$res1['Bon']+$res1['Ycea']+$res1['Ymr']+$res1['Ylta']+$res1['ArrBas']+$res1['ArrHra']+$res1['ArrCon']+$res1['ArrSpl']+$res1['CarAll']+$res1['ArrLvEncash']+$res1['ArrBonus']+$res1['ArrRA']+$res1['Bonus_Adjustment']+$res1['PP_Inc']+$res1['PPy']+$res1['Deputation_Allow']+$res1['Communication_Allow']+$res1['Car_Allow']+$res1['Arr_Communication_Allow']; 
+$TotG2=$res2['Bas']+$res2['Hra']+$res2['Con']+$res2['Ta']+$res2['Spe']+$res2['BonusM']+$res2['Da']+$res2['Inc']+$res2['Per']+$res2['Lea']+$res2['Var']+$res2['VarRemburmnt']+$res2['Cca']+$res2['Ra']+$res2['Bon']+$res2['Ycea']+$res2['Ymr']+$res2['Ylta']+$res2['ArrBas']+$res2['ArrHra']+$res2['ArrCon']+$res2['ArrSpl']+$res2['CarAll']+$res2['ArrLvEncash']+$res2['ArrBonus']+$res2['ArrRA']+$res2['Bonus_Adjustment']+$res2['PP_Inc']+$res2['PPy']+$res2['Deputation_Allow']+$res2['Communication_Allow']+$res2['Car_Allow']+$res2['Arr_Communication_Allow']; 
+$TotG3=$res3['Bas']+$res3['Hra']+$res3['Con']+$res3['Ta']+$res3['Spe']+$res3['BonusM']+$res3['Da']+$res3['Inc']+$res3['Per']+$res3['Lea']+$res3['Var']+$res3['VarRemburmnt']+$res3['Cca']+$res3['Ra']+$res3['Bon']+$res3['Ycea']+$res3['Ymr']+$res3['Ylta']+$res3['ArrBas']+$res3['ArrHra']+$res3['ArrCon']+$res3['ArrSpl']+$res3['CarAll']+$res3['ArrLvEncash']+$res3['ArrBonus']+$res3['ArrRA']+$res3['Bonus_Adjustment']+$res3['PP_Inc']+$res3['PPy']+$res3['Deputation_Allow']+$res3['Communication_Allow']+$res3['Car_Allow']+$res3['Arr_Communication_Allow'];  
 ?>
 <tr id="TR<?php echo '27'; ?>" bgcolor="#FF9BFF">
    <td align="center" style="width:50px;"><input type="checkbox" id="Chk<?php echo '27'; ?>" onClick="FucChk(<?php echo '27'; ?>)" disabled checked/></td> 
@@ -963,22 +1044,42 @@ $TotG3=$res3['Bas']+$res3['Hra']+$res3['Con']+$res3['Ta']+$res3['Spe']+$res3['Bo
    <td class="font1r"><?php echo number_format(floatval($res3['RecSplAllow'])); ?>&nbsp;</td>
 <?php $TotRecSplAllow=$res4['RecSplAllow']+$res5['RecSplAllow']+$res6['RecSplAllow']+$res7['RecSplAllow']+$res8['RecSplAllow']+$res9['RecSplAllow']+$res10['RecSplAllow']+$res11['RecSplAllow']+$res12['RecSplAllow']+$res1['RecSplAllow']+$res2['RecSplAllow']+$res3['RecSplAllow']; ?>  
    <td align="right" class="font1" bgcolor="#97CBFF" style="font-size:12px;font-weight:bold;"><?php echo number_format($TotRecSplAllow); ?>&nbsp;</td> </tr>   
+   
+<?php /**** ID CARD RECOVERY****/ ?>
+<tr id="TR<?php echo '38'; ?>">
+   <td align="center" style="width:50px;"><input type="checkbox" id="Chk<?php echo '36'; ?>" onClick="FucChk(<?php echo '38'; ?>)" /></td> 
+   <td align="center" style="width:50px;" class="font1">&nbsp;<?php echo '36'; ?>&nbsp;</td>
+   <td class="font1">&nbsp;<?php echo 'ID CARD RECOVERY'; ?></td>
+   <td class="font1r"><?php echo number_format(floatval($res4['IDCard_Recovery'])); ?>&nbsp;</td>
+   <td class="font1r"><?php echo number_format(floatval($res5['IDCard_Recovery'])); ?>&nbsp;</td>
+   <td class="font1r"><?php echo number_format(floatval($res6['IDCard_Recovery'])); ?>&nbsp;</td>
+   <td class="font1r"><?php echo number_format(floatval($res7['IDCard_Recovery'])); ?>&nbsp;</td>
+   <td class="font1r"><?php echo number_format(floatval($res8['IDCard_Recovery'])); ?>&nbsp;</td>
+   <td class="font1r"><?php echo number_format(floatval($res9['IDCard_Recovery'])); ?>&nbsp;</td>
+   <td class="font1r"><?php echo number_format(floatval($res10['IDCard_Recovery'])); ?>&nbsp;</td>
+   <td class="font1r"><?php echo number_format(floatval($res11['IDCard_Recovery'])); ?>&nbsp;</td>
+   <td class="font1r"><?php echo number_format(floatval($res12['IDCard_Recovery'])); ?>&nbsp;</td>
+   <td class="font1r"><?php echo number_format(floatval($res1['IDCard_Recovery'])); ?>&nbsp;</td>
+   <td class="font1r"><?php echo number_format(floatval($res2['IDCard_Recovery'])); ?>&nbsp;</td>
+   <td class="font1r"><?php echo number_format(floatval($res3['IDCard_Recovery'])); ?>&nbsp;</td>
+<?php $TotIDCard_Recovery=$res4['IDCard_Recovery']+$res5['IDCard_Recovery']+$res6['IDCard_Recovery']+$res7['IDCard_Recovery']+$res8['IDCard_Recovery']+$res9['IDCard_Recovery']+$res10['IDCard_Recovery']+$res11['IDCard_Recovery']+$res12['IDCard_Recovery']+$res1['IDCard_Recovery']+$res2['IDCard_Recovery']+$res3['IDCard_Recovery']; ?>  
+   <td align="right" class="font1" bgcolor="#97CBFF" style="font-size:12px;font-weight:bold;"><?php echo number_format($TotIDCard_Recovery); ?>&nbsp;</td> </tr>   
 
 
 <?php /**** Total Deduct****/ ?>
 <?php
-$TotDed4=$res4['TotPfEmp']+$res4['ArrPf']+$res4['Esic']+$res4['ArrEsic']+$res4['Tds']+$res4['Dedcea']+$res4['Dedma']+$res4['Dedlta']+$res4['ValCon']+$res4['DedAduj']+$res4['NPS']+$res4['RecSplAllow'];
-$TotDed5=$res5['TotPfEmp']+$res5['ArrPf']+$res5['Esic']+$res5['ArrEsic']+$res5['Tds']+$res5['Dedcea']+$res5['Dedma']+$res5['Dedlta']+$res5['ValCon']+$res5['DedAduj']+$res5['NPS']+$res5['RecSplAllow'];
-$TotDed6=$res6['TotPfEmp']+$res6['ArrPf']+$res6['Esic']+$res6['ArrEsic']+$res6['Tds']+$res6['Dedcea']+$res6['Dedma']+$res6['Dedlta']+$res6['ValCon']+$res6['DedAduj']+$res6['NPS']+$res6['RecSplAllow'];
-$TotDed7=$res7['TotPfEmp']+$res7['ArrPf']+$res7['Esic']+$res7['ArrEsic']+$res7['Tds']+$res7['Dedcea']+$res7['Dedma']+$res7['Dedlta']+$res7['ValCon']+$res7['DedAduj']+$res7['NPS']+$res7['RecSplAllow'];
-$TotDed8=$res8['TotPfEmp']+$res8['ArrPf']+$res8['Esic']+$res8['ArrEsic']+$res8['Tds']+$res8['Dedcea']+$res8['Dedma']+$res8['Dedlta']+$res8['ValCon']+$res8['DedAduj']+$res8['NPS']+$res8['RecSplAllow'];
-$TotDed9=$res9['TotPfEmp']+$res9['ArrPf']+$res9['Esic']+$res9['ArrEsic']+$res9['Tds']+$res9['Dedcea']+$res9['Dedma']+$res9['Dedlta']+$res9['ValCon']+$res9['DedAduj']+$res9['NPS']+$res9['RecSplAllow'];
-$TotDed10=$res10['TotPfEmp']+$res10['ArrPf']+$res10['Esic']+$res10['ArrEsic']+$res10['Tds']+$res10['Dedcea']+$res10['Dedma']+$res10['Dedlta']+$res10['ValCon']+$res10['DedAduj']+$res10['NPS']+$res10['RecSplAllow'];
-$TotDed11=$res11['TotPfEmp']+$res11['ArrPf']+$res11['Esic']+$res11['ArrEsic']+$res11['Tds']+$res11['Dedcea']+$res11['Dedma']+$res11['Dedlta']+$res11['ValCon']+$res11['DedAduj']+$res11['NPS']+$res11['RecSplAllow'];
-$TotDed12=$res12['TotPfEmp']+$res12['ArrPf']+$res12['Esic']+$res12['ArrEsic']+$res12['Tds']+$res12['Dedcea']+$res12['Dedma']+$res12['Dedlta']+$res12['ValCon']+$res12['DedAduj']+$res12['NPS']+$res12['RecSplAllow'];
-$TotDed1=$res1['TotPfEmp']+$res1['ArrPf']+$res1['Esic']+$res1['ArrEsic']+$res1['Tds']+$res1['Dedcea']+$res1['Dedma']+$res1['Dedlta']+$res1['ValCon']+$res1['DedAduj']+$res1['NPS']+$res1['RecSplAllow'];
-$TotDed2=$res2['TotPfEmp']+$res2['ArrPf']+$res2['Esic']+$res2['ArrEsic']+$res2['Tds']+$res2['Dedcea']+$res2['Dedma']+$res2['Dedlta']+$res2['ValCon']+$res2['DedAduj']+$res2['NPS']+$res2['RecSplAllow'];
-$TotDed3=$res3['TotPfEmp']+$res3['ArrPf']+$res3['Esic']+$res3['ArrEsic']+$res3['Tds']+$res3['Dedcea']+$res3['Dedma']+$res3['Dedlta']+$res3['ValCon']+$res3['DedAduj']+$res3['NPS']+$res3['RecSplAllow'];
+$TotDed4=$res4['TotPfEmp']+$res4['ArrPf']+$res4['Esic']+$res4['ArrEsic']+$res4['Tds']+$res4['Dedcea']+$res4['Dedma']+$res4['Dedlta']+$res4['ValCon']+$res4['DedAduj']+$res4['NPS']+$res4['RecSplAllow']+$res4['IDCard_Recovery'];
+$TotDed5=$res5['TotPfEmp']+$res5['ArrPf']+$res5['Esic']+$res5['ArrEsic']+$res5['Tds']+$res5['Dedcea']+$res5['Dedma']+$res5['Dedlta']+$res5['ValCon']+$res5['DedAduj']+$res5['NPS']+$res5['RecSplAllow']+$res5['IDCard_Recovery'];
+$TotDed6=$res6['TotPfEmp']+$res6['ArrPf']+$res6['Esic']+$res6['ArrEsic']+$res6['Tds']+$res6['Dedcea']+$res6['Dedma']+$res6['Dedlta']+$res6['ValCon']+$res6['DedAduj']+$res6['NPS']+$res6['RecSplAllow']+$res6['IDCard_Recovery'];
+$TotDed7=$res7['TotPfEmp']+$res7['ArrPf']+$res7['Esic']+$res7['ArrEsic']+$res7['Tds']+$res7['Dedcea']+$res7['Dedma']+$res7['Dedlta']+$res7['ValCon']+$res7['DedAduj']+$res7['NPS']+$res7['RecSplAllow']+$res7['IDCard_Recovery'];
+$TotDed8=$res8['TotPfEmp']+$res8['ArrPf']+$res8['Esic']+$res8['ArrEsic']+$res8['Tds']+$res8['Dedcea']+$res8['Dedma']+$res8['Dedlta']+$res8['ValCon']+$res8['DedAduj']+$res8['NPS']+$res8['RecSplAllow']+$res8['IDCard_Recovery'];
+$TotDed9=$res9['TotPfEmp']+$res9['ArrPf']+$res9['Esic']+$res9['ArrEsic']+$res9['Tds']+$res9['Dedcea']+$res9['Dedma']+$res9['Dedlta']+$res9['ValCon']+$res9['DedAduj']+$res9['NPS']+$res9['RecSplAllow']+$res9['IDCard_Recovery'];
+$TotDed10=$res10['TotPfEmp']+$res10['ArrPf']+$res10['Esic']+$res10['ArrEsic']+$res10['Tds']+$res10['Dedcea']+$res10['Dedma']+$res10['Dedlta']+$res10['ValCon']+$res10['DedAduj']+$res10['NPS']+$res10['RecSplAllow']+$res10['IDCard_Recovery'];
+$TotDed11=$res11['TotPfEmp']+$res11['ArrPf']+$res11['Esic']+$res11['ArrEsic']+$res11['Tds']+$res11['Dedcea']+$res11['Dedma']+$res11['Dedlta']+$res11['ValCon']+$res11['DedAduj']+$res11['NPS']+$res11['RecSplAllow']+$res11['IDCard_Recovery'];
+$TotDed12=$res12['TotPfEmp']+$res12['ArrPf']+$res12['Esic']+$res12['ArrEsic']+$res12['Tds']+$res12['Dedcea']+$res12['Dedma']+$res12['Dedlta']+$res12['ValCon']+$res12['DedAduj']+$res12['NPS']+$res12['RecSplAllow']+$res12['IDCard_Recovery'];
+$TotDed1=$res1['TotPfEmp']+$res1['ArrPf']+$res1['Esic']+$res1['ArrEsic']+$res1['Tds']+$res1['Dedcea']+$res1['Dedma']+$res1['Dedlta']+$res1['ValCon']+$res1['DedAduj']+$res1['NPS']+$res1['RecSplAllow']+$res1['IDCard_Recovery'];
+$TotDed2=$res2['TotPfEmp']+$res2['ArrPf']+$res2['Esic']+$res2['ArrEsic']+$res2['Tds']+$res2['Dedcea']+$res2['Dedma']+$res2['Dedlta']+$res2['ValCon']+$res2['DedAduj']+$res2['NPS']+$res2['RecSplAllow']+$res2['IDCard_Recovery'];
+$TotDed3=$res3['TotPfEmp']+$res3['ArrPf']+$res3['Esic']+$res3['ArrEsic']+$res3['Tds']+$res3['Dedcea']+$res3['Dedma']+$res3['Dedlta']+$res3['ValCon']+$res3['DedAduj']+$res3['NPS']+$res3['RecSplAllow']+$res3['IDCard_Recovery'];
 ?>
 <tr id="TR<?php echo '38'; ?>" bgcolor="#FF9BFF">
    <td align="center" style="width:50px;"><input type="checkbox" id="Chk<?php echo '38'; ?>" onClick="FucChk(<?php echo '38'; ?>)" disabled checked/></td>

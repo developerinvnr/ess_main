@@ -12,7 +12,7 @@ if($_REQUEST['action']='HodIncExport')
  if($_REQUEST['ee']=='Dept')
 { $name='Department_Wise'; 
   if($_REQUEST['value']!=0)
-  { $sqlA=mysql_query("select DepartmentName from hrm_department where DepartmentId=".$_REQUEST['value'], $con); $resA=mysql_fetch_assoc($sqlA); $name2=$resA['DepartmentName']; }
+  { $sqlA=mysql_query("select department_code as DepartmentName from core_departments where id=".$_REQUEST['value'], $con); $resA=mysql_fetch_assoc($sqlA); $name2=$resA['DepartmentName']; }
   else{$name2='All Department';}
 }
 elseif($_REQUEST['ee']=='App')
@@ -54,31 +54,34 @@ else{ echo "\tProposed CTC\t%% PRO. CTC\tCTC Corr.\t% % Corr.\tTotal Increment\t
 print("\n");
   	
 # Get Users Details form the DB #$result = mysql_query("SELECT * from formResults WHERE formID = '$formID'" ); 
+
+$qry="e.EmployeeID, EmpCode, Fname, Sname, Lname, DateJoining, EmpPmsId, Appraiser_EmployeeID, Reviewer_EmployeeID, Reviewer_TotalFinalScore, Reviewer_TotalFinalRating, Rev2_EmployeeID, Hod_TotalFinalScore, Hod_TotalFinalRating, HOD_EmployeeID, Appraiser_TotalFinalScore, Appraiser_TotalFinalRating, HodSubmit_IncStatus, Hod_EmpDesignation, Hod_EmpGrade, Hod_ProIncSalary, Hod_Percent_ProIncSalary, Hod_ProCorrSalary, Hod_Percent_ProCorrSalary, Hod_IncNetMonthalySalary, Hod_Percent_IncNetMonthalySalary, Hod_GrossMonthlySalary, Hod_GrossAnnualSalary, Hod_Incentive, HodPer_PIS_From_PreMyTGrossPM, HodPer_SC_From_PreMyTGrossPM, HodPer_TISPM_From_PreMyTGrossPM, HR_CurrDesigId, HR_CurrGradeId, HR_Curr_DepartmentId, EmpCurrCtc, Hod_ProIncCTC, Hod_Percent_ProIncCTC, Hod_ProCorrCTC, Emp_TotalFinalScore, Emp_TotalFinalRating, Hod_Percent_ProCorrCTC, Hod_Proposed_ActualCTC, Hod_IncNetCTC, Hod_Percent_IncNetCTC, Hod_CTC, HR_PmsStatus from hrm_employee e INNER JOIN hrm_employee_general g ON e.EmployeeID=g.EmployeeID INNER JOIN hrm_employee_pms p ON e.EmployeeID=p.EmployeeID";
+
 if($_REQUEST['ee']=='Dept')
 {  
   if($_REQUEST['value']==0)
-  { $sql=mysql_query("select e.EmployeeID, EmpCode, Fname, Sname, Lname, DateJoining, EmpPmsId, Appraiser_EmployeeID, Reviewer_EmployeeID, Reviewer_TotalFinalScore, Reviewer_TotalFinalRating, Rev2_EmployeeID, Hod_TotalFinalScore, Hod_TotalFinalRating, HOD_EmployeeID, Appraiser_TotalFinalScore, Appraiser_TotalFinalRating, HodSubmit_IncStatus, Hod_EmpDesignation, Hod_EmpGrade, Hod_ProIncSalary, Hod_Percent_ProIncSalary, Hod_ProCorrSalary, Hod_Percent_ProCorrSalary, Hod_IncNetMonthalySalary, Hod_Percent_IncNetMonthalySalary, Hod_GrossMonthlySalary, Hod_GrossAnnualSalary, Hod_Incentive, HodPer_PIS_From_PreMyTGrossPM, HodPer_SC_From_PreMyTGrossPM, HodPer_TISPM_From_PreMyTGrossPM, HR_CurrDesigId, HR_CurrGradeId, HR_Curr_DepartmentId, EmpCurrCtc, Hod_ProIncCTC, Hod_Percent_ProIncCTC, Hod_ProCorrCTC, Emp_TotalFinalScore, Emp_TotalFinalRating, Hod_Percent_ProCorrCTC, Hod_Proposed_ActualCTC, Hod_IncNetCTC, Hod_Percent_IncNetCTC, Hod_CTC, HR_PmsStatus from hrm_employee e INNER JOIN hrm_employee_general g ON e.EmployeeID=g.EmployeeID INNER JOIN hrm_employee_pms p ON e.EmployeeID=p.EmployeeID where e.CompanyId=".$_REQUEST['c']." AND e.EmpStatus='A' AND g.DateJoining<='".$Y."-06-30' AND p.AssessmentYear=".$_REQUEST['YI']." AND p.Appraiser_EmployeeID!=0 order by e.ECode ASC", $con); 
+  { $sql=mysql_query("select ".$qry." where e.CompanyId=".$_REQUEST['c']." AND e.EmpStatus='A' AND g.DateJoining<='".$Y."-06-30' AND p.AssessmentYear=".$_REQUEST['YI']." AND p.Appraiser_EmployeeID!=0 order by e.ECode ASC", $con); 
   }
-  else{ $sql=mysql_query("select e.EmployeeID, EmpCode, Fname, Sname, Lname, DateJoining, EmpPmsId, Appraiser_EmployeeID, Reviewer_EmployeeID, Reviewer_TotalFinalScore, Reviewer_TotalFinalRating, Rev2_EmployeeID, Hod_TotalFinalScore, Hod_TotalFinalRating, HOD_EmployeeID, Appraiser_TotalFinalScore, Appraiser_TotalFinalRating, HodSubmit_IncStatus, Hod_EmpDesignation, Hod_EmpGrade, Hod_ProIncSalary, Hod_Percent_ProIncSalary, Hod_ProCorrSalary, Hod_Percent_ProCorrSalary, Hod_IncNetMonthalySalary, Hod_Percent_IncNetMonthalySalary, Hod_GrossMonthlySalary, Hod_GrossAnnualSalary, Hod_Incentive, HodPer_PIS_From_PreMyTGrossPM, HodPer_SC_From_PreMyTGrossPM, HodPer_TISPM_From_PreMyTGrossPM, HR_CurrDesigId, HR_CurrGradeId, HR_Curr_DepartmentId, EmpCurrCtc, Hod_ProIncCTC, Hod_Percent_ProIncCTC, Hod_ProCorrCTC, Emp_TotalFinalScore, Emp_TotalFinalRating, Hod_Percent_ProCorrCTC, Hod_Proposed_ActualCTC, Hod_IncNetCTC, Hod_Percent_IncNetCTC, Hod_CTC, HR_PmsStatus from hrm_employee e INNER JOIN hrm_employee_general g ON e.EmployeeID=g.EmployeeID INNER JOIN hrm_employee_pms p ON e.EmployeeID=p.EmployeeID where e.CompanyId=".$_REQUEST['c']." AND e.EmpStatus='A' AND g.DateJoining<='".$Y."-06-30' AND p.AssessmentYear=".$_REQUEST['YI']." AND g.DepartmentId=".$_REQUEST['value']." AND p.Appraiser_EmployeeID!=0 order by e.ECode ASC", $con); 
+  else{ $sql=mysql_query("select ".$qry." where e.CompanyId=".$_REQUEST['c']." AND e.EmpStatus='A' AND g.DateJoining<='".$Y."-06-30' AND p.AssessmentYear=".$_REQUEST['YI']." AND g.DepartmentId=".$_REQUEST['value']." AND p.Appraiser_EmployeeID!=0 order by e.ECode ASC", $con); 
   
   } 
 }
 elseif($_REQUEST['ee']=='App')
-{ $sql=mysql_query("select e.EmployeeID, EmpCode, Fname, Sname, Lname, DateJoining, EmpPmsId, Appraiser_EmployeeID, Reviewer_EmployeeID, Reviewer_TotalFinalScore, Reviewer_TotalFinalRating, Rev2_EmployeeID, Hod_TotalFinalScore, Hod_TotalFinalRating, HOD_EmployeeID, Appraiser_TotalFinalScore, Appraiser_TotalFinalRating, HodSubmit_IncStatus, Hod_EmpDesignation, Hod_EmpGrade, Hod_ProIncSalary, Hod_Percent_ProIncSalary, Hod_ProCorrSalary, Hod_Percent_ProCorrSalary, Hod_IncNetMonthalySalary, Hod_Percent_IncNetMonthalySalary, Hod_GrossMonthlySalary, Hod_GrossAnnualSalary, Hod_Incentive, HodPer_PIS_From_PreMyTGrossPM, HodPer_SC_From_PreMyTGrossPM, HodPer_TISPM_From_PreMyTGrossPM, HR_CurrDesigId, HR_CurrGradeId, HR_Curr_DepartmentId, EmpCurrCtc, Hod_ProIncCTC, Hod_Percent_ProIncCTC, Hod_ProCorrCTC, Emp_TotalFinalScore, Emp_TotalFinalRating, Hod_Percent_ProCorrCTC, Hod_Proposed_ActualCTC, Hod_IncNetCTC, Hod_Percent_IncNetCTC, Hod_CTC, HR_PmsStatus from hrm_employee e INNER JOIN hrm_employee_general g ON e.EmployeeID=g.EmployeeID INNER JOIN hrm_employee_pms p ON e.EmployeeID=p.EmployeeID where e.CompanyId=".$_REQUEST['c']." AND e.EmpStatus='A' AND p.AssessmentYear=".$_REQUEST['YI']." AND p.Appraiser_EmployeeID=".$_REQUEST['value']." AND p.Appraiser_EmployeeID!=0 order by e.ECode ASC", $con);
+{ $sql=mysql_query("select ".$qry." where e.CompanyId=".$_REQUEST['c']." AND e.EmpStatus='A' AND p.AssessmentYear=".$_REQUEST['YI']." AND p.Appraiser_EmployeeID=".$_REQUEST['value']." AND p.Appraiser_EmployeeID!=0 order by e.ECode ASC", $con);
 }
 elseif($_REQUEST['ee']=='Rev')
-{ $sql=mysql_query("select e.EmployeeID, EmpCode, Fname, Sname, Lname, DateJoining, EmpPmsId, Appraiser_EmployeeID, Reviewer_EmployeeID, HOD_EmployeeID, Appraiser_TotalFinalScore, Appraiser_TotalFinalRating, Reviewer_TotalFinalScore, Reviewer_TotalFinalRating, Rev2_EmployeeID, Hod_TotalFinalScore, Hod_TotalFinalRating, HodSubmit_IncStatus, Hod_EmpDesignation, Hod_EmpGrade, Hod_ProIncSalary, Hod_Percent_ProIncSalary, Hod_ProCorrSalary, Hod_Percent_ProCorrSalary, Hod_IncNetMonthalySalary, Hod_Percent_IncNetMonthalySalary, Hod_GrossMonthlySalary, Hod_GrossAnnualSalary, Hod_Incentive, HodPer_PIS_From_PreMyTGrossPM, HodPer_SC_From_PreMyTGrossPM, HodPer_TISPM_From_PreMyTGrossPM, HR_CurrDesigId, HR_CurrGradeId, HR_Curr_DepartmentId, EmpCurrCtc, Hod_ProIncCTC, Hod_Percent_ProIncCTC, Hod_ProCorrCTC, Emp_TotalFinalScore, Emp_TotalFinalRating, Hod_Percent_ProCorrCTC, Hod_Proposed_ActualCTC, Hod_IncNetCTC, Hod_Percent_IncNetCTC, Hod_CTC, HR_PmsStatus from hrm_employee e INNER JOIN hrm_employee_general g ON e.EmployeeID=g.EmployeeID INNER JOIN hrm_employee_pms p ON e.EmployeeID=p.EmployeeID where e.CompanyId=".$_REQUEST['c']." AND e.EmpStatus='A' AND p.AssessmentYear=".$_REQUEST['YI']." AND p.Reviewer_EmployeeID=".$_REQUEST['value']." AND p.Appraiser_EmployeeID!=0 order by e.ECode ASC", $con);
+{ $sql=mysql_query("select ".$qry." where e.CompanyId=".$_REQUEST['c']." AND e.EmpStatus='A' AND p.AssessmentYear=".$_REQUEST['YI']." AND p.Reviewer_EmployeeID=".$_REQUEST['value']." AND p.Appraiser_EmployeeID!=0 order by e.ECode ASC", $con);
 }
 elseif($_REQUEST['ee']=='Rev2')
-{ $sql=mysql_query("select e.EmployeeID, EmpCode, Fname, Sname, Lname, DateJoining, EmpPmsId, Appraiser_EmployeeID, Reviewer_EmployeeID, HOD_EmployeeID, Appraiser_TotalFinalScore, Appraiser_TotalFinalRating, Reviewer_TotalFinalScore, Reviewer_TotalFinalRating, Rev2_EmployeeID, Hod_TotalFinalScore, Hod_TotalFinalRating, HodSubmit_IncStatus, Hod_EmpDesignation, Hod_EmpGrade, Hod_ProIncSalary, Hod_Percent_ProIncSalary, Hod_ProCorrSalary, Hod_Percent_ProCorrSalary, Hod_IncNetMonthalySalary, Hod_Percent_IncNetMonthalySalary, Hod_GrossMonthlySalary, Hod_GrossAnnualSalary, Hod_Incentive, HodPer_PIS_From_PreMyTGrossPM, HodPer_SC_From_PreMyTGrossPM, HodPer_TISPM_From_PreMyTGrossPM, HR_CurrDesigId, HR_CurrGradeId, HR_Curr_DepartmentId, EmpCurrCtc, Hod_ProIncCTC, Hod_Percent_ProIncCTC, Hod_ProCorrCTC, Emp_TotalFinalScore, Emp_TotalFinalRating, Hod_Percent_ProCorrCTC, Hod_Proposed_ActualCTC, Hod_IncNetCTC, Hod_Percent_IncNetCTC, Hod_CTC, HR_PmsStatus from hrm_employee e INNER JOIN hrm_employee_general g ON e.EmployeeID=g.EmployeeID INNER JOIN hrm_employee_pms p ON e.EmployeeID=p.EmployeeID where e.CompanyId=".$_REQUEST['c']." AND e.EmpStatus='A' AND p.AssessmentYear=".$_REQUEST['YI']." AND p.Rev2_EmployeeID=".$_REQUEST['value']." AND p.Appraiser_EmployeeID!=0 order by e.ECode ASC", $con);
+{ $sql=mysql_query("select ".$qry." where e.CompanyId=".$_REQUEST['c']." AND e.EmpStatus='A' AND p.AssessmentYear=".$_REQUEST['YI']." AND p.Rev2_EmployeeID=".$_REQUEST['value']." AND p.Appraiser_EmployeeID!=0 order by e.ECode ASC", $con);
 }
 elseif($_REQUEST['ee']=='Hod')
-{ $sql=mysql_query("select e.EmployeeID, EmpCode, Fname, Sname, Lname, DateJoining, EmpPmsId, Appraiser_EmployeeID, Reviewer_EmployeeID, HOD_EmployeeID, Appraiser_TotalFinalScore, Appraiser_TotalFinalRating, Reviewer_TotalFinalScore, Reviewer_TotalFinalRating, Rev2_EmployeeID, Hod_TotalFinalScore, Hod_TotalFinalRating, HodSubmit_IncStatus, Hod_EmpDesignation, Hod_EmpGrade, Hod_ProIncSalary, Hod_Percent_ProIncSalary, Hod_ProCorrSalary, Hod_Percent_ProCorrSalary, Hod_IncNetMonthalySalary, Hod_Percent_IncNetMonthalySalary, Hod_GrossMonthlySalary, Hod_GrossAnnualSalary, Hod_Incentive, HodPer_PIS_From_PreMyTGrossPM, HodPer_SC_From_PreMyTGrossPM, HodPer_TISPM_From_PreMyTGrossPM, HR_CurrDesigId, HR_CurrGradeId, HR_Curr_DepartmentId, EmpCurrCtc, Hod_ProIncCTC, Hod_Percent_ProIncCTC, Hod_ProCorrCTC, Emp_TotalFinalScore, Emp_TotalFinalRating, Hod_Percent_ProCorrCTC, Hod_Proposed_ActualCTC, Hod_IncNetCTC, Hod_Percent_IncNetCTC, Hod_CTC, HR_PmsStatus from hrm_employee e INNER JOIN hrm_employee_general g ON e.EmployeeID=g.EmployeeID INNER JOIN hrm_employee_pms p ON e.EmployeeID=p.EmployeeID where e.CompanyId=".$_REQUEST['c']." AND e.EmpStatus='A' AND p.AssessmentYear=".$_REQUEST['YI']." AND p.HOD_EmployeeID=".$_REQUEST['value']." AND p.Appraiser_EmployeeID!=0 order by e.ECode ASC", $con);
+{ $sql=mysql_query("select ".$qry." where e.CompanyId=".$_REQUEST['c']." AND e.EmpStatus='A' AND p.AssessmentYear=".$_REQUEST['YI']." AND p.HOD_EmployeeID=".$_REQUEST['value']." AND p.Appraiser_EmployeeID!=0 order by e.ECode ASC", $con);
 }
  $Sno=1; while($res=mysql_fetch_array($sql)){ 
- $sqlDept=mysql_query("select DepartmentCode from hrm_department where DepartmentId=".$res['HR_Curr_DepartmentId'], $con); $resDept=mysql_fetch_assoc($sqlDept); 
- $sqlDesig=mysql_query("select DesigName,DesigCode from hrm_designation where DesigId=".$res['HR_CurrDesigId'], $con); $resDesig=mysql_fetch_assoc($sqlDesig);
- $sqlG=mysql_query("select GradeValue from hrm_grade where GradeId=".$res['HR_CurrGradeId'], $con);  $resG=mysql_fetch_assoc($sqlG);
+ $sqlDept=mysql_query("select department_code as DepartmentCode from core_departments where id=".$res['HR_Curr_DepartmentId'], $con); $resDept=mysql_fetch_assoc($sqlDept);
+$sqlDesig=mysql_query("select designation_name as DesigName from core_designation where id=".$res['HR_CurrDesigId'], $con); $resDesig=mysql_fetch_assoc($sqlDesig);
+$sqlGrade=mysql_query("select grade_name as GradeValue from core_grades where id=".$res['HR_CurrGradeId'], $con); $resGrade=mysql_fetch_assoc($sqlGrade);
  
  $sa=mysql_query("select EmpCode,Fname,Sname,Lname from hrm_employee where EmployeeID=".$res['Appraiser_EmployeeID'],$con);
  $sr=mysql_query("select EmpCode,Fname,Sname,Lname from hrm_employee where EmployeeID=".$res['Reviewer_EmployeeID'],$con);
@@ -96,7 +99,7 @@ elseif($_REQUEST['ee']=='Hod')
   $schema_insert .= $res['Fname'].' '.$res['Sname'].' '.$res['Lname'].$sep;		
   $schema_insert .= $resDept['DepartmentCode'].$sep;
   $schema_insert .= $resDesig['DesigName'].$sep;
-  $schema_insert .= $resG['GradeValue'].$sep;
+  $schema_insert .= $resGrade['GradeValue'].$sep;
   $schema_insert .= $res['Emp_TotalFinalScore'].$sep;
   $schema_insert .= $res['Emp_TotalFinalRating'].$sep;
   
@@ -112,36 +115,41 @@ elseif($_REQUEST['ee']=='Hod')
   $schema_insert .= $res['Reviewer_TotalFinalScore'].$sep;
   $schema_insert .= $res['Reviewer_TotalFinalRating'].$sep;
   
-  if($_REQUEST['YI']<=7){ $schema_insert .= $res['EmpCurrGrossPM'].$sep; }
-  else { $schema_insert .= $res['EmpCurrCtc'].$sep; }
-  
-  $schema_insert .= $res['Hod_TotalFinalScore'].$sep;
-  $schema_insert .= $res['Hod_TotalFinalRating'].$sep;
-if($res['Hod_EmpDesignation']!=$res['HR_CurrDesigId']){ $sqlDesigH=mysql_query("select DesigName,DesigCode from hrm_designation where DesigId=".$res['Hod_EmpDesignation']." AND CompanyId=".$_REQUEST['c'], $con); $resDesigH=mysql_fetch_assoc($sqlDesigH); $DesigH=$resDesigH['DesigName']; }else{$DesigH='';}
-if($res['Hod_EmpGrade']!=$res['HR_CurrGradeId']){ $sqlGH=mysql_query("select GradeValue from hrm_grade where GradeId=".$res['Hod_EmpGrade']." AND CompanyId=".$_REQUEST['c'], $con); $resGH=mysql_fetch_assoc($sqlGH); $GradeH=$resGH['GradeValue']; }else{$GradeH='';}  
-  $schema_insert .= $GradeH.$sep;
-  $schema_insert .= $DesigH.$sep;
-  
-  if($_REQUEST['YI']<=7)
+  if($res['HodSubmit_IncStatus']==2)
   {
-  $schema_insert .= $res['Hod_ProIncSalary'].$sep;
-  $schema_insert .= $res['Hod_Percent_ProIncSalary'].$sep;
-  $schema_insert .= $res['Hod_ProCorrSalary'].$sep;
-  $schema_insert .= $res['Hod_Percent_ProCorrSalary'].$sep;
-  $schema_insert .= $res['Hod_IncNetMonthalySalary'].$sep;
-  $schema_insert .= $res['Hod_Percent_IncNetMonthalySalary'].$sep;
-  $schema_insert .= $res['Hod_GrossMonthlySalary'].$sep;
-  }
-  else
-  {
-   $schema_insert .= $res['Hod_ProIncCTC'].$sep;
-   $schema_insert .= $res['Hod_Percent_ProIncCTC'].$sep;
-   $schema_insert .= $res['Hod_ProCorrCTC'].$sep;
-   $schema_insert .= $res['Hod_Percent_ProCorrCTC'].$sep;
-   $schema_insert .= $res['Hod_IncNetCTC'].$sep;
-   $schema_insert .= $res['Hod_Percent_IncNetCTC'].$sep;
-   $schema_insert .= $res['Hod_Proposed_ActualCTC'].$sep;
-  }
+  
+   if($_REQUEST['YI']<=7){ $schema_insert .= $res['EmpCurrGrossPM'].$sep; }
+   else { $schema_insert .= $res['EmpCurrCtc'].$sep; }
+  
+   $schema_insert .= $res['Hod_TotalFinalScore'].$sep;
+   $schema_insert .= $res['Hod_TotalFinalRating'].$sep;
+ if($res['Hod_EmpDesignation']!=$res['HR_CurrDesigId']){ $sqlDesigH=mysql_query("select designation_name as DesigName from core_designation where id=".$res['Hod_EmpDesignation']." AND CompanyId=".$_REQUEST['c'], $con); $resDesigH=mysql_fetch_assoc($sqlDesigH); $DesigH=$resDesigH['DesigName']; }else{$DesigH='';}
+ if($res['Hod_EmpGrade']!=$res['HR_CurrGradeId']){ $sqlGH=mysql_query("select grade_name as GradeValue from core_grades where id=".$res['Hod_EmpGrade']." AND CompanyId=".$_REQUEST['c'], $con); $resGH=mysql_fetch_assoc($sqlGH); $GradeH=$resGH['GradeValue']; }else{$GradeH='';}  
+   $schema_insert .= $GradeH.$sep;
+   $schema_insert .= $DesigH.$sep;
+  
+   if($_REQUEST['YI']<=7)
+   {
+   $schema_insert .= $res['Hod_ProIncSalary'].$sep;
+   $schema_insert .= $res['Hod_Percent_ProIncSalary'].$sep;
+   $schema_insert .= $res['Hod_ProCorrSalary'].$sep;
+   $schema_insert .= $res['Hod_Percent_ProCorrSalary'].$sep;
+   $schema_insert .= $res['Hod_IncNetMonthalySalary'].$sep;
+   $schema_insert .= $res['Hod_Percent_IncNetMonthalySalary'].$sep;
+   $schema_insert .= $res['Hod_GrossMonthlySalary'].$sep;
+   }
+   else
+   {
+    $schema_insert .= $res['Hod_ProIncCTC'].$sep;
+    $schema_insert .= $res['Hod_Percent_ProIncCTC'].$sep;
+    $schema_insert .= $res['Hod_ProCorrCTC'].$sep;
+    $schema_insert .= $res['Hod_Percent_ProCorrCTC'].$sep;
+    $schema_insert .= $res['Hod_IncNetCTC'].$sep;
+    $schema_insert .= $res['Hod_Percent_IncNetCTC'].$sep;
+    $schema_insert .= $res['Hod_Proposed_ActualCTC'].$sep;
+   }
+  
+  }//if($res['HodSubmit_IncStatus']==2)
   
   /*
   $sY=mysql_query("select * from hrm_year where YearId=".$_REQUEST['YI']."", $con); $rY=mysql_fetch_assoc($sY); 

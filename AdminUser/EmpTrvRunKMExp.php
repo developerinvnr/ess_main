@@ -22,8 +22,8 @@ print("\n");
   $con2=mysql_connect(HOST2,USER2,PASS2,true) or die(mysql_error());
   $exprodb=mysql_select_db(dbexpro,$con2) or die(mysql_error());
 
- if($_REQUEST['v']=='All') {$sql=mysql_query("select g.EmployeeID, EmpCode, Fname, Sname, Lname, g.DepartmentId, DepartmentCode, GradeValue, VehiclePolicy_EntryDate, VehiclePolicy_Type, Running_TotalKM from hrm_employee_general g INNER JOIN hrm_employee e ON g.EmployeeID=e.EmployeeID INNER JOIN hrm_department d ON g.DepartmentId=d.DepartmentId INNER JOIN hrm_grade gr ON g.GradeId=gr.GradeId where e.CompanyId=".$_REQUEST['c']." AND e.EmpStatus='A' order by e.EmpCode ASC", $con); }
-else {$sql=mysql_query("select g.EmployeeID, EmpCode, Fname, Sname, Lname, g.DepartmentId, DepartmentCode, GradeValue, VehiclePolicy_EntryDate, VehiclePolicy_Type, Running_TotalKM from hrm_employee_general g INNER JOIN hrm_employee e ON g.EmployeeID=e.EmployeeID INNER JOIN hrm_department d ON g.DepartmentId=d.DepartmentId INNER JOIN hrm_grade gr ON g.GradeId=gr.GradeId where g.DepartmentId=".$_REQUEST['v']." AND e.CompanyId=".$_REQUEST['c']." AND e.EmpStatus='A' order by e.EmpCode ASC", $con); }
+ if($_REQUEST['v']=='All') {$sql=mysql_query("select g.EmployeeID, EmpCode, Fname, Sname, Lname, g.DepartmentId, department_name as DepartmentCode, grade_name as GradeValue, VehiclePolicy_EntryDate, VehiclePolicy_Type, Running_TotalKM from hrm_employee_general g INNER JOIN hrm_employee e ON g.EmployeeID=e.EmployeeID left join core_departments d ON g.DepartmentId=d.id INNER JOIN core_grades gr ON g.GradeId=gr.id where e.CompanyId=".$_REQUEST['c']." AND e.EmpStatus='A' order by e.EmpCode ASC", $con); }
+else {$sql=mysql_query("select g.EmployeeID, EmpCode, Fname, Sname, Lname, g.DepartmentId, department_name as DepartmentCode, grade_name as GradeValue, VehiclePolicy_EntryDate, VehiclePolicy_Type, Running_TotalKM from hrm_employee_general g INNER JOIN hrm_employee e ON g.EmployeeID=e.EmployeeID left join core_departments d ON g.DepartmentId=d.id INNER JOIN core_grades gr ON g.GradeId=gr.id where g.DepartmentId=".$_REQUEST['v']." AND e.CompanyId=".$_REQUEST['c']." AND e.EmpStatus='A' order by e.EmpCode ASC", $con); }
   
  $Sno=1; while($res=mysql_fetch_array($sql))
  { 
@@ -33,7 +33,6 @@ else {$sql=mysql_query("select g.EmployeeID, EmpCode, Fname, Sname, Lname, g.Dep
   $schema_insert .= $res['EmpCode'].$sep;
   $schema_insert .= $res['Fname'].' '.$res['Sname'].' '.$res['Lname'].$sep;		
   $schema_insert .= $res['DepartmentCode'].$sep;
-  
   
   $schema_insert .= $res['GradeValue'].$sep;
   $schema_insert .= $res['VehiclePolicy_EntryDate'].$sep;

@@ -74,12 +74,12 @@ function ExpMobNo(D,Y,m,C)
     <tr>
 	  <td style="width:400px;" align=""><font color="#2D002D" style='font-family:Times New Roman;' size="4">
 	  <b>Employee Mobile Nunber For Attendace Reports :</b></font></td>
-	   <td class="td1" style="font-size:11px; width:130px;">		   
-	   <select style="font-size:11px; width:120px; height:19px; background-color:#DDFFBB; display:block;" name="Department" id="Department" onChange="SelectMonthDept(this.value)">
-<?php if($_REQUEST['D']!='All') { $sqlD=mysql_query("select DepartmentCode from hrm_department where DepartmentId=".$_REQUEST['D'], $con); $resD=mysql_fetch_assoc($sqlD); ?> 
-	  <option value="<?php echo $_REQUEST['D']; ?>" style="margin-left:0px; background-color:#84D9D5;">&nbsp;<?php echo $resD['DepartmentCode']; ?></option>  
+	   <td class="td1" style="font-size:11px; width:160px;">		   
+	   <select style="font-size:11px; width:150px; height:19px; background-color:#DDFFBB; display:block;" name="Department" id="Department" onChange="SelectMonthDept(this.value)">
+<?php if($_REQUEST['D']!='All') { $sqlD=mysql_query("select department_name from core_departments where id=".$_REQUEST['D'], $con); $resD=mysql_fetch_assoc($sqlD); ?> 
+	  <option value="<?php echo $_REQUEST['D']; ?>" style="margin-left:0px; background-color:#84D9D5;">&nbsp;<?php echo $resD['department_name']; ?></option>  
 <?php  } else { ?>	  <option value="All" style="margin-left:0px; background-color:#84D9D5;">&nbsp;All</option><?php } ?>						   
-	   <?php $SqlDepartment=mysql_query("select * from hrm_department where CompanyId=".$CompanyId." AND DeptStatus='A' order by DepartmentName ASC", $con); while($ResDepartment=mysql_fetch_array($SqlDepartment)) { ?><option value="<?php echo $ResDepartment['DepartmentId']; ?>"><?php echo '&nbsp;'.$ResDepartment['DepartmentCode'];?></option><?php } ?><option value="All">&nbsp;All</option></select>
+	   <?php $SqlDepartment=mysql_query("select * from core_departments where is_active=1 order by department_name", $con); while($ResDepartment=mysql_fetch_array($SqlDepartment)) { ?><option value="<?php echo $ResDepartment['id']; ?>"><?php echo '&nbsp;'.$ResDepartment['department_name'];?></option><?php } ?><option value="All">&nbsp;All</option></select>
 	   <input type="hidden" name="Month" id="Month" value="<?php echo $_REQUEST['m']; ?>" /> 
 	   <input type="hidden" name="Year" id="Year" value="<?php echo $_REQUEST['Y']; ?>" />
 	   <input type="hidden" name="ComId" id="ComId" value="<?php echo $CompanyId; ?>" /> 
@@ -87,9 +87,9 @@ function ExpMobNo(D,Y,m,C)
 	   <input type="hidden" name="da" id="da" value="<?php echo $_REQUEST['da']; ?>" />
 	  </td>	 
 	  <td style="color:#400000;font-family:Times New Roman; width:720px; font-size:14px;" align="">
-	  <?php if($_REQUEST['D']!='All') { $sqlD=mysql_query("select DepartmentName from hrm_department where DepartmentId=".$_REQUEST['D'], $con); 
+	  <?php if($_REQUEST['D']!='All') { $sqlD=mysql_query("select department_name from core_departments where id=".$_REQUEST['D'], $con); 
 	  $resD=mysql_fetch_assoc($sqlD); }?><font style="font:Times New Roman; color:#005500; font-size:18px;font-weight:bold;">
-	  <?php if($_REQUEST['D']!='All'){echo $resD['DepartmentName']; } else { echo  'All'; } ?></font>
+	  <?php if($_REQUEST['D']!='All'){echo $resD['department_name']; } else { echo  'All'; } ?></font>
 	  &nbsp;&nbsp;
 	  <?php if($_REQUEST['D']!=''){ ?>
 	  <span style="cursor:pointer;font-size:14px;" onClick="ExpMobNo('<?php echo $_REQUEST['D']; ?>',<?php echo $_REQUEST['Y'].','.$_REQUEST['m'].','.$CompanyId; ?>)"><u>Export</u></span>
@@ -117,15 +117,25 @@ function ExpMobNo(D,Y,m,C)
 </tr>
    </thead>
    </div>
-<?php if($_REQUEST['D']!='All'){ $sql=mysql_query("select e.EmployeeID,EmpCode,Fname,Sname,Lname,DepartmentId,DesigId,TimeApply,InTime,OutTime,HqName,AttMobileNo1,AttMobileNo2,MobileNo_Vnr,p.MobileNo from hrm_employee e INNER JOIN hrm_employee_general g ON e.EmployeeID=g.EmployeeID INNER JOIN hrm_employee_personal p ON e.EmployeeID=p.EmployeeID INNER JOIN hrm_headquater hq ON g.HqId=hq.HqId where e.EmpStatus='A' AND g.DepartmentId=".$_REQUEST['D']." AND e.CompanyId=".$CompanyId." AND (e.DateOfSepration='0000-00-00' OR e.DateOfSepration='1970-01-01' OR e.DateOfSepration>='".date($_REQUEST['Y']."-".$_REQUEST['m']."-01")."') AND g.DateJoining<='".date($_REQUEST['Y']."-".$_REQUEST['m']."-31")."' order by EmpCode ASC", $con); }
-      if($_REQUEST['D']=='All'){ $sql=mysql_query("select e.EmployeeID,EmpCode,Fname,Sname,Lname,DepartmentId,DesigId,TimeApply,InTime,OutTime,HqName,AttMobileNo1,AttMobileNo2,MobileNo_Vnr,p.MobileNo from hrm_employee e INNER JOIN hrm_employee_general g ON e.EmployeeID=g.EmployeeID INNER JOIN hrm_employee_personal p ON e.EmployeeID=p.EmployeeID INNER JOIN hrm_headquater hq ON g.HqId=hq.HqId where e.EmpStatus='A' AND e.CompanyId=".$CompanyId." AND g.DepartmentId!=17 AND g.DepartmentId!=18 AND g.DepartmentId!=23 AND g.DepartmentId!=0 AND (e.DateOfSepration='0000-00-00' OR e.DateOfSepration='1970-01-01' OR e.DateOfSepration>='".date($_REQUEST['Y']."-".$_REQUEST['m']."-01")."') AND g.DateJoining<='".date($_REQUEST['Y']."-".$_REQUEST['m']."-31")."' order by EmpCode ASC", $con); }
+<?php if($_REQUEST['D']!='All'){ $sql=mysql_query("select e.EmployeeID,EmpCode,Fname,Sname,Lname,g.HqId, g.TerrId, department_name, sub_department_name, section_name, designation_name, grade_name, state_name, city_village_name, territory_name,TimeApply,InTime,OutTime,AttMobileNo1,AttMobileNo2,MobileNo_Vnr,p.MobileNo from hrm_employee e INNER JOIN hrm_employee_general g ON e.EmployeeID=g.EmployeeID INNER JOIN hrm_employee_personal p ON e.EmployeeID=p.EmployeeID left join core_departments dept on g.DepartmentId=dept.id
+  left join core_sub_department_master subdept on g.SubDepartmentId=subdept.id
+  left join core_section sec on g.EmpSection=sec.id
+  left join core_designation desig on g.DesigId=desig.id
+  left join core_grades gr on g.GradeId=gr.id
+  left join core_states st on g.CostCenter=st.id
+  left join core_city_village_by_state vlg on g.HqId=vlg.id
+  left join core_territory Tr on g.TerrId=Tr.id where e.EmpStatus='A' AND g.DepartmentId=".$_REQUEST['D']." AND e.CompanyId=".$CompanyId." AND (e.DateOfSepration='0000-00-00' OR e.DateOfSepration='1970-01-01' OR e.DateOfSepration>='".date($_REQUEST['Y']."-".$_REQUEST['m']."-01")."') AND g.DateJoining<='".date($_REQUEST['Y']."-".$_REQUEST['m']."-31")."' order by EmpCode ASC", $con); }
+      if($_REQUEST['D']=='All'){ $sql=mysql_query("select e.EmployeeID,EmpCode,Fname,Sname,Lname,TimeApply,InTime,OutTime,AttMobileNo1,AttMobileNo2,MobileNo_Vnr,p.MobileNo, g.HqId, g.TerrId, department_name, sub_department_name, section_name, designation_name, grade_name, state_name, city_village_name, territory_name from hrm_employee e INNER JOIN hrm_employee_general g ON e.EmployeeID=g.EmployeeID INNER JOIN hrm_employee_personal p ON e.EmployeeID=p.EmployeeID left join core_departments dept on g.DepartmentId=dept.id
+  left join core_sub_department_master subdept on g.SubDepartmentId=subdept.id
+  left join core_section sec on g.EmpSection=sec.id
+  left join core_designation desig on g.DesigId=desig.id
+  left join core_grades gr on g.GradeId=gr.id
+  left join core_states st on g.CostCenter=st.id
+  left join core_city_village_by_state vlg on g.HqId=vlg.id
+  left join core_territory Tr on g.TerrId=Tr.id where e.EmpStatus='A' AND e.CompanyId=".$CompanyId." AND g.DepartmentId!=18 AND g.DepartmentId!=0 AND (e.DateOfSepration='0000-00-00' OR e.DateOfSepration='1970-01-01' OR e.DateOfSepration>='".date($_REQUEST['Y']."-".$_REQUEST['m']."-01")."') AND g.DateJoining<='".date($_REQUEST['Y']."-".$_REQUEST['m']."-31")."' order by EmpCode ASC", $con); }
 
 $Sno=1; $rows=mysql_num_rows($sql); $sn=1; while($res=mysql_fetch_array($sql)) { 
 $Ename=$res['Fname'].' '.$res['Sname'].' '.$res['Lname']; $month=$_REQUEST['m'];
-$sqlDept=mysql_query("select DepartmentCode,DepartmentName from hrm_department where DepartmentId=".$res['DepartmentId'], $con); $resDept=mysql_fetch_assoc($sqlDept);
-$sqlDesig=mysql_query("select DesigCode,DesigName from hrm_designation where DesigId=".$res['DesigId'],$con); $resDesig=mysql_fetch_assoc($sqlDesig);
-//$sqlHQ=mysql_query("select HqName from hrm_headquater where HqId=".$res['HqId'], $con); 
-//$resHQ=mysql_fetch_assoc($sqlHQ);
 
 if(isset($_REQUEST['action']) && $_REQUEST['action']=="edit" && $_REQUEST['eid']==$res['EmployeeID']){ ?>
 <form name="formEdit" method="post" onSubmit="return OvalidateEdit(this)">	
@@ -140,8 +150,9 @@ if(isset($_REQUEST['action']) && $_REQUEST['action']=="edit" && $_REQUEST['eid']
  </td>
  <td bgcolor="#75BAFF" align="center" class="All_50" valign="top"><b><?php echo $res['EmpCode']; ?></b></td>
  <td class="All_200" valign="top"><?php echo $Ename; ?></td>
- <td class="All_250" valign="top"><?php echo $resDesig['DesigName']; ?></td>
- <td class="All_100" valign="top"><?php echo $res['HqName']; ?></td>
+ <td class="All_250" valign="top"><?php echo $res['designation_name']; ?></td>
+ <?php if($res['TerrId']>0){$Hq=$res['territory_name'];}else{$Hq=$res['city_village_name']; } ?>
+ <td class="All_100" valign="top"><?php echo $Hq; ?></td>
  <td class="All_100" valign="top"><input name="Mo1" style="width:100px;" class="EditInput" value="<?php if($res['AttMobileNo1']>0 AND $res['AttMobileNo1']!=''){echo $res['AttMobileNo1'];}elseif($res['MobileNo_Vnr']>0 AND $res['MobileNo_Vnr']!=''){echo $res['MobileNo_Vnr'];}else{echo '';} ?>" maxlength="12" /></td>	
  <td class="All_100" valign="top"><input name="Mo2" style="width:100px;" class="EditInput" value="<?php if($res['AttMobileNo2']>0 AND $res['AttMobileNo2']!=''){echo $res['AttMobileNo2'];}elseif($res['MobileNo']>0 AND $res['MobileNo']!=''){echo $res['MobileNo'];}else{echo '';} ?>" maxlength="12" /></td>	
  <td bgcolor="#FFFFFF" align="center" class="All_50" valign="top"><input type="submit" name="SaveEdit"  value="" class="SaveButton">&nbsp;<input type="hidden" name="EmployeeID" id="EmployeeID" value="<?php echo $res['EmployeeID']; ?>"/></td>	
@@ -152,8 +163,9 @@ if(isset($_REQUEST['action']) && $_REQUEST['action']=="edit" && $_REQUEST['eid']
  <td align="center" class="All_30" valign="top"><?php echo $sn; ?></td>
  <td bgcolor="#75BAFF" align="center" class="All_50" valign="top"><b><?php echo $res['EmpCode']; ?></b></td>
  <td class="All_200" valign="top"><?php echo $Ename; ?></td>
- <td class="All_250" valign="top"><?php echo $resDesig['DesigName']; ?></td>
- <td class="All_100" valign="top"><?php echo $res['HqName']; ?></td>
+ <td class="All_250" valign="top"><?php echo $res['designation_name']; ?></td>
+ <?php if($res['TerrId']>0){$Hq=$res['territory_name'];}else{$Hq=$res['city_village_name']; } ?>
+ <td class="All_100" valign="top"><?php echo $Hq; ?></td>
  	
  <td class="All_100" valign="top"><font class="EditInput"><?php if($res['AttMobileNo1']>0 AND $res['AttMobileNo1']!=''){echo $res['AttMobileNo1'];}elseif($res['MobileNo_Vnr']>0 AND $res['MobileNo_Vnr']!=''){echo $res['MobileNo_Vnr'];}else{echo '';} ?></font></td>	
  <td class="All_100" valign="top"><font class="EditInput"><?php if($res['AttMobileNo2']>0 AND $res['AttMobileNo2']!=''){echo $res['AttMobileNo2'];}elseif($res['MobileNo']>0 AND $res['MobileNo']!=''){echo $res['MobileNo'];}else{echo '';} ?></font></td>	

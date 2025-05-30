@@ -10,6 +10,42 @@ if(isset($_POST['GapSubmit']))
 { //if($_POST['G1']>=200 AND $_POST['G2']>=200)
   $sqlUp=mysql_query("update hrm_pms_setting set Gap1=".$_POST['G1'].", Gap2=".$_POST['G2']." where Process='PMS' AND CompanyId=".$CompanyId, $con); 
 }  
+
+
+/*
+ $sql=mysql_query("select e.EmployeeID, EmpCode, concat(Fname, ' ', Sname, ' ', Lname) as Name, g.DepartmentId, g.GradeId, g.DesigId, DateJoining, g.EmpVertical from hrm_employee e INNER JOIN hrm_employee_general g ON e.EmployeeID=g.EmployeeID where e.EmpStatus='A' AND g.DateJoining<='2024-09-30' AND g.DepartmentId=2 AND g.GradeId>=67 and g.DesigId in (174,216,60,16) order by e.ECode ASC", $con);
+	 
+$sno=1; while($res=mysql_fetch_array($sql))
+{
+  
+//if($res['Hod_TotalFinalRating']==3.7){$CRat=1;}else{$CRat=0;}
+if($res['EmployeeID']!=108 AND $res['EmployeeID']!=179 AND $res['EmployeeID']!=209 AND $res['EmployeeID']!=283 AND $res['DepartmentId']==2)
+{ 
+       
+  $yExp10=date('Y-m-d', strtotime("-10 years", strtotime(date("2024-12-31"))));
+  $yExp18=date('Y-m-d', strtotime("-18 years", strtotime(date("2024-12-31"))));
+  
+  //echo $res['DateJoining'].'-'.$res['EmpCode'].'-'.$res['Name'].'-'.$res['GradeId'].'-'.$yExp10.'<br>';
+  
+  $sqRe=mysql_query("select count(*) as TotRat from hrm_pms_appraisal_history p INNER join hrm_employee e on p.EmpCode=e.EmpCode INNER JOIN hrm_employee_general g on e.EmployeeID=g.EmployeeID where p.EmpCode=".$res['EmpCode']." and e.EmpStatus='A' and g.DepartmentId=2 and g.GradeId>=67 and p.Rating>=3.7 and p.CompanyId=1",$con); $reRe=mysql_fetch_assoc($sqRe); $TotCountRat=$reRe['TotRat'];
+  if($res['DateJoining']<=$yExp10 && $TotCountRat>=7)
+  {	
+   echo 'Count='.$TotCountRat.'<br>';      
+   echo 'Name - '.$res['EmpCode'].'-'.$res['Name'].'<br>';      
+   echo 'DOJ - '.$res['DateJoining'].'<='.$yExp10.'<br>';
+   echo 'GradeId - '.$res['GradeId'].'<br>';
+   echo $ExtRnDMsg='Eligible for Utkrisht Reward<br>';
+  }
+ 
+}    
+}    
+*/
+
+
+
+
+
+
 ?>
 <html>
 <head><meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -155,7 +191,7 @@ function GapRefresh()
 		 <tr bgcolor="#DDFFBB">
 		  <td class="td1" align="center">
 		  <select class="td3" style="width:148px;background-color:#DDFFBB;" name="DeptAppRev" id="DeptAppRev" onChange="SelectAppRev(this.value)"><option value="" style="margin-left:0px;" selected>Select Department</option>
-<?php $SqlDept=mysql_query("select * from hrm_department where CompanyId=".$CompanyId." order by DepartmentName ASC", $con); while($ResDept=mysql_fetch_array($SqlDept)) { ?><option value="<?php echo $ResDept['DepartmentId']; ?>"><?php echo $ResDept['DepartmentCode'];?></option><?php } ?><option value="All">All</option></select>
+<?php $SqlDept=mysql_query("select * from core_departments where is_active=1 order by department_name", $con); while($ResDept=mysql_fetch_array($SqlDept)) { ?><option value="<?php echo $ResDept['id']; ?>"><?php echo $ResDept['department_name'];?></option><?php } ?><option value="All">All</option></select>
           </td>
 		  <td class="td1" align="center">
 		  <select class="td3" style="width:148px;background-color:#DDFFBB;" name="AppScore" id="AppScore" onChange="SelectAppScore(this.value)"><option value="" style="margin-left:0px;" selected>Select Appraiser</option>
@@ -180,7 +216,7 @@ function GapRefresh()
  if($_REQUEST['action']=='DW')
  { 
   $sts='Department';
-  if($_REQUEST['value']!='All') {$sqlA=mysql_query("select DepartmentName from hrm_department where DepartmentId=".$_REQUEST['value'], $con);  $resA=mysql_fetch_assoc($sqlA); $name=$resA['DepartmentName']; }
+  if($_REQUEST['value']!='All') {$sqlA=mysql_query("select department_name as DepartmentName from cpre_departments where id=".$_REQUEST['value'], $con);  $resA=mysql_fetch_assoc($sqlA); $name=$resA['DepartmentName']; }
  }
  else if($_REQUEST['action']=='APPW' OR $_REQUEST['action']=='REVW' OR $_REQUEST['action']=='HODW')
  {
@@ -255,18 +291,18 @@ function FunExportV(v,ci,yi,dt,act,vle)
        </tr>
 	   </thead>
 	   </div>
-<?php //$YearId=8;
+<?php $YearId=13;
 if($_REQUEST['action']=='DW')
 { 
-  if($_REQUEST['value']=='All') { $sql = mysql_query("SELECT e.EmployeeID, EmpCode, Fname, Sname, Lname, DepartmentCode, EmpPmsId, Emp_PmsStatus, Appraiser_PmsStatus, Reviewer_PmsStatus, HodSubmit_IncStatus, HR_PmsStatus FROM hrm_employee e INNER JOIN hrm_employee_general g ON e.EmployeeID=g.EmployeeID INNER JOIN hrm_employee_pms p ON e.EmployeeID=p.EmployeeID INNER JOIN hrm_department d ON g.DepartmentId=d.DepartmentId WHERE e.EmpStatus='A' AND e.EmpCode!=10001 AND e.EmpCode!=10002 AND p.AssessmentYear=".$YearId." AND e.CompanyId=".$CompanyId." order by e.ECode ASC", $con); } //".$YearId."
-  else { $sql = mysql_query("SELECT e.EmployeeID, EmpCode, Fname, Sname, Lname, DepartmentCode, EmpPmsId, Emp_PmsStatus, Appraiser_PmsStatus, Reviewer_PmsStatus, HodSubmit_IncStatus, HR_PmsStatus FROM hrm_employee e INNER JOIN hrm_employee_general g ON e.EmployeeID=g.EmployeeID INNER JOIN hrm_employee_pms p ON e.EmployeeID=p.EmployeeID INNER JOIN hrm_department d ON g.DepartmentId=d.DepartmentId WHERE e.EmpStatus='A' AND e.EmpCode!=10001 AND e.EmpCode!=10002 AND p.AssessmentYear=".$YearId." AND e.CompanyId=".$CompanyId." AND g.DepartmentId=".$_REQUEST['value']." order by e.ECode ASC", $con); } //".$YearId."
+  if($_REQUEST['value']=='All') { $sql = mysql_query("SELECT e.EmployeeID, EmpCode, Fname, Sname, Lname, department_name as DepartmentCode, EmpPmsId, Emp_PmsStatus, Appraiser_PmsStatus, Reviewer_PmsStatus, HodSubmit_IncStatus, HR_PmsStatus FROM hrm_employee e INNER JOIN hrm_employee_general g ON e.EmployeeID=g.EmployeeID INNER JOIN hrm_employee_pms p ON e.EmployeeID=p.EmployeeID INNER JOIN core_departments d ON g.DepartmentId=d.id WHERE e.EmpStatus='A' AND e.EmpCode!=10001 AND e.EmpCode!=10002 AND p.AssessmentYear=".$YearId." AND e.CompanyId=".$CompanyId." order by e.ECode ASC", $con); } //".$YearId."
+  else { $sql = mysql_query("SELECT e.EmployeeID, EmpCode, Fname, Sname, Lname, department_name as DepartmentCode, EmpPmsId, Emp_PmsStatus, Appraiser_PmsStatus, Reviewer_PmsStatus, HodSubmit_IncStatus, HR_PmsStatus FROM hrm_employee e INNER JOIN hrm_employee_general g ON e.EmployeeID=g.EmployeeID INNER JOIN hrm_employee_pms p ON e.EmployeeID=p.EmployeeID INNER JOIN core_departments d ON g.DepartmentId=d.id WHERE e.EmpStatus='A' AND e.EmpCode!=10001 AND e.EmpCode!=10002 AND p.AssessmentYear=".$YearId." AND e.CompanyId=".$CompanyId." AND g.DepartmentId=".$_REQUEST['value']." order by e.ECode ASC", $con); } //".$YearId."
 }
 else if($_REQUEST['action']=='APPW' OR $_REQUEST['action']=='REVW' OR $_REQUEST['action']=='HODW')
 {
  if($_REQUEST['action']=='APPW'){$RepN='Appraiser_EmployeeID';}
  elseif($_REQUEST['action']=='REVW'){$RepN='Reviewer_EmployeeID';}
  elseif($_REQUEST['action']=='HODW'){$RepN='HOD_EmployeeID';}
- $sql = mysql_query("SELECT e.EmployeeID, EmpCode, Fname, Sname, Lname, DepartmentCode, EmpPmsId, Emp_PmsStatus, Appraiser_PmsStatus, Reviewer_PmsStatus, HodSubmit_IncStatus, HR_PmsStatus FROM hrm_employee e INNER JOIN hrm_employee_general g ON e.EmployeeID=g.EmployeeID INNER JOIN hrm_employee_pms p ON e.EmployeeID=p.EmployeeID INNER JOIN hrm_department d ON g.DepartmentId=d.DepartmentId WHERE e.EmpStatus='A' AND e.CompanyId=".$CompanyId." AND p.".$RepN."=".$_REQUEST['value']." AND p.AssessmentYear=".$YearId." order by e.EmpCode ASC", $con);
+ $sql = mysql_query("SELECT e.EmployeeID, EmpCode, Fname, Sname, Lname, department_name as DepartmentCode, EmpPmsId, Emp_PmsStatus, Appraiser_PmsStatus, Reviewer_PmsStatus, HodSubmit_IncStatus, HR_PmsStatus FROM hrm_employee e INNER JOIN hrm_employee_general g ON e.EmployeeID=g.EmployeeID INNER JOIN hrm_employee_pms p ON e.EmployeeID=p.EmployeeID INNER JOIN core_departments d ON g.DepartmentId=d.id WHERE e.EmpStatus='A' AND e.CompanyId=".$CompanyId." AND p.".$RepN."=".$_REQUEST['value']." AND p.AssessmentYear=".$YearId." order by e.EmpCode ASC", $con);
 }
 $no=1; while($res = mysql_fetch_array($sql)){ 
 

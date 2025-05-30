@@ -116,12 +116,12 @@ $Rat=($RowA*$resRat['NormalDistri'])/100; ?>
 <?php } ?>	 	 
 	</tr>
 	
-<?php $SqlDept=mysql_query("select * from hrm_department where DeptStatus='A' AND CompanyId=".$CompanyId." AND DepartmentCode!='MANAGEMENT' order by DepartmentId ASC", $con); $sn=1; while($ResDept=mysql_fetch_array($SqlDept)){ ?>	
+<?php $SqlDept=mysql_query("select * from core_departments where is_active=1 order by department_name", $con); $sn=1; while($ResDept=mysql_fetch_array($SqlDept)){ ?>	
 	<tr>
-	 <td bgcolor="#7a6189" align="Right" style="font-family:Times New Roman;color:#FFFFFF; font-size:13px;"><b><?php echo $ResDept['DepartmentCode']; ?></b>&nbsp;</td>
+	 <td bgcolor="#7a6189" align="Right" style="font-family:Times New Roman;color:#FFFFFF; font-size:13px;"><b><?php echo $ResDept['department_name']; ?></b>&nbsp;</td>
 <?php $sqlR=mysql_query("select * from hrm_pms_rating where YearId=".$_REQUEST['YI']." AND CompanyId=".$CompanyId." AND RatingStatus='A' order by Rating ASC", $con); 
       $sn=1; while($resR=mysql_fetch_array($sqlR)){ 
-$SqlE=mysql_query("select EmpPmsId from hrm_employee_pms INNER JOIN hrm_employee ON hrm_employee_pms.EmployeeID=hrm_employee.EmployeeID where hrm_employee.EmpStatus='A' AND hrm_employee.CompanyId=".$CompanyId." AND AssessmentYear=".$_REQUEST['YI']." AND hrm_employee_pms.HR_Curr_DepartmentId=".$ResDept['DepartmentId']." AND hrm_employee_pms.Appraiser_EmployeeID!=0 AND Hod_TotalFinalRating=".$resR['Rating'], $con); 
+$SqlE=mysql_query("select EmpPmsId from hrm_employee_pms INNER JOIN hrm_employee ON hrm_employee_pms.EmployeeID=hrm_employee.EmployeeID where hrm_employee.EmpStatus='A' AND hrm_employee.CompanyId=".$CompanyId." AND AssessmentYear=".$_REQUEST['YI']." AND hrm_employee_pms.HR_Curr_DepartmentId=".$ResDept['id']." AND hrm_employee_pms.Appraiser_EmployeeID!=0 AND Hod_TotalFinalRating=".$resR['Rating'], $con); 
 $RowE=mysql_num_rows($SqlE); $vE=number_format($RowE, 2, '.', '');	?>	 
 	 <td bgcolor="#FFFFFF" align="Center" style="font-family:Times New Roman;color:#OOOOOO; font-size:13px;"><?php if($vE!=0){echo $vE;}else{echo '';} //echo $vE; ?></td>
 <?php } ?>	

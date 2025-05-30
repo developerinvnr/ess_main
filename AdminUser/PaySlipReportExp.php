@@ -27,6 +27,7 @@ if($_REQUEST['arrhr']>0){echo "\tArr HRA";}
 if($_REQUEST['arrcar']>0){echo "\tArr CarAllow";}
 if($_REQUEST['arrsp']>0){echo "\tArr Spl";}
 if($_REQUEST['arrcon']>0){echo "\tArr Conv";}
+if($_REQUEST['Deputation_Allow']>0){echo "\tDeputation Allow";}
 
 if($_REQUEST['Arr_Bonus']>0){echo "\tArr Bonus";}
 if($_REQUEST['BA']>0){echo "\tBonus_Adjustment";}
@@ -38,18 +39,28 @@ if($_REQUEST['Arr_PerformPay']>0){echo "\tArr PP";}
 if($_REQUEST['arrencash']>0){echo "\tArr LV-Encash";}
 if($_REQUEST['arrpf']>0){echo "\tArr PF";}
 if($_REQUEST['arresic']>0){echo "\tArr ESIC";}
+
+if($_REQUEST['arrcomm_allow']>0){echo "\tArr Communication Allow";}
+
+
 if($_REQUEST['bonus']>0){echo "\tBonus";}
 if($_REQUEST['lenc']>0){echo "\tLeave EnCash";}
 if($_REQUEST['taxcea']>0){echo "\tTaxSv CEA";}
 if($_REQUEST['taxmr']>0){echo "\tTaxSv MR";}
 if($_REQUEST['taxlta']>0){echo "\tTaxSv LTA";} 
-if($_REQUEST['NPSS']>0){echo "\tNational pension scheme";} 
-if($_REQUEST['RecSplAllow']>0){echo "\tRecovery Special Allow";} 
+if($_REQUEST['NPSS']>0){echo "\tNational pension scheme";}
+
+echo "\tCommunication Allow";
+echo "\tCar Allow";
 
 echo "\tTotal Earning\tPF\tESIC\tTDS";
 if($_REQUEST['dedvc']>0){echo "\tVC";}	
 if($_REQUEST['dedadj']>0){echo "\tDeduct Adjmnt";}
 if($_REQUEST['dedca']>0){echo "\tRec Conveyance Allow";} 
+if($_REQUEST['RecSplAllow']>0){echo "\tRecovery Special Allow";} 
+if($_REQUEST['RAR']>0){echo "\tRecovery RA";}
+if($_REQUEST['IDCard_Recovery']>0){echo "\tID Card Recovery";}
+
 if($_REQUEST['NPS']>0){echo "\tNPS";} echo "\tTotal Deduct\tNet Amount";
 print("\n");
 
@@ -105,6 +116,7 @@ if($_REQUEST['arrhr']>0){ $schema_insert .= floatval($resSlip['Arr_Hra']).$sep; 
 if($_REQUEST['arrcar']>0){ $schema_insert .= floatval($resSlip['Car_Allowance_Arr']).$sep; }
 if($_REQUEST['arrsp']>0){ $schema_insert .= floatval($resSlip['Arr_Spl']).$sep; }
 if($_REQUEST['arrcon']>0){ $schema_insert .= floatval($resSlip['Arr_Conv']).$sep; }
+if($_REQUEST['Deputation_Allow']>0){ $schema_insert .= floatval($resSlip['Deputation_Allow']).$sep; }
 
 if($_REQUEST['Arr_Bonus']>0){ $schema_insert .= floatval($resSlip['Arr_Bonus']).$sep; }
 if($_REQUEST['BA']>0){ $schema_insert .= floatval($resSlip['Bonus_Adjustment']).$sep; }
@@ -116,6 +128,7 @@ if($_REQUEST['Arr_PerformPay']>0){ $schema_insert .= floatval($resSlip['Arr_PP']
 if($_REQUEST['arrencash']>0){ $schema_insert .= floatval($resSlip['Arr_LvEnCash']).$sep; }
 if($_REQUEST['arrpf']>0){ $schema_insert .= floatval($resSlip['Arr_Pf']).$sep; }
 if($_REQUEST['arresic']>0){ $schema_insert .= floatval($resSlip['Arr_Esic']).$sep; }
+if($_REQUEST['arrcomm_allow']>0){ $schema_insert .= floatval($resSlip['Arr_Communication_Allow']).$sep; }
     
 if($_REQUEST['bonus']>0){ $schema_insert .= floatval($resSlip['Bonus']).$sep; }
 if($_REQUEST['lenc']>0){ $schema_insert .= floatval($resSlip['LeaveEncash']).$sep; }
@@ -123,11 +136,14 @@ if($_REQUEST['lenc']>0){ $schema_insert .= floatval($resSlip['LeaveEncash']).$se
 if($_REQUEST['taxcea']>0){ $schema_insert .= floatval($resSlip['YCea']).$sep; }
 if($_REQUEST['taxmr']>0){ $schema_insert .= floatval($resSlip['YMr']).$sep; }
 if($_REQUEST['taxlta']>0){ $schema_insert .= floatval($resSlip['YLta']).$sep; }
+
 if($_REQUEST['NPSS']>0){ $schema_insert .= floatval($resSlip['NPS']).$sep; }
-if($_REQUEST['RecSplAllow']>0){ $schema_insert .= floatval($resSlip['RecSplAllow']).$sep; }
+
+$schema_insert .= floatval($resSlip['Communication_Allow']).$sep;
+$schema_insert .= floatval($resSlip['Car_Allow']).$sep;
  
-$TotGross=$resSlip['Tot_Gross']+$resSlip['Bonus']+$resSlip['DA']+$resSlip['Arreares']+$resSlip['LeaveEncash']+$resSlip['Incentive']+$resSlip['VariableAdjustment']+$resSlip['PerformancePay']+$resSlip['PP_year']+$resSlip['CCA']+$resSlip['RA']+$resSlip['Arr_Basic']+$resSlip['Arr_Hra']+$resSlip['Arr_Spl']+$resSlip['Arr_Conv']+$resSlip['Arr_Bonus']+$resSlip['Bonus_Adjustment']+$resSlip['Arr_LTARemb']+$resSlip['Arr_RA']+$resSlip['Arr_PP']+$resSlip['YCea']+$resSlip['YMr']+$resSlip['YLta']+$resSlip['Car_Allowance']+$resSlip['Car_Allowance_Arr']+$resSlip['VarRemburmnt']+$resSlip['TA']+$resSlip['Arr_LvEnCash']+$resSlip['PP_Inc']+$resSlip['NoticePay']+$resSlip['NPS'];
-$TotDeduct=$resSlip['TDS']+$resSlip['Tot_Deduct']+$resSlip['Arr_Pf']+$resSlip['VolContrib']+$resSlip['Arr_Esic']+$resSlip['DeductAdjmt']+$resSlip['RecConAllow']+$resSlip['RecSplAllow']; $TotNetAmount=$TotGross-$TotDeduct;
+$TotGross=$resSlip['Tot_Gross']+$resSlip['Bonus']+$resSlip['DA']+$resSlip['Arreares']+$resSlip['LeaveEncash']+$resSlip['Incentive']+$resSlip['VariableAdjustment']+$resSlip['PerformancePay']+$resSlip['PP_year']+$resSlip['CCA']+$resSlip['RA']+$resSlip['Arr_Basic']+$resSlip['Arr_Hra']+$resSlip['Arr_Spl']+$resSlip['Arr_Conv']+$resSlip['Arr_Bonus']+$resSlip['Bonus_Adjustment']+$resSlip['Arr_LTARemb']+$resSlip['Arr_RA']+$resSlip['Arr_PP']+$resSlip['YCea']+$resSlip['YMr']+$resSlip['YLta']+$resSlip['Car_Allowance']+$resSlip['Car_Allowance_Arr']+$resSlip['VarRemburmnt']+$resSlip['TA']+$resSlip['Arr_LvEnCash']+$resSlip['PP_Inc']+$resSlip['NoticePay']+$resSlip['NPS']+$resSlip['Deputation_Allow']+$resSlip['Communication_Allow']+$resSlip['Car_Allow']+$resSlip['Arr_Communication_Allow'];
+$TotDeduct=$resSlip['TDS']+$resSlip['Tot_Deduct']+$resSlip['Arr_Pf']+$resSlip['VolContrib']+$resSlip['Arr_Esic']+$resSlip['DeductAdjmt']+$resSlip['RecConAllow']+$resSlip['RecSplAllow']+$resSlip['RA_Recover']+$resSlip['IDCard_Recovery']; $TotNetAmount=$TotGross-$TotDeduct;
   $schema_insert .= floatval($TotGross).$sep;
   $schema_insert .= floatval($resSlip['EPF_Employee']).$sep;
   $schema_insert .= floatval($resSlip['ESCI_Employee']).$sep;
@@ -135,6 +151,11 @@ $TotDeduct=$resSlip['TDS']+$resSlip['Tot_Deduct']+$resSlip['Arr_Pf']+$resSlip['V
 if($_REQUEST['dedvc']>0){ $schema_insert .= floatval($resSlip['VolContrib']).$sep; }	
 if($_REQUEST['dedadj']>0){ $schema_insert .= floatval($resSlip['DeductAdjmt']).$sep; }
 if($_REQUEST['dedca']>0){ $schema_insert .= floatval($resSlip['RecConAllow']).$sep; }
+if($_REQUEST['RecSplAllow']>0){ $schema_insert .= floatval($resSlip['RecSplAllow']).$sep; }
+if($_REQUEST['RAR']>0){ $schema_insert .= floatval($resSlip['RA_Recover']).$sep; }
+
+if($_REQUEST['IDCard_Recovery']>0){ $schema_insert .= floatval($resSlip['IDCard_Recovery']).$sep; }
+
 if($_REQUEST['NPS']>0){ $schema_insert .= floatval($resSlip['NPS_Value']).$sep; }	
 
 

@@ -138,7 +138,7 @@ function show_Exam(originalRequest)
 	  <td class="tdc" style="width:80px;"><b><?=date($i."-".$m."-".$y)?></b></td>
 	  <td class="tdl" style="width:400px;">
 <?php 
-      $sqlE=mysql_query("select e.EmployeeID,e.EmpCode,Fname,Sname,Lname,Gender,Married,DR,DepartmentCode,HqName from hrm_employee_general g inner join hrm_employee e on g.EmployeeID=e.EmployeeID inner join hrm_employee_personal p on g.EmployeeID=p.EmployeeID inner join hrm_department d on g.DepartmentId=d.DepartmentId inner join hrm_headquater hq on g.HqId=hq.HqId where e.EmpStatus='A' AND e.CompanyId=".$CompanyId." AND g.DOB_dm='".date("0000-".$m."-".$i)."' order by g.GradeId DESC",$con);  $rowE=mysql_num_rows($sqlE);
+      $sqlE=mysql_query("select e.EmployeeID,e.EmpCode,Fname,Sname,Lname,Gender,Married,DR,department_name,city_village_name,territory_name from hrm_employee_general g inner join hrm_employee e on g.EmployeeID=e.EmployeeID inner join hrm_employee_personal p on g.EmployeeID=p.EmployeeID left join core_departments dept on g.DepartmentId=dept.id left join core_city_village_by_state vlg on g.HqId=vlg.id left join core_territory Tr on g.TerrId=Tr.id where e.EmpStatus='A' AND e.CompanyId=".$CompanyId." AND g.DOB_dm='".date("0000-".$m."-".$i)."' order by g.GradeId DESC",$con);  $rowE=mysql_num_rows($sqlE);
 while($resE=mysql_fetch_assoc($sqlE))
 { 
   $chkSp=mysql_query("select * from hrm_employee_separation where EmployeeID=".$resE['EmployeeID']." AND Rep_Approved!='C' AND Hod_Approved!='C' AND HR_Approved!='C'",$con); $RowchkSp=mysql_num_rows($chkSp);
@@ -147,14 +147,16 @@ while($resE=mysql_fetch_assoc($sqlE))
    if($resE['DR']=='Y'){$MS='Dr.';} elseif($resE['Gender']=='M'){$MS='Mr.';} elseif($resE['Gender']=='F' AND $resE['Married']=='Y'){$MS='Mrs.';} elseif($resE['Gender']=='F' AND $resE['Married']=='N'){$MS='Miss.';}  
    if($resE['Sname']==''){ $Name = $MS.' '.ucwords(strtolower($resE['Fname'].' '.$resE['Lname'])); }
    else{ $Name = $MS.' '.ucwords(strtolower($resE['Fname'].' '.$resE['Sname'].' '.$resE['Lname'])); }
-   echo '<b>'.$Name.'</b> ('.$resE['DepartmentCode'].', HQ-'.ucwords(strtolower($resE['HqName'])).'), ';
+   
+   if($resE['TerrId']>0){$Hq=$resE['territory_name'];}else{$Hq=$resE['city_village_name']; }
+   echo '<b>'.$Name.'</b> ('.$resE['department_name'].', HQ-'.ucwords(strtolower($Hq)).'), ';
   }
 } 
 ?> 	    
 	  </td>
 	  <td class="tdl" style="width:400px;">
 <?php	
-$sqlEa=mysql_query("select e.EmployeeID,e.EmpCode,Fname,Sname,Lname,Gender,Married,DR,DepartmentCode,HqName from hrm_employee_general g inner join hrm_employee e on g.EmployeeID=e.EmployeeID inner join hrm_employee_personal p on g.EmployeeID=p.EmployeeID inner join hrm_department d on g.DepartmentId=d.DepartmentId inner join hrm_headquater hq on g.HqId=hq.HqId where e.EmpStatus='A' AND e.CompanyId=".$CompanyId." AND p.Married='Y' AND p.MarriageDate_dm='".date("0000-".$m."-".$i)."' order by g.GradeId DESC",$con);  $rowEa=mysql_num_rows($sqlEa);
+$sqlEa=mysql_query("select e.EmployeeID,e.EmpCode,Fname,Sname,Lname,Gender,Married,DR,department_name,city_village_name,territory_name from hrm_employee_general g inner join hrm_employee e on g.EmployeeID=e.EmployeeID inner join hrm_employee_personal p on g.EmployeeID=p.EmployeeID left join core_departments dept on g.DepartmentId=dept.id left join core_city_village_by_state vlg on g.HqId=vlg.id left join core_territory Tr on g.TerrId=Tr.id where e.EmpStatus='A' AND e.CompanyId=".$CompanyId." AND p.Married='Y' AND p.MarriageDate_dm='".date("0000-".$m."-".$i)."' order by g.GradeId DESC",$con);  $rowEa=mysql_num_rows($sqlEa);
 while($resEa=mysql_fetch_assoc($sqlEa))
 {
   $chkSp=mysql_query("select * from hrm_employee_separation where EmployeeID=".$resEa['EmployeeID']." AND Rep_Approved!='C' AND Hod_Approved!='C' AND HR_Approved!='C'",$con); $RowchkSp=mysql_num_rows($chkSp);
@@ -167,7 +169,10 @@ while($resEa=mysql_fetch_assoc($sqlEa))
   elseif($resEa['Gender']=='F'){$MSa='Mr. & Mrs.';}   
   if($resEa['Sname']==''){ $NameAnn = $MSa.' '.ucwords(strtolower($resEa['Fname'].' '.$resEa['Lname'])); }
   else{ $NameAnn = $MSa.' '.ucwords(strtolower($resEa['Fname'].' '.$resEa['Sname'].' '.$resEa['Lname'])); }
-  echo '<b>'.$NameAnn.'</b> ('.$resEa['DepartmentCode'].', HQ-'.ucwords(strtolower($resEa['HqName'])).'), ';
+  
+  if($resEa['TerrId']>0){$Hqa=$resEa['territory_name'];}else{$Hqa=$resEa['city_village_name']; }
+  
+  echo '<b>'.$NameAnn.'</b> ('.$resEa['department_name'].', HQ-'.ucwords(strtolower($Hqa)).'), ';
   }
 }  
 ?>  

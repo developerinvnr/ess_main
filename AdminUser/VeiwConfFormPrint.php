@@ -21,15 +21,21 @@ function PrintPage()
 <tr><td align="center" style="font-family:Times New Roman;font-size:18px;width:1000px;"><b>Confirmation Appraisal Form</b></td></tr>
 <tr><td>&nbsp;</td></tr>
 <tr><td>&nbsp;</td></tr>
-<?php  if($_REQUEST['action']=='Form') {$sql=mysql_query("select hrm_employee.CompanyId,EmpCode,Fname,Sname,Lname,DesigId,DepartmentId,DateJoining,DateConfirmationYN,DateConfirmation,GradeId,HqId,Gender,DR,Married,ReportingName,RepEmployeeID from hrm_employee INNER JOIN hrm_employee_general ON hrm_employee.EmployeeID=hrm_employee_general.EmployeeID INNER JOIN hrm_employee_personal ON hrm_employee.EmployeeID=hrm_employee_personal.EmployeeID where hrm_employee.EmployeeID=".$_REQUEST['E'], $con);  $res=mysql_fetch_assoc($sql);
+<?php  if($_REQUEST['action']=='Form') {$sql=mysql_query("select hrm_employee.CompanyId,EmpCode,Fname,Sname,Lname,DesigId,DepartmentId,DateJoining,DateConfirmationYN,DateConfirmation,GradeId,HqId,TerrId,Gender,DR,Married,ReportingName,RepEmployeeID from hrm_employee INNER JOIN hrm_employee_general ON hrm_employee.EmployeeID=hrm_employee_general.EmployeeID INNER JOIN hrm_employee_personal ON hrm_employee.EmployeeID=hrm_employee_personal.EmployeeID where hrm_employee.EmployeeID=".$_REQUEST['E'], $con);  $res=mysql_fetch_assoc($sql);
 $Ename = $res['Fname'].'&nbsp;'.$res['Sname'].'&nbsp;'.$res['Lname']; $LEC=strlen($res['EmpCode']); 
 if($res['DR']=='Y'){$M='Dr.';} elseif($res['Gender']=='M'){$M='Mr.';} elseif($res['Gender']=='F' AND $res['Married']=='Y'){$M='Mrs.';} elseif($res['Gender']=='F' AND $res['Married']=='N'){$M='Miss.';}  $NameE=$M.' '.$Ename; 
 if($LEC==1){$EC='000'.$res['EmpCode'];} if($LEC==2){$EC='00'.$res['EmpCode'];} if($LEC==3){$EC='0'.$res['EmpCode'];} if($LEC>=4){$EC=$res['EmpCode'];}
 
-$sqlD=mysql_query("select DepartmentName from hrm_department where DepartmentId=".$res['DepartmentId'], $con); $resD=mysql_fetch_assoc($sqlD);
-$sqlDe=mysql_query("select DesigName from hrm_designation where DesigId=".$res['DesigId'], $con); $resDe=mysql_fetch_assoc($sqlDe);
-$sqlH=mysql_query("select HqName from hrm_headquater where HqId=".$res['HqId'], $con); $resH=mysql_fetch_assoc($sqlH);
-$sqlG=mysql_query("select GradeValue from hrm_grade where GradeId=".$res['GradeId'], $con); $resG=mysql_fetch_assoc($sqlG); 
+$sqlD=mysql_query("select department_name as DepartmentName from core_departments where id=".$res['DepartmentId'], $con); $resD=mysql_fetch_assoc($sqlD);
+$sqlDe=mysql_query("select designation_name as DesigName from core_designation where id=".$res['DesigId'], $con); $resDe=mysql_fetch_assoc($sqlDe);
+
+$sqlH=mysql_query("select city_village_name from core_city_village_by_state where id=".$res['HqId'], $con); $resH=mysql_fetch_assoc($sqlH);
+
+$sqlTr=mysql_query("select territory_name from core_territory where id=".$res['TerrId'], $con); $resTr=mysql_fetch_assoc($sqlTr);
+
+if($res['TerrId']>0){$Hq=$resTr['territory_name'];}else{$Hq=$resH['city_village_name']; }
+
+$sqlG=mysql_query("select grade_name as GradeValue from core_grades where id=".$res['GradeId'], $con); $resG=mysql_fetch_assoc($sqlG);
 
 $sqlHOD=mysql_query("select Fname,Sname,Lname,Gender,DR,Married from hrm_employee_reporting INNER JOIN hrm_employee ON hrm_employee_reporting.HodId=hrm_employee.EmployeeID INNER JOIN hrm_employee_general ON hrm_employee_reporting.HodId=hrm_employee_general.EmployeeID INNER JOIN hrm_employee_personal ON hrm_employee_reporting.HodId=hrm_employee_personal.EmployeeID where hrm_employee_reporting.EmployeeID=".$_REQUEST['E'], $con); $rowHOD=mysql_num_rows($sqlHOD); 
 if($rowHOD>0) 
@@ -63,7 +69,7 @@ if($rowLL>0) { $resLL=mysql_fetch_assoc($sqlLL); }
 	   </tr>
 	   <tr>
 	    <td class="font" style="width:100px;">&nbsp;Location:</td>
-		<td style="width:350px;" align="">&nbsp;<?php echo $resH['HqName']; ?></td>
+		<td style="width:350px;" align="">&nbsp;<?php echo $Hq; ?></td>
 		<td class="font" style="width:200px;">&nbsp;Department:</td>
 		<td style="width:350px;" align="">&nbsp;<?php echo $resD['DepartmentName']; ?></td>
 	   </tr>
@@ -280,11 +286,11 @@ if($rowLL>0) { $resLL=mysql_fetch_assoc($sqlLL); }
 	 <tr><td colspan="6" class="font" style="width:1000px;">&nbsp;HR Remark:</td></tr>
 	 <tr><td colspan="6" style="width:1000px;" align="">&nbsp;<?php echo $resLL['HrRemark']; ?></td></tr>
 	 
-	 <?php
-	if($resLL['Current_GradeId']>0){$gr2=mysql_query("select GradeValue from hrm_grade where GradeId=".$resLL['Current_GradeId'],$con); $rgr2=mysql_fetch_assoc($gr2); $GradeName=$rgr2['GradeValue']; }
+	<?php
+	if($resLL['Current_GradeId']>0){$gr2=mysql_query("SELECT grade_name as GradeValue FROM core_grades WHERE id=".$resLL['Current_GradeId'],$con); $rgr2=mysql_fetch_assoc($gr2); $GradeName=$rgr2['GradeValue']; }
 	else{ $GradeName=$resG['GradeValue']; }
 	
-	if($resLL['Current_DesigId']>0){$De2=mysql_query("select DesigName from hrm_designation where DesigId=".$resLL['Current_DesigId'],$con); $rDe2=mysql_fetch_assoc($De2); $DesigName=$rDe2['DesigName']; }
+	if($resLL['Current_DesigId']>0){$De2=mysql_query("select designation_name as DesigName from core_designation where id=".$resLL['Current_DesigId'],$con); $rDe2=mysql_fetch_assoc($De2); $DesigName=$rDe2['DesigName']; }
 	else{ $DesigName=$resDe['DesigName']; }
 	?>
 	 
@@ -293,7 +299,7 @@ if($rowLL>0) { $resLL=mysql_fetch_assoc($sqlLL); }
 	     <td class="font" style="width:80px;" align="Right">&nbsp;Current:-</td>
 		 <td class="font" style="width:200px;">&nbsp;<?php echo $GradeName; ?></td>
 		 <td class="font" style="width:80px;" align="Right">&nbsp;Proposed:-</td>
-<?php $sqlG2=mysql_query("select GradeValue from hrm_grade where GradeId=".$resLL['GradeId'], $con); 
+<?php $sqlG2=mysql_query("SELECT grade_name as GradeValue FROM core_grades WHERE id=".$resLL['GradeId'], $con); 
       $resG2=mysql_fetch_assoc($sqlG2); ?>		 
 		 <td class="font" style="width:200px;" align="">&nbsp;<?php echo $resG2['GradeValue']; ?></td>
 	 </tr>
@@ -302,7 +308,7 @@ if($rowLL>0) { $resLL=mysql_fetch_assoc($sqlLL); }
 	     <td class="font" style="width:80px;" align="Right">&nbsp;Current:-</td>
 		 <td class="font" style="width:300px;" align="">&nbsp;<?php echo $DesigName; ?></td>
 		 <td class="font" style="width:80px;" align="Right">&nbsp;Proposed:-</td>
-<?php $sqlDe2=mysql_query("select DesigName from hrm_designation where DesigId=".$resLL['DesigId'], $con); $resDe2=mysql_fetch_assoc($sqlDe2); ?>			 
+<?php $sqlDe2=mysql_query("select designation_name as DesigName from core_designation where id=".$resLL['DesigId'], $con); $resDe2=mysql_fetch_assoc($sqlDe2); ?>			 
 		 <td class="font" style="width:300px;" align="">&nbsp;<?php echo $resDe2['DesigName']; ?></td>
 	 </tr>
 	 <tr><td colspan="2" style="height:10px;"></td></tr>

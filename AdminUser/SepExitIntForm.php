@@ -448,7 +448,7 @@ function printp(si){ window.location="SepExitIntFormprint.php?act=act&si="+si; }
 <a href="#" onClick="printp(<?php echo $_REQUEST['si']; ?>)" style="font-size:14px;font-family:Times New Roman;">print</a>
 <?php 
 $sqlE=mysql_query("select EmpCode,Fname,Sname,Lname,DesigId,DepartmentId,DR,Gender,Married from hrm_employee INNER JOIN hrm_employee_general ON hrm_employee.EmployeeID=hrm_employee_general.EmployeeID INNER JOIN hrm_employee_personal ON hrm_employee.EmployeeID=hrm_employee_personal.EmployeeID where hrm_employee.EmployeeID=".$resSE['EmployeeID'], $con); $resE=mysql_fetch_assoc($sqlE); 
-$sqlDept=mysql_query("select DepartmentCode from hrm_department where DepartmentId=".$resE['DepartmentId'], $con); $resDept=mysql_fetch_assoc($sqlDept);
+$sqlDept=mysql_query("select department_code as DepartmentCode from core_departments where id=".$resE['DepartmentId'], $con); $resDept=mysql_fetch_assoc($sqlDept);
 if($resE['DR']=='Y'){$M='Dr.';} elseif($resE['Gender']=='M'){$M='Mr.';} elseif($resE['Gender']=='F' AND $resE['Married']=='Y'){$M='Mrs.';} elseif($resE['Gender']=='F' AND $resE['Married']=='N'){$M='Miss.';}  $NameE=$M.' '.$resE['Fname'].' '.$resE['Sname'].' '.$resE['Lname'];
 ?>
 <table>

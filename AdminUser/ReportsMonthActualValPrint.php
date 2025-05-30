@@ -93,7 +93,7 @@ if($_REQUEST['y']!=0)
  }
 
 }
-	  if($_REQUEST['d']>0){ $sqlD=mysql_query("select DepartmentName from hrm_department where DepartmentId=".$_REQUEST['d'], $con); $resD=mysql_fetch_assoc($sqlD); }
+	  if($_REQUEST['d']>0){ $sqlD=mysql_query("select department_name as DepartmentName from core_departments where id=".$_REQUEST['d'], $con); $resD=mysql_fetch_assoc($sqlD); }
 ?>	     
 	  <b style="color:#3A7500">[ Year:&nbsp;<?php echo $PRD; ?> ]</b>&nbsp;&nbsp; 
 	  <?php if($_REQUEST['d']>0){ ?><b style="color:#3A7500">[ Department:&nbsp;<?php echo $resD['DepartmentName']; ?> ]</b>&nbsp;&nbsp;  <?php } ?>	  

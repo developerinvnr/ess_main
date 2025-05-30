@@ -143,11 +143,10 @@ function FunClrCheck(v)
 <?php if($_REQUEST['Y']!=$i){ ?><option value="<?php echo $i; ?>"><?php echo $i; ?></option><?php } ?>
 <?php } ?></select></td> 
 		   <td class="td1" style="font-size:11px;"> 
-		   <select style="font-size:11px; width:100px; height:19px; background-color:#DDFFBB; display:block;" name="Department" id="Department" onChange="SelectDept(this.value, <?php echo $_REQUEST['m'].', '.$_REQUEST['Y']; ?>)">
-<?php $SqlD=mysql_query("select DepartmentCode from hrm_department where DepartmentId=".$_REQUEST['d'], $con); $ResD=mysql_fetch_array($SqlD);?>	
-	       <option value="<?php echo $_REQUEST['d']; ?>"><?php echo $ResD['DepartmentCode']; ?></option>
-<?php $SqlD2=mysql_query("select DepartmentId,DepartmentCode from hrm_department where CompanyId=".$CompanyId." AND DeptStatus='A' order by DepartmentCode ASC", $con); 
-      while($ResD2=mysql_fetch_array($SqlD2)) { ?><option value="<?php echo $ResD2['DepartmentId']; ?>"><?php echo $ResD2['DepartmentCode'];?></option><?php } ?></select></td>
+		   <select style="font-size:11px; width:150px; height:19px; background-color:#DDFFBB; display:block;" name="Department" id="Department" onChange="SelectDept(this.value, <?php echo $_REQUEST['m'].', '.$_REQUEST['Y']; ?>)">
+<?php $SqlD2=mysql_query("select * from core_departments where is_active=1 order by department_name", $con); 
+      while($ResD2=mysql_fetch_array($SqlD2)) { ?><option value="<?php echo $ResD2['id']; ?>" <?php if($_REQUEST['d']==$ResD2['id']){ echo 'selected';}?>><?php echo $ResD2['department_name'];?></option><?php } ?><option value='all' <?php if($_REQUEST['d']=='all'){ echo 'selected';}?>>All</option></option></select></td>
+      
 	      <td><input type="button" value="click" style="width:60px;" onClick="FunClick()" /></td>
 	      <td align="left"><input type="button" name="back" id="back" style="width:90px;display:block;" value="back" onClick="javascript:window.location='Index.php?log=<?php echo $_SESSION['logCheckUser']; ?>'"></td>
    <td align="left" style="width:70px;"><input type="button" name="Refresh" id="Refresh" style="width:90px;" value="Refresh" onClick="javascript:window.location='AttendanceBlank.php?ls=10&wer=123grtd&se=reew&w=ee102&m=<?php echo $_REQUEST['m']; ?>&Y=<?php echo $_REQUEST['Y']; ?>&ee=s1s&d=<?php echo $_REQUEST['d']; ?>&dd=truevalu&fals=truefalse'"/></td> 

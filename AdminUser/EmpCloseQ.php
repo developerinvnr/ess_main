@@ -111,13 +111,13 @@ if($total_records>0) { if($_REQUEST['page']==1){$Sno=1;} elseif($_REQUEST['page'
 <tr>
  <td width="40" class="TableHead1" align="center"><?php echo $Sno; ?></td>
 <?php $sqlE=mysql_query("select EmpCode,Fname,Sname,Lname,DepartmentId from hrm_employee INNER JOIN hrm_employee_general ON hrm_employee_general.EmployeeID=hrm_employee.EmployeeID where hrm_employee.EmployeeID=".$resQ['EmployeeID'], $con); $resE=mysql_fetch_assoc($sqlE); 
-$sqlD=mysql_query("select DepartmentCode from hrm_department where DepartmentId=".$resE['DepartmentId'], $con); $resD=mysql_fetch_assoc($sqlD);?>	 
+$sqlD=mysql_query("select department_name as DepartmentCode from core_departments where id=".$resE['DepartmentId'], $con); $resD=mysql_fetch_assoc($sqlD);?>	 
  <td width="50" class="TableHead1" align="center"><?php echo $resE['EmpCode']; ?></td>
  <td width="200" class="TableHead1" align="" valign="top">&nbsp;<?php echo $resE['Fname'].' '.$resE['Sname'].' '.$resE['Lname']; ?></td>
  <td width="80" class="TableHead1" align="" valign="top">&nbsp;<?php echo $resD['DepartmentCode']; ?></td>
  <td width="60" class="TableHead1" align="center" valign="top"><?php echo date("d-M-y", strtotime($resQ['QueryDT'])); ?></td>
  <td width="150" class="TableHead1" align="" valign="top">&nbsp;<a href="javascript:ReadQuery(<?php echo $resQ['QueryId']; ?>)"><?php if($resQ['QuerySubject']=='N'){echo substr_replace($resQ['OtherSubject'], '', 15).'.....';} else {echo substr_replace($resQ['QuerySubject'], '', 15).'.....'; }?></a></td>
-<?php $sqlD=mysql_query("select DepartmentCode from hrm_department where DepartmentId=".$resQ['QToDepartmentId'], $con); $resD=mysql_fetch_assoc($sqlD);?>	 
+<?php $sqlD=mysql_query("select department_name as DepartmentCode from core_departments where id=".$resQ['QToDepartmentId'], $con); $resD=mysql_fetch_assoc($sqlD);?>	 
  <td width="100" class="TableHead1" align="" valign="top">&nbsp;<?php echo $resD['DepartmentCode']; ?></td>
  <td width="50" class="TableHead1" align="center" valign="top"><?php if($resQ['HideYesNo']=='N'){ echo 'No';} else {echo 'Yes';} ?></td>
  <td width="80" class="TableHead1" align="center" valign="top" style="background-color:#C4FFC4;"><b>Closed</b></td>

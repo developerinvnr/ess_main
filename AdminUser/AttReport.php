@@ -87,11 +87,11 @@ function FunClick()
 <option value="<?php echo $_REQUEST['m']; ?>"><?php echo date("F",strtotime(date("Y-".$_REQUEST['m']."-d"))); ?></option>
 <option value="1">JANUARY</option><option value="2">FEBRUARY</option><option value="3">MARCH</option><option value="4">APRIL</option><option value="5">MAY</option><option value="6">JUNE</option><option value="7">JULY</option><option value="8">AUGUST</option><option value="9">SEPTEMBER</option><option value="10">OCTOBER</option><option value="11">NOVEMBER</option><option value="12">DECEMBER</option></select></td>
                        <td class="td1" style="font-size:11px; width:170px;">			   
-                       <select style="font-size:11px; width:120px; height:19px; background-color:#DDFFBB; display:block;" name="Department" id="Department" onChange="SelectMonthDept(this.value)">
-<?php if($_REQUEST['D']!='All') { $sqlD=mysql_query("select DepartmentCode from hrm_department where DepartmentId=".$_REQUEST['D'], $con); $resD=mysql_fetch_assoc($sqlD); ?> 
-                      <option value="<?php echo $_REQUEST['D']; ?>" style="margin-left:0px; background-color:#84D9D5;">&nbsp;<?php echo $resD['DepartmentCode']; ?></option>  
+                       <select style="font-size:12px; width:150px; height:22px; background-color:#DDFFBB; display:block;" name="Department" id="Department" onChange="SelectMonthDept(this.value)">
+<?php if($_REQUEST['D']!='All') { $sqlD=mysql_query("select department_name from core_departments where id=".$_REQUEST['D'], $con); $resD=mysql_fetch_assoc($sqlD); ?> 
+                      <option value="<?php echo $_REQUEST['D']; ?>" style="margin-left:0px; background-color:#84D9D5;">&nbsp;<?php echo $resD['department_name']; ?></option>  
 <?php  } else { ?>	  <option value="All" style="margin-left:0px; background-color:#84D9D5;">&nbsp;All</option><?php } ?>						   
-					   <?php $SqlDepartment=mysql_query("select * from hrm_department where CompanyId=".$CompanyId." AND DeptStatus='A' order by DepartmentName ASC", $con); while($ResDepartment=mysql_fetch_array($SqlDepartment)) { ?><option value="<?php echo $ResDepartment['DepartmentId']; ?>"><?php echo '&nbsp;'.$ResDepartment['DepartmentCode'];?></option><?php } ?><option value="All">&nbsp;All</option></select>
+					   <?php $SqlDepartment=mysql_query("select * from core_departments where is_active=1 order by department_name", $con); while($ResDepartment=mysql_fetch_array($SqlDepartment)) { ?><option value="<?php echo $ResDepartment['id']; ?>"><?php echo '&nbsp;'.$ResDepartment['department_name'];?></option><?php } ?><option value="All">&nbsp;All</option></select>
 					   <input type="hidden" name="ComId" id="ComId" value="<?php echo $CompanyId; ?>" /> 
 					   <input type="hidden" name="YearId" id="YearId" value="<?php echo $YearId; ?>" />
                       </td>
@@ -140,7 +140,7 @@ else
   <td rowspan="2" class="cell" style="width:30px;"><b>SNo</b></td>		 
   <td rowspan="2" class="cell" style="width:30px;"><b>EC</b></td>
   <td rowspan="2" class="cell" style="width:250px;"><b>Name</b></td>
-  <td class="cell" colspan="<?php echo date("t",strtotime(date("Y-".$_REQUEST['m']."-d"))); ?>" style="text-align:left;"><b>Month :</b><font style="font:Times New Roman; color:#EAEF18; font-size:14px; background-color:#7a6189; font-weight:bold;"><?php echo date("F",strtotime(date("Y-".$_REQUEST['m']."-d"))); ?></font>&nbsp;&nbsp;&nbsp;<?php if($_REQUEST['D']!='All') { $sqlD=mysql_query("select DepartmentName from hrm_department where DepartmentId=".$_REQUEST['D'], $con); $resD=mysql_fetch_assoc($sqlD); }?><b>Department :</b>&nbsp;<font style="font:Times New Roman; color:#EAEF18; font-size:14px; background-color:#7a6189;font-weight:bold;"><?php if($_REQUEST['D']!='All') {echo $resD['DepartmentName']; } else { echo  'All'; } ?></font></td>
+  <td class="cell" colspan="<?php echo date("t",strtotime(date("Y-".$_REQUEST['m']."-d"))); ?>" style="text-align:left;"><b>Month :</b><font style="font:Times New Roman; color:#EAEF18; font-size:14px; background-color:#7a6189; font-weight:bold;"><?php echo date("F",strtotime(date("Y-".$_REQUEST['m']."-d"))); ?></font>&nbsp;&nbsp;&nbsp;<?php if($_REQUEST['D']!='All') { $sqlD=mysql_query("select department_code as DepartmentName from core_departments where id=".$_REQUEST['D'], $con); $resD=mysql_fetch_assoc($sqlD); }?><b>Department :</b>&nbsp;<font style="font:Times New Roman; color:#EAEF18; font-size:14px; background-color:#7a6189;font-weight:bold;"><?php if($_REQUEST['D']!='All') {echo $resD['DepartmentName']; } else { echo  'All'; } ?></font></td>
   <td class="cell" colspan="5"><b>Total</b></td>
   <td rowspan="2" class="cell" style="width:35px;"><b>Paid</b></td>
  </tr>
@@ -157,7 +157,7 @@ else
 </thead>
 </div> 		 
 <?php if($_REQUEST['D']!='All'){ $SqlEmp=mysql_query("select e.*,g.* from hrm_employee e INNER JOIN hrm_employee_general g ON e.EmployeeID=g.EmployeeID where e.EmpStatus!='De' AND g.DepartmentId=".$_REQUEST['D']." AND e.CompanyId=".$CompanyId." AND (e.DateOfSepration='0000-00-00' OR e.DateOfSepration='1970-01-01' OR e.DateOfSepration>='".date($_REQUEST['Y']."-".$_REQUEST['m']."-01")."') AND g.DateJoining<='".date($_REQUEST['Y']."-".$_REQUEST['m']."-31")."' order by e.ECode ASC", $con); }
-      if($_REQUEST['D']=='All'){ $SqlEmp=mysql_query("select e.*,g.* from hrm_employee e INNER JOIN hrm_employee_general g ON e.EmployeeID=g.EmployeeID where e.EmpStatus!='De' AND e.CompanyId=".$CompanyId." AND g.DepartmentId!=17 AND g.DepartmentId!=18 AND g.DepartmentId!=23 AND g.DepartmentId!=0 AND (e.DateOfSepration='0000-00-00' OR e.DateOfSepration='1970-01-01' OR e.DateOfSepration>='".date($_REQUEST['Y']."-".$_REQUEST['m']."-01")."') AND g.DateJoining<='".date($_REQUEST['Y']."-".$_REQUEST['m']."-31")."' order by e.ECode ASC", $con); }
+      if($_REQUEST['D']=='All'){ $SqlEmp=mysql_query("select e.*,g.* from hrm_employee e INNER JOIN hrm_employee_general g ON e.EmployeeID=g.EmployeeID where e.EmpStatus!='De' AND e.CompanyId=".$CompanyId." AND g.DepartmentId!=18 AND g.DepartmentId!=0 AND (e.DateOfSepration='0000-00-00' OR e.DateOfSepration='1970-01-01' OR e.DateOfSepration>='".date($_REQUEST['Y']."-".$_REQUEST['m']."-01")."') AND g.DateJoining<='".date($_REQUEST['Y']."-".$_REQUEST['m']."-31")."' order by e.ECode ASC", $con); }
 $Sno=1; $SqlRows=mysql_num_rows($SqlEmp); while($ResEmp=mysql_fetch_array($SqlEmp)) { 
 $Ename=$ResEmp['Fname'].' '.$ResEmp['Sname'].' '.$ResEmp['Lname']; $month=$_REQUEST['m']; ?>
 <div class="tbody">

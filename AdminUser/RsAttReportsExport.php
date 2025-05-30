@@ -66,8 +66,14 @@ elseif($_REQUEST['D']=='All' AND $_REQUEST['rpi']==0){ $CondQ="1=1"; }
 elseif($_REQUEST['D']!='All' AND $_REQUEST['rpi']>0){ $CondQ="g.DepartmentId=".$_REQUEST['D']." AND g.RepEmployeeID=".$_REQUEST['rpi']; }
 elseif($_REQUEST['D']=='All' AND $_REQUEST['rpi']>0){ $CondQ="g.RepEmployeeID=".$_REQUEST['rpi']; }
 
+$m=$_REQUEST['m'];
+if(strlen($_REQUEST['m'])==1){ $m='0'.$_REQUEST['m']; }
 
-$SqlEmp=mysql_query("select e.EmployeeID,EmpCode,Fname,Sname,Lname,DepartmentCode,DesigCode,HqName,RepEmployeeID from hrm_employee e INNER JOIN hrm_employee_general g ON e.EmployeeID=g.EmployeeID inner join hrm_department d on g.DepartmentId=d.DepartmentId inner join hrm_designation de on g.DesigId=de.DesigId inner join hrm_headquater hq on g.hqId=hq.HqId where e.EmpStatus!='De' AND e.CompanyId=".$_REQUEST['c']." AND e.EmployeeID!=6 AND e.EmployeeID!=224 AND e.EmployeeID!=694 AND g.DepartmentId!=0 AND ".$CondQ." AND (e.DateOfSepration='0000-00-00' OR e.DateOfSepration='1970-01-01' OR e.DateOfSepration>='".date($_REQUEST['Y']."-".$_REQUEST['m']."-01")."') AND g.DateJoining<='".date($_REQUEST['Y']."-".$_REQUEST['m']."-31")."' order by e.ECode ASC ".$limit, $con);
+$SqlEmp=mysql_query("select e.EmployeeID,EmpCode,Fname,Sname,Lname,g.HqId, g.TerrId, department_name, department_code, designation_name, grade_name, city_village_name, territory_name,RepEmployeeID from hrm_employee e INNER JOIN hrm_employee_general g ON e.EmployeeID=g.EmployeeID left join core_departments dept on g.DepartmentId=dept.id
+  left join core_designation desig on g.DesigId=desig.id
+  left join core_grades gr on g.GradeId=gr.id
+  left join core_city_village_by_state vlg on g.HqId=vlg.id
+  left join core_territory Tr on g.TerrId=Tr.id where e.EmpStatus!='De' AND e.CompanyId=".$_REQUEST['c']." AND e.EmployeeID!=6 AND e.EmployeeID!=224 AND e.EmployeeID!=694 AND g.DepartmentId!=0 AND ".$CondQ." AND (e.DateOfSepration='0000-00-00' OR e.DateOfSepration='1970-01-01' OR e.DateOfSepration>='".date($_REQUEST['Y']."-".$m."-01")."') AND g.DateJoining<='".date($_REQUEST['Y']."-".$m."-31")."' order by e.ECode ASC ".$limit, $con);
    //g.DepartmentId!=17 AND g.DepartmentId!=18 AND g.DepartmentId!=23
 
 /*
@@ -89,9 +95,10 @@ $sqlRep=mysql_query("select Fname,Sname,Lname from hrm_employee where EmployeeId
 $csv_output .= '"'.str_replace('"', '""', $Sno).'",'; 
 $csv_output .= '"'.str_replace('"', '""', $ResEmp['EmpCode']).'",';
 $csv_output .= '"'.str_replace('"', '""', strtoupper($Ename)).'",';
-$csv_output .= '"'.str_replace('"', '""', strtoupper($ResEmp['DepartmentCode'])).'",';
-$csv_output .= '"'.str_replace('"', '""', strtoupper($ResEmp['DesigCode'])).'",';
-$csv_output .= '"'.str_replace('"', '""', strtoupper($ResEmp['HqName'])).'",'; 
+$csv_output .= '"'.str_replace('"', '""', strtoupper($ResEmp['department_name'])).'",';
+$csv_output .= '"'.str_replace('"', '""', strtoupper($ResEmp['designation_name'])).'",';
+if($ResEmp['TerrId']>0){$Hq=$ResEmp['territory_name'];}else{$Hq=$ResEmp['city_village_name']; }
+$csv_output .= '"'.str_replace('"', '""', $Hq).'",'; 
 $csv_output .= '"'.str_replace('"', '""', strtoupper($resRep['Fname'].' '.$resRep['Sname'].' '.$resRep['Lname'])).'",';
  
 //if($_REQUEST['OldNew']=='Old'){ $SqlEmp2=mysql_query("SELECT * FROM ".$AttReport." WHERE EmployeeID =".$ResEmp['EmployeeID']." AND Year=".$Y." AND Month=".$month, $con); $ResEmp2=mysql_fetch_array($SqlEmp2); }

@@ -168,9 +168,9 @@ function show_TblCreturn(originalRequest)
            <td class="tdc"><?=$sn?></td>
 		   <td class="tdl">&nbsp;<?=$res['PolicyName']?></td>
 		   <td class="tdl">&nbsp;
-		   <?php $sqlD=mysql_query("select DepartmentCode from hrm_master_eligibility_policy_dept pd inner join hrm_department d on pd.DeptId=d.DepartmentId where pd.PolicyId=".$res['PolicyId']." AND pd.Sts=1",$con); 
+		   <?php $sqlD=mysql_query("select department_code as DepartmentCode from hrm_master_eligibility_policy_dept pd inner join core_departments d on pd.DeptId=d.id where pd.PolicyId=".$res['PolicyId']." AND pd.Sts=1",$con); 
 		   $rowD=mysql_num_rows($sqlD);  $no=1;
-		   while($resD=mysql_fetch_assoc($sqlD)){ echo ucfirst(strtolower($resD['DepartmentCode'])); if($no<$rowD){echo ', ';} $no++; }?></td>
+		   while($resD=mysql_fetch_assoc($sqlD)){ echo $resD['DepartmentCode']; if($no<$rowD){echo ', ';} $no++; }?></td>
            <td align="center" valign="middle">
 		   <?php if($res['CreatedTbl']==1){ ?>
 		   <span style="cursor:pointer;"><img src="images/open-folder.png" style="height:12px;display:none;" onClick="FunFolder(0,<?=$res['PolicyId']?>,<?=$CompanyId.','.$UserId?>)" id="SpanOF<?=$res['PolicyId']?>"/><img src="images/close-folder.png" style="height:12px;display:block;" onClick="FunFolder(1,<?=$res['PolicyId']?>,<?=$CompanyId.','.$UserId?>)" id="SpanCF<?=$res['PolicyId']?>"/></span>

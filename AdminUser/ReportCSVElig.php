@@ -7,7 +7,7 @@ $FD=date("Y",strtotime($rY['FromDate'])); $TD=date("Y",strtotime($rY['ToDate']))
 if($_REQUEST['action']='EligExport') 
 { 
  if($_REQUEST['value']=='All') {$DeptV='All_Employee';}
-  else{ $sqlDeptV=mysql_query("select DepartmentCode from hrm_department where DepartmentId=".$_REQUEST['value'], $con); $resDeptV=mysql_fetch_assoc($sqlDeptV); 
+  else{ $sqlDeptV=mysql_query("select department_code as DepartmentCode from core_departments where id=".$_REQUEST['value'], $con); $resDeptV=mysql_fetch_assoc($sqlDeptV); 
         $DeptV=$resDeptV['DepartmentCode'];}
   
 #  Create the Column Headings
@@ -28,7 +28,7 @@ $csv_output .= '"Travel (TW)",';
 $csv_output .= '"Travel (FW)",';
 $csv_output .= '"Travel Mode",';
 $csv_output .= '"Travel Class",';
-$csv_output .= '"Mobile Exp. Reim",';
+$csv_output .= '"Communication Allow",';
 $csv_output .= '"Mobile Hand. Elig",';
 $csv_output .= '"Validity",';
 $csv_output .= '"Misc Expenses",';
@@ -44,9 +44,11 @@ $Sno=1; while($res=mysql_fetch_array($result)){
     if($res['Sname']==''){ $Ename=trim($res['Fname']).' '.trim($res['Lname']); }
 else{ $Ename=trim($res['Fname']).' '.trim($res['Sname']).' '.trim($res['Lname']); }
     //$Ename=$res['Fname'].' '.$res['Sname'].' '.$res['Lname']; 
-$sqlDept=mysql_query("select DepartmentCode from hrm_department where DepartmentId=".$res['DepartmentId'], $con); $resDept=mysql_fetch_assoc($sqlDept);
-$sqlDesig=mysql_query("select DesigName from hrm_designation where DesigId=".$res['DesigId'], $con); $resDesig=mysql_fetch_assoc($sqlDesig);
-$sqlGrade=mysql_query("select GradeValue from hrm_grade where GradeId=".$res['GradeId'], $con); $resGrade=mysql_fetch_assoc($sqlGrade);
+    
+    
+$sqlDept=mysql_query("select department_code as DepartmentCode from core_departments where id=".$res['DepartmentId'], $con); $resDept=mysql_fetch_assoc($sqlDept);
+$sqlDesig=mysql_query("select designation_name as DesigName from core_designation where id=".$res['DesigId'], $con); $resDesig=mysql_fetch_assoc($sqlDesig);
+$sqlGrade=mysql_query("select grade_name as GradeValue from core_grades where id=".$res['GradeId'], $con); $resGrade=mysql_fetch_assoc($sqlGrade);
 
 $csv_output .= '"'.str_replace('"', '""', $Sno).'",';
 $csv_output .= '"'.str_replace('"', '""', $res['EmpCode']).'",';
@@ -65,7 +67,12 @@ $csv_output .= '"'.str_replace('"', '""', $res['Travel_TwoWeeKM']).'",';
 $csv_output .= '"'.str_replace('"', '""', $res['Travel_FourWeeKM']).'",';
 $csv_output .= '"'.str_replace('"', '""', $res['Mode_Travel_Outside_Hq']).'",';
 $csv_output .= '"'.str_replace('"', '""', $res['TravelClass_Outside_Hq']).'",';
-$csv_output .= '"'.str_replace('"', '""', $res['Mobile_Exp_Rem_Rs']).'",';
+
+$Coml=' '; $sqlComl=mysql_query("select Communication_Allowance from hrm_employee_ctc where EmployeeID=".$res['EmployeeID']." and Status='A'",$con); $resComl=mysql_fetch_assoc($sqlComl); 
+	   if($resComl['Communication_Allowance']>0){ $Coml = $resComl['Communication_Allowance']; }
+
+//$csv_output .= '"'.str_replace('"', '""', $res['Mobile_Exp_Rem_Rs']).'",';
+$csv_output .= '"'.str_replace('"', '""', $Coml).'",';
 $csv_output .= '"'.str_replace('"', '""', $res['Mobile_Hand_Elig_Rs']).'",';
 
 $GpsSetYN=''; if($res['Mobile_Hand_Elig_Rs']>0){ $sqlGp=mysql_query("select Mobile,Mobile_WithGPS from hrm_master_eligibility where DepartmentId=".$res['DepartmentId']." AND CompanyId=".$_REQUEST['C']." AND GradeId=".$res['GradeId']."",$con); $resGp=mysql_fetch_assoc($sqlGp);

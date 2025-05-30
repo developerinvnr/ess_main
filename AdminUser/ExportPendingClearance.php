@@ -37,19 +37,19 @@ if ($_REQUEST['action'] = 'export') {
     $csv_output .= "\n";
 
   if($_REQUEST['value']=='All'){
-$sql = mysql_query("select e.EmpCode,CONCAT(e.Fname,' ', e.Sname,' ',e.Lname)as Name,d.DepartmentCode,es.Emp_ResignationDate,es.HR_RelievingDate,es.Emp_ExitInt,es.Rep_ExitIntForm,es.Rep_NOC,es.Log_NOC,es.IT_NOC,es.HR_NOC,es.Acc_NOC 
+$sql = mysql_query("select e.EmpCode,CONCAT(e.Fname,' ', e.Sname,' ',e.Lname)as Name,d.department_code as DepartmentCode,es.Emp_ResignationDate,es.HR_RelievingDate,es.Emp_ExitInt,es.Rep_ExitIntForm,es.Rep_NOC,es.Log_NOC,es.IT_NOC,es.HR_NOC,es.Acc_NOC 
 from hrm_employee_separation es
 INNER JOIN hrm_employee e ON e.EmployeeID=es.EmployeeID 
 INNER JOIN hrm_employee_general g ON g.EmployeeID = e.EmployeeID
-INNER JOIN hrm_department d ON d.DepartmentId = g.DepartmentId
+LEFT JOIN core_departments d ON d.id = g.DepartmentId
 where es.ResignationStatus=4 
 AND e.CompanyId=".$CompanyId." order by es.Emp_ResignationDate DESC", $con);}
 else{
-  $sql = mysql_query("select e.EmpCode,CONCAT(e.Fname,' ', e.Sname,' ',e.Lname)as Name,d.DepartmentCode,es.Emp_ResignationDate,es.HR_RelievingDate,es.Emp_ExitInt,es.Rep_ExitIntForm,es.Rep_NOC,es.Log_NOC,es.IT_NOC,es.HR_NOC,es.Acc_NOC 
+  $sql = mysql_query("select e.EmpCode,CONCAT(e.Fname,' ', e.Sname,' ',e.Lname)as Name,d.department_code as DepartmentCode,es.Emp_ResignationDate,es.HR_RelievingDate,es.Emp_ExitInt,es.Rep_ExitIntForm,es.Rep_NOC,es.Log_NOC,es.IT_NOC,es.HR_NOC,es.Acc_NOC 
 from hrm_employee_separation es
 INNER JOIN hrm_employee e ON e.EmployeeID=es.EmployeeID 
 INNER JOIN hrm_employee_general g ON g.EmployeeID = e.EmployeeID
-INNER JOIN hrm_department d ON d.DepartmentId = g.DepartmentId
+LEFT JOIN core_departments d ON d.id = g.DepartmentId
 where es.ResignationStatus=4 
 AND e.CompanyId=".$CompanyId." AND g.DepartmentId = '".$_REQUEST['value']."' order by es.Emp_ResignationDate DESC", $con);  
 }

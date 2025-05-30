@@ -84,10 +84,10 @@ function ReDirSub(ID,prd,dd,EI,CI)
 </select></td>
 					  
 					  <td class="td1" style="font-size:11px; width:138px;" align="right">
-<?php if($_REQUEST['dd']!='All'){ $sqlDept=mysql_query("select DepartmentCode from hrm_department where DepartmentId=".$_REQUEST['dd'], $con); $resDept=mysql_fetch_assoc($sqlDept); $dept=$resDept['DepartmentCode'];}if($_REQUEST['dd']=='All'){$dept='All';} ?>					  
+<?php if($_REQUEST['dd']!='All'){ $sqlDept=mysql_query("select department_name as DepartmentCode from core_departments where id=".$_REQUEST['dd'], $con); $resDept=mysql_fetch_assoc($sqlDept); $dept=$resDept['DepartmentCode'];}if($_REQUEST['dd']=='All'){$dept='All';} ?>					  
 <select style="font-size:14px;width:140px;background-color:#DDFFBB;font-family:Times New Roman;" name="Dept" id="Dept" onChange="SelectDept(this.value)"><option value="<?php echo $_REQUEST['dd']; ?>" style="margin-left:0px;" selected>&nbsp;<?php echo $dept; ?></option>
-<?php $SqlDept=mysql_query("select * from hrm_department where CompanyId=".$CompanyId." order by DepartmentName ASC", $con); while($ResDept=mysql_fetch_array($SqlDept)) { ?>
-                       <option value="<?php echo $ResDept['DepartmentId']; ?>"><?php echo '&nbsp;'.$ResDept['DepartmentCode'];?></option><?php } ?>
+<?php $SqlDept=mysql_query("select * from core_departments where is_active=1 order by department_name", $con); while($ResDept=mysql_fetch_array($SqlDept)) { ?>
+                       <option value="<?php echo $ResDept['id']; ?>"><?php echo '&nbsp;'.$ResDept['department_name'];?></option><?php } ?>
 					   <option value="All">&nbsp;All</option>
 					   </select></td>
 					 </tr>
@@ -117,7 +117,7 @@ function ReDirSub(ID,prd,dd,EI,CI)
 <?php if($_REQUEST['dd']=='All') { $sql = mysql_query("SELECT hrm_employee.*, DepartmentId from hrm_employee INNER JOIN hrm_employee_general ON hrm_employee.EmployeeID=hrm_employee_general.EmployeeID WHERE hrm_employee.EmpStatus='A' AND hrm_employee.CompanyId=".$CompanyId, $con); }
       else { $sql = mysql_query("SELECT hrm_employee.*, DepartmentId from hrm_employee INNER JOIN hrm_employee_general ON hrm_employee.EmployeeID=hrm_employee_general.EmployeeID WHERE hrm_employee.EmpStatus='A' AND hrm_employee.CompanyId=".$CompanyId." AND hrm_employee_general.DepartmentId=".$_REQUEST['dd'], $con); }
 $no=1; while($res = mysql_fetch_array($sql)) { 
-$sqlDept=mysql_query("select DepartmentCode from hrm_department where DepartmentId=".$res['DepartmentId'], $con);  $resDept=mysql_fetch_assoc($sqlDept);?>
+$sqlDept=mysql_query("select department_code as DepartmentCode from core_departments where id=".$res['DepartmentId'], $con);  $resDept=mysql_fetch_assoc($sqlDept);?>
 <tr id="TR_<?php echo $no; ?>" bgcolor="#FFFFFF">
     <td align="center" style="" class="All_40"><?php echo $no; ?></td>
     <td align="center" style="" class="All_60"><?php echo $res['EmpCode']; ?></td>

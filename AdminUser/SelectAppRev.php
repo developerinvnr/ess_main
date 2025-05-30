@@ -148,13 +148,13 @@ function show_AppGetDesig(originalRequest)
     <tr><td align="right" width="280" class="heading">PMS - Select Appraiser/ Reviewer</td><td width="50">&nbsp;</td>
         <td class="td1" style="font-size:11px; width:150px;">
                        <select style="font-size:11px; width:200px; height:18px; background-color:#DDFFBB; display:block;" name="DepartmentE" id="DepartmentE" onChange="SelectDeptEmp(this.value)">
-					   <option value="" style="margin-left:0px; background-color:#84D9D5;" selected>Select Department</option><?php $SqlDepartment=mysql_query("select * from hrm_department where CompanyId=".$CompanyId." AND DeptStatus='A' order by DepartmentName ASC", $con); while($ResDepartment=mysql_fetch_array($SqlDepartment)) { ?><option value="<?php echo $ResDepartment['DepartmentId']; ?>"><?php echo '&nbsp;'.$ResDepartment['DepartmentCode'];?></option><?php } ?></select>
+					   <option value="" style="margin-left:0px; background-color:#84D9D5;" selected>Select Department</option><?php $SqlDepartment=mysql_query("select * from core_departments where is_active=1 order by department_name", $con); while($ResDepartment=mysql_fetch_array($SqlDepartment)) { ?><option value="<?php echo $ResDepartment['id']; ?>"><?php echo '&nbsp;'.$ResDepartment['department_name'];?></option><?php } ?></select>
 					   <input type="hidden" name="ComId" id="ComId" value="<?php echo $CompanyId; ?>" /> 
         </td>
 		<td style="width:250px; ">
 <?php if($_REQUEST['DPid']){ $_SESSION['DPid']=$_REQUEST['DPid']; 
-$sqlD=mysql_query("select DepartmentName from hrm_department where DepartmentId=".$_SESSION['DPid'], $con); $resD=mysql_fetch_assoc($sqlD); ?>		
-&nbsp;<font style=" font-family:Georgia;color:#000066;font-weight:bold; font-size:15px;"> <?php echo '" '.$resD['DepartmentName'].' "'; ?> </font>		
+$sqlD=mysql_query("select department_name from core_departments where id=".$_SESSION['DPid'], $con); $resD=mysql_fetch_assoc($sqlD); ?>		
+&nbsp;<font style=" font-family:Georgia;color:#000066;font-weight:bold; font-size:15px;"> <?php echo '" '.$resD['department_name'].' "'; ?> </font>		
 <input type="hidden" name="DPid" id="DPid" value="<?php echo $_SESSION['DPid']; ?>" /><?php } ?>
 <input type="hidden" name="YearId" id="YearId" value="<?php echo $YearId; ?>" />
 <input type="hidden" name="UserId" id="UserId" value="<?php echo $UserId; ?>" />
@@ -237,8 +237,8 @@ $no=1; while($resRev=mysql_fetch_array($sqlRev)) { ?>
 	  $resE=mysql_fetch_assoc($sqlE);
 	  if($resE['Gender']=='M'){$M='Mr.';} elseif($resE['Gender']=='F' AND $resE['Married']=='Y'){$M='Mrs.';} elseif($resE['Gender']=='F' AND $resE['Married']=='N'){$M='Miss.';} 
 	  $Name=$resE['EmpCode'].'&nbsp;&nbsp;-&nbsp;&nbsp;'.$M.' '.$resE['Fname'].' '.$resE['Sname'].' '.$resE['Lname']; 
-	  $sqlDe=mysql_query("select DesigCode from hrm_designation where DesigId=".$resE['DesigId']." OR DesigId=".$resE['DesigId2'], $con); $resDe=mysql_fetch_assoc($sqlDe);
-	  $Position=$resDe['DesigCode'];   ?> 
+	  $sqlDe=mysql_query("select designation_name from core_designation where id=".$resE['DesigId']." OR id=".$resE['DesigId2'], $con); $resDe=mysql_fetch_assoc($sqlDe);
+	  $Position=$resDe['designation_name'];   ?> 
   <td class="font1" style="width:300px;" align=""><?php echo $Name; ?></td>  
   <td class="font1" style="width:200px;" align=""><?php echo $Position; ?></td>
   <td class="font1" style="width:50px;" align="center">
@@ -275,8 +275,8 @@ $sqlRev=mysql_query("select * from hrm_pms_appraiser where DepartmentId=".$_SESS
 	  $resE=mysql_fetch_assoc($sqlE);
 	  if($resE['Gender']=='M'){$M='Mr.';} elseif($resE['Gender']=='F' AND $resE['Married']=='Y'){$M='Mrs.';} elseif($resE['Gender']=='F' AND $resE['Married']=='N'){$M='Miss.';} 
 	  $Name=$resE['EmpCode'].'&nbsp;&nbsp;-&nbsp;&nbsp;'.$M.' '.$resE['Fname'].' '.$resE['Sname'].' '.$resE['Lname']; 
-	  $sqlDe=mysql_query("select DesigCode from hrm_designation where DesigId=".$resE['DesigId']." OR DesigId=".$resE['DesigId2'], $con); $resDe=mysql_fetch_assoc($sqlDe);
-	  $Position=$resDe['DesigCode'];  ?> 
+	  $sqlDe=mysql_query("select designation_name from core_designation where id=".$resE['DesigId']." OR id=".$resE['DesigId2'], $con); $resDe=mysql_fetch_assoc($sqlDe);
+	  $Position=$resDe['designation_name'];  ?> 
   <td class="font1" style="width:300px;" align=""><?php echo $Name; ?></td>  
   <td class="font1" style="width:200px;" align=""><?php echo $Position; ?></td>
   <td class="font1" style="width:50px;" align="center">

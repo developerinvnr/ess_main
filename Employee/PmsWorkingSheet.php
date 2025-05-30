@@ -516,7 +516,6 @@ function FunTotVal(rows)
 }
 
 
-
 function FunDataSave(Ei,Yi)
 {
   var Dp=document.getElementById('DeE').value; 
@@ -581,7 +580,7 @@ function FunExpFormat(yi,ei,ci,di,ti,tr,gi)
   else {return false; }
 }
 
-
+/*
 function FunExpAllFormat(yi,ei,ci,di,ti,tr,gi)
 {
   var agree=confirm("Are you sure for export?"); 
@@ -591,7 +590,7 @@ function FunExpAllFormat(yi,ei,ci,di,ti,tr,gi)
   }
   else {return false; }
 }
-
+*/
 
 
 
@@ -739,7 +738,7 @@ $SqlStat=mysql_query("select MedicalPolicyPremium from hrm_company_statutory_tax
     <td class="formh" style="width:200px;">(<i>PMS Working Sheet</i>) :&nbsp;</td>
 	<?php if($_SESSION['hStatus']=='Y'){ ?>
 	<td class="tdd" style="width:80px;text-align:right;"><b>Department:</b></td>
-    <td class="td1" style="width:120px;"><select class="tdsel" name="DeE" id="DeE" onChange="SelectFun(this.value,'D',<?php echo $EmployeeId.','.$_SESSION['PmsYId']; ?>)"><?php if($_REQUEST['FilD']>0){ $sqlde=mysql_query("select DepartmentCode from hrm_department where DepartmentId=".$_REQUEST['FilD'],$con); $resde=mysql_fetch_assoc($sqlde); ?><option value="<?php echo $_REQUEST['FilD']; ?>" selected><?php echo $resde['DepartmentCode']; ?></option><?php }else{ ?><option value="All" selected>All</option><?php } $SqlDept=mysql_query("select HR_Curr_DepartmentId,DepartmentName,DepartmentCode from hrm_employee_pms pms inner join hrm_department d on pms.HR_Curr_DepartmentId=d.DepartmentId where AssessmentYear=".$_SESSION['PmsYId']." AND pms.CompanyId=".$CompanyId." AND HOD_EmployeeID=".$EmployeeId." group by HR_Curr_DepartmentId order by DepartmentName ASC"); while($ResDept=mysql_fetch_array($SqlDept)) { ?><option value="<?php echo $ResDept['HR_Curr_DepartmentId']; ?>"><?php echo $ResDept['DepartmentCode'];?></option><?php } ?><option value="All">All</option></select></td>
+    <td class="td1" style="width:120px;"><select class="tdsel" name="DeE" id="DeE" onChange="SelectFun(this.value,'D',<?php echo $EmployeeId.','.$_SESSION['PmsYId']; ?>)"><?php if($_REQUEST['FilD']>0){ $sqlde=mysql_query("select department_name as DepartmentCode from core_departments where id=".$_REQUEST['FilD'],$con); $resde=mysql_fetch_assoc($sqlde); ?><option value="<?php echo $_REQUEST['FilD']; ?>" selected><?php echo $resde['DepartmentCode']; ?></option><?php }else{ ?><option value="All" selected>All</option><?php } $SqlDept=mysql_query("select HR_Curr_DepartmentId,department_name as DepartmentName, department_code as DepartmentCode from hrm_employee_pms pms inner join core_departments d on pms.HR_Curr_DepartmentId=d.id where AssessmentYear=".$_SESSION['PmsYId']." AND pms.CompanyId=".$CompanyId." AND HOD_EmployeeID=".$EmployeeId." group by HR_Curr_DepartmentId order by d.department_name ASC"); while($ResDept=mysql_fetch_array($SqlDept)) { ?><option value="<?php echo $ResDept['HR_Curr_DepartmentId']; ?>"><?php echo $ResDept['DepartmentCode'];?></option><?php } ?><option value="All">All</option></select></td>
 	
 	<?php if($EmployeeId==51){ ?>
 	<td class="tdd" style="width:50px;text-align:right;"><b>HOD:</b></td>
@@ -760,7 +759,7 @@ $SqlStat=mysql_query("select MedicalPolicyPremium from hrm_company_statutory_tax
 	 else{ $DCond='1=1'; } 
 	?>
 	<td class="tddr" style="width:60px;text-align:right;"><b>Grade:</b></td>
-	<td class="td1" style="width:80px;"><select class="tdsel" name="StE" id="StE" onChange="SelectFun(this.value,'G',<?php echo $EmployeeId.','.$_SESSION['PmsYId']; ?>)"><?php if($_REQUEST['FilS']>0){ $sqlSe=mysql_query("select GradeValue from hrm_grade where GradeId=".$_REQUEST['FilS'],$con); $resSe=mysql_fetch_assoc($sqlSe); ?><option value="<?php echo $_REQUEST['FilS']; ?>" selected><?php echo $resSe['GradeValue']; ?></option><?php }else{ ?><option value="All" selected>All</option><?php } $SqlSt=mysql_query("select st.* from hrm_grade st inner join hrm_employee_pms pms on st.GradeId=pms.HR_CurrGradeId where pms.HOD_EmployeeID=".$EmployeeId." AND AssessmentYear=".$_SESSION['PmsYId']." AND ".$DCond." group by pms.HR_CurrGradeId order by st.GradeId ASC"); while($ResSt=mysql_fetch_array($SqlSt)) { ?><option value="<?php echo $ResSt['GradeId']; ?>"><?php echo $ResSt['GradeValue'];?></option><?php } ?><option value="All">All</option></select></td>
+	<td class="td1" style="width:80px;"><select class="tdsel" name="StE" id="StE" onChange="SelectFun(this.value,'G',<?php echo $EmployeeId.','.$_SESSION['PmsYId']; ?>)"><?php if($_REQUEST['FilS']>0){ $sqlSe=mysql_query("select grade_name as GradeValue from core_grades where id=".$_REQUEST['FilS'],$con); $resSe=mysql_fetch_assoc($sqlSe); ?><option value="<?php echo $_REQUEST['FilS']; ?>" selected><?php echo $resSe['GradeValue']; ?></option><?php }else{ ?><option value="All" selected>All</option><?php } $SqlSt=mysql_query("select st.* from core_grades st inner join hrm_employee_pms pms on st.id=pms.HR_CurrGradeId where pms.HOD_EmployeeID=".$EmployeeId." AND AssessmentYear=".$_SESSION['PmsYId']." AND ".$DCond." group by pms.HR_CurrGradeId order by st.id ASC"); while($ResSt=mysql_fetch_array($SqlSt)) { ?><option value="<?php echo $ResSt['GradeId']; ?>"><?php echo $ResSt['GradeValue'];?></option><?php } ?><option value="All">All</option></select></td>
 	
 	<input type="hidden" id="HQE" name="HQE" value="0"/>
 	<?php } ?>
@@ -850,17 +849,17 @@ $SqlStat=mysql_query("select MedicalPolicyPremium from hrm_company_statutory_tax
 $ordby='order by e.ECode ASC'; $Ord=1;
 if($_REQUEST['typ']=='D')
 { 
- if($_REQUEST['Ord']==1){ $ordby='order by d.DepartmentCode ASC'; $Ord=0; }
- else{ $ordby='order by d.DepartmentCode DESC'; $Ord=1; } 
+ if($_REQUEST['Ord']==1){ $ordby='order by d.department_name ASC'; $Ord=0; }
+ else{ $ordby='order by d.department_name DESC'; $Ord=1; } 
 }
 elseif($_REQUEST['typ']=='De')
 { 
- if($_REQUEST['Ord']==1){ $ordby='order by de.DesigCode ASC'; $Ord=0; }
- else{ $ordby='order by de.DesigCode DESC'; $Ord=1; } 
+ if($_REQUEST['Ord']==1){ $ordby='order by de.designation_name ASC'; $Ord=0; }
+ else{ $ordby='order by de.designation_name DESC'; $Ord=1; } 
 }
 elseif($_REQUEST['typ']=='Gr')
 { 
- if($_REQUEST['Ord']==1){ $ordby='order by gr.GradeId ASC'; $Ord=0; }
+ if($_REQUEST['Ord']==1){ $ordby='order by gr.id ASC'; $Ord=0; }
  else{ $ordby='order by gr.GradeId DESC'; $Ord=1; } 
 }
 ?>
@@ -957,6 +956,9 @@ if($row>0)
 ?>
 <tr style="background-color:#CBFF97;height:30px;">
  <td class="tdl" colspan="9" style="border-right:hidden;">
+  
+  <?php /*     
+     
     &nbsp;&nbsp;
 	<a href="#" onClick="FunExpBlankData(<?=$_SESSION['PmsYId'].','.$EmployeeId.','.$CompanyId?>,'<?=$_REQUEST['FilD']?>','<?=$_REQUEST['TeE']?>','<?=$_REQUEST['TrE']?>','<?=$_REQUEST['FilS']?>')"><input type="button" id="PushBtn" style="width:140px;background-color:#F7B52D; cursor:pointer;" value="Export With Blank"/></a>
     &nbsp;
@@ -975,7 +977,7 @@ if($row>0)
 	      $rowcHk=mysql_num_rows($scHk); ?>
 	<a href="#" onClick="FunPushData(<?=$_SESSION['PmsYId'].','.$EmployeeId.','.$CompanyId?>,'<?=$_REQUEST['FilD']?>','<?=$_REQUEST['TeE']?>','<?=$_REQUEST['TrE']?>','<?=$_REQUEST['FilS']?>')"><input type="button" id="PushBtn" style="width:200px;background-color:#F7B52D;" value="Push Data in Increment Sheet" <?php if($roow==0 OR ($roow>0 AND $rowcHk==0)){echo 'disabled';}?>/></a>
 	<?php } ?>
- 
+ */ ?>
  </td>
  
  <td class="tdr" style="border-left:hidden;"><b>Total:</b>&nbsp;</td>
@@ -1006,11 +1008,14 @@ $PrvMD=date("m-d",strtotime($_SESSION['AllowDoj']));                            
 $cY=$PrvY; 
 $pY=$PrvY-1;
 
-$sql=mysql_query("select e.EmployeeID, EmpCode, concat(Fname, ' ', Sname, ' ', Lname) as FullName, DateJoining, g.EmpVertical, g.EmpSection, DepartmentCode, DesigName, DesigCode, GradeValue, EmpCurrGrossPM, EmpCurrCtc, EmpCurrAnnualBasic, Hod_TotalFinalScore, Hod_TotalFinalRating, Hod_EmpDesignation, Hod_EmpGrade, HR_CurrGradeId, HR_Curr_DepartmentId from hrm_employee_pms p inner join hrm_employee e on p.EmployeeID=e.EmployeeID inner join hrm_employee_general g on p.EmployeeID=g.EmployeeID left join hrm_department d on g.DepartmentId=d.DepartmentId left join hrm_designation de on p.HR_CurrDesigId=de.DesigId inner join hrm_grade gr on p.HR_CurrGradeId=gr.GradeId inner join hrm_headquater hq on g.HqId=hq.HqId where e.EmpStatus='A' AND g.DateJoining<='".$_SESSION['AllowDoj']."' AND p.AssessmentYear=".$_SESSION['PmsYId']." AND p.HOD_EmployeeID=".$EmployeeId." AND ".$qry." ".$ordby, $con); //p.AssessmentYear=".$_SESSION['PmsYId']."
+$sql=mysql_query("select e.EmployeeID, EmpCode, concat(Fname, ' ', Sname, ' ', Lname) as FullName, DateJoining, g.EmpVertical, g.EmpSection, department_code as DepartmentCode, designation_name as DesigName, designation_code as DesigCode, grade_name as GradeValue, EmpCurrGrossPM, EmpCurrCtc, EmpCurrAnnualBasic, Hod_TotalFinalScore, Hod_TotalFinalRating, Hod_EmpDesignation, Hod_EmpGrade, HR_CurrGradeId, HR_Curr_DepartmentId from hrm_employee_pms p left join hrm_employee e on p.EmployeeID=e.EmployeeID left join hrm_employee_general g on p.EmployeeID=g.EmployeeID left join core_departments d on g.DepartmentId=d.id left join core_designation de on p.HR_CurrDesigId=de.id left join core_grades gr on p.HR_CurrGradeId=gr.id left join hrm_headquater hq on g.HqId=hq.HqId where e.EmpStatus='A' AND g.DateJoining<='".$_SESSION['AllowDoj']."' AND p.AssessmentYear=".$_SESSION['PmsYId']." AND p.HOD_EmployeeID=".$EmployeeId." AND ".$qry." ".$ordby, $con);
+
+
+//p.AssessmentYear=".$_SESSION['PmsYId']."
 $sno=1; while($res=mysql_fetch_array($sql)){
 
- $sDeH=mysql_query("select DesigName,DesigCode from hrm_designation where DesigId=".$res['Hod_EmpDesignation'], $con); 
- $sGrH=mysql_query("select GradeValue from hrm_grade where GradeId=".$res['Hod_EmpGrade'], $con);
+ $sDeH=mysql_query("select designation_name as DesigName, designation_code as DesigCode from core_designation where id=".$res['Hod_EmpDesignation'], $con); 
+ $sGrH=mysql_query("select grade_name as GradeValue from core_grades where id=".$res['Hod_EmpGrade'], $con);
  $rDe=mysql_fetch_assoc($sDeH); $rGr=mysql_fetch_assoc($sGrH);
   //$lgc=1 -> Only One year
   //$lgc=12 -> One year & some month

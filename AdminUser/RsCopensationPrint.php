@@ -69,35 +69,35 @@ window.print(); window.close();
   <tr bgcolor="#7a6189">
    <td rowspan="2" colspan="2" align="center" class="font" style="width:100px;">SN</td>
    <td rowspan="2" align="center" class="font" style="width:150px;">DEPARTMENT</td>
-<?php $sqlSt=mysql_query("select hrm_state.StateId,StateName,StateCode from hrm_state INNER JOIN hrm_headquater ON hrm_state.StateId=hrm_headquater.StateId INNER JOIN hrm_employee_general ON hrm_headquater.HqId=hrm_employee_general.HqId group by StateName ASC ",$con); while($resSt=mysql_fetch_assoc($sqlSt)){ ?>   
+<?php $sqlSt=mysql_query("select st.id as StateId,st.state_name as StateName, st.state_code as StateCode from core_states st left JOIN hrm_employee_general g ON st.id=g.CostCenter group by state_name ASC",$con); while($resSt=mysql_fetch_assoc($sqlSt)){ ?>   
    <td colspan="2" align="center" class="font" style="width:150px;"><?php echo $resSt['StateCode']; ?></td>
 <?php } ?>
    <td rowspan="2" align="center" class="font" style="width:50px;">Total Emp</td>
    <td rowspan="2" align="center" class="font" style="width:100px;">Total Gross</td>
   </tr>
   <tr bgcolor="#7a6189">
-<?php $sqlSt=mysql_query("select hrm_state.StateId,StateName from hrm_state INNER JOIN hrm_headquater ON hrm_state.StateId=hrm_headquater.StateId INNER JOIN hrm_employee_general ON hrm_headquater.HqId=hrm_employee_general.HqId group by StateName ASC ",$con); while($resSt=mysql_fetch_assoc($sqlSt)){ ?>   
+<?php $sqlSt=mysql_query("select st.id as StateId,st.state_name as StateName from core_states st left JOIN hrm_employee_general g ON st.id=g.CostCenter group by state_name ASC",$con); while($resSt=mysql_fetch_assoc($sqlSt)){ ?>   
    <td align="center" class="font" style="width:50px;">Emp</td>
    <td align="center" class="font" style="width:100px;">Gross</td>
 <?php } ?>
   </tr>
   
 <?php $today=date("Y-m-d"); $timestamp = strtotime($today); 
- $sql=mysql_query("select DepartmentId,DepartmentCode from hrm_department where DepartmentName!='MANAGEMENT' AND DeptStatus='A' AND CompanyId=".$CompanyId." order by DepartmentName ASC",$con); 
+ $sql=mysql_query("select id as DepartmentId,department_code as DepartmentCode from core_departments where is_active=1 order by department_name ASC",$con); 
  $SNo=1; while($res=mysql_fetch_array($sql)){ ?>
 <tr id="TR<?php echo $SNo; ?>">
    <td align="center" style="width:50px;"><input type="checkbox" id="Chk<?php echo $SNo; ?>" onClick="FucChk(<?php echo $SNo; ?>)" /></td>
    <td align="center" style="width:50px;" class="font1">&nbsp;<?php echo $SNo; ?>&nbsp;</td>
    <td align="" class="font1">&nbsp;<?php echo $res['DepartmentCode']; ?></td>
-<?php $sqlSt=mysql_query("select hrm_state.StateId,StateName from hrm_state INNER JOIN hrm_headquater ON hrm_state.StateId=hrm_headquater.StateId INNER JOIN hrm_employee_general ON hrm_headquater.HqId=hrm_employee_general.HqId group by StateName ASC ",$con); while($resSt=mysql_fetch_assoc($sqlSt)){ 
- $sqlTotE=mysql_query("select GeneralId from hrm_employee_general INNER JOIN hrm_headquater ON hrm_employee_general.HqId=hrm_headquater.HqId INNER JOIN hrm_employee ON hrm_employee_general.EmployeeID=hrm_employee.EmployeeID where hrm_headquater.StateId=".$resSt['StateId']." AND hrm_employee.EmpStatus='A' AND hrm_employee.CompanyId=".$CompanyId." AND hrm_employee_general.DepartmentId=".$res['DepartmentId']." AND hrm_employee_general.DateJoining<='".$TD."-03-31'",$con); $rowTotE=mysql_num_rows($sqlTotE);
- $sqlTotG=mysql_query("select SUM(Tot_GrossMonth) as Gross from hrm_employee_ctc INNER JOIN hrm_employee_general ON hrm_employee_ctc.EmployeeID=hrm_employee_general.EmployeeID INNER JOIN hrm_headquater ON hrm_employee_general.HqId=hrm_headquater.HqId INNER JOIN hrm_employee ON hrm_employee_general.EmployeeID=hrm_employee.EmployeeID where hrm_employee_ctc.Status='A' AND hrm_headquater.StateId=".$resSt['StateId']." AND hrm_employee.EmpStatus='A' AND hrm_employee.CompanyId=".$CompanyId." AND hrm_employee_general.DepartmentId=".$res['DepartmentId']." AND hrm_employee_general.DateJoining<='".$TD."-03-31'",$con); $resTotG=mysql_fetch_assoc($sqlTotG);
+<?php $sqlSt=mysql_query("select st.id as StateId,st.state_name as StateName from core_states st left JOIN hrm_employee_general g ON st.id=g.CostCenter group by state_name ASC",$con); while($resSt=mysql_fetch_assoc($sqlSt)){ 
+ $sqlTotE=mysql_query("select GeneralId from hrm_employee_general g left JOIN core_states st on st.id=g.CostCenter INNER JOIN hrm_employee e ON g.EmployeeID=e.EmployeeID where st.id=".$resSt['StateId']." AND e.EmpStatus='A' AND e.CompanyId=".$CompanyId." AND g.DepartmentId=".$res['DepartmentId']." AND g.DateJoining<='".$TD."-03-31'",$con); $rowTotE=mysql_num_rows($sqlTotE);
+ $sqlTotG=mysql_query("select SUM(Tot_GrossMonth) as Gross from hrm_employee_ctc ctc INNER JOIN hrm_employee_general g ON ctc.EmployeeID=g.EmployeeID left JOIN core_states st on st.id=g.CostCenter INNER JOIN hrm_employee e ON g.EmployeeID=e.EmployeeID where ctc.Status='A' AND st.id=".$resSt['StateId']." AND e.EmpStatus='A' AND e.CompanyId=".$CompanyId." AND g.DepartmentId=".$res['DepartmentId']." AND g.DateJoining<='".$TD."-03-31'",$con); $resTotG=mysql_fetch_assoc($sqlTotG);
 ?>
 <td align="center" class="font1"><?php if($rowTotE>0){echo $rowTotE;} ?></td>
 <td align="right" class="font1"><?php if($resTotG['Gross']>0){echo intval($resTotG['Gross']);} ?>&nbsp;</td>
 <?php }    
-$sqlTotEE=mysql_query("select GeneralId from hrm_employee_general INNER JOIN hrm_headquater ON hrm_employee_general.HqId=hrm_headquater.HqId INNER JOIN hrm_employee ON hrm_employee_general.EmployeeID=hrm_employee.EmployeeID where hrm_employee.EmpStatus='A' AND hrm_employee.CompanyId=".$CompanyId." AND hrm_employee_general.DepartmentId=".$res['DepartmentId']." AND hrm_employee_general.DateJoining<='".$TD."-03-31'",$con); $rowTotEE=mysql_num_rows($sqlTotEE);
- $sqlTotGG=mysql_query("select SUM(Tot_GrossMonth) as Gross from hrm_employee_ctc INNER JOIN hrm_employee_general ON hrm_employee_ctc.EmployeeID=hrm_employee_general.EmployeeID INNER JOIN hrm_headquater ON hrm_employee_general.HqId=hrm_headquater.HqId INNER JOIN hrm_employee ON hrm_employee_general.EmployeeID=hrm_employee.EmployeeID where hrm_employee_ctc.Status='A' AND hrm_employee.EmpStatus='A' AND hrm_employee.CompanyId=".$CompanyId." AND hrm_employee_general.DepartmentId=".$res['DepartmentId']." AND hrm_employee_general.DateJoining<='".$TD."-03-31'",$con); 
+$sqlTotEE=mysql_query("select GeneralId from hrm_employee_general g left JOIN core_states st on st.id=g.CostCenter INNER JOIN hrm_employee e ON g.EmployeeID=e.EmployeeID where e.EmpStatus='A' AND e.CompanyId=".$CompanyId." AND g.DepartmentId=".$res['DepartmentId']." AND g.DateJoining<='".$TD."-03-31'",$con); $rowTotEE=mysql_num_rows($sqlTotEE);
+ $sqlTotGG=mysql_query("select SUM(Tot_GrossMonth) as Gross from hrm_employee_ctc ctc INNER JOIN hrm_employee_general g ON ctc.EmployeeID=g.EmployeeID left JOIN core_states st on st.id=g.CostCenter INNER JOIN hrm_employee e ON g.EmployeeID=e.EmployeeID where ctc.Status='A' AND e.EmpStatus='A' AND e.CompanyId=".$CompanyId." AND g.DepartmentId=".$res['DepartmentId']." AND g.DateJoining<='".$TD."-03-31'",$con); 
  $resTotGG=mysql_fetch_assoc($sqlTotGG);
 ?>
 <td align="center" class="font1"><?php if($rowTotEE>0){echo $rowTotEE;} ?></td>
@@ -106,16 +106,16 @@ $sqlTotEE=mysql_query("select GeneralId from hrm_employee_general INNER JOIN hrm
  <?php $SNo++;} ?>
  <tr bgcolor="#2F97FF">
    <td align="right" colspan="3" class="font1">TOTAL:&nbsp;</td>
-<?php $sqlSt=mysql_query("select hrm_state.StateId,StateName from hrm_state INNER JOIN hrm_headquater ON hrm_state.StateId=hrm_headquater.StateId INNER JOIN hrm_employee_general ON hrm_headquater.HqId=hrm_employee_general.HqId group by StateName ASC ",$con); while($resSt=mysql_fetch_assoc($sqlSt)){ 
- $sqlTotEt=mysql_query("select GeneralId from hrm_employee_general INNER JOIN hrm_headquater ON hrm_employee_general.HqId=hrm_headquater.HqId INNER JOIN hrm_employee ON hrm_employee_general.EmployeeID=hrm_employee.EmployeeID where hrm_headquater.StateId=".$resSt['StateId']." AND hrm_employee.EmpStatus='A' AND hrm_employee.CompanyId=".$CompanyId." AND hrm_employee_general.DateJoining<='".$TD."-03-31'",$con); $rowTotEt=mysql_num_rows($sqlTotEt);
- $sqlTotGt=mysql_query("select SUM(Tot_GrossMonth) as Gross from hrm_employee_ctc INNER JOIN hrm_employee_general ON hrm_employee_ctc.EmployeeID=hrm_employee_general.EmployeeID INNER JOIN hrm_headquater ON hrm_employee_general.HqId=hrm_headquater.HqId INNER JOIN hrm_employee ON hrm_employee_general.EmployeeID=hrm_employee.EmployeeID where hrm_employee_ctc.Status='A' AND hrm_headquater.StateId=".$resSt['StateId']." AND hrm_employee.EmpStatus='A' AND hrm_employee.CompanyId=".$CompanyId." AND hrm_employee_general.DateJoining<='".$TD."-03-31'",$con); 
+<?php $sqlSt=mysql_query("select st.id as StateId,st.state_name as StateName from core_states st left JOIN hrm_employee_general g ON st.id=g.CostCenter group by state_name ASC",$con); while($resSt=mysql_fetch_assoc($sqlSt)){ 
+ $sqlTotEt=mysql_query("select GeneralId from hrm_employee_general g left JOIN core_states st on st.id=g.CostCenter INNER JOIN hrm_employee e ON g.EmployeeID=e.EmployeeID where st.id=".$resSt['StateId']." AND e.EmpStatus='A' AND e.CompanyId=".$CompanyId." AND g.DateJoining<='".$TD."-03-31'",$con); $rowTotEt=mysql_num_rows($sqlTotEt);
+ $sqlTotGt=mysql_query("select SUM(Tot_GrossMonth) as Gross from hrm_employee_ctc ctc INNER JOIN hrm_employee_general g ON ctc.EmployeeID=g.EmployeeID left JOIN core_states st on st.id=g.CostCenter INNER JOIN hrm_employee e ON g.EmployeeID=e.EmployeeID where ctc.Status='A' AND st.id=".$resSt['StateId']." AND e.EmpStatus='A' AND e.CompanyId=".$CompanyId." AND g.DateJoining<='".$TD."-03-31'",$con); 
  $resTotGt=mysql_fetch_assoc($sqlTotGt);
 ?>
 <td align="center" class="font1"><?php if($rowTotEt>0){echo $rowTotEt;} ?></td>
 <td align="right" class="font1"><?php if($resTotGt['Gross']>0){echo intval($resTotGt['Gross']);} ?>&nbsp;</td>
 <?php }    
-$sqlTotEEt=mysql_query("select GeneralId from hrm_employee_general INNER JOIN hrm_headquater ON hrm_employee_general.HqId=hrm_headquater.HqId INNER JOIN hrm_employee ON hrm_employee_general.EmployeeID=hrm_employee.EmployeeID where hrm_employee.EmpStatus='A' AND hrm_employee.CompanyId=".$CompanyId." AND hrm_employee_general.DateJoining<='".$TD."-03-31'",$con); $rowTotEEt=mysql_num_rows($sqlTotEEt);
- $sqlTotGGt=mysql_query("select SUM(Tot_GrossMonth) as Gross from hrm_employee_ctc INNER JOIN hrm_employee_general ON hrm_employee_ctc.EmployeeID=hrm_employee_general.EmployeeID INNER JOIN hrm_headquater ON hrm_employee_general.HqId=hrm_headquater.HqId INNER JOIN hrm_employee ON hrm_employee_general.EmployeeID=hrm_employee.EmployeeID where hrm_employee_ctc.Status='A' AND hrm_employee.EmpStatus='A' AND hrm_employee.CompanyId=".$CompanyId." AND hrm_employee_general.DateJoining<='".$TD."-03-31'",$con); $resTotGGt=mysql_fetch_assoc($sqlTotGGt);
+$sqlTotEEt=mysql_query("select GeneralId from hrm_employee_general g left JOIN core_states st on st.id=g.CostCenter INNER JOIN hrm_employee e ON g.EmployeeID=e.EmployeeID where e.EmpStatus='A' AND e.CompanyId=".$CompanyId." AND g.DateJoining<='".$TD."-03-31'",$con); $rowTotEEt=mysql_num_rows($sqlTotEEt);
+ $sqlTotGGt=mysql_query("select SUM(Tot_GrossMonth) as Gross from hrm_employee_ctc ctc INNER JOIN hrm_employee_general g ON ctc.EmployeeID=g.EmployeeID left JOIN core_states st on st.id=g.CostCenter INNER JOIN hrm_employee e ON g.EmployeeID=e.EmployeeID where ctc.Status='A' AND e.EmpStatus='A' AND e.CompanyId=".$CompanyId." AND g.DateJoining<='".$TD."-03-31'",$con); $resTotGGt=mysql_fetch_assoc($sqlTotGGt);
 ?>
 <td align="center" class="font1"><?php if($rowTotEEt>0){echo $rowTotEEt;} ?></td>
 <td align="right" class="font1" bgcolor="#71E100"><?php if($resTotGGt['Gross']>0){echo intval($resTotGGt['Gross']);} ?>&nbsp;</td> 

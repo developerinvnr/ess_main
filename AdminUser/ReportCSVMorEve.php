@@ -19,10 +19,24 @@ echo "Sn\tEmpCode\tName\tDepartment\tDesignation\tLocation\tReporting\tDate\tAtt
 print("\n");
 
 # Get Users Details form the DB #$result = mysql_query("SELECT * from formResults WHERE formID = '$formID'" );
-if($_REQUEST['D']!='All'){ $sql=mysql_query("select EmpCode,Fname,Sname,Lname,DepartmentId,DesigId,HqId,RepEmployeeID,Att,MorEveDate,MorDateTime,MorReports,EveDateTime,EveReports,r.* from hrm_employee_moreve_report_".$_REQUEST['Y']." r INNER JOIN hrm_employee e ON r.EmployeeID=e.EmployeeID INNER JOIN hrm_employee_general g ON r.EmployeeID=g.EmployeeID where e.EmpStatus!='De' AND g.DepartmentId=".$_REQUEST['D']." AND e.CompanyId=".$_REQUEST['C']." AND r.MorEveDate>='".$_REQUEST['Y']."-".$_REQUEST['m']."-01' AND r.MorEveDate<='".$_REQUEST['Y']."-".$_REQUEST['m']."-31' order by MorEveDate ASC, EmployeeID ASC", $con);}
+if($_REQUEST['D']!='All'){ $sql=mysql_query("select EmpCode,Fname,Sname,Lname,g.HqId, g.TerrId, department_name, sub_department_name, section_name, designation_name, grade_name, state_name, city_village_name, territory_name,RepEmployeeID,Att,MorEveDate,MorDateTime,MorReports,EveDateTime,EveReports,r.* from hrm_employee_moreve_report_".$_REQUEST['Y']." r INNER JOIN hrm_employee e ON r.EmployeeID=e.EmployeeID INNER JOIN hrm_employee_general g ON r.EmployeeID=g.EmployeeID left join core_departments dept on g.DepartmentId=dept.id
+  left join core_sub_department_master subdept on g.SubDepartmentId=subdept.id
+  left join core_section sec on g.EmpSection=sec.id
+  left join core_designation desig on g.DesigId=desig.id
+  left join core_grades gr on g.GradeId=gr.id
+  left join core_states st on g.CostCenter=st.id
+  left join core_city_village_by_state vlg on g.HqId=vlg.id
+  left join core_territory Tr on g.TerrId=Tr.id where e.EmpStatus!='De' AND g.DepartmentId=".$_REQUEST['D']." AND e.CompanyId=".$_REQUEST['C']." AND r.MorEveDate>='".$_REQUEST['Y']."-".$_REQUEST['m']."-01' AND r.MorEveDate<='".$_REQUEST['Y']."-".$_REQUEST['m']."-31' order by MorEveDate ASC, EmployeeID ASC", $con);}
 if($_REQUEST['D']=='All'){ 
 
-$sql=mysql_query("select EmpCode,Fname,Sname,Lname,DepartmentId,DesigId,HqId,RepEmployeeID,Att,MorEveDate,MorDateTime,MorReports,EveDateTime,EveReports,r.* from hrm_employee_moreve_report_".$_REQUEST['Y']." r INNER JOIN hrm_employee e ON r.EmployeeID=e.EmployeeID INNER JOIN hrm_employee_general g ON r.EmployeeID=g.EmployeeID where e.EmpStatus!='De' AND e.CompanyId=".$_REQUEST['C']." AND r.MorEveDate>='".$_REQUEST['Y']."-".$_REQUEST['m']."-01' AND r.MorEveDate<='".$_REQUEST['Y']."-".$_REQUEST['m']."-31' order by MorEveDate ASC, EmployeeID ASC", $con);} $Sno=1; $rows=mysql_num_rows($sql); 
+$sql=mysql_query("select EmpCode,Fname,Sname,Lname,g.HqId, g.TerrId, department_name, sub_department_name, section_name, designation_name, grade_name, state_name, city_village_name, territory_name,RepEmployeeID,Att,MorEveDate,MorDateTime,MorReports,EveDateTime,EveReports,r.* from hrm_employee_moreve_report_".$_REQUEST['Y']." r INNER JOIN hrm_employee e ON r.EmployeeID=e.EmployeeID INNER JOIN hrm_employee_general g ON r.EmployeeID=g.EmployeeID left join core_departments dept on g.DepartmentId=dept.id
+  left join core_sub_department_master subdept on g.SubDepartmentId=subdept.id
+  left join core_section sec on g.EmpSection=sec.id
+  left join core_designation desig on g.DesigId=desig.id
+  left join core_grades gr on g.GradeId=gr.id
+  left join core_states st on g.CostCenter=st.id
+  left join core_city_village_by_state vlg on g.HqId=vlg.id
+  left join core_territory Tr on g.TerrId=Tr.id where e.EmpStatus!='De' AND e.CompanyId=".$_REQUEST['C']." AND r.MorEveDate>='".$_REQUEST['Y']."-".$_REQUEST['m']."-01' AND r.MorEveDate<='".$_REQUEST['Y']."-".$_REQUEST['m']."-31' order by MorEveDate ASC, EmployeeID ASC", $con);} $Sno=1; $rows=mysql_num_rows($sql); 
 
 $sn=1; while($res=mysql_fetch_array($sql)) 
 { 
@@ -30,9 +44,7 @@ $sn=1; while($res=mysql_fetch_array($sql))
 else{ $Ename=trim($res['Fname']).' '.trim($res['Sname']).' '.trim($res['Lname']); }
 //$Ename=$res['Fname'].' '.$res['Sname'].' '.$res['Lname'];
 $month=$_REQUEST['m'];
-$sqlDept=mysql_query("select DepartmentCode,DepartmentName from hrm_department where DepartmentId=".$res['DepartmentId'], $con); $resDept=mysql_fetch_assoc($sqlDept);
-$sqlDesig=mysql_query("select DesigCode,DesigName from hrm_designation where DesigId=".$res['DesigId'], $con); $resDesig=mysql_fetch_assoc($sqlDesig);
-$sqlHQ=mysql_query("select HqName from hrm_headquater where HqId=".$res['HqId'], $con); $resHQ=mysql_fetch_assoc($sqlHQ);
+
 $sqlRemp=mysql_query("select Fname,Sname,Lname from hrm_employee where EmployeeID=".$res['RepEmployeeID'], $con); $resRemp=mysql_fetch_assoc($sqlRemp);
 
 
@@ -40,9 +52,10 @@ $sqlRemp=mysql_query("select Fname,Sname,Lname from hrm_employee where EmployeeI
   $schema_insert .= $sn.$sep;	
   $schema_insert .= $res['EmpCode'].$sep;
   $schema_insert .= $res['Fname'].' '.$res['Sname'].' '.$res['Lname'].$sep;
-  $schema_insert .= $resDept['DepartmentName'].$sep;
-  $schema_insert .= $resDesig['DesigName'].$sep;
-  $schema_insert .= $resHQ['HqName'].$sep;
+  $schema_insert .= $res['department_name'].$sep;
+  $schema_insert .= $res['designation_name'].$sep;
+  if($res['TerrId']>0){$Hq=$res['territory_name'];}else{$Hq=$res['city_village_name']; }
+  $schema_insert .= $Hq.$sep;
   $schema_insert .= $resRemp['Fname'].' '.$resRemp['Sname'].' '.$resRemp['Lname'].$sep;
   $schema_insert .= $res['MorEveDate'].$sep;
   $schema_insert .= $res['Att'].$sep;

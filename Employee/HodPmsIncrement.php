@@ -190,6 +190,7 @@ var TotIncrement = document.getElementById("TotIncrement"+Sno).value=Math.round(
 
 }
 
+/*
 function ClickSaveEdit(No,PmsId,EmpId,C,Y,HE)
 { //alert(No+","+PmsId+","+EmpId+","+C+","+Y+","+HE);
   var ProGSPM=document.getElementById("ProGSPM_"+No).value; var Per_ProGSPM=document.getElementById("Per_ProGSPM_"+No).value;
@@ -246,6 +247,7 @@ function ClickSaveEdit(No,PmsId,EmpId,C,Y,HE)
   url, { 	method: 'post', parameters: pars, onComplete: show_IncNormalized });
   return true; } else {return false;}
 }
+
 function show_IncNormalized(originalRequest)
 { 
   document.getElementById("msg").innerHTML = originalRequest.responseText; var Sno=document.getElementById("NoId").value;
@@ -274,6 +276,7 @@ function show_IncNormalized(originalRequest)
   document.getElementById("TwoOverAllSubmit").disabled=false;
    
 }
+*/
 
 function FinalSubmit(No,PmsId,EmpId)
 {
@@ -427,7 +430,7 @@ $SqlStat=mysql_query("select MedicalPolicyPremium from hrm_company_statutory_tax
     <td class="formh" style="width:140px;">(<i>Team Increment</i>) :&nbsp;</td>
 	<?php if($_SESSION['hStatus']=='Y'){ ?>
 	<td class="tdd" style="width:80px;"><b>Department:</b></td>
-    <td class="td1" style="width:100px;"><select class="tdsel" name="DeE" id="DeE" onChange="SelectDeptEmp(this.value,<?php echo $EmployeeId.','.$_SESSION['PmsYId']; ?>)"><?php if($_REQUEST['FilD']>0){ $sqlde=mysql_query("select DepartmentCode from hrm_department where DepartmentId=".$_REQUEST['FilD'],$con); $resde=mysql_fetch_assoc($sqlde); ?><option value="<?php echo $_REQUEST['FilD']; ?>" selected><?php echo $resde['DepartmentCode']; ?></option><?php }else{ ?><option value="All" selected>All</option><?php } $SqlDept=mysql_query("select HR_Curr_DepartmentId,DepartmentName,DepartmentCode from hrm_employee_pms pms inner join hrm_department d on pms.HR_Curr_DepartmentId=d.DepartmentId where AssessmentYear=".$_SESSION['PmsYId']." AND pms.CompanyId=".$CompanyId." AND HOD_EmployeeID=".$EmployeeId." group by HR_Curr_DepartmentId order by DepartmentName ASC"); while($ResDept=mysql_fetch_array($SqlDept)) { ?><option value="<?php echo $ResDept['HR_Curr_DepartmentId']; ?>"><?php echo $ResDept['DepartmentCode'];?></option><?php } ?><option value="All">All</option></select></td>
+    <td class="td1" style="width:100px;"><select class="tdsel" name="DeE" id="DeE" onChange="SelectDeptEmp(this.value,<?php echo $EmployeeId.','.$_SESSION['PmsYId']; ?>)"><?php if($_REQUEST['FilD']>0){ $sqlde=mysql_query("select department_name as DepartmentCode from core_departments where id=".$_REQUEST['FilD'],$con); $resde=mysql_fetch_assoc($sqlde); ?><option value="<?php echo $_REQUEST['FilD']; ?>" selected><?php echo $resde['DepartmentCode']; ?></option><?php }else{ ?><option value="All" selected>All</option><?php } $SqlDept=mysql_query("select HR_Curr_DepartmentId, department_name as DepartmentName, department_code as DepartmentCode from hrm_employee_pms pms inner join core_department d on pms.HR_Curr_DepartmentId=d.id where AssessmentYear=".$_SESSION['PmsYId']." AND pms.CompanyId=".$CompanyId." AND HOD_EmployeeID=".$EmployeeId." group by HR_Curr_DepartmentId order by DepartmentName ASC"); while($ResDept=mysql_fetch_array($SqlDept)) { ?><option value="<?php echo $ResDept['HR_Curr_DepartmentId']; ?>"><?php echo $ResDept['DepartmentCode'];?></option><?php } ?><option value="All">All</option></select></td>
 	<td class="tddr" style="width:40px;"><b>State:</b></td>
 	<td class="td1" style="width:150px;"><select class="tdsel" name="StE" id="StE" onChange="SelectStateEmpInc(this.value,<?php echo $EmployeeId.','.$_SESSION['PmsYId']; ?>)"><?php if($_REQUEST['FilS']>0){ $sqlSe=mysql_query("select StateName from hrm_state where StateId=".$_REQUEST['FilS'],$con); $resSe=mysql_fetch_assoc($sqlSe); ?><option value="<?php echo $_REQUEST['FilS']; ?>" selected><?php echo $resSe['StateName']; ?></option><?php }else{ ?><option value="All" selected>All</option><?php } $SqlSt=mysql_query("select st.* from hrm_state st inner join hrm_headquater hq on st.StateId=hq.StateId inner join hrm_employee_general g on hq.HqId=g.HqId inner join hrm_employee_pms pms on g.EmployeeID=pms.EmployeeID where pms.HOD_EmployeeID=".$EmployeeId." AND hq.CompanyId=".$CompanyId." group by st.StateId order by StateName ASC"); while($ResSt=mysql_fetch_array($SqlSt)) { ?><option value="<?php echo $ResSt['StateId']; ?>"><?php echo $ResSt['StateName'];?></option><?php } ?><option value="All">All</option></select></td>
 	
@@ -526,13 +529,13 @@ $Prev_From_EffDate=date("Y-m-d",strtotime('-1 day', strtotime($_SESSION['EffDate
 	 $sql3=mysql_query("select EmpPmsId from hrm_employee_pms where AssessmentYear=".$_SESSION['PmsYId']." AND HOD_EmployeeID=".$EmployeeId." AND Hod_IncNetCTC>0 AND HodSubmit_IncStatus=1", $con);
 	 
 	 $rows2=mysql_num_rows($sql3);  
-	   if(($_REQUEST['FilD']=='All' AND $_REQUEST['FilS']=='All') OR ($_REQUEST['FilD']=='' AND $_REQUEST['FilS']==''))
+	  /* if(($_REQUEST['FilD']=='All' AND $_REQUEST['FilS']=='All') OR ($_REQUEST['FilD']=='' AND $_REQUEST['FilS']==''))
 	   { ?>  
 		
 		<input type="button" style="height:28px;cursor:pointer; background-color:#FF82FF;" id="TwoOverAllSubmit" onClick="return OverAllSubmit(<?php echo $_SESSION['PmsYId'].','.$EmployeeId; ?>)" value="Over All Final Submit" <?php if($rows2==0){ echo 'disabled'; }?> /> 
 		<?php //if($rows2==0){ echo 'disabled'; }?>
 		 
-<?php  } ?>
+<?php  }*/ ?>
 	 
 	 
 	 &nbsp;&nbsp;
@@ -568,7 +571,7 @@ elseif($_REQUEST['FilD']=='All' AND $_REQUEST['FilS']>0)
 elseif(($_REQUEST['FilD']=='All' AND $_REQUEST['FilS']=='All') OR ($_REQUEST['FilD']=='' AND $_REQUEST['FilS']==''))
 { $qry='1=1'; }
 
- $sql=mysql_query("select e.EmployeeID, EmpCode, Fname, Sname, Lname, d.DepartmentId, g.GradeId, DateJoining, DepartmentCode, g.EmpVertical, g.EmpSection, c.BWageId, c.EmpActPf, EmpPmsId, EmpCurrGrossPM, EmpCurrAnnualBasic, Appraiser_EmployeeID, Reviewer_EmployeeID, Reviewer_TotalFinalScore, Reviewer_TotalFinalRating, Rev2_EmployeeID, Hod_TotalFinalScore, Hod_TotalFinalRating, HodSubmit_IncStatus, Hod_EmpDesignation, Hod_EmpGrade, Hod_ProIncSalary, Hod_Percent_ProIncSalary, Hod_ProCorrSalary, Hod_Percent_ProCorrSalary, Hod_IncNetMonthalySalary, Hod_Percent_IncNetMonthalySalary, Hod_GrossMonthlySalary, Hod_GrossAnnualSalary, Hod_Incentive, HodPer_PIS_From_PreMyTGrossPM, HodPer_SC_From_PreMyTGrossPM, HodPer_TISPM_From_PreMyTGrossPM, HR_CurrDesigId, HR_CurrGradeId, HR_Curr_DepartmentId, INCENTIVE, EmpCurrCtc, Hod_ProIncCTC, Hod_Percent_ProIncCTC, Hod_ProCorrCTC, Hod_Percent_ProCorrCTC, Hod_Proposed_ActualCTC, Hod_IncNetCTC, Hod_Percent_IncNetCTC, Hod_CTC from hrm_employee_pms p INNER JOIN hrm_employee e ON p.EmployeeID=e.EmployeeID INNER JOIN hrm_employee_general g ON p.EmployeeID=g.EmployeeID INNER JOIN hrm_employee_ctc c ON p.EmployeeID=c.EmployeeID INNER JOIN hrm_department d ON g.DepartmentId=d.DepartmentId INNER JOIN hrm_headquater hq ON g.HqId=hq.HqId where e.EmpStatus='A' AND g.DateJoining<='".$_SESSION['AllowDoj']."' AND p.AssessmentYear=".$_SESSION['PmsYId']." AND p.HOD_EmployeeID=".$EmployeeId." AND ".$qry." AND c.Status='A' order by ECode ASC", $con);
+ $sql=mysql_query("select e.EmployeeID, EmpCode, Fname, Sname, Lname, d.id as DepartmentId, g.GradeId, DateJoining, department_name as DepartmentCode, g.EmpVertical, g.EmpSection, c.BWageId, c.EmpActPf, EmpPmsId, EmpCurrGrossPM, EmpCurrAnnualBasic, Appraiser_EmployeeID, Reviewer_EmployeeID, Reviewer_TotalFinalScore, Reviewer_TotalFinalRating, Rev2_EmployeeID, Hod_TotalFinalScore, Hod_TotalFinalRating, HodSubmit_IncStatus, Hod_EmpDesignation, Hod_EmpGrade, Hod_ProIncSalary, Hod_Percent_ProIncSalary, Hod_ProCorrSalary, Hod_Percent_ProCorrSalary, Hod_IncNetMonthalySalary, Hod_Percent_IncNetMonthalySalary, Hod_GrossMonthlySalary, Hod_GrossAnnualSalary, Hod_Incentive, HodPer_PIS_From_PreMyTGrossPM, HodPer_SC_From_PreMyTGrossPM, HodPer_TISPM_From_PreMyTGrossPM, HR_CurrDesigId, HR_CurrGradeId, HR_Curr_DepartmentId, INCENTIVE, EmpCurrCtc, Hod_ProIncCTC, Hod_Percent_ProIncCTC, Hod_ProCorrCTC, Hod_Percent_ProCorrCTC, Hod_Proposed_ActualCTC, Hod_IncNetCTC, Hod_Percent_IncNetCTC, Hod_CTC from hrm_employee_pms p LEFT JOIN hrm_employee e ON p.EmployeeID=e.EmployeeID LEFT JOIN hrm_employee_general g ON p.EmployeeID=g.EmployeeID LEFT JOIN hrm_employee_ctc c ON p.EmployeeID=c.EmployeeID LEFT JOIN core_departments d ON g.DepartmentId=d.id LEFT JOIN hrm_headquater hq ON g.HqId=hq.HqId where e.EmpStatus='A' AND g.DateJoining<='".$_SESSION['AllowDoj']."' AND p.AssessmentYear=".$_SESSION['PmsYId']." AND p.HOD_EmployeeID=".$EmployeeId." AND ".$qry." AND c.Status='A' order by ECode ASC", $con);
 	 
 $sno=1; while($res=mysql_fetch_array($sql)){
 
@@ -1019,7 +1022,9 @@ $Extra_3Month=0;
 			 </table>
 			</td>
 			<td colspan="2" align="center">
+			    <?php /*
 			<input type="button" id="FinalSubmit_<?php echo $sno; ?>" onClick="return FinalSubmit(<?php echo $sno.','.$res['EmpPmsId'].','.$res['EmployeeID']; ?>)" value="Final Submit" <?php if($res['HodSubmit_IncStatus']==2) { echo 'disabled'; } ?>  /></td>
+			*/ ?>
 		  </tr>			
 		  
 		  <tr>
@@ -1250,8 +1255,8 @@ $Extra_3Month=0;
 			{ ?>
 			 <SPAN id="SpanEdit_<?php echo $sno; ?>"><img src="images/edit.png" border="0" id="Editbtn<?php echo $sno;?>" onClick="return ClickEdit(<?php echo $sno.', '.$res['EmployeeID'].', '.$rowChh; ?>)"/></SPAN>
 			 
-	         <SPAN id="SpanEditSave_<?php echo $sno; ?>" style="display:none;"><img src="images/Floppy-Small-icon.png" border="0" id="Savebtn<?php echo $sno;?>" onClick="CalProInc(<?php echo $sno; ?>); return ClickSaveEdit(<?php echo $sno.','.$res['EmpPmsId'].','.$res['EmployeeID'].','.$CompanyId.','.$_SESSION['PmsYId'].','.$EmployeeId; ?>)"></SPAN>
-			 <?php } ?>
+	         <SPAN id="SpanEditSave_<?php echo $sno; ?>" style="display:none;"><img src="images/Floppy-Small-icon.png" border="0" id="Savebtn<?php echo $sno;?>"></SPAN>
+			 <?php } /*onClick="CalProInc(<?php echo $sno; ?>); return ClickSaveEdit(<?php echo $sno.','.$res['EmpPmsId'].','.$res['EmployeeID'].','.$CompanyId.','.$_SESSION['PmsYId'].','.$EmployeeId; ?>)"*/ ?>
 			</td>
 			<td colspan="<?php if($TotInEM>0) {?>9<?php } else { ?>7<?php } ?>" class="msg_g" style="font-size:15px;background-color:#FFFFFF;"><i><span id="msg_<?php echo $sno; ?>" style="display:none;">&nbsp;&nbsp;&nbsp;&nbsp;Data save successfully...</span></i><i><span id="msgSub_<?php echo $sno; ?>" style="display:none;">&nbsp;&nbsp;&nbsp;&nbsp;Data submitted successfully...</span></i>
 			</td>
@@ -1269,10 +1274,10 @@ $sql3=mysql_query("select EmpPmsId from hrm_employee_pms where AssessmentYear=".
 
 $rows2=mysql_num_rows($sql3); 
                   
-	   if(($_REQUEST['FilD']=='All' AND $_REQUEST['FilS']=='All') OR ($_REQUEST['FilD']=='' AND $_REQUEST['FilS']==''))
+	   /*if(($_REQUEST['FilD']=='All' AND $_REQUEST['FilS']=='All') OR ($_REQUEST['FilD']=='' AND $_REQUEST['FilS']==''))
 	   { ?>
 		<input type="button" style="height:28px;cursor:pointer; background-color:#FF82FF;" id="OneOverAllSubmit" onClick="return OverAllSubmit(<?php echo $_SESSION['PmsYId'].','.$EmployeeId; ?>)" value="Over All Final Submit" <?php if($rows2==0){ echo 'disabled'; }?>/>    
-<?php  } ?>	   
+<?php  }*/ ?>	   
 	     </td>
 	    </tr>
 	   </table>

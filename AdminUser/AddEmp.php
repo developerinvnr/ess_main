@@ -36,6 +36,20 @@ $sql = mysql_query("SELECT EmpCode FROM hrm_employee where CompanyId=".$CompanyI
 function RefreshGen()
 { document.getElementById("EmpPass").value = ''; document.getElementById("Fname").value = ''; document.getElementById("Sname").value = ''; document.getElementById("Lname").value = ''; document.getElementById("DOJ").value = ''; document.getElementById("DOC").value = ''; document.getElementById("DOB").value = ''; document.getElementById("Age").value = '';  document.getElementById("FileNo").value = ''; document.getElementById("OffiMobileNo").value = ''; document.getElementById("OffiEmialId").value = ''; document.getElementById("EmpStatus").value = 'A'; document.getElementById("DeptName").value = 0; document.getElementById("DesigName").value = 0;  document.getElementById("CostCenter").value = 0; document.getElementById("GradeName").value = ''; document.getElementById("HQName").value = 0; }
 
+
+function StateSelect(value) {  
+   var url = 'StateSelect.php';	var pars = 'Stateid='+value;	var myAjax = new Ajax.Request(
+	url, 
+	{
+		method: 'post', 
+		parameters: pars, 
+		onComplete: show_NewStateSelect
+	});
+} 
+function show_NewStateSelect(originalRequest)
+{ document.getElementById('HqSpan').innerHTML = originalRequest.responseText; }
+
+
 function GetAge() 
 {    
 var date1 = new Date(); var  dob= document.getElementById("DOB").value; var date2=new Date(dob);
@@ -197,8 +211,8 @@ function SubmitEmpRecord()
   cal.manageFields("f_btn3", "DOB", "%d-%m-%Y");</script></td>
   <td class="All_100" valign="top">Department&nbsp;<font color="#FF0000">*</font> :</td><td class="All_125"><select class="All_120" name="DeptName" id="DeptName" onChange="DeptSelect(this.value);GetAge();">
   <option style="background-color:#DBD3E2;" value="0">&nbsp;Select</option>
- <?php $SqlDept=mysql_query("select * from hrm_department where CompanyId=".$CompanyId." order by DepartmentName ASC", $con); while($ResDept=mysql_fetch_array($SqlDept)) { ?>
-  <option value="<?php echo $ResDept['DepartmentId']; ?>"><?php echo $ResDept['DepartmentCode'].'&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;'.$ResDept['DepartmentName']; ?></option><?php } ?></select></td>
+ <?php $SqlDept=mysql_query("select * from core_departments where is_active=1 order by department_name", $con); while($ResDept=mysql_fetch_array($SqlDept)) { ?><option value="<?php echo $ResDept['id']; ?>"><?php echo $ResDept['department_name']; ?></option><?php } ?></select></td>
+  
   <td class="All_100">Designation&nbsp;<font color="#FF0000">*</font> :</td><td class="All_125"><span id="DesigSpan">
   <select class="All_120" name="DesigName" id="DesigName" disabled ><option value="0">Select</option></select></span></td>
 </tr>
@@ -206,19 +220,19 @@ function SubmitEmpRecord()
   <td class="All_100" valign="top"><?php //Age : ?></td><td class="All_125" valign="top">
   <?php  //Avg.&nbsp;<input class="All_30" style="background-color:#D2F2E0;" name="Age" id="Age" /> year ?></td>
   <td class="All_100" valign="top">Grade&nbsp;<font color="#FF0000">*</font> :</td><td class="All_125"><select class="All_120" name="GradeName" id="GradeName">
-<?php $sql = mysql_query("select * from hrm_grade where CompanyId=".$CompanyId." order by GradeId ASC", $con) or die(mysql_error()); while($res = mysql_fetch_array($sql)){ ?>
-  <option value="<?php echo $res['GradeId']; ?>"><?php echo $res['GradeValue']; ?></option><?php } ?></select></td>  
-  <td class="All_100" valign="top">Cost Center&nbsp;<font color="#FF0000">*</font> :</td><td class="All_125"><select class="All_120" name="CostCenter" id="CostCenter">
+<?php $sql = mysql_query("select * from core_grades where is_active=1 order by grade_name ASC", $con) or die(mysql_error()); while($res = mysql_fetch_array($sql)){ ?><option value="<?php echo $res['id']; ?>"><?php echo $res['grade_name']; ?></option><?php } ?></select></td> 
+  
+  <td class="All_100" valign="top">State&nbsp;<font color="#FF0000">*</font> :</td><td class="All_125"><select class="All_120" name="CostCenter" id="CostCenter" onChange="StateSelect(this.value)">
   <option style="background-color:#DBD3E2;" value="0">Select</option>
- <?php $SqlCC=mysql_query("select * from hrm_costcenter where CompanyId=".$CompanyId, $con); while($ResCC=mysql_fetch_array($SqlCC)) { 
-       $SqlCC1=mysql_query("select * from hrm_state where StateId=".$ResCC['CostCenterName'], $con); $ResCC1=mysql_fetch_array($SqlCC1); ?>
-	   <option value="<?php echo $ResCC1['StateId']; ?>"><?php echo $ResCC1['StateName']; ?></option><?php } ?></select></td>
+ <?php $SqlCC=mysql_query("select * from core_states where is_active=1", $con); while($ResCC=mysql_fetch_array($SqlCC)) { ?>
+	   <option value="<?php echo $ResCC['id']; ?>"><?php echo $ResCC['state_name']; ?></option><?php } ?></select></td>
 </tr>
 <tr>
-  <td class="All_100" valign="top">Head Quater&nbsp;<font color="#FF0000">*</font> :</td><td class="All_125" valign="top"> <select class="All_120" name="HQName" id="HQName" onChange="HQSelect(this.value)">
-  <option value="0">&nbsp;Select</option>
- <?php $SqlHQ=mysql_query("select * from hrm_headquater where CompanyId=".$CompanyId." order by HqName ASC", $con); while($ResHQ=mysql_fetch_array($SqlHQ)) { ?>
-  <option value="<?php echo $ResHQ['HqId']; ?>"><?php echo $ResHQ['HqName']; ?></option><?php } ?></select></td>
+  <td class="All_100" valign="top">Head Quater&nbsp;<font color="#FF0000">*</font> :</td><td class="All_125" valign="top"> 
+  <span id="HqSpan">
+  <select class="All_120" name="HQName" id="HQName" onChange="HQSelect(this.value)"><option value="0">&nbsp;Select</option></select>
+  </span>
+  </td>
   <td class="All_100" valign="top">Official Mob. No :</td><td class="All_125"><input class="All_120" name="OffiMobileNo" id="OffiMobileNo" maxlength="10"></td>
    <td class="All_100" valign="top">Offi. EmailId&nbsp; :</td><td class="All_125"><input name="OffiEmialId" id="OffiEmialId" class="All_120"></td>
 </tr>

@@ -174,7 +174,13 @@ function UploadEmpfile(c,y,e)
     </tr>
    </thead>
    </div>
-<?php $sql=mysql_query("select e.EmployeeID,EmpCode,Fname,Sname,Lname,EmpPmsId,DepartmentCode,DesigName,HqName,StateName from hrm_employee e INNER JOIN hrm_employee_general g ON e.EmployeeID=g.EmployeeID INNER JOIN hrm_employee_pms p ON e.EmployeeID=p.EmployeeID INNER JOIN hrm_department d ON g.DepartmentId=d.DepartmentId INNER JOIN hrm_designation de ON g.DesigId=de.DesigId INNER JOIN hrm_headquater hq ON g.HqId=hq.HqId INNER JOIN hrm_state st ON hq.StateId=st.StateId where e.EmpStatus='A' AND p.AssessmentYear=".$_SESSION['KraYId']." AND p.Reviewer_EmployeeID=".$EmployeeId, $con); 
+<?php $sql=mysql_query("select e.EmployeeID,EmpCode,Fname,Sname,Lname,EmpPmsId,department_code as DepartmentCode, designation_name as DesigName, grade_name as GradeValue, city_village_name as HqName, state_name as StateName from hrm_employee e INNER JOIN hrm_employee_general g ON e.EmployeeID=g.EmployeeID INNER JOIN hrm_employee_pms p ON e.EmployeeID=p.EmployeeID left join core_departments dept on g.DepartmentId=dept.id
+  left join core_sub_department_master subdept on g.SubDepartmentId=subdept.id
+  left join core_section sec on g.EmpSection=sec.id
+  left join core_designation desig on g.DesigId=desig.id
+  left join core_grades gr on g.GradeId=gr.id
+  left join core_states st on g.CostCenter=st.id
+  left join core_city_village_by_state vlg on g.HqId=vlg.id where e.EmpStatus='A' AND p.AssessmentYear=".$_SESSION['KraYId']." AND p.Reviewer_EmployeeID=".$EmployeeId." order by e.ECode", $con); 
 $sno=1; while($res=mysql_fetch_array($sql)){ 
 
 $sql3E=mysql_query("select EmpStatus,AppStatus,RevStatus,UseKRA from hrm_pms_kra where YearId=".$_SESSION['KraYId']." AND EmployeeID=".$res['EmployeeID'], $con); $row3E=mysql_num_rows($sql3E); 

@@ -54,9 +54,9 @@ function PrintPage(){ document.getElementById("pSpan").style.color='#E0DBE3'; wi
      <td style="font-weight:bold;height:22px;font-family:Times New Roman;font-size:14px;"width:100%;height:100%;" valign="middle" align="center">
          
      <?php if($extension=='pdf'){?>
-      <iframe src="../Employee/AssetReqUploadFile/<?php echo $_REQUEST['value'] ?>" width="500" height="500"></iframe>
+      <iframe src="https://vnrseeds.co.in/Employee/AssetReqUploadFile/<?php echo $_REQUEST['value'] ?>" width="500" height="500"></iframe>
      <?php }else{ ?>
-      <img src="../Employee/AssetReqUploadFile/<?php echo $_REQUEST['value'] ?>" border="0" />
+      <img src="https://vnrseeds.co.in/Employee/AssetReqUploadFile/<?php echo $_REQUEST['value'] ?>" border="0" />
      <?php } ?>     
     
     <?php /*     

@@ -3,7 +3,7 @@ require_once('config/config.php');
 date_default_timezone_set('Asia/Calcutta');
 
 if($_REQUEST['action']=='DeptQuali') { $CompanyId=$_REQUEST['c']; $YearId=$_REQUEST['y']; }
-if($_REQUEST['value']!='All') { $sqlA=mysql_query("select DepartmentName from hrm_department where DepartmentId=".$_REQUEST['value'], $con); $resA=mysql_fetch_assoc($sqlA); $dept=$resA['DepartmentName']; }else {$dept='All';}
+if($_REQUEST['value']!='All') { $sqlA=mysql_query("select department_code as DepartmentName from core_departments where id=".$_REQUEST['value'], $con); $resA=mysql_fetch_assoc($sqlA); $dept=$resA['DepartmentName']; }else {$dept='All';}
 
 $xls_filename = 'Employee_Qualification_Details_'.$dept.'.xls';
  
@@ -23,8 +23,7 @@ while($res=mysql_fetch_array($sql))
 { 
 
   $Ename=$res['Fname'].' '.$res['Sname'].' '.$res['Lname']; 
-  $sqlDept=mysql_query("select DepartmentCode from hrm_department where DepartmentId=".$res['DepartmentId'], $con); 
-  $resDept=mysql_fetch_assoc($sqlDept);
+  $sqlDept=mysql_query("select department_code as DepartmentCode from core_departments where id=".$res['DepartmentId'], $con); $resDept=mysql_fetch_assoc($sqlDept);
  
   $schema_insert = "";
   $schema_insert .= '('.$Sno.') EC:'.$res['EmpCode'].' - '.$Ename.' - '.$resDept['DepartmentCode'].$sep;

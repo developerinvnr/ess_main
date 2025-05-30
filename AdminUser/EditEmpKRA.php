@@ -500,7 +500,7 @@ function FunSubTgt(kid,prd,wgt,tgt,eid,c,lgc)
 
 
 
-/*
+
 function ApplyKRAAllEMp(ei,yi,gi,di)
 { 
   var agree=confirm("Are you sure you want to copy the KRA for all related employee?");
@@ -513,7 +513,7 @@ function ApplyKRAAllEMp(ei,yi,gi,di)
     }
   }
 }
-*/
+
 
 function ApplyKRAAllEMp(ei,yi,gi,di,ci,ui)
 { 
@@ -684,7 +684,7 @@ $sqlEK2=mysql_query("select KRA,KRA_Description,Measure,Unit,hrm_employee_pms_kr
       
       <input type="button" name="EditK" id="EditK" style="width:100px;" value="Edit" onClick="EditKRAvalue()"/>
       
-      <?php if($RD['DepartmentId']==6 OR $RD['DepartmentId']==4 OR $CompanyId==4){?><input type="button" name="AppAllK" id="AppAllK" style="width:100px;" value="Apply For All" onClick="ApplyKRAAllEMp(<?php echo $_REQUEST['e'].','.$_REQUEST['YeId'].','.$RD['GradeId'].','.$RD['DepartmentId'].','.$CompanyId.','.$UserId;?>)"/><?php } ?>
+      <?php if($RD['DepartmentId']==15){?><input type="button" name="AppAllK" id="AppAllK" style="width:100px;" value="Apply For All" onClick="ApplyKRAAllEMp(<?php echo $_REQUEST['e'].','.$_REQUEST['YeId'].','.$RD['GradeId'].','.$RD['DepartmentId'].','.$CompanyId.','.$UserId;?>)"/><?php } ?>
       
       <?php } ?>
       </td> 

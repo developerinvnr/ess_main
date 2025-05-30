@@ -84,15 +84,19 @@ $sql1=mysql_query("select * from hrm_employee_separation INNER JOIN hrm_employee
 $sql2=mysql_query("select * from hrm_employee_separation INNER JOIN hrm_employee ON hrm_employee_separation.EmployeeID=hrm_employee.EmployeeID where Emp_ResignationDate>='".$TD."-02-01' AND Emp_ResignationDate<='".$TD."-02-29' AND hrm_employee.CompanyId=".$CompanyId, $con); $row2=mysql_num_rows($sql2);
 $sql3=mysql_query("select * from hrm_employee_separation INNER JOIN hrm_employee ON hrm_employee_separation.EmployeeID=hrm_employee.EmployeeID where Emp_ResignationDate>='".$TD."-03-01' AND Emp_ResignationDate<='".$TD."-03-31' AND hrm_employee.CompanyId=".$CompanyId, $con); $row3=mysql_num_rows($sql3); 
 
-$sql=mysql_query("select hrm_employee.EmpCode,Fname,Sname,Lname,DepartmentId,DesigId,DateJoining,HqId from hrm_employee INNER JOIN hrm_employee_general ON hrm_employee.EmployeeID=hrm_employee_general.EmployeeID where DateJoining>='".$FD."-04-01' AND DateJoining<='".$TD."-03-31' AND hrm_employee.CompanyId=".$CompanyId." AND hrm_employee.EmpStatus='A' order by DateJoining DESC", $con);
-} else { $sql=mysql_query("select hrm_employee.EmpCode,Fname,Sname,Lname,DepartmentId,DesigId,DateJoining,HqId from hrm_employee INNER JOIN hrm_employee_general ON hrm_employee.EmployeeID=hrm_employee_general.EmployeeID where hrm_employee.CompanyId=".$CompanyId." AND hrm_employee.EmpStatus='A' order by DateJoining DESC", $con); } 
+$sql=mysql_query("select e.EmpCode,Fname,Sname,Lname, g.HqId, g.TerrId, department_name, department_code, designation_name, grade_name, city_village_name, territory_name, state_name, DateJoining from hrm_employee e INNER JOIN hrm_employee_general g ON e.EmployeeID=g.EmployeeID left join core_departments dept on g.DepartmentId=dept.id
+  left join core_designation desig on g.DesigId=desig.id
+  left join core_grades gr on g.GradeId=gr.id
+  left join core_city_village_by_state vlg on g.HqId=vlg.id
+  left join core_territory Tr on g.TerrId=Tr.id left join core_states st on g.CostCenter=st.id where DateJoining>='".$FD."-04-01' AND DateJoining<='".$TD."-03-31' AND e.CompanyId=".$CompanyId." AND e.EmpStatus='A' order by DateJoining DESC", $con);
+} else { $sql=mysql_query("select e.EmpCode,Fname,Sname,Lname, g.HqId, g.TerrId, department_name, department_code, designation_name, grade_name, city_village_name, territory_name, state_name, DateJoining from hrm_employee e INNER JOIN hrm_employee_general g ON e.EmployeeID=g.EmployeeID left join core_departments dept on g.DepartmentId=dept.id
+  left join core_designation desig on g.DesigId=desig.id
+  left join core_grades gr on g.GradeId=gr.id
+  left join core_city_village_by_state vlg on g.HqId=vlg.id
+  left join core_territory Tr on g.TerrId=Tr.id left join core_states st on g.CostCenter=st.id where e.CompanyId=".$CompanyId." AND e.EmpStatus='A' order by DateJoining DESC", $con); } 
 $SNo=1; while($res=mysql_fetch_array($sql)){ 
 $m=date('m',strtotime($res['DateJoining'])); if($m==4){$mn='APR';}elseif($m==5){$mn='MAY';}elseif($m==6){$mn='JUN';}elseif($m==7){$mn='JUL';}elseif($m==8){$mn='AUG';}elseif($m==9){$mn='SEP';}elseif($m==10){$mn='OCT';}elseif($m==11){$mn='NOV';}elseif($m==12){$mn='DEC';}elseif($m==1){$mn='JAN';}elseif($m==2){$mn='FEB';}elseif($m==3){$mn='MAR';}
 
-$sqlD=mysql_query("select DepartmentCode from hrm_department where DepartmentId=".$res['DepartmentId'],$con); $resD=mysql_fetch_assoc($sqlD);
-$sqlDe=mysql_query("select DesigCode,DesigName from hrm_designation where DesigId=".$res['DesigId'],$con); $resDe=mysql_fetch_assoc($sqlDe);
-$sqlSH=mysql_query("select HqName,StateName from hrm_headquater INNER JOIN hrm_state ON hrm_headquater.StateId=hrm_state.StateId where HqId=".$res['HqId'],$con); 
-$resSH=mysql_fetch_assoc($sqlSH);
 ?>
 <tr id="TR<?php echo $SNo; ?>">
    <td align="center" style="width:30px;"><input type="checkbox" id="Chk<?php echo $SNo; ?>" onClick="FucChk(<?php echo $SNo; ?>)" /></td>
@@ -100,11 +104,12 @@ $resSH=mysql_fetch_assoc($sqlSH);
    <td align="center" class="font1"><?php echo $SNo; ?></td>
    <td align="center" class="font1"><?php echo $res['EmpCode']; ?></td>
    <td align="" class="font1"><?php echo $res['Fname'].' '.$res['Sname'].' '.$res['Lname']; ?></td>
-   <td align="" class="font1"><?php echo $resD['DepartmentCode']; ?></td>
-   <td align="" class="font1"><?php echo $resDe['DesigName']; ?></td>
+   <td align="" class="font1"><?php echo $res['department_code']; ?></td>
+   <td align="" class="font1"><?php echo $res['designation_name']; ?></td>
    <td align="center" class="font1"><?php echo date("d-m-Y", strtotime($res['DateJoining'])); ?></td>
-   <td align="" class="font1"><?php echo $resSH['HqName']; ?></td>
-   <td align="" class="font1"><?php echo $resSH['StateName']; ?></td>
+   <?php if($res['TerrId']>0){$Hq=$res['territory_name'];}else{$Hq=$res['city_village_name']; } ?>
+   <td align="" class="font1"><?php echo $Hq; ?></td>
+   <td align="" class="font1"><?php echo $res['state_name']; ?></td>
   </tr>
  <?php $SNo++;} ?>
 	 </table>

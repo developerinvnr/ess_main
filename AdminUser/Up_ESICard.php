@@ -210,8 +210,8 @@ function ValidateNew(uForm)
 					   <td class="tdr" style="width:120px;"><b>Department :</b></td>
 					   <td class="tdc" style="width:130px;">
                        
-                       <select style="font-size:11px; width:120px; height:21px; background-color:#DDFFBB; display:block;" name="DepartmentE" id="DepartmentE" onChange="SelectDeptEmp(this.value)"><?php if($_REQUEST['d'] AND $_REQUEST['d']!='') { if($_REQUEST['d']=='All'){$DN='ALL';} else { $SqlDep=mysql_query("select * from hrm_department where CompanyId=".$CompanyId." AND DepartmentId=".$_REQUEST['d'], $con); $ResDep=mysql_fetch_array($SqlDep); $DN=$ResDep['DepartmentCode']; }?><option value="<?php echo $_REQUEST['d']; ?>"><?php echo '&nbsp;'.$DN;?></option><?php } else { ?><option value="" style="margin-left:0px; background-color:#84D9D5;" selected>Select Department</option><?php } ?>   
-<?php $SqlDepartment=mysql_query("select * from hrm_department where CompanyId=".$CompanyId." order by DepartmentName ASC", $con); while($ResDepartment=mysql_fetch_array($SqlDepartment)) { ?><option value="<?php echo $ResDepartment['DepartmentId']; ?>"><?php echo $ResDepartment['DepartmentCode'];?></option><?php } ?>
+                       <select style="font-size:11px; width:120px; height:21px; background-color:#DDFFBB; display:block;" name="DepartmentE" id="DepartmentE" onChange="SelectDeptEmp(this.value)"><?php if($_REQUEST['d'] AND $_REQUEST['d']!='') { if($_REQUEST['d']=='All'){$DN='ALL';} else { $SqlDep=mysql_query("select * from core_departments where id=".$_REQUEST['d'], $con); $ResDep=mysql_fetch_array($SqlDep); $DN=$ResDep['department_name']; }?><option value="<?php echo $_REQUEST['d']; ?>"><?php echo '&nbsp;'.$DN;?></option><?php } else { ?><option value="" style="margin-left:0px; background-color:#84D9D5;" selected>Select Department</option><?php } ?>   
+<?php $SqlDepartment=mysql_query("select * from core_departments where is_active=1 order by department_name", $con); while($ResDepartment=mysql_fetch_array($SqlDepartment)) { ?><option value="<?php echo $ResDepartment['id']; ?>"><?php echo $ResDepartment['department_name'];?></option><?php } ?>
 <option value="All" >ALL</option></select>
 	  <input type="hidden" name="ComId" id="ComId" value="<?php echo $CompanyId; ?>" /> 
                       </td>
@@ -236,7 +236,7 @@ function ValidateNew(uForm)
  </thead>
  </div> 
  <?php if($_REQUEST['d']=='All' || $_REQUEST['d']==''){ $deptCon="1=1"; }else{ $deptCon="g.DepartmentId=".$_REQUEST['d']; }
- $sql=mysql_query("select EmpCode,Fname,Sname,Lname,DepartmentCode from hrm_employee e inner join hrm_employee_general g on e.EmployeeID=g.EmployeeID inner join hrm_department d on g.DepartmentId=d.DepartmentId where e.EmpStatus='A' and ".$deptCon." and e.CompanyId=".$CompanyId." order by e.EmpCode ASC",$con);  
+ $sql=mysql_query("select EmpCode,Fname,Sname,Lname,department_code as DepartmentCode from hrm_employee e inner join hrm_employee_general g on e.EmployeeID=g.EmployeeID left join core_departments d on g.DepartmentId=d.id where e.EmpStatus='A' and ".$deptCon." and e.CompanyId=".$CompanyId." order by e.EmpCode ASC",$con);  
  
  //and g.EsicNo!='' and g.EsicNo!='0' and g.EsicNo!='12345'
  
@@ -244,8 +244,8 @@ function ValidateNew(uForm)
  
  <?php 
  $esic = '../Employee/ESIC_Card/'.$res['EmpCode'].'.pdf';
- if(file_exists($esic))
- { 
+ //if(file_exists($esic))
+ //{ 
  ?>
  
  <div class="tbody">
@@ -262,7 +262,7 @@ function ValidateNew(uForm)
  </tr>
  </tbody>
  </div>
-<?php $sn++; } } ?>
+<?php $sn++; } //} ?>
 
 <span id="SpnaChkDL"></span>
 

@@ -146,11 +146,10 @@ function FunTDClrCheck(v)
 <?php if($_REQUEST['Y']!=$i){ ?><option value="<?php echo $i; ?>"><?php echo $i; ?></option><?php } ?>
 <?php } ?></select></td> 
 		   <td class="td1" style="font-size:11px;"> 
-		   <select style="font-size:11px; width:100px; height:19px; background-color:#DDFFBB; display:block;" name="Department" id="Department" onChange="SelectDept(this.value, <?php echo $_REQUEST['m'].', '.$_REQUEST['Y'].', '.$_REQUEST['wk']; ?>)">
-<?php $SqlD=mysql_query("select DepartmentCode from hrm_department where DepartmentId=".$_REQUEST['d'], $con); $ResD=mysql_fetch_array($SqlD);?>	
-	       <option value="<?php echo $_REQUEST['d']; ?>"><?php echo $ResD['DepartmentCode']; ?></option>
-<?php $SqlD2=mysql_query("select DepartmentId,DepartmentCode from hrm_department where CompanyId=".$CompanyId." AND DeptStatus='A' order by DepartmentCode ASC", $con); 
-      while($ResD2=mysql_fetch_array($SqlD2)) { ?><option value="<?php echo $ResD2['DepartmentId']; ?>"><?php echo $ResD2['DepartmentCode'];?></option><?php } ?><option value='all'>All</option></select></td>
+		   <select style="font-size:11px; width:150px; height:19px; background-color:#DDFFBB; display:block;" name="Department" id="Department" onChange="SelectDept(this.value, <?php echo $_REQUEST['m'].', '.$_REQUEST['Y']; ?>)">
+<?php $SqlD2=mysql_query("select * from core_departments where is_active=1 order by department_name", $con); 
+      while($ResD2=mysql_fetch_array($SqlD2)) { ?><option value="<?php echo $ResD2['id']; ?>" <?php if($_REQUEST['d']==$ResD2['id']){ echo 'selected';}?>><?php echo $ResD2['department_name'];?></option><?php } ?><option value='all' <?php if($_REQUEST['d']=='all'){ echo 'selected';}?>>All</option></option></select></td>
+      
 	       <td style="width:80px;"><select style="font-size:12px; width:80px; height:20px;background-color:#DDFFBB" name="Week" id="Week" onChange="SelectWeek(this.value, <?php echo $_REQUEST['Y'].', '.$_REQUEST['d'].', '.$_REQUEST['m']; ?>)">
 	       <option value="<?php echo $_REQUEST['wk']; ?>"><?php echo 'Week-'.$_REQUEST['wk']; ?></option>
 <?php if($_REQUEST['wk']==1){ ?><option value="2">Week-2</option><option value="3">Week-3</option><option value="4">Week-4</option>
@@ -261,7 +260,7 @@ $sqlch=mysql_query("select * from hrm_employee_separation where EmployeeID=".$Re
   <tbody>	
    <tr id="tr_<?php echo $Sno; ?>" bgcolor="<?php if($rowch>0){echo '#FFFF6C';}elseif($Sno%2==0){ echo '#FFFFFF'; } else {echo '#D9D1E7';}?>">
    <td class="cell2" align="center" id="tdSn_<?php echo $Sno;?>"><?php echo $Sno; ?></td>
-   <td align="center" id="tdcheck_<?php echo $Sno; ?>"><input type="checkbox" id="ClrCheck_<?php echo $Sno; ?>" onClick="FunClrCheck(<?php echo $Sno; ?>)"/><?=$ResEmp['CostCenter']?></td>		
+   <td align="center" id="tdcheck_<?php echo $Sno; ?>"><input type="checkbox" id="ClrCheck_<?php echo $Sno; ?>" onClick="FunClrCheck(<?php echo $Sno; ?>)"/></td>		
    <td class="cell2" align="center"><?php echo $ResEmp['EmpCode']; ?></td>
    <td class="cell2" style="text-transform:capitalize;">&nbsp;<?php echo strtolower($ename); ?>
    <input type="hidden" name="EmpId" id="EmpId" value="<?php echo $ResEmp['EmployeeID']; ?>" /></td>	

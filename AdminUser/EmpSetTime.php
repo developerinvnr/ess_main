@@ -87,12 +87,12 @@ function SelectMD(value)
     <tr>
 	  <td><font color="#2D002D" style='font-family:Times New Roman;' size="4">
 	  <b>Set Employee Office In/Out Time (24 Hour Format):</b></font>&nbsp;&nbsp;</td>
-	   <td class="td1" style="font-size:11px; width:150px;">			   
-	   <select style="font-size:12px;width:120px;" name="dept" id="dept" onChange="SelectMD(this.value)">
-<?php if($_REQUEST['D']!='All') { $sqlD=mysql_query("select DepartmentCode from hrm_department where DepartmentId=".$_REQUEST['D'], $con); $resD=mysql_fetch_assoc($sqlD); ?>
-<option value="<?php echo $_REQUEST['D']; ?>"><?php if($_REQUEST['D']==0){echo 'Select';}else{echo $resD['DepartmentCode']; } ?></option>  
+	   <td class="td1" style="font-size:11px; width:160px;">			   
+	   <select style="font-size:12px;width:150px;" name="dept" id="dept" onChange="SelectMD(this.value)">
+<?php if($_REQUEST['D']!='All') { $sqlD=mysql_query("select * from core_departments where id=".$_REQUEST['D'], $con); $resD=mysql_fetch_assoc($sqlD); ?>
+<option value="<?php echo $_REQUEST['D']; ?>"><?php if($_REQUEST['D']==0){echo 'Select';}else{echo $resD['department_name']; } ?></option>  
 <?php }else{ ?><option value="All">&nbsp;All</option><?php } ?>						   
-<?php $SqlD=mysql_query("select * from hrm_department where CompanyId=".$CompanyId." AND DeptStatus='A' order by DepartmentName ASC", $con); while($ResD=mysql_fetch_array($SqlD)){ ?><option value="<?php echo $ResD['DepartmentId']; ?>"><?php echo $ResD['DepartmentCode'];?></option><?php } ?><option value="All">All</option>
+<?php $SqlD=mysql_query("select * from core_departments where is_active=1 order by department_name", $con); while($ResD=mysql_fetch_array($SqlD)){ ?><option value="<?php echo $ResD['id']; ?>"><?php echo $ResD['department_name'];?></option><?php } ?><option value="All">All</option>
        </select>
 	   <input type="hidden" name="da" id="da" value="<?php echo $_REQUEST['D']; ?>" />
 	  </td>
@@ -135,8 +135,26 @@ function SelectMD(value)
 </tr>
  </thead>
  </div>
-<?php if($_REQUEST['D']!='All'){ $sql=mysql_query("select e.EmployeeID,EmpCode,Fname,Sname,Lname,Shift,TimeApply,InTime,OutTime,DepartmentCode,HqName from hrm_employee e INNER JOIN hrm_employee_general g ON e.EmployeeID=g.EmployeeID INNER JOIN hrm_department d ON g.DepartmentId=d.DepartmentId INNER JOIN hrm_headquater h ON g.HqId=h.hqId where e.EmpStatus='A' AND e.EmpCode>='".$_REQUEST['ec']."' AND g.DepartmentId=".$_REQUEST['D']." AND e.CompanyId=".$CompanyId." order by e.ECode ASC", $con); }
-      if($_REQUEST['D']=='All'){ $sql=mysql_query("select e.EmployeeID,EmpCode,Fname,Sname,Lname,Shift,TimeApply,InTime,OutTime,DepartmentCode,HqName from hrm_employee e INNER JOIN hrm_employee_general g ON e.EmployeeID=g.EmployeeID INNER JOIN hrm_department d ON g.DepartmentId=d.DepartmentId INNER JOIN hrm_headquater h ON g.HqId=h.hqId where e.EmpStatus='A' AND e.EmpCode>='".$_REQUEST['ec']."' AND e.CompanyId=".$CompanyId." order by e.ECode ASC", $con); } $Sno=1; $rows=mysql_num_rows($sql); ?>
+<?php if($_REQUEST['D']!='All'){ $sql=mysql_query("select e.EmployeeID,EmpCode,Fname,Sname,Lname,Shift,TimeApply,InTime,OutTime, g.HqId, g.TerrId, department_name, sub_department_name, section_name, designation_name, grade_name, state_name, city_village_name, territory_name from hrm_employee e INNER JOIN hrm_employee_general g ON e.EmployeeID=g.EmployeeID 
+left join core_departments dept on g.DepartmentId=dept.id
+  left join core_sub_department_master subdept on g.SubDepartmentId=subdept.id
+  left join core_section sec on g.EmpSection=sec.id
+  left join core_designation desig on g.DesigId=desig.id
+  left join core_grades gr on g.GradeId=gr.id
+  left join core_states st on g.CostCenter=st.id
+  left join core_city_village_by_state vlg on g.HqId=vlg.id
+  left join core_territory Tr on g.TerrId=Tr.id
+where e.EmpStatus='A' AND e.EmpCode>='".$_REQUEST['ec']."' AND g.DepartmentId=".$_REQUEST['D']." AND e.CompanyId=".$CompanyId." order by e.ECode ASC", $con); }
+      if($_REQUEST['D']=='All'){ $sql=mysql_query("select e.EmployeeID,EmpCode,Fname,Sname,Lname,Shift,TimeApply,InTime,OutTime, department_name, sub_department_name, section_name, designation_name, grade_name, state_name, city_village_name, territory_name from hrm_employee e INNER JOIN hrm_employee_general g ON e.EmployeeID=g.EmployeeID 
+      left join core_departments dept on g.DepartmentId=dept.id
+  left join core_sub_department_master subdept on g.SubDepartmentId=subdept.id
+  left join core_section sec on g.EmpSection=sec.id
+  left join core_designation desig on g.DesigId=desig.id
+  left join core_grades gr on g.GradeId=gr.id
+  left join core_states st on g.CostCenter=st.id
+  left join core_city_village_by_state vlg on g.HqId=vlg.id
+  left join core_territory Tr on g.TerrId=Tr.id
+      where e.EmpStatus='A' AND e.EmpCode>='".$_REQUEST['ec']."' AND e.CompanyId=".$CompanyId." order by e.ECode ASC", $con); } $Sno=1; $rows=mysql_num_rows($sql); ?>
       
 <form name="formEdit" method="post" onSubmit="return OvalidateEdit(this)">	  
 <input type="hidden" name="norr" id="norr" value="0" />
@@ -149,8 +167,11 @@ function SelectMD(value)
  <td class="tdf" align="center"><?php echo $res['EmpCode']; ?>
  <input type="hidden" name="EI_<?php echo $sn; ?>" value="<?php echo $res['EmployeeID']; ?>" /></td>
  <td class="tdf"><input class="tdf" style="width:250px;border:hidden;" value="<?php echo $res['Fname'].' '.$res['Sname'].' '.$res['Lname']; ?>" readonly/></td>
- <td class="tdf"><input class="tdf" style="width:100px;border:hidden;" value="<?php echo $res['DepartmentCode']; ?>" readonly/></td>
- <td class="tdf"><input class="tdf" style="width:100px;border:hidden;" value="<?php echo $res['HqName']; ?>" readonly/></td>
+ <td class="tdf"><input class="tdf" style="width:100px;border:hidden;" value="<?php echo $res['department_name']; ?>" readonly/></td>
+ 
+ <?php if($res['TerrId']>0){$Hq=$res['territory_name'];}else{$Hq=$res['city_village_name']; } ?> 
+ 
+ <td class="tdf"><input class="tdf" style="width:100px;border:hidden;" value="<?php echo $Hq; ?>" readonly/></td>
  <td class="tdf"><select name="TimeApply_<?php echo $sn; ?>" style="width:50px;border:hidden; background-color:<?php if($res['TimeApply']=='Y'){echo '#ADFF5B';}else{echo '#FFF';}?>" class="tdf"><option value="<?php echo $res['TimeApply']; ?>"><?php echo $res['TimeApply']; ?></option><option value="<?php if($res['TimeApply']=='Y'){echo 'N';}else{echo 'Y';}?>"><?php if($res['TimeApply']=='Y'){echo 'N';}else{echo 'Y';} ?></option></select></td>
  
  <td class="tdf" align="center"><select name="Shift_<?php echo $sn; ?>" style="width:45px;height:22px;"><option value="<?php echo $res['Shift']; ?>"><?php if($res['TimeApply']=='Y'){ if($res['Shift']==0){echo '';}elseif($res['Shift']==1){echo 'Gn';}elseif($res['Shift']==2){echo 'Mo';}elseif($res['Shift']==3){echo 'Af';}elseif($res['Shift']==4){echo 'Ng';}}else{echo '';} ?></option><option value="1">Gn</option><option value="2">Mo</option><option value="3">Af</option><option value="4">Ng</option></select></td>

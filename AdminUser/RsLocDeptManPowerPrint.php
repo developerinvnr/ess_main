@@ -64,32 +64,32 @@ if($_SESSION['login'] = true){require_once('AdminMenuSession.php');} else {$msg=
    <td colspan="2" align="center" class="font" style="width:100px;">SN</td>
    <td align="center" class="font" style="width:80px;">STATE</td>
    <td align="center" class="font" style="width:150px;">HQ</td>
-<?php $sqlDept=mysql_query("select DepartmentId,DepartmentCode from hrm_department where DepartmentName!='MANAGEMENT' AND DeptStatus='A' AND CompanyId=".$CompanyId." order by DepartmentName ASC",$con); while($resDept=mysql_fetch_assoc($sqlDept)){ ?>   
-   <td align="center" class="font" style="width:80px;"><?php echo substr_replace($resDept['DepartmentCode'], '', 3); ?></td>
+<?php $sqlDept=mysql_query("select * from core_departments where is_active=1 order by department_name",$con); while($resDept=mysql_fetch_assoc($sqlDept)){ ?>   
+   <td align="center" class="font" style="width:80px;"><?php echo substr_replace($resDept['department_code'], '', 3); ?></td>
 <?php } ?>
    <td align="center" class="font" style="width:80px;">Total</td>
   </tr>
-<?php $sql=mysql_query("select hrm_headquater.HqId,HqName,hrm_headquater.StateId,StateName,StateCode from hrm_headquater INNER JOIN hrm_state ON hrm_headquater.StateId=hrm_state.StateId INNER JOIN hrm_employee_general ON hrm_headquater.HqId=hrm_employee_general.HqId group by HqName order by StateName ASC, HqName ASC",$con); $SNo=1; while($res=mysql_fetch_assoc($sql)){  ?>
+<?php $sql=mysql_query("select HqId,HqqName,CostCenter as StateId, state_name as StateName,state_name as StateCode from hrm_employee_general g left JOIN core_states st ON g.CostCenter=st.id group by state_name order by state_name ASC, HqqName ASC",$con); $SNo=1; while($res=mysql_fetch_assoc($sql)){  ?>
 <tr id="TR<?php echo $SNo; ?>">
    <td align="center" style="width:50px;"><input type="checkbox" id="Chk<?php echo $SNo; ?>" onClick="FucChk(<?php echo $SNo; ?>)" /></td>
    <td align="center" style="width:50px;" class="font1">&nbsp;<?php echo $SNo; ?>&nbsp;</td>
    <td align="" class="font1">&nbsp;<?php echo $res['StateCode']; ?></td>
    <td align="" class="font1">&nbsp;<?php echo strtoupper($res['HqName']); ?></td>
-<?php $sqlDept=mysql_query("select DepartmentId,DepartmentCode from hrm_department where DepartmentName!='MANAGEMENT' AND DeptStatus='A' AND CompanyId=".$CompanyId." order by DepartmentName ASC",$con); while($resDept=mysql_fetch_assoc($sqlDept)){ 
-$sqlEmp=mysql_query("select GeneralId from hrm_employee_general INNER JOIN hrm_employee ON hrm_employee_general.EmployeeID=hrm_employee.EmployeeID where hrm_employee.EmpStatus='A' AND hrm_employee.CompanyId=".$CompanyId." AND HqId=".$res['HqId']." AND DepartmentId=".$resDept['DepartmentId'],$con); $rowEmp=mysql_num_rows($sqlEmp); ?>   
+<?php $sqlDept=mysql_query("select * from core_departments where is_active=1 order by department_name",$con); while($resDept=mysql_fetch_assoc($sqlDept)){ 
+$sqlEmp=mysql_query("select GeneralId from hrm_employee_general g INNER JOIN hrm_employee e ON g.EmployeeID=e.EmployeeID where e.EmpStatus='A' AND e.CompanyId=".$CompanyId." AND HqId=".$res['HqId']." AND DepartmentId=".$resDept['id'],$con); $rowEmp=mysql_num_rows($sqlEmp); ?>   
    <td align="center" class="font1"><?php if($rowEmp>0){echo $rowEmp;} ?></td>
 <?php } ?>
-<?php $sqlEmpHq=mysql_query("select GeneralId from hrm_employee_general INNER JOIN hrm_employee ON hrm_employee_general.EmployeeID=hrm_employee.EmployeeID where hrm_employee.EmpStatus='A' AND hrm_employee.CompanyId=".$CompanyId." AND HqId=".$res['HqId'],$con); $rowEmpHq=mysql_num_rows($sqlEmpHq); ?>   
+<?php $sqlEmpHq=mysql_query("select GeneralId from hrm_employee_general g INNER JOIN hrm_employee e ON g.EmployeeID=e.EmployeeID where e.EmpStatus='A' AND e.CompanyId=".$CompanyId." AND HqId=".$res['HqId'],$con); $rowEmpHq=mysql_num_rows($sqlEmpHq); ?>   
    <td align="center" class="font1" bgcolor="#59ACFF"><?php if($rowEmpHq>0){echo $rowEmpHq;} ?></td>
   </tr>
  <?php $SNo++;} ?>
  <tr bgcolor="#59ACFF">
    <td align="right" colspan="4" style="width:50px;" class="font1">TOTAL:&nbsp;</td>
-<?php $sqlDept=mysql_query("select DepartmentId,DepartmentCode from hrm_department where DepartmentName!='MANAGEMENT' AND DeptStatus='A' AND CompanyId=".$CompanyId." order by DepartmentName ASC",$con); while($resDept=mysql_fetch_assoc($sqlDept)){ 
-$sqlEmpt=mysql_query("select GeneralId from hrm_employee_general INNER JOIN hrm_employee ON hrm_employee_general.EmployeeID=hrm_employee.EmployeeID where hrm_employee.EmpStatus='A' AND hrm_employee.CompanyId=".$CompanyId." AND DepartmentId=".$resDept['DepartmentId'],$con); $rowEmpt=mysql_num_rows($sqlEmpt); ?>   
+<?php $sqlDept=mysql_query("select * from core_departments where is_active=1 order by department_nameC",$con); while($resDept=mysql_fetch_assoc($sqlDept)){ 
+$sqlEmpt=mysql_query("select GeneralId from hrm_employee_general g INNER JOIN hrm_employee e ON g.EmployeeID=e.EmployeeID where e.EmpStatus='A' AND e.CompanyId=".$CompanyId." AND DepartmentId=".$resDept['id'],$con); $rowEmpt=mysql_num_rows($sqlEmpt); ?>   
    <td align="center" class="font1"><?php if($rowEmpt>0){echo $rowEmpt;} ?></td>
 <?php } ?>
-<?php $sqlEmpHqt=mysql_query("select GeneralId from hrm_employee_general INNER JOIN hrm_employee ON hrm_employee_general.EmployeeID=hrm_employee.EmployeeID where hrm_employee.EmpStatus='A' AND hrm_employee.CompanyId=".$CompanyId,$con); $rowEmpHqt=mysql_num_rows($sqlEmpHqt); ?>   
+<?php $sqlEmpHqt=mysql_query("select GeneralId from hrm_employee_general g INNER JOIN hrm_employee e ON g.EmployeeID=e.EmployeeID where e.EmpStatus='A' AND e.CompanyId=".$CompanyId,$con); $rowEmpHqt=mysql_num_rows($sqlEmpHqt); ?>   
    <td align="center" class="font1" bgcolor="#B0FB4D"><?php if($rowEmpHqt>0){echo $rowEmpHqt;} ?></td>
   </tr>
 

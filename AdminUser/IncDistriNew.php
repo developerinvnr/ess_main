@@ -266,7 +266,7 @@ if(isset($_REQUEST['action']) && $_REQUEST['action']=="editm" && $_REQUEST['eidm
   <tr>	     
     <td class="td1" colspan="6" style="font-size:14px;font-family:Times New Roman;border:hidden;text-align:center;" ><b>Department:</b>&nbsp;<select style="font-size:12px; width:190px;background-color:#DDFFBB;" name="Dept" id="Dept" onChange="SelectFun(this.value,'d')" <?php if($_REQUEST['m']==0){echo 'disabled';} ?>>
 	<option value="0" <?php if($_REQUEST['d']==0){ echo 'selected';}?>>Select</option>
-	<?php $SqlDe=mysql_query("select d.DepartmentId,DepartmentName from hrm_department d INNER JOIN hrm_employee_general g ON d.DepartmentId=g.DepartmentId INNER JOIN hrm_employee_pms p ON p.EmployeeID=g.EmployeeID where p.HOD_EmployeeID=".$_REQUEST['m']." AND p.AssessmentYear=".$_REQUEST['ey']." group by d.DepartmentName ASC", $con); while($ResDe=mysql_fetch_array($SqlDe)) { ?><option value="<?php echo $ResDe['DepartmentId']; ?>" <?php if($_REQUEST['d']==$ResDe['DepartmentId']){ echo 'selected';}?>><?php echo strtoupper($ResDe['DepartmentName']);?></option><?php } ?></select>
+	<?php $SqlDe=mysql_query("select d.id as DepartmentId,d.department_name as DepartmentName from core_departments d INNER JOIN hrm_employee_general g ON d.id=g.DepartmentId INNER JOIN hrm_employee_pms p ON p.EmployeeID=g.EmployeeID where p.HOD_EmployeeID=".$_REQUEST['m']." AND p.AssessmentYear=".$_REQUEST['ey']." group by d.DepartmentName ASC", $con); while($ResDe=mysql_fetch_array($SqlDe)) { ?><option value="<?php echo $ResDe['DepartmentId']; ?>" <?php if($_REQUEST['d']==$ResDe['DepartmentId']){ echo 'selected';}?>><?php echo strtoupper($ResDe['DepartmentName']);?></option><?php } ?></select>
    </td>
   </tr>
   <tr bgcolor="#7a6189">

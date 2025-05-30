@@ -5,7 +5,7 @@ if(check_user()==false){header('Location:../index.php');}
 require_once('logcheck.php');
 if($_SESSION['logCheckUser']!=$logadmin){header('Location:../index.php');}
 if($_SESSION['login'] = true){require_once('AdminMenuSession.php');} else {$msg= "Session Expiry...............";}
-if($_SESSION['login'] = true){require_once('PhpFile/DesignationP.php'); } else {$msg= "Session Expiry..............."; }
+if($_SESSION['login'] = true){require_once('PhpFile/DepartmentP.php'); } else {$msg= "Session Expiry..............."; }
 ?>
 <html>
 <head>
@@ -13,32 +13,23 @@ if($_SESSION['login'] = true){require_once('PhpFile/DesignationP.php'); } else {
 <meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
 <link type="text/css" href="css/body.css" rel="stylesheet" />
 <link type="text/css" href="css/pro_dropdown_3.css" rel="stylesheet"/>
-<style> .font { color:#ffffff; font-family:Georgia; font-size:11px; width:250px;} .font4 { color:#1FAD34; font-family:Georgia; font-size:13px; height:10px;}
-.span {display:none; font-family:Courier New; font-size:14px; }.span1 {display:block; font-family:Courier New; font-size:14px; }
-.fontButton { background-color:#7a6189; color:#009393; font-family:Georgia; font-size:13px;}
+<style type="text/css">
+.thc{ font-family:Times New Roman;font-size:14px;height:25px;text-align:center; background-color:#7a6189;color:#FFFFFF;font-weight:bold; }
+.tdl{ font-family:Times New Roman;font-size:14px;text-align:left;background-color:#FFFFFF; }
+.tdc{ font-family:Times New Roman;font-size:14px;text-align:center;background-color:#FFFFFF; }
+.inner_table{height:400px;overflow-y:auto;width:auto;}
 </style>
-<script type="text/javascript" src="js/stuHover.js" ></script>
+<!-- <script type="text/javascript" src="js/stuHover.js" ></script>
 <script type="text/javascript" src="js/Prototype.js"></script>
-<script type="text/javascript" src="js/MandatoryAjaxCall.js"></script>
-<Script type="text/javascript">window.history.forward(1);</script>
+<script type="text/javascript" src="js/MandatoryAjaxCall.js"></script> -->
+<script src="js/jquery-1.9.1.js"></script>
+<script type="text/javascript" src="js/jquery.freezeheader.js"></script>
 <Script type="text/javascript">window.history.forward(1);
-function deleteDesig() { var agree=confirm("Are you sure you want to delete this record?");
-if (agree) { var a = document.getElementById("DesigId").value; var x = "Designation.php?action=delete&did="+a;  window.location=x;}}
+$(document).ready(function () { $("#table1").freezeHeader({ 'height': '450px' }); })
 
-function validate(formDesig) 
-{
-  var DesigName = formDesig.DesigName.value; var test_bool = filter.test(DesigName); var filter=/^[a-zA-Z.&()-]+$/;
-  if (DesigName.length === 0) { alert("You must enter a Designation Name.");  return false; }
-  if(test_bool==false) { alert('Please Enter Only Alphabets in the Designation Field');  return false; }	
-  
-  var DesigCode = formDesig.DesigCode.value; var test_bool = filter.test(DesigCode); var filter=/^[A-Z.&()-]+$/;
-  if (DesigCode.length === 0) { alert("You must enter a Designation Code.");  return false; }
-  if(test_bool==false) { alert('Please Enter Only Capital Alphabets in the Designation Code Field');  return false; }
-}
-
-function FFunSts(v)
+function SelectDeptEmp(value)
 { 
- window.location="Designation.php?action=selectValue&tt=false&subtitle=designation&cintributios=false&param=0022&Sts="+v+"&ff=22&rr=33&yy=11&finalv=2233";
+  var x = "Designation.php?DpId="+value;  window.location=x;
 }
 
 
@@ -59,104 +50,78 @@ function FFunSts(v)
 	</tr>
 	 <tr>
 	  <td valign="top" align="center"  width="100%" id="MainWindow"><br>
-<?php //************************************************************************************************************************************************************?>
-<?php //**********************************************START*****START*****START******START******START***************************************************************?>
-<?php //************************************************************************************************************************************************************?>
+<?php //**********************************************************************?>
+<?php //********************START*****START*****START******START******START**********************************?>
+<?php //********************************************************************?>
 	  
 <table border="0" style="margin-top:0px; width:100%; height:300px;">
  <tr>
   <td align="left" height="20" valign="top" colspan="3">
    <table border="0">
     <tr>
-	  <td align="right" width="360" class="heading">Designation</td>
-	  <td align="left">
-	    <b><span id="Vtype" class="span">: -&nbsp;Designation</span></b>
+	  <td align="left" width="200" class="heading">Designation Name:</td>
+	  <td class="font4" style="left">
+	  <select style="font-size:12px; width:250px;background-color:#DDFFBB; display:block;" name="DepartmentE" id="DepartmentE" onChange="SelectDeptEmp(this.value)">
+    <option value="" style="margin-left:0px; background-color:#84D9D5;" <?php if($_REQUEST['DpId']==''){echo 'selected';}?>>Select Department</option>                    
+    <?php $sDept=mysql_query("select * from core_departments where is_active=1 order by department_name", $con); 
+		 while($rDept=mysql_fetch_array($sDept)) { ?>
+		 <option value="<?=$rDept['id']?>" <?php if($_REQUEST['DpId']==$rDept['id']){echo 'selected';}?>><?='&nbsp;'.strtoupper($rDept['department_name']);?></option>
+		 <?php } ?>
+  </select>
 	  </td>
-	  <td class="font4" style="left">&nbsp;&nbsp;&nbsp;<b><?php echo $msg; ?></b></td>
 	</tr>
    </table>
   </td>
  </tr>
-<?php if(($_SESSION['UserType']=='S' OR $_SESSION['UserType']=='A' OR $_SESSION['UserType']=='U') AND $_SESSION['login'] = true AND ($_SESSION['Master']==1 OR $_SESSION['Mas_DetailMand_Desig']==1)) { ?>	
+<?php if(($_SESSION['UserType']=='M' OR $_SESSION['UserType']=='S' OR $_SESSION['UserType']=='A' OR $_SESSION['UserType']=='U') AND $_SESSION['login'] = true AND ($_SESSION['Master']==1 OR $_SESSION['Mas_DetailMand_Dept']==1)) { ?>	
  <tr>
- <td style="width:100px;" valign="top" align="center">&nbsp;
-   <table border="0" cellpadding="0px;" align="center">
-	<tr><td align="center">&nbsp;</td></tr>
-   </table>
- </td>
- <td width="100">&nbsp;</td>
-<?php //*********************************************** Open Department******************************************************?> 
-<td align="left" id="type" valign="top" style="display:block;">             
-  <form  name="formDesig" method="post" onSubmit="return validate(this)">
-   <table border="0">
+
+ <?php //*********************************************** Open Department******************************************************?> 
+<td align="left" id="type" valign="top" style="display:block; width:100%">             
+   <table border="0" width="60%">
    
 	<tr>
-	  <td align="left"><table border="0" width="750">
-	    <tr>
-		   <td class="td1" style="font-size:11px; width:480px;" valign="top">
-		   <span id="Desig">
-		      <table>
-			     <tr><td style="font-size:11px; height:18px;">Designation :</td><td><input name="DesigName" id="DesigName" style="font-size:11px; width:220px; height:20px;"/></td></tr>
-			     <tr><td style="font-size:11px; height:18px;">Code :&nbsp;</td><td><input name="DesigCode" id="DesigCode" style="font-size:11px; width:150px; height:20px;"/></td></tr>
-			     <tr><td style="font-size:11px; height:18px;">P. Code :&nbsp;</td><td><input name="Desig_ShortCode" id="Desig_ShortCode" style="font-size:11px; width:150px; height:20px;"/></td></tr>
-			     
-			     <tr><td style="font-size:11px; height:18px;">Status :&nbsp;</td><td><select name="Desig_Sts" id="Desig_Sts" style="font-size:11px; width:150px; height:20px;"><option value="A">Active</option><option value="D">Deactive</option></select></td></tr>
-			  
-			  <tr><td>&nbsp;</td></tr>	 
-			  <tr style="font-size:11px;">
-		       <td colspan="2" ><font style="background-color:#00B0B0;">&nbsp;&nbsp;&nbsp;&nbsp;</font> 
-			   &nbsp;: - Deactivated</td>
-		      </tr>	 
-			     
-			  </table>
-		   </span>
-		   </td>
-		   <td align="right" style="font-size:11px; width:180px;">
-		   
-		   <select name="Sts" onChange="FFunSts(this.value)">
-	<option value="All" <?php if($_REQUEST['Sts']=='All' || $_REQUEST['Sts']==''){echo 'selected';}?>>All</option>
-	<option value="A" <?php if($_REQUEST['Sts']=='A'){echo 'selected';}?>>Active</option>
-	<option value="D" <?php if($_REQUEST['Sts']=='D'){echo 'selected';}?>>Deactive</option>
-   </select>
-   <?php if($_REQUEST['Sts']=='A'){$Qsub="DesigStatus='A'";} 
-         elseif($_REQUEST['Sts']=='D'){$Qsub="DesigStatus='D'";}
-		 else{$Qsub="1=1";}
-   ?>
-		   <br>
-		   
-		                    <select style="width:400px; background-color:#F1EDF8;" name="DesigSelect" id="DesigSelect" size="20" onChange="selectDesig(this.value)">
-		   <?php $SqlDesig=mysql_query("select * from hrm_designation where ".$Qsub." AND CompanyId=".$CompanyId." AND DesigName!='' AND DesigId!=69 order by DesigCode ASC", $con); while($ResDesig=mysql_fetch_array($SqlDesig)) { ?>
-							<option value="<?php echo $ResDesig['DesigId']; ?>" style="background-color:<?php if($ResDesig['DesigStatus']=='D'){echo '#00B0B0';} ?>;"><?php echo $ResDesig['DesigCode']; ?>&nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;<?php echo $ResDesig['DesigName']; if($ResDesig['Desig_ShortCode']!=''){echo ' - '.$ResDesig['Desig_ShortCode']; } ?></option><?php } ?>
-							</select></td>
-		</tr></table>
+	  <td align="left" width="100%">
+	     <table border="1" width="100%" bgcolor="#FFFFFF" id="table1" cellspacing="0" style="width:100%;">
+		 <div class="thead">
+		 <thead>
+ <tr bgcolor="#7a6189">
+   <td class="thc" style="width:50;">Sn</td>
+   <?php /*<td class="thc" style="width:50;">Dept-Id</td>*/?>
+   <td class="thc" style="width:150;">Designationn Name</td>
+   <td class="thc" style="width:100;">Code</td>
+ </tr>
+</thead>
+</div>
+<?php $sql=mysql_query("select de.* from core_designation_department_mapping dd left join core_designation de on dd.designation_id=de.id where dd.department_id=".$_REQUEST['DpId']." and is_active=1 group by designation_name order by designation_name", $con); $SNo=1; while($res=mysql_fetch_array($sql)) { ?>
+<div class="tbody">
+ <tbody>
+		  <tr>
+		   <td class="tdc"><?php echo $SNo; ?></td>
+		   <?php /*<td class="tdc">&nbsp;<?php echo $res['id']; ?></td>*/ ?>
+		   <td class="tdl">&nbsp;<?php echo $res['designation_name']; ?></td>
+ 		   <td class="tdc"><?php echo $res['designation_code']; ?></td>
+		 </tr>
+ </tbody>
+</div>		 
+<?php $SNo++;} ?>
+         <tr><td bgcolor="#B6E9E2" colspan="10"></td></tr>
+		     
+			
+		 </table>
 	  </td>
     </tr>
-<?php if($_SESSION['User_Permission']=='Edit'){?>	  
-   <tr>
-      <td align="Right" class="fontButton"><table border="0" width="550">
-		<tr>
-		 
-	 <td align="right"><input type="submit" name="ChangeDesig" id="ChangeDesig" style="width:90px; display:none;" value="change"></td>
-	 <td align="right" style="width:70px;"><input type="button" name="DeleteDesig" id="DeleteDesig" value="delete" style="width:90px; display:none;" disabled onClick="deleteDesig()">
-		                                       <input type="submit" name="AddNewDesig" id="AddNewDesig" style="width:90px; display:block;" value="add new"></td>
-		 <td align="right" style="width:80px;"><input type="button" name="back" id="back" style="width:90px;" value="back" onClick="javascript:window.location='Index.php?log=<?php echo $_SESSION['logCheckUser']; ?>'"/></td>
-		 <td align="right" style="width:70px;"><input type="button" name="RefreshDesig" id="RefreshDesig" style="width:90px;" value="refresh" onClick="javascript:window.location='Designation.php'"/></td>
-		</tr></table>
-      </td>
-   </tr>
-<?php } ?>
-  </table>
- </form>     
+  </table>  
 </td>
-<?php //*********************************************** Close Department******************************************************?>    
+<?php //*********************************************** Close Department******************************************************?>
 
  </tr>
 <?php } ?> 
 </table>
 		
-<?php //************************************************************************************************************************************************************?>
-<?php //**********************************************END*****END*****END******END******END***************************************************************?>
-<?php //************************************************************************************************************************************************************?>
+<?php //******************************************************************************?>
+<?php //**********************END*****END*****END******END******END********************************?>
+<?php //************************************************************************************?>
 		
 	  </td>
 	</tr>

@@ -544,8 +544,12 @@ elseif(($rE['InnLate']==0 OR $rE['InnLate']=='') AND ($rE['OuttLate']==0 OR $rE[
 <tr>
 <td class="font2">Reason</td>
 <td class="font2">:</td>
-<td class="font2"><select class="font2" id="reasonI" name="reasonI" style="width:150px;" disabled>
-<?php if($rowchk>0 AND $rchk['InReason']!=''){ ?><option value="<?php echo $rchk['InReason']; ?>"><?php echo $rchk['InReason']; ?></option><?php } else { ?><option value="0">Select</option><?php } if(date("d")!=date("t") OR $res['DepartmentId']==9){ ?><?php if($res['DepartmentId']!=2 AND $res['DepartmentId']!=3 AND $res['DepartmentId']!=4 AND $res['DepartmentId']!=6 AND $res['DepartmentId']!=12 AND $res['DepartmentId']!=25 AND $res['DepartmentId']!=27){ ?><option value="OD">OD</option><?php } ?><option value="Tour">Tour</option><option value="Meeting">Meeting</option><?php } ?><option value="Other">Other</option></select></td>
+    <td class="font2"><select class="font2" id="reasonI" name="reasonI" style="width:150px;" disabled>
+            <?php if ($rowchk > 0 and $rchk['InReason'] != '') { ?>
+            <option value="<?php echo $rchk['InReason']; ?>"><?php echo $rchk['InReason']; ?></option><?php } else { ?>
+            <option value="0">Select</option><?php }if (date("d") != date("t")) { ?><option value="OD">OD</option><?php } ?><option value="Tour">Tour</option>
+            <option value="Meeting">Meeting</option><option value="Other">Other</option>
+        </select></td>
 </tr>
 <tr>
 <td class="font2" valign="top">Remark/Location</td>
@@ -567,7 +571,7 @@ elseif(($rE['InnLate']==0 OR $rE['InnLate']=='') AND ($rE['OuttLate']==0 OR $rE[
 <td class="font2">Reason</td>
 <td class="font2">:</td>
 <td class="font2"><select class="font2" id="reasonO" name="reasonO" style="width:150px;" disabled>
-<?php if($rowchk>0 AND $rchk['OutReason']!=''){ ?><option value="<?php echo $rchk['OutReason']; ?>"><?php echo $rchk['OutReason']; ?></option><?php } else { ?><option value="0">Select</option><?php } if(date("d")!=date("t") OR $res['DepartmentId']==9){ ?><?php if($res['DepartmentId']!=2 AND $res['DepartmentId']!=3 AND $res['DepartmentId']!=4 AND $res['DepartmentId']!=6 AND $res['DepartmentId']!=12 AND $res['DepartmentId']!=25 AND $res['DepartmentId']!=27){ ?><option value="OD">OD</option><?php } ?><option value="Tour">Tour</option><option value="Meeting">Meeting</option><?php } ?><option value="Other">Other</option></select></td>
+<?php if($rowchk>0 AND $rchk['OutReason']!=''){ ?><option value="<?php echo $rchk['OutReason']; ?>"><?php echo $rchk['OutReason']; ?></option><?php } else { ?><option value="0">Select</option><?php } if(date("d")!=date("t")){ ?><option value="OD">OD</option><?php } ?><option value="Tour">Tour</option><option value="Meeting">Meeting</option><option value="Other">Other</option></select></td>
 </tr>
 <tr>
 <td class="font2" valign="top">Remark/Location</td>
@@ -588,7 +592,7 @@ elseif(($rE['InnLate']==0 OR $rE['InnLate']=='') AND ($rE['OuttLate']==0 OR $rE[
 <td class="font2">Reason</td>
 <td class="font2">:</td>
 <td class="font2"><select class="font2" id="reason" name="reason" style="width:150px;" disabled>
-<?php if($rowchk>0 AND $rchk['Reason']!=''){ ?><option value="<?php echo $rchk['Reason']; ?>"><?php echo $rchk['Reason']; ?></option><?php } else { ?><option value="0">Select</option><?php } if(date("d")!=date("t") OR $res['DepartmentId']==9){ ?><?php if($res['DepartmentId']!=2 AND $res['DepartmentId']!=3 AND $res['DepartmentId']!=4 AND $res['DepartmentId']!=6 AND $res['DepartmentId']!=12 AND $res['DepartmentId']!=25 AND $res['DepartmentId']!=27){ ?><option value="OD">OD</option><?php } ?><option value="Tour">Tour</option><option value="Meeting">Meeting</option><?php } ?><option value="Other">Other</option></select></td>
+<?php if($rowchk>0 AND $rchk['Reason']!=''){ ?><option value="<?php echo $rchk['Reason']; ?>"><?php echo $rchk['Reason']; ?></option><?php } else { ?><option value="0">Select</option><?php } if(date("d")!=date("t")){ ?><option value="OD">OD</option><?php } ?><option value="Tour">Tour</option><option value="Meeting">Meeting</option><option value="Other">Other</option></select></td>
 </tr
 <tr>
 <td class="font2" valign="top">Remark/Location</td>

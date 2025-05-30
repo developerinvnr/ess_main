@@ -89,9 +89,9 @@ if(isset($_POST['FormSubmit']))
      $SqlE = mysql_query("select EmpCode,Fname,Sname,Lname,DepartmentId,DesigId,GradeId from hrm_employee e inner join hrm_employee_general g on e.EmployeeID=g.EmployeeID where e.EmployeeID=".$_POST['EI'], $con); $ResE=mysql_fetch_assoc($SqlE); 
 	 if($ResE['Sname']==''){ $EnameE=trim($ResE['Fname']).' '.trim($ResE['Lname']); }else{ $EnameE=trim($ResE['Fname']).' '.trim($ResE['Sname']).' '.trim($ResE['Lname']); }
 		  
-     $sqlEDept = mysql_query("select DepartmentName from hrm_department where DepartmentId=".$ResE['DepartmentId'],$con);
-	 $sqlEDe=mysql_query("select DesigName from hrm_designation where DesigId=".$ResE['DesigId'], $con);
-	 $sqlEGr=mysql_query("select GradeValue from hrm_grade where GradeId=".$ResE['GradeId']." AND CompanyId=".$CompanyId, $con);
+     $sqlEDept = mysql_query("select department_name as DepartmentName from core_departments where id=".$ResE['DepartmentId'],$con);
+	 $sqlEDe=mysql_query("select designation_name as DesigName from core_designation where id=".$ResE['DesigId'], $con);
+	 $sqlEGr=mysql_query("select grade_name as GradeValue from core_grades where id=".$ResE['GradeId'], $con);
 	 $resEDept=mysql_fetch_assoc($sqlEDept); $resEDe=mysql_fetch_assoc($sqlEDe); $resEGr=mysql_fetch_assoc($sqlEGr);
     
      $sqlHC = mysql_query("SELECT MAX(SalaryChange_Date) as SalaryChD FROM hrm_pms_appraisal_history where EmpCode=".$ResE['EmpCode']." AND CompanyId=".$CompanyId, $con); $resHC = mysql_fetch_assoc($sqlHC); 
@@ -267,15 +267,21 @@ function ExtLetterClick()
  <td align="left" id="type" valign="top" style="display:block; width:100%">     
 <?php
 $id=$_REQUEST['e']; //$YId=$_POST['YId']; $UId=$_POST['UId']; 
-$sql=mysql_query("select EmpCode,Fname,Sname,Lname,DesigId,DepartmentId,DateJoining,DateConfirmationYN,DateConfirmation,GradeId,HqId,Gender,DR,Married,ReportingName,ConfirmHR from hrm_employee INNER JOIN hrm_employee_general ON hrm_employee.EmployeeID=hrm_employee_general.EmployeeID INNER JOIN hrm_employee_personal ON hrm_employee.EmployeeID=hrm_employee_personal.EmployeeID where hrm_employee.EmployeeID=".$id, $con);  $res=mysql_fetch_assoc($sql);
+$sql=mysql_query("select EmpCode,Fname,Sname,Lname,DesigId,DepartmentId,DateJoining,DateConfirmationYN,DateConfirmation,GradeId,HqId,TerrId,Gender,DR,Married,ReportingName,ConfirmHR from hrm_employee INNER JOIN hrm_employee_general ON hrm_employee.EmployeeID=hrm_employee_general.EmployeeID INNER JOIN hrm_employee_personal ON hrm_employee.EmployeeID=hrm_employee_personal.EmployeeID where hrm_employee.EmployeeID=".$id, $con);  $res=mysql_fetch_assoc($sql);
 $Ename = $res['Fname'].'&nbsp;'.$res['Sname'].'&nbsp;'.$res['Lname']; $LEC=strlen($res['EmpCode']); 
 if($res['DR']=='Y'){$M='Dr.';} elseif($res['Gender']=='M'){$M='Mr.';} elseif($res['Gender']=='F' AND $res['Married']=='Y'){$M='Mrs.';} elseif($res['Gender']=='F' AND $res['Married']=='N'){$M='Miss.';}  $NameE=$M.' '.$Ename; 
 if($LEC==1){$EC='000'.$res['EmpCode'];} if($LEC==2){$EC='00'.$res['EmpCode'];} if($LEC==3){$EC='0'.$res['EmpCode'];} if($LEC>=4){$EC=$res['EmpCode'];}
 
-$sqlD=mysql_query("select DepartmentName from hrm_department where DepartmentId=".$res['DepartmentId'], $con); $resD=mysql_fetch_assoc($sqlD);
-$sqlDe=mysql_query("select DesigName from hrm_designation where DesigId=".$res['DesigId'], $con); $resDe=mysql_fetch_assoc($sqlDe);
-$sqlH=mysql_query("select HqName from hrm_headquater where HqId=".$res['HqId'], $con); $resH=mysql_fetch_assoc($sqlH);
-$sqlG=mysql_query("select GradeValue from hrm_grade where GradeId=".$res['GradeId'], $con); $resG=mysql_fetch_assoc($sqlG); 
+$sqlD=mysql_query("select department_name as DepartmentName from core_departments where id=".$res['DepartmentId'], $con); $resD=mysql_fetch_assoc($sqlD);
+$sqlDe=mysql_query("select designation_name as DesigName from core_designation where id=".$res['DesigId'], $con); $resDe=mysql_fetch_assoc($sqlDe);
+
+$sqlH=mysql_query("select city_village_name from core_city_village_by_state where id=".$res['HqId'], $con); $resH=mysql_fetch_assoc($sqlH);
+
+$sqlTr=mysql_query("select territory_name from core_territory where id=".$res['TerrId'], $con); $resTr=mysql_fetch_assoc($sqlTr);
+
+if($res['TerrId']>0){$Hq=$resTr['territory_name'];}else{$Hq=$resH['city_village_name']; }
+
+$sqlG=mysql_query("select grade_name as GradeValue from core_grades where id=".$res['GradeId'], $con); $resG=mysql_fetch_assoc($sqlG); 
 $d=date("d", strtotime($res['DateJoining'])); $m=date("m", strtotime($res['DateJoining'])); $y=date("Y",strtotime($res['DateJoining']));
 
 if($m=='01'){$cm='07'; $cy=$y; $cm2='10'; $cy2=$y;} elseif($m=='02'){$cm='08'; $cy=$y; $cm2='11'; $cy2=$y;} elseif($m=='03'){$cm='09'; $cy=$y; $cm2='12'; $cy2=$y;} elseif($m=='04'){$cm='10'; $cy=$y; $cm2='01'; $cy2=$y+1;} elseif($m=='05'){$cm='11'; $cy=$y; $cm2='02'; $cy2=$y+1;} elseif($m=='06'){$cm='12'; $cy=$y; $cm2='03'; $cy2=$y+1;} elseif($m=='07'){$cm='01'; $cy=$y+1; $cm2='04'; $cy2=$y+1;} elseif($m=='08'){$cm='02'; $cy=$y+1; $cm2='05'; $cy2=$y+1;} elseif($m=='09'){$cm='03'; $cy=$y+1; $cm2='06'; $cy2=$y+1;} elseif($m=='10'){$cm='04'; $cy=$y+1; $cm2='07'; $cy2=$y+1;} elseif($m=='11'){$cm='05'; $cy=$y+1; $cm2='08'; $cy2=$y+1;} elseif($m=='12'){$cm='06'; $cy=$y+1; $cm2='09'; $cy2=$y+1;} 
@@ -305,7 +311,7 @@ $sqlL=mysql_query("select * from hrm_employee_confletter where Status='".$_REQUE
 	   <tr>
 	    <td class="font" style="width:100px;">&nbsp;Location:</td>
 		<td style="width:350px;background-color:#F0EBE3;" align="">
-		<input class="font1" style="width:345px;background-color:#F0EBE3;" id="Location" name="Location" value="<?php echo $resH['HqName']; ?>" readonly /></td>
+		<input class="font1" style="width:345px;background-color:#F0EBE3;" id="Location" name="Location" value="<?php echo $Hq; ?>" readonly /></td>
 		<td class="font" style="width:200px;">&nbsp;Department:</td>
 		<td style="width:350px;background-color:#F0EBE3;" align="">
 		<input class="font1" style="width:345px;background-color:#F0EBE3;" id="DeptName" name="DeptName" value="<?php echo $resD['DepartmentName']; ?>" readonly /></td>
@@ -549,15 +555,17 @@ $sqlL=mysql_query("select * from hrm_employee_confletter where Status='".$_REQUE
    <td>
     <table border="0">
 	<tr>
-	<input type="hidden" name="OldGrade" value="<?php if($resL['Current_GradeId']==0){echo $res['GradeId']; }else{echo $resL['Current_GradeId'];} ?>" />
-	<input type="hidden" name="OldDesig" value="<?php if($resL['Current_DesigId']==0){echo $res['DesigId']; }else{echo $resL['Current_DesigId'];} ?>" />
+	<input type="hidden" name="OldGrade" value="<?=$res['GradeId']?>" />
+	<input type="hidden" name="OldDesig" value="<?=$res['DesigId']?>" />
 	
 	<?php
-	if($resL['Current_GradeId']>0){$gr2=mysql_query("select GradeValue from hrm_grade where GradeId=".$resL['Current_GradeId'],$con); $rgr2=mysql_fetch_assoc($gr2); $GradeName=$rgr2['GradeValue']; }
-	else{ $GradeName=$resG['GradeValue']; }
+	/*if($resL['Current_GradeId']>0){$gr2=mysql_query("select grade_name as GradeValue from core_grades where id=".$resL['Current_GradeId'],$con); $rgr2=mysql_fetch_assoc($gr2); $GradeName=$rgr2['GradeValue']; }
+	else{ $GradeName=$resG['GradeValue']; }*/
+	$GradeName=$resG['GradeValue'];
 	
-	if($resL['Current_DesigId']>0){$De2=mysql_query("select DesigName from hrm_designation where DesigId=".$resL['Current_DesigId'],$con); $rDe2=mysql_fetch_assoc($De2); $DesigName=$rDe2['DesigName']; }
-	else{ $DesigName=$resDe['DesigName']; }
+	/*if($resL['Current_DesigId']>0){$De2=mysql_query("select designation_name as DesigName from core_designation where id=".$resL['Current_DesigId'],$con); $rDe2=mysql_fetch_assoc($De2); $DesigName=$rDe2['DesigName']; }
+	else{ $DesigName=$resDe['DesigName']; }*/
+	$DesigName=$resDe['DesigName'];
 	?>
 	
 	     <td class="font" style="width:120px;">&nbsp;Grade:</td>
@@ -565,18 +573,18 @@ $sqlL=mysql_query("select * from hrm_employee_confletter where Status='".$_REQUE
 		 <td class="font" style="width:200px;"><input style="width:50px;background-color:#F0EBE3;" id="GraId" value="<?php echo $GradeName; ?>" readonly/></td>
 		 <td class="font" style="width:80px;" align="Right">&nbsp;Proposed:-</td>
 		 <td class="font" style="width:200px;" align="">
-<?php $sqlG = mysql_query("SELECT GradeValue FROM hrm_grade WHERE GradeId=".$res['GradeId'], $con); 
+<?php $sqlG = mysql_query("SELECT grade_name as GradeValue FROM core_grades WHERE id=".$res['GradeId'], $con); 
       $resG = mysql_fetch_assoc($sqlG); 
       
 	  if($resG['GradeValue']!='MG'){ $NextGradeId=$res['GradeId']+1; 
-	  $sqlG2 = mysql_query("SELECT GradeValue FROM hrm_grade WHERE GradeId=".$NextGradeId, $con); 
+	  $sqlG2 = mysql_query("SELECT grade_name as GradeValue FROM core_grades WHERE id=".$NextGradeId, $con); 
 	  $resG2 = mysql_fetch_assoc($sqlG2); 
 	  $NextGrade=$resG2['GradeValue']; }
 	  elseif($resG['GradeValue']=='MG'){$NextGrade=$resG['GradeValue'];}
 ?> 		 
 <select style="width:50px;" id="NewGrade" name="NewGrade" disabled>
 <?php if($rowL>0){
- $sqlGG = mysql_query("SELECT GradeValue FROM hrm_grade WHERE GradeId=".$resL['GradeId'], $con); 
+ $sqlGG = mysql_query("SELECT grade_name as GradeValue FROM core_grades WHERE id=".$resL['GradeId'], $con); 
  $resGG = mysql_fetch_assoc($sqlGG); ?>
 <option style="background-color:#FFFFFF;" value="<?php echo $resL['GradeId']; ?>"><?php echo $resGG['GradeValue']; ?></option>
 <?php } ?>
@@ -595,12 +603,12 @@ $sqlL=mysql_query("select * from hrm_employee_confletter where Status='".$_REQUE
 		 <td class="font" style="width:200px;" align="">	 
 		 <span id="SpanDesig"><select style="width:200px;" id="NewDesig" name="NewDesig" disabled>
 <?php if($rowL>0){
-$sqlDD = mysql_query("SELECT DesigName FROM hrm_designation WHERE DesigId=".$resL['DesigId'], $con); $resDD = mysql_fetch_assoc($sqlDD); ?>
+$sqlDD = mysql_query("select designation_name as DesigName from core_designation where id=".$resL['DesigId'], $con); $resDD = mysql_fetch_assoc($sqlDD); ?>
 <option style="background-color:#FFFFFF;" value="<?php echo $resL['DesigId']; ?>"><?php echo strtoupper($resDD['DesigName']); ?></option>
 <?php } if($rowL==0) { ?>
 <option style="background-color:#FFFFFF;" value="<?php echo $res['DesigId']; ?>"><?php echo strtoupper($resDe['DesigName']); ?></option>
 <?php } ?>
-<?php $sqlEx=mysql_query("select hrm_deptgradedesig.DesigId,DesigName from hrm_deptgradedesig INNER JOIN hrm_designation ON hrm_deptgradedesig.DesigId=hrm_designation.DesigId where DepartmentId=".$res['DepartmentId']." AND (GradeId=".$NextGradeId." OR GradeId_2=".$NextGradeId." OR GradeId_3=".$NextGradeId." OR GradeId_4=".$NextGradeId." OR GradeId_5=".$NextGradeId." OR GradeId=".$res['GradeId']." OR GradeId_2=".$res['GradeId']." OR GradeId_3=".$res['GradeId']." OR GradeId_4=".$res['GradeId']." OR GradeId_5=".$res['GradeId'].") order by DesigName ASC", $con); while($resEx=mysql_fetch_assoc($sqlEx)){ ?>
+<?php $sqlEx=mysql_query("select hrm_deptgradedesig.DesigId,designation_name as DesigName from hrm_deptgradedesig left JOIN core_designation ON hrm_deptgradedesig.DesigId=core_designation.id where DepartmentId=".$res['DepartmentId']." AND (GradeId=".$NextGradeId." OR GradeId_2=".$NextGradeId." OR GradeId_3=".$NextGradeId." OR GradeId_4=".$NextGradeId." OR GradeId_5=".$NextGradeId." OR GradeId=".$res['GradeId']." OR GradeId_2=".$res['GradeId']." OR GradeId_3=".$res['GradeId']." OR GradeId_4=".$res['GradeId']." OR GradeId_5=".$res['GradeId'].") order by designation_name ASC", $con); while($resEx=mysql_fetch_assoc($sqlEx)){ ?>
 <option style="background-color:#FFFFFF;" value="<?php echo $resEx['DesigId']; ?>"><?php echo strtoupper($resEx['DesigName']); ?></option>
 <?php } ?>
 </select>		 

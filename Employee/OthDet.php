@@ -58,15 +58,18 @@ $(document).ready(function () { $("#table1").freezeHeader({ 'height': '450px' })
  
  <!-- </thead>
 </div>-->
-<?php if($_REQUEST['value']=='All'){ $sql=mysql_query("select g.EmployeeID, EmpCode, CONCAT(Fname,' ' ,Sname, ' ',Lname) as fullname, DepartmentCode, GradeValue, EmailId_Vnr, MobileNo_Vnr, ReportingName, ReportingContactNo, ReportingEmailId, EmpStatus, p.PanNo from hrm_employee_general g INNER JOIN hrm_employee e ON g.EmployeeID=e.EmployeeID INNER JOIN hrm_department d ON g.DepartmentId=d.DepartmentId INNER JOIN hrm_grade gr ON g.GradeId=gr.GradeId INNER JOIN hrm_employee_personal p ON e.EmployeeID=p.EmployeeID where e.CompanyId=".$_REQUEST['c']." AND e.EmpStatus!='De' order by e.EmpStatus,e.ECode ASC", $con); }
-else { $sql=mysql_query("select g.EmployeeID, EmpCode, CONCAT(Fname,' ' ,Sname, ' ',Lname) as fullname, DepartmentCode, GradeValue, EmailId_Vnr, MobileNo_Vnr, ReportingName, ReportingContactNo, ReportingEmailId, EmpStatus, p.PanNo from hrm_employee_general g INNER JOIN hrm_employee e ON g.EmployeeID=e.EmployeeID INNER JOIN hrm_department d ON g.DepartmentId=d.DepartmentId INNER JOIN hrm_grade gr ON g.GradeId=gr.GradeId INNER JOIN hrm_employee_personal p ON e.EmployeeID=p.EmployeeID where g.DepartmentId=".$_REQUEST['value']." AND e.CompanyId=".$_REQUEST['c']." AND e.EmpStatus!='De' order by e.EmpStatus,e.ECode ASC", $con); } 
+<?php if($_REQUEST['value']=='All'){ $sql=mysql_query("select g.EmployeeID, EmpCode, CONCAT(Fname,' ' ,Sname, ' ',Lname) as fullname, department_name as DepartmentCode, grade_name as GradeValue, EmailId_Vnr, MobileNo_Vnr, ReportingName, ReportingContactNo, ReportingEmailId, EmpStatus, p.PanNo from hrm_employee_general g INNER JOIN hrm_employee e ON g.EmployeeID=e.EmployeeID INNER JOIN core_departments d ON g.DepartmentId=d.id INNER JOIN core_grades gr ON g.GradeId=gr.id INNER JOIN hrm_employee_personal p ON e.EmployeeID=p.EmployeeID where e.CompanyId=".$_REQUEST['c']." AND e.EmpStatus!='De' order by e.EmpStatus,e.ECode ASC", $con); }
+else { $sql=mysql_query("select g.EmployeeID, EmpCode, CONCAT(Fname,' ' ,Sname, ' ',Lname) as fullname, department_name as DepartmentCode, grade_name as GradeValue, EmailId_Vnr, MobileNo_Vnr, ReportingName, ReportingContactNo, ReportingEmailId, EmpStatus, p.PanNo from hrm_employee_general g INNER JOIN hrm_employee e ON g.EmployeeID=e.EmployeeID INNER JOIN core_departments d ON g.DepartmentId=d.id INNER JOIN core_grades gr ON g.GradeId=gr.id INNER JOIN hrm_employee_personal p ON e.EmployeeID=p.EmployeeID where g.DepartmentId=".$_REQUEST['value']." AND e.CompanyId=".$_REQUEST['c']." AND e.EmpStatus!='De' order by e.EmpStatus,e.ECode ASC", $con); } 
 $Sno=1; while($res=mysql_fetch_array($sql)){ ?> 
 <!--<div class="tbody">
 <tbody>-->
 <tr bgcolor="<?php if($res['EmpStatus']=='D'){echo '#FEF1DE';}else{echo '#FFFFFF';}?>" style="height:24px;">
  <td class="tdc"><?php echo $Sno; ?></td>
  <td class="tdc"><?php echo $res['EmpCode']; ?></td>
- <td class="tdc"><?php echo $res['EmpStatus']; ?></td>
+ 
+ <?php $rowch=0; $sqlch=mysql_query("select * from hrm_employee_separation where EmployeeID=".$res['EmployeeID']." AND Rep_Approved!='C' AND Hod_Approved!='C' AND HR_Approved!='C'", $con); $rowch=mysql_num_rows($sqlch); ?>
+ 
+ <td class="tdc"><?php if($rowch>0){ echo 'D'; }else{ echo $res['EmpStatus']; }?></td>
  <td class="td"><?php echo $res['fullname'];?></td>
  <td class="tdc"><?php echo strtolower($res['DepartmentCode']); ?></td>
  <td class="tdc"><?php echo $res['GradeValue']; ?></td>

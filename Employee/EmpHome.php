@@ -12,6 +12,7 @@ $fromdate=date("Y",strtotime($_SESSION['fromdate'])); $todate=date("Y",strtotime
 
 /******************************************************************************/
 $sql=mysql_query("select ChangePwd,EmpPass from hrm_employee where EmployeeID=".$EmployeeId, $con); $res=mysql_fetch_assoc($sql);
+
 if($res['ChangePwd']=='Y'){ header('Location:Index.php?log='.$logemp); }                               
 /******************************************************************************/
 if(isset($_POST['ChangePwd']))

@@ -89,10 +89,10 @@ function FunClick()
                       </td>
                        <td class="td1" style="font-size:11px; width:170px;">			   
                        <select style="font-size:11px; width:120px; height:19px; background-color:#DDFFBB; display:block;" name="Department" id="Department" onChange="SelectMonthDept(this.value)">
-<?php if($_REQUEST['D']!='All') { $sqlD=mysql_query("select DepartmentCode from hrm_department where DepartmentId=".$_REQUEST['D'], $con); $resD=mysql_fetch_assoc($sqlD); ?> 
+<?php if($_REQUEST['D']!='All') { $sqlD=mysql_query("select department_name as DepartmentCode from core_departments where id=".$_REQUEST['D'], $con); $resD=mysql_fetch_assoc($sqlD); ?> 
                       <option value="<?php echo $_REQUEST['D']; ?>" style="margin-left:0px; background-color:#84D9D5;">&nbsp;<?php echo $resD['DepartmentCode']; ?></option>  
 <?php  } else { ?>	  <option value="All" style="margin-left:0px; background-color:#84D9D5;">&nbsp;All</option><?php } ?>						   
-					   <?php $SqlDepartment=mysql_query("select * from hrm_department where CompanyId=".$CompanyId." AND DeptStatus='A' order by DepartmentName ASC", $con); while($ResDepartment=mysql_fetch_array($SqlDepartment)) { ?><option value="<?php echo $ResDepartment['DepartmentId']; ?>"><?php echo '&nbsp;'.$ResDepartment['DepartmentCode'];?></option><?php } ?><option value="All">&nbsp;All</option></select>
+					   <?php $SqlDepartment=mysql_query("select * from core_departments where is_active=1 order by department_name", $con); while($ResDepartment=mysql_fetch_array($SqlDepartment)) { ?><option value="<?php echo $ResDepartment['id']; ?>"><?php echo '&nbsp;'.$ResDepartment['department_name'];?></option><?php } ?><option value="All">&nbsp;All</option></select>
 					   <input type="hidden" name="ComId" id="ComId" value="<?php echo $CompanyId; ?>" /> 
 					   <input type="hidden" name="YearId" id="YearId" value="<?php echo $YearId; ?>" />
                       </td>
@@ -142,7 +142,7 @@ else
   <?php if($_REQUEST['m']==1){ ?>
   <td class="cell" style="width:30px;" colspan="5"><b>Leave Creadited</b></td>
   <?php } ?>
-  <td class="cell" style=" text-align:left;" colspan="<?php echo date("t",strtotime(date("Y-".$_REQUEST['m']."-d"))); ?>" style="background-color:#7a6189;color:#FFFFFF;font-family:Times New Roman; width:720px; font-size:14px;" align=""><b>&nbsp;Month :</b>&nbsp;<font style="font:Times New Roman; color:#EAEF18; font-size:14px; background-color:#7a6189; font-weight:bold;"><?php echo date("F",strtotime(date("Y-".$_REQUEST['m']."-d"))); ?></font>&nbsp;&nbsp;&nbsp;<?php if($_REQUEST['D']!='All') { $sqlD=mysql_query("select DepartmentName from hrm_department where DepartmentId=".$_REQUEST['D'], $con); $resD=mysql_fetch_assoc($sqlD); }?><b>Department :</b>&nbsp;
+  <td class="cell" style=" text-align:left;" colspan="<?php echo date("t",strtotime(date("Y-".$_REQUEST['m']."-d"))); ?>" style="background-color:#7a6189;color:#FFFFFF;font-family:Times New Roman; width:720px; font-size:14px;" align=""><b>&nbsp;Month :</b>&nbsp;<font style="font:Times New Roman; color:#EAEF18; font-size:14px; background-color:#7a6189; font-weight:bold;"><?php echo date("F",strtotime(date("Y-".$_REQUEST['m']."-d"))); ?></font>&nbsp;&nbsp;&nbsp;<?php if($_REQUEST['D']!='All') { $sqlD=mysql_query("select department_name as DepartmentName from core_departments where id=".$_REQUEST['D'], $con); $resD=mysql_fetch_assoc($sqlD); }?><b>Department :</b>&nbsp;
 <font style="font:Times New Roman; color:#EAEF18; font-size:14px; background-color:#7a6189;font-weight:bold;">
 <?php if($_REQUEST['D']!='All') {echo $resD['DepartmentName']; } else { echo  'All'; } ?></font>
 

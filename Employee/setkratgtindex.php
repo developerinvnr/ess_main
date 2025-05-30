@@ -525,20 +525,23 @@ function isNumberKey(evt)
 	 <td class="t" style="width:50px;color:#000000;">Edit</td>
 	 <td class="t" style="width:50px;color:#000000;">Submit</td>
 	</tr>
-<?php if(date("m")==2){ $Tit="Tital='January'"; }
-elseif(date("m")==3){ $Tit="Tital='February'"; } 
-elseif(date("m")==4){ $Tit="(Tital='March' OR Tital='Quarter 1')"; }
-elseif(date("m")==5){ $Tit="Tital='April'"; }
-elseif(date("m")==6){ $Tit="Tital='May'"; }
-elseif(date("m")==7){ $Tit="(Tital='June' OR Tital='Quarter 2' OR Tital='Half Year 1')"; }
-elseif(date("m")==8){ $Tit="Tital='July'"; }
-elseif(date("m")==9){ $Tit="Tital='August'"; }
+<?php if(intval(date("m"))==1){ $Tit="(Tital='December' OR Tital='Quarter 4' OR Tital='Half Year 2')"; }
+if(intval(date("m"))==2){ $Tit="Tital='January'"; }
+elseif(intval(date("m"))==3){ $Tit="Tital='February'"; } 
+elseif(intval(date("m"))==4){ $Tit="(Tital='March' OR Tital='Quarter 1')"; }
+elseif(intval(date("m"))==5){ $Tit="Tital='April'"; }
+elseif(intval(date("m"))==6){ $Tit="Tital='May'"; }
+elseif(intval(date("m"))==7){ $Tit="(Tital='June' OR Tital='Quarter 2' OR Tital='Half Year 1')"; }
+elseif(intval(date("m"))==8){ $Tit="Tital='July'"; }
+elseif(intval(date("m"))==9){ $Tit="Tital='August'"; }
 elseif(date("m")==10){ $Tit="(Tital='September' OR Tital='Quarter 3')"; }
 elseif(date("m")==11){ $Tit="(Tital='October')"; }
 elseif(date("m")==12){ $Tit="Tital='November'"; }
 
 
-$sql=mysql_query("select kdf.*,Fname,Sname,Lname,DepartmentId from hrm_pms_kra_tgtdefin kdf inner join hrm_employee_general g on kdf.EmployeeID=g.EmployeeID inner join hrm_employee e on kdf.EmployeeID=e.EmployeeID where e.EmpStatus='A' AND e.EmployeeID=".$_REQUEST['e']." AND ".$Tit." AND kdf.Ldate>='".date("Y-02-01")."' order by kdf.TgtDefId asc, kdf.NtgtN asc",$con); $row=mysql_num_rows($sql);  
+//$sql=mysql_query("select kdf.*,Fname,Sname,Lname,DepartmentId from hrm_pms_kra_tgtdefin kdf inner join hrm_employee_general g on kdf.EmployeeID=g.EmployeeID inner join hrm_employee e on kdf.EmployeeID=e.EmployeeID where e.EmpStatus='A' AND e.EmployeeID=".$_REQUEST['e']." AND ".$Tit." AND kdf.Ldate>='".date("Y-02-01")."' order by kdf.TgtDefId asc, kdf.NtgtN asc",$con); $row=mysql_num_rows($sql);  
+
+$sql=mysql_query("select kdf.*,Fname,Sname,Lname,DepartmentId from hrm_pms_kra_tgtdefin kdf inner join hrm_employee_general g on kdf.EmployeeID=g.EmployeeID inner join hrm_employee e on kdf.EmployeeID=e.EmployeeID where e.EmpStatus='A' AND e.EmployeeID=".$_REQUEST['e']." AND ".$Tit." AND kdf.Ldate>='".date("2024-02-01")."' order by kdf.TgtDefId asc, kdf.NtgtN asc",$con); $row=mysql_num_rows($sql); 
 
 //$sql=mysql_query("select kdf.*,Fname,Sname,Lname from hrm_pms_kra_tgtdefin kdf inner join hrm_employee_general g on kdf.EmployeeID=g.EmployeeID inner join hrm_employee e on kdf.EmployeeID=e.EmployeeID where e.EmpStatus='A' AND e.EmployeeID=".$_REQUEST['e']." AND ".$Tit." order by kdf.TgtDefId asc, kdf.NtgtN asc ",$con); $row=mysql_num_rows($sql);  
 if($row>0)

@@ -69,7 +69,7 @@ function ASRDetails(YI,EI)
 				<td class="td1" style="width:2800px; height:20px; font-size:15px; font-family:Times New Roman; color:#00274F; font-weight:bold;" align="">Department :
 					 &nbsp;&nbsp;
                        <select style="font-size:11px; width:148px; height:18px; background-color:#DDFFBB;" name="Dept" id="Dept" onChange="SelectDept(this.value)"><option value="" style="margin-left:0px;" selected>Select Department</option>
-<?php $SqlDept=mysql_query("select * from hrm_department where CompanyId=".$CompanyId." AND DepartmentCode!='MANAGEMENT' order by DepartmentName ASC", $con); while($ResDept=mysql_fetch_array($SqlDept)) { ?><option value="<?php echo $ResDept['DepartmentId']; ?>"><?php echo '&nbsp;'.$ResDept['DepartmentCode'];?></option><?php } ?><option value="All">&nbsp;All</option></select>
+<?php $SqlDept=mysql_query("select * from core_departments where is_active=1 order by department_name", $con); while($ResDept=mysql_fetch_array($SqlDept)) { ?><option value="<?php echo $ResDept['id']; ?>"><?php echo '&nbsp;'.$ResDept['department_name'];?></option><?php } ?><option value="All">&nbsp;All</option></select>
 					   &nbsp;&nbsp;(Annual Salary Reports)
 					   </td>
                      </tr>
@@ -86,7 +86,7 @@ function ASRDetails(YI,EI)
  <td>
    <table border="1" width="900">
      <tr>
-<?php if($_REQUEST['value']!='All') { $sqlA=mysql_query("select DepartmentName from hrm_department where DepartmentId=".$_REQUEST['value'], $con); $resA=mysql_fetch_assoc($sqlA); } ?>	
+<?php if($_REQUEST['value']!='All') { $sqlA=mysql_query("select department_name as DepartmentName from core_departments where id=".$_REQUEST['value'], $con); $resA=mysql_fetch_assoc($sqlA); } ?>	
 	  <td colspan="21" valign="top" style=" background-color:#0069D2; font-size:14px; color:#FFFFFF; font-family:Georgia; font-weight:bold;">&nbsp;Employee Anuual Salary Details :
 	  &nbsp;&nbsp;(&nbsp;Department - <?php if($_REQUEST['value']!='All') {echo $resA['DepartmentName']; } else {echo 'All';} ?>&nbsp;)&nbsp;&nbsp;&nbsp;
 	  <?php /*?><a href="#" onClick="PrintDept222('<?php echo $_REQUEST['value']; ?>')" style="color:#F9F900; font-size:12px;">Print</a><?php */?>
@@ -122,13 +122,16 @@ else {$sql=mysql_query("select hrm_employee.EmployeeID,EmpCode,Fname,Sname,Lname
 $Sno=1; while($res=mysql_fetch_array($sql)){ $Ename=$res['Fname'].' '.$res['Sname'].' '.$res['Lname']; 
 $sqlDept=mysql_query("select DepartmentCode from hrm_department where DepartmentId=".$res['DepartmentId'], $con); $resDept=mysql_fetch_assoc($sqlDept);
 
-$SqlEar=mysql_query("select SUM(Tot_Gross)as Gross, SUM(VarRemburmnt)as VaReb, SUM(Bonus)as Bonus, SUM(DA) as DA, SUM(LeaveEncash) as EnCash, SUM(Arreares) as Arr, SUM(Incentive) as Inc, SUM(VariableAdjustment) as Vd, SUM(PerformancePay) as PP, SUM(NoticePay) as NtP, SUM(CCA) as CCA, SUM(RA) as RA, SUM(Arr_Basic) as ArrBas, SUM(Arr_Hra) as ArrHra, SUM(Arr_Spl) as ArrSpl, SUM(Arr_Conv) as ArrConv, SUM(YCea) as YCea, SUM(YMr) as YMr, SUM(YLta) as YLta, SUM(Tot_Deduct)as Ded, SUM(TDS) as Tds, SUM(ESCI_Employee) as Esic, SUM(Arr_Pf) as ArrPf, SUM(Arr_Esic) as ArrEsic, SUM(VolContrib) as VolCont, SUM(DeductAdjmt) as DedAj, SUM(RecConAllow) as RecConAllow, SUM(RecSplAllow) as RecSplAllow, SUM(RecSplAllow) as RecSplAllow, SUM(Car_Allowance) as CarAllow, SUM(Bonus_Month)as Bonus_Month, SUM(Car_Allowance_Arr)as Car_Allowance_Arr, SUM(Arr_LvEnCash)as Arr_LvEnCash, SUM(Arr_Bonus)as Arr_Bonus, SUM(Arr_LTARemb)as Arr_LTARemb, SUM(Arr_RA)as Arr_RA, SUM(Arr_PP)as Arr_PP,SUM(Bonus_Adjustment)as Bonus_Adjustment,SUM(PP_Inc)as PP_Inc, SUM(PP_year)as PPy from hrm_employee_monthlypayslip where ((Year='".$FromY."' AND (Month=4 OR Month=5 OR Month=6 OR Month=7 OR Month=8 OR Month=9 OR Month=10 OR Month=11 OR Month=12)) OR (Year='".$ToY."' AND (Month=1 OR Month=2 OR Month=3))) AND EmployeeID=".$res['EmployeeID']); 
+$SqlEar=mysql_query("select SUM(Tot_Gross)as Gross, SUM(VarRemburmnt)as VaReb, SUM(Bonus)as Bonus, SUM(DA) as DA, SUM(LeaveEncash) as EnCash, SUM(Arreares) as Arr, SUM(Incentive) as Inc, SUM(VariableAdjustment) as Vd, SUM(PerformancePay) as PP, SUM(NoticePay) as NtP, SUM(CCA) as CCA, SUM(RA) as RA, SUM(Arr_Basic) as ArrBas, SUM(Arr_Hra) as ArrHra, SUM(Arr_Spl) as ArrSpl, SUM(Arr_Conv) as ArrConv, SUM(YCea) as YCea, SUM(YMr) as YMr, SUM(YLta) as YLta, SUM(Tot_Deduct)as Ded, SUM(TDS) as Tds, SUM(ESCI_Employee) as Esic, SUM(Arr_Pf) as ArrPf, SUM(Arr_Esic) as ArrEsic, SUM(VolContrib) as VolCont, SUM(DeductAdjmt) as DedAj, SUM(RecConAllow) as RecConAllow, SUM(RecSplAllow) as RecSplAllow, SUM(RecSplAllow) as RecSplAllow, SUM(Car_Allowance) as CarAllow, SUM(Bonus_Month)as Bonus_Month, SUM(Car_Allowance_Arr)as Car_Allowance_Arr, SUM(Arr_LvEnCash)as Arr_LvEnCash, SUM(Arr_Bonus)as Arr_Bonus, SUM(Arr_LTARemb)as Arr_LTARemb, SUM(Arr_RA)as Arr_RA, SUM(Arr_PP)as Arr_PP,SUM(Bonus_Adjustment)as Bonus_Adjustment,SUM(PP_Inc)as PP_Inc, SUM(PP_year)as PPy, SUM(Deputation_Allow)as Deputation_Allow, SUM(IDCard_Recovery)as IDCard_Recovery, SUM(Communication_Allow)as Communication_Allow, SUM(Car_Allow)as Car_Allow, SUM(Arr_Communication_Allow)as Arr_Communication_Allow from hrm_employee_monthlypayslip where ((Year='".$FromY."' AND (Month=4 OR Month=5 OR Month=6 OR Month=7 OR Month=8 OR Month=9 OR Month=10 OR Month=11 OR Month=12)) OR (Year='".$ToY."' AND (Month=1 OR Month=2 OR Month=3))) AND EmployeeID=".$res['EmployeeID']);
+
+  
+
 $ResEar=mysql_fetch_array($SqlEar);
-$TotG=$ResEar['Gross']+$ResEar['VaReb']+$ResEar['Bonus']+$ResEar['DA']+$ResEar['Arr']+$ResEar['EnCash']+$ResEar['Inc']+$ResEar['Vd']+$ResEar['pp']+$ResEar['CCA']+$ResEar['RA']+$ResEar['ArrBas']+$ResEar['ArrHra']+$ResEar['ArrSpl']+$ResEar['ArrConv']+$ResEar['YCea']+$ResEar['YMr']+$ResEar['YLta']+$ResEar['Bonus_Month']+$ResEar['Car_Allowance_Arr']+$ResEar['Arr_LvEnCash']+$ResEar['Arr_Bonus']+$ResEar['Arr_LTARemb']+$ResEar['Arr_RA']+$ResEar['Arr_PP']+$ResEar['Bonus_Adjustment']+$ResEar['PP_Inc']+$ResEar['NtP']+$ResEar['PP_year'];
-$TotD=$ResEar['Ded']+$ResEar['Tds']+$ResEar['ArrPf']+$ResEar['ArrEsic']+$ResEar['VolCont']+$ResEar['DedAj']+$ResEar['RecConAllow']+$ResEar['RecSplAllow'];
+$TotG=$ResEar['Gross']+$ResEar['VaReb']+$ResEar['Bonus']+$ResEar['DA']+$ResEar['Arr']+$ResEar['EnCash']+$ResEar['Inc']+$ResEar['Vd']+$ResEar['pp']+$ResEar['CCA']+$ResEar['RA']+$ResEar['ArrBas']+$ResEar['ArrHra']+$ResEar['ArrSpl']+$ResEar['ArrConv']+$ResEar['YCea']+$ResEar['YMr']+$ResEar['YLta']+$ResEar['Bonus_Month']+$ResEar['Car_Allowance_Arr']+$ResEar['Arr_LvEnCash']+$ResEar['Arr_Bonus']+$ResEar['Arr_LTARemb']+$ResEar['Arr_RA']+$ResEar['Arr_PP']+$ResEar['Bonus_Adjustment']+$ResEar['PP_Inc']+$ResEar['NtP']+$ResEar['PP_year']+$ResEar['Deputation_Allow']+$ResEar['Communication_Allow']+$ResEar['Car_Allow']+$ResEar['Arr_Communication_Allow'];
+$TotD=$ResEar['Ded']+$ResEar['Tds']+$ResEar['ArrPf']+$ResEar['ArrEsic']+$ResEar['VolCont']+$ResEar['DedAj']+$ResEar['RecConAllow']+$ResEar['RecSplAllow']+$ResEar['IDCard_Recovery'];
 $TotNet=$TotG-$TotD;
 
-$sqlDesig=mysql_query("select DesigName from hrm_designation where DesigId=".$res['DesigId'], $con); $resDesig=mysql_fetch_assoc($sqlDesig);
+$sqlDesig=mysql_query("select designation_name as DesigName from core_designation where id=".$res['DesigId'], $con); $resDesig=mysql_fetch_assoc($sqlDesig);
 ?> 
 
    <tr bgcolor="#FFFFFF">

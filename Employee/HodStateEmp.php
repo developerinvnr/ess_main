@@ -38,9 +38,24 @@ if(isset($_POST['StHQid']) && $_POST['StHQid']!=""){ $StHQid = $_POST['StHQid'];
 
 		 </tr>
 
-<?php if($StHQid=='All') { $sql=mysql_query("select hrm_employee.*, EmpPmsId, DepartmentId,DesigId,DesigId2,HqId from hrm_employee INNER JOIN hrm_employee_general ON hrm_employee.EmployeeID=hrm_employee_general.EmployeeID INNER JOIN hrm_employee_pms ON hrm_employee.EmployeeID=hrm_employee_pms.EmployeeID where hrm_employee.EmpStatus='A' AND hrm_employee_pms.AssessmentYear=".$YI." AND hrm_employee_pms.HOD_EmployeeID=".$EmpId, $con); }
+<?php if($StHQid=='All') { $sql=mysql_query("select e.*, EmpPmsId, department_code as DepartmentCode, designation_name as DesigName, grade_name as GradeValue, city_village_name as HqName, state_name as StateName, DepartmentId,DesigId,GradeId from hrm_employee INNER JOIN hrm_employee_general g ON e.EmployeeID=g.EmployeeID INNER JOIN hrm_employee_pms p ON e.EmployeeID=p.EmployeeID
+left join core_departments dept on g.DepartmentId=dept.id
+  left join core_sub_department_master subdept on g.SubDepartmentId=subdept.id
+  left join core_section sec on g.EmpSection=sec.id
+  left join core_designation desig on g.DesigId=desig.id
+  left join core_grades gr on g.GradeId=gr.id
+  left join core_states st on g.CostCenter=st.id
+  left join core_city_village_by_state vlg on g.HqId=vlg.id
+where e.EmpStatus='A' AND hrm_employee_pms.AssessmentYear=".$YI." AND p.HOD_EmployeeID=".$EmpId." group by p.EmployeeID order by e.ECode", $con); }
 
-    if($StHQid!='All') { $sql=mysql_query("select hrm_employee.*, EmpPmsId, hrm_employee_general.DepartmentId,hrm_employee_general.DesigId,hrm_employee_general.DesigId2,hrm_employee_general.HqId from hrm_employee INNER JOIN hrm_employee_general ON hrm_employee.EmployeeID=hrm_employee_general.EmployeeID INNER JOIN hrm_employee_pms ON hrm_employee.EmployeeID=hrm_employee_pms.EmployeeID INNER JOIN hrm_headquater ON hrm_employee_general.HqId=hrm_headquater.HqId where hrm_employee.EmpStatus='A' AND hrm_employee_pms.AssessmentYear=".$YI." AND hrm_headquater.StateId=".$StHQid." AND hrm_employee_pms.HOD_EmployeeID=".$EmpId, $con); }
+    if($StHQid!='All') { $sql=mysql_query("select e.*, EmpPmsId, department_code as DepartmentCode, designation_name as DesigName, grade_name as GradeValue, city_village_name as HqName, state_name as StateName, DepartmentId,DesigId,GradeId from hrm_employee INNER JOIN hrm_employee_general g ON e.EmployeeID=g.EmployeeID INNER JOIN hrm_employee_pms p ON e.EmployeeID=p.EmployeeID left join core_departments dept on g.DepartmentId=dept.id
+  left join core_sub_department_master subdept on g.SubDepartmentId=subdept.id
+  left join core_section sec on g.EmpSection=sec.id
+  left join core_designation desig on g.DesigId=desig.id
+  left join core_grades gr on g.GradeId=gr.id
+  left join core_states st on g.CostCenter=st.id
+  left join core_city_village_by_state vlg on g.HqId=vlg.id 
+    where e.EmpStatus='A' AND p.AssessmentYear=".$YI." AND vlg.state_id=".$StHQid." AND p.HOD_EmployeeID=".$EmpId." group by p.EmployeeID order by e.ECode", $con); }
 
 
 
@@ -58,7 +73,7 @@ if(isset($_POST['StHQid']) && $_POST['StHQid']!=""){ $StHQid = $_POST['StHQid'];
 
       $res2=mysql_fetch_assoc($sql2);?><td align="" style="font:Georgia; font-size:11px; width:100px;">&nbsp;<?php echo $res2['DepartmentCode'];?></td>
 
-<?php $sql3=mysql_query("select DesigName from hrm_designation where DesigId=".$res['DesigId']." OR DesigId=".$res['DesigId2'], $con); 
+<?php $sql3=mysql_query("select DesigName from hrm_designation where (DesigId=".$res['DesigId']." OR DesigId=".$res['DesigId2'].")", $con); 
 
       $res3=mysql_fetch_assoc($sql3);?>			
 

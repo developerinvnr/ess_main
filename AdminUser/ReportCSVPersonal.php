@@ -7,7 +7,7 @@ $FD=date("Y",strtotime($rY['FromDate'])); $TD=date("Y",strtotime($rY['ToDate']))
 if($_REQUEST['action']='PersonalExport') 
 { 
  if($_REQUEST['value']=='All') {$DeptV='All_Employee';}
-  else{ $sqlDeptV=mysql_query("select DepartmentCode from hrm_department where DepartmentId=".$_REQUEST['value'], $con); $resDeptV=mysql_fetch_assoc($sqlDeptV); 
+  else{ $sqlDeptV=mysql_query("select department_code as DepartmentCode from core_departments where id=".$_REQUEST['value'], $con); $resDeptV=mysql_fetch_assoc($sqlDeptV); 
         $DeptV=$resDeptV['DepartmentCode'];}
   
 #  Create the Column Headings
@@ -44,8 +44,8 @@ $Sno=1; while($res=mysql_fetch_array($sql)){
     if($res['Sname']==''){ $Ename=trim($res['Fname']).' '.trim($res['Lname']); }
 else{ $Ename=trim($res['Fname']).' '.trim($res['Sname']).' '.trim($res['Lname']); }
     //$Ename=$res['Fname'].' '.$res['Sname'].' '.$res['Lname']; 
-$sqlDept=mysql_query("select DepartmentCode from hrm_department where DepartmentId=".$res['DepartmentId'], $con); $resDept=mysql_fetch_assoc($sqlDept);
-$sqlDesig=mysql_query("select DesigName from hrm_designation where DesigId=".$res['DesigId'], $con); $resDesig=mysql_fetch_assoc($sqlDesig);
+$sqlDept=mysql_query("select department_code as DepartmentCode from core_departments where id=".$res['DepartmentId'], $con); $resDept=mysql_fetch_assoc($sqlDept);
+$sqlDesig=mysql_query("select designation_name as DesigName from core_designation where id=".$res['DesigId'], $con); $resDesig=mysql_fetch_assoc($sqlDesig);
 
 $csv_output .= '"'.str_replace('"', '""', $Sno).'",';
 $csv_output .= '"'.str_replace('"', '""', $res['EmpCode']).'",';

@@ -63,8 +63,8 @@ function MyHelthfile(n,v,c){window.open("../Employee/MyHelthFile.php?a=open&File
 				<td class="td1" style="width:100%;font-size:15px;font-family:Times New Roman;color:#00274F; font-weight:bold;">(Health Card)&nbsp;&nbsp;&nbsp;
 				Department :&nbsp;<select style="font-size:11px; width:148px;height:22px;background-color:#DDFFBB;" name="Dept" id="Dept" onChange="SelectDept(this.value)">
 				<option value="0" <?php if($_REQUEST['d']==0){echo 'selected';}?> >Select Department</option>
-<?php $SqlDept=mysql_query("select * from hrm_department where CompanyId=".$CompanyId." AND DepartmentCode!='MANAGEMENT' order by DepartmentName ASC", $con); while($ResDept=mysql_fetch_array($SqlDept)) { ?>
-                <option value="<?php echo $ResDept['DepartmentId']; ?>" <?php if($_REQUEST['d']==$ResDept['DepartmentId']){echo 'selected';}?>><?php echo '&nbsp;'.$ResDept['DepartmentCode'];?></option><?php } ?>
+<?php $SqlDept=mysql_query("select * from core_departments where is_active=1 order by department_name", $con); while($ResDept=mysql_fetch_array($SqlDept)) { ?>
+                <option value="<?php echo $ResDept['id']; ?>" <?php if($_REQUEST['d']==$ResDept['id']){echo 'selected';}?>><?php echo '&nbsp;'.$ResDept['department_name'];?></option><?php } ?>
 			    <option value="All">&nbsp;All</option></select>
 				</td>
                      </tr>
@@ -101,7 +101,7 @@ function MyHelthfile(n,v,c){window.open("../Employee/MyHelthFile.php?a=open&File
    </div>
 <?php if($_REQUEST['d']=='All'){$SubQ='1=1';}elseif($_REQUEST['d']>0){$SubQ='g.DepartmentId='.$_REQUEST['d'];}
 
-$sql=mysql_query("select e.EmployeeID,EmpCode,Fname,Sname,Lname,DepartmentCode,DesigCode from hrm_employee e inner join hrm_employee_general g on e.EmployeeID=g.EmployeeID inner join hrm_department d on g.DepartmentId=d.DepartmentId inner join hrm_designation de on g.DesigId=de.DesigId where e.EmpStatus='A' AND e.CompanyId=".$CompanyId." AND ".$SubQ." order by e.EmpCode ASC",$con); $row=mysql_num_rows($sql); $Sno=1; while($res=mysql_fetch_assoc($sql)){ ?> 
+$sql=mysql_query("select e.EmployeeID,EmpCode,Fname,Sname,Lname,department_code as DepartmentCode,designation_name as DesigCode from hrm_employee e inner join hrm_employee_general g on e.EmployeeID=g.EmployeeID left join core_departments d on g.DepartmentId=d.id left join core_designation de on g.DesigId=de.id where e.EmpStatus='A' AND e.CompanyId=".$CompanyId." AND ".$SubQ." order by e.EmpCode ASC",$con); $row=mysql_num_rows($sql); $Sno=1; while($res=mysql_fetch_assoc($sql)){ ?> 
    <div class="tbody">
    <tbody>
    <tr bgcolor="#FFFFFF">

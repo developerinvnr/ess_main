@@ -10,7 +10,7 @@ if ($_REQUEST['action'] = 'ExportReportAll') {
     if ($_REQUEST['value'] == 'All') {
         $DeptV = 'All_Employee';
     } else {
-        $sqlDeptV = mysql_query('select DepartmentCode from hrm_department where DepartmentId=' . $_REQUEST['value'], $con);
+        $sqlDeptV = mysql_query('select department_code as DepartmentCode from core_departments where id=' . $_REQUEST['value'], $con);
         $resDeptV = mysql_fetch_assoc($sqlDeptV);
         $DeptV = $resDeptV['DepartmentCode'];
     }
@@ -19,8 +19,13 @@ if ($_REQUEST['action'] = 'ExportReportAll') {
     $csv_output .= '"SNo.",';
     $csv_output .= '"EmpCode",';
     $csv_output .= '"Name",';
-    $csv_output .= '"Department",';
-    $csv_output .= '"Designation",';
+    
+    $csv_output .= '"Status",'; 
+    $csv_output .= '"Function",'; 
+    $csv_output .= '"Vertical",'; 
+    $csv_output .= '"Department",'; 
+    $csv_output .= '"Sub-Department",'; 
+    $csv_output .= '"Section",';
     
     $csv_output .= '"Father Name",';
     $csv_output .= '"Parmanent Address",';
@@ -34,9 +39,13 @@ if ($_REQUEST['action'] = 'ExportReportAll') {
     $csv_output .= '"Gender",';
     $csv_output .= '"DOB",';
     $csv_output .= '"DOJ",';
-    $csv_output .= '"Status",';
-    $csv_output .= '"CostCenter",';
+    
+    $csv_output .= '"State",';
+    $csv_output .= '"BU",';
+    $csv_output .= '"Zone",';
+    $csv_output .= '"Region",';
     $csv_output .= '"HQ",';
+    $csv_output .= '"Sub-Location",';
  
     $csv_output .= '"Bank Name",';
     $csv_output .= '"A/C No",';
@@ -48,36 +57,40 @@ if ($_REQUEST['action'] = 'ExportReportAll') {
     $csv_output .= "\n";
 
     # Get Users Details form the DB #$result = mysql_query("SELECT * from formResults WHERE formID = '$formID'" );
-    if ($_REQUEST['value'] == 'All') {
-        if ($_REQUEST['s'] == 'AD') {
-            $result = mysql_query('select e.*, p.*,g.*,c.*,f.*,ct.*,el.* from hrm_employee_general g INNER JOIN hrm_employee e ON g.EmployeeID=e.EmployeeID INNER JOIN hrm_employee_personal p ON g.EmployeeID=p.EmployeeID INNER JOIN hrm_employee_contact c ON g.EmployeeID=c.EmployeeID INNER JOIN hrm_employee_family f ON g.EmployeeID=f.EmployeeID INNER JOIN hrm_employee_ctc ct ON g.EmployeeID=ct.EmployeeID INNER JOIN hrm_employee_eligibility el ON g.EmployeeID=el.EmployeeID where e.CompanyId=' . $_REQUEST['C'] . " AND (e.EmpStatus='A' OR e.EmpStatus='D') AND ct.Status='A' AND el.Status='A'  group by e.EmpCode order by e.ECode ASC", $con);
-        } else {
-            $result = mysql_query('select e.*, p.*,g.*,c.*,f.*,ct.*,el.* from hrm_employee_general g INNER JOIN hrm_employee e ON g.EmployeeID=e.EmployeeID INNER JOIN hrm_employee_personal p ON g.EmployeeID=p.EmployeeID INNER JOIN hrm_employee_contact c ON g.EmployeeID=c.EmployeeID INNER JOIN hrm_employee_family f ON g.EmployeeID=f.EmployeeID INNER JOIN hrm_employee_ctc ct ON g.EmployeeID=ct.EmployeeID INNER JOIN hrm_employee_eligibility el ON g.EmployeeID=el.EmployeeID where e.CompanyId=' . $_REQUEST['C'] . " AND e.EmpStatus='" . $_REQUEST['s'] . "' AND ct.Status='A' AND el.Status='A'  group by e.EmpCode order by e.ECode ASC", $con);
-        }
-    } else {
-        if ($_REQUEST['s'] == 'AD') {
-            $result = mysql_query('select e.*, p.*,g.*,c.*,f.*,ct.*,el.* from hrm_employee_general g INNER JOIN hrm_employee e ON g.EmployeeID=e.EmployeeID INNER JOIN hrm_employee_personal p ON g.EmployeeID=p.EmployeeID INNER JOIN hrm_employee_contact c ON g.EmployeeID=c.EmployeeID INNER JOIN hrm_employee_family f ON g.EmployeeID=f.EmployeeID INNER JOIN hrm_employee_ctc ct ON g.EmployeeID=ct.EmployeeID INNER JOIN hrm_employee_eligibility el ON g.EmployeeID=el.EmployeeID where g.DepartmentId=' . $_REQUEST['value'] . ' AND e.CompanyId=' . $_REQUEST['C'] . " AND (e.EmpStatus='A' OR e.EmpStatus='D') AND ct.Status='A' AND el.Status='A'  group by e.EmpCode order by e.ECode ASC", $con);
-        } else {
-            $result = mysql_query('select e.*, p.*,g.*,c.*,f.*,ct.*,el.* from hrm_employee_general g INNER JOIN hrm_employee e ON g.EmployeeID=e.EmployeeID INNER JOIN hrm_employee_personal p ON g.EmployeeID=p.EmployeeID INNER JOIN hrm_employee_contact c ON g.EmployeeID=c.EmployeeID INNER JOIN hrm_employee_family f ON g.EmployeeID=f.EmployeeID INNER JOIN hrm_employee_ctc ct ON g.EmployeeID=ct.EmployeeID INNER JOIN hrm_employee_eligibility el ON g.EmployeeID=el.EmployeeID where g.DepartmentId=' . $_REQUEST['value'] . ' AND e.CompanyId=' . $_REQUEST['C'] . " AND e.EmpStatus='" . $_REQUEST['s'] . "' AND ct.Status='A' AND el.Status='A'  group by e.EmpCode order by e.ECode ASC", $con);
-        }
-    }
+    
+    if($_REQUEST['value']>0){ $Qdept="g.DepartmentId=".$_REQUEST['value']; }
+  elseif($_REQUEST['value']=='All'){ $Qdept="1=1"; }
+  
+  if($_REQUEST['sts']=='All'){ $QSts="e.EmpStatus!='De'"; }
+  else{ $QSts="e.EmpStatus='".$_REQUEST['sts']."'"; }
+
+$result=mysql_query("select e.*, p.*,g.*,c.*,f.*,ct.BAS_Value, function_name, vertical_name, department_name, sub_department_name, section_name, designation_name, grade_name, state_name, city_village_name, business_unit_name, zone_name, region_name, territory_name from hrm_employee_general g 
+  left join hrm_employee_contact c ON g.EmployeeID=c.EmployeeID 
+  left join hrm_employee_family f ON g.EmployeeID=f.EmployeeID 
+  left join hrm_employee e ON g.EmployeeID=e.EmployeeID 
+  left join hrm_employee_personal p on g.EmployeeID=p.EmployeeID
+  left join hrm_employee_ctc ct ON g.EmployeeID=ct.EmployeeID 
+  left join core_functions fun on g.EmpFunction=fun.id
+  left join core_verticals ver on g.EmpVertical=ver.id
+  left join core_departments dept on g.DepartmentId=dept.id
+  left join core_sub_department_master subdept on g.SubDepartmentId=subdept.id
+  left join core_section sec on g.EmpSection=sec.id
+  left join core_designation desig on g.DesigId=desig.id
+  left join core_grades gr on g.GradeId=gr.id
+  left join core_states st on g.CostCenter=st.id
+  left join core_city_village_by_state vlg on g.HqId=vlg.id 
+  left join core_business_unit Bu on g.BUId=Bu.id
+  left join core_zones Zn on g.ZoneId=Zn.id
+  left join core_regions Rg on g.RegionId=Rg.id
+  left join core_territory Tr on g.TerrId=Tr.id
+  where ".$QSts." AND ".$Qdept." AND e.CompanyId=".$_REQUEST['C']." AND ct.Status='A' group by e.EmpCode order by e.ECode ASC", $con); 
+    
 
     $Sno = 1;
     while ($res = mysql_fetch_array($result)) {
         if($res['Sname']==''){ $Ename=trim($res['Fname']).' '.trim($res['Lname']); }
 else{ $Ename=trim($res['Fname']).' '.trim($res['Sname']).' '.trim($res['Lname']); }
 
-        //$Ename = $res['Fname'] . ' ' . $res['Sname'] . ' ' . $res['Lname'];
-        $sqlDept = mysql_query('select DepartmentCode from hrm_department where DepartmentId=' . $res['DepartmentId'], $con);
-        $resDept = mysql_fetch_assoc($sqlDept);
-        $sqlDesig = mysql_query('select DesigCode,DesigName from hrm_designation where DesigId=' . $res['DesigId'], $con);
-        $resDesig = mysql_fetch_assoc($sqlDesig);
-        $sqlGrade = mysql_query('select GradeValue from hrm_grade where GradeId=' . $res['GradeId'], $con);
-        $resGrade = mysql_fetch_assoc($sqlGrade);
-        $sqlCC = mysql_query('select StateName from hrm_state where StateId=' . $res['CostCenter'], $con);
-        $resCC = mysql_fetch_assoc($sqlCC);
-        $sqlHQ = mysql_query('select HqName from hrm_headquater where HqId=' . $res['HqId'], $con);
-        $resHQ = mysql_fetch_assoc($sqlHQ);
 
         if ($res['RepEmployeeID'] > 0) {
             $sqlRn = mysql_query('select DesigId from hrm_employee_general where EmployeeID=' . $res['RepEmployeeID'], $con);
@@ -99,8 +112,16 @@ else{ $Ename=trim($res['Fname']).' '.trim($res['Sname']).' '.trim($res['Lname'])
         $csv_output .= '"' . str_replace('"', '""', $Sno) . '",';
           $csv_output .= '"' . str_replace('"', '""', strtoupper($res['EmpCode'])) . '",';
         $csv_output .= '"' . str_replace('"', '""', strtoupper($Ename)) . '",';
-        $csv_output .= '"' . str_replace('"', '""', strtoupper($resDept['DepartmentCode'])) . '",';
-        $csv_output .= '"' . str_replace('"', '""', strtoupper($resDesig['DesigName'])) . '",';
+        
+        
+$csv_output .= '"'.str_replace('"', '""', $res['EmpStatus']).'",';
+$csv_output .= '"'.str_replace('"', '""', $res['function_name']).'",';
+$csv_output .= '"'.str_replace('"', '""', $res['vertical_name']).'",';
+$csv_output .= '"'.str_replace('"', '""', $res['department_name']).'",';
+$csv_output .= '"'.str_replace('"', '""', $res['sub_department_name']).'",';
+$csv_output .= '"'.str_replace('"', '""', $res['section_name']).'",';
+
+
         $csv_output .= '"' . str_replace('"', '""', strtoupper($res['FatherName'])) . '",';
         $csv_output .= '"' . str_replace('"', '""', strtoupper($res['ParAdd'])) . '",';
         $csv_output .= '"' . str_replace('"', '""', strtoupper($resS2['StateName'])) . '",';
@@ -135,9 +156,15 @@ else{ $Ename=trim($res['Fname']).' '.trim($res['Sname']).' '.trim($res['Lname'])
             $DOJ = '';
         }
         $csv_output .= '"' . str_replace('"', '""', $DOJ) . '",';
-        $csv_output .= '"' . str_replace('"', '""', $res['EmpStatus']) . '",';
-        $csv_output .= '"' . str_replace('"', '""', strtoupper($resCC['StateName'])) . '",';
-        $csv_output .= '"' . str_replace('"', '""', strtoupper($resHQ['HqName'])) . '",';
+        
+        
+$csv_output .= '"'.str_replace('"', '""', $res['state_name']).'",';
+$csv_output .= '"'.str_replace('"', '""', $res['business_unit_name']).'",';
+$csv_output .= '"'.str_replace('"', '""', $res['zone_name']).'",';
+$csv_output .= '"'.str_replace('"', '""', $res['region_name']).'",';
+if($res['TerrId']>0){$Hq=$res['territory_name'];}else{$Hq=$res['city_village_name']; }
+$csv_output .= '"'.str_replace('"', '""', $Hq).'",';
+$csv_output .= '"'.str_replace('"', '""', $res['SubLocation']).'",';
       
         $csv_output .= '"' . str_replace('"', '""', strtoupper($res['BankName'])) . '",';
         $csv_output .= '"' . str_replace('"', '""', strtoupper($res['AccountNo'])) . '",';

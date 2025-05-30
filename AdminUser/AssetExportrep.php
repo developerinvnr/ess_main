@@ -13,7 +13,7 @@ if($_REQUEST['yer']>0)         /////////////////////////////////////////////////
 { 
 
  if($_REQUEST['d']=='AllD') {  //----->>>(11)  
-  if($_REQUEST['reqt']==1){   //---(C)
+  if($_REQUEST['reqt']==1){    //---(C)
     if($_REQUEST['ast']==0 OR $_REQUEST['ast']=='AllA')
     {  
 	 if($_REQUEST['emp']>0){ $sqla2=mysql_query("select * from hrm_asset_employee_request where PurDate>='".$fromdate."-04-01' AND PurDate<='".$todate."-03-31' AND Status=1 AND EmployeeID=".$_REQUEST['emp']." order by PurDate DESC", $con); }else{ $sqla2=mysql_query("select * from hrm_asset_employee_request where PurDate>='".$fromdate."-04-01' AND PurDate<='".$todate."-03-31' AND Status=1 order by PurDate DESC", $con); }
@@ -112,7 +112,7 @@ $csv_output .= "\n";
 $sno=1; while($resa2=mysql_fetch_assoc($sqla2)){ $SqlEmp = mysql_query("SELECT EmpCode,Fname,Sname,Lname,DepartmentId,MobileNo_Vnr,MobileNo from hrm_employee INNER JOIN hrm_employee_general ON hrm_employee.EmployeeID=hrm_employee_general.EmployeeID INNER JOIN hrm_employee_personal ON hrm_employee.EmployeeID=hrm_employee_personal.EmployeeID WHERE hrm_employee.EmployeeID=".$resa2['EmployeeID'], $con); $ResEmp=mysql_fetch_assoc($SqlEmp);
 $Ename = $ResEmp['Fname'].' '.$ResEmp['Sname'].' '.$ResEmp['Lname']; $LEC=strlen($ResEmp['EmpCode']); 
 if($LEC==1){$EC='000'.$ResEmp['EmpCode'];} if($LEC==2){$EC='00'.$ResEmp['EmpCode'];} if($LEC==3){$EC='0'.$ResEmp['EmpCode'];} if($LEC>=4){$EC=$ResEmp['EmpCode'];}
-$sDept=mysql_query("select DepartmentCode from hrm_department where DepartmentId=".$ResEmp['DepartmentId'], $con); $rDept=mysql_fetch_assoc($sDept);		
+$sDept=mysql_query("select department_name as DepartmentCode from core_departments where id=".$ResEmp['DepartmentId'], $con); $rDept=mysql_fetch_assoc($sDept);		
 $sqlAn=mysql_query("select AssetName from hrm_asset_name where AssetNId=".$resa2['AssetNId']); $resAn=mysql_fetch_array($sqlAn);
 $csv_output .= '"'.str_replace('"', '""', $sno).'",'; 
 $csv_output .= '"'.str_replace('"', '""', $EC).'",';
@@ -279,7 +279,7 @@ $csv_output .= "\n";
 $sno2=1; while($resa=mysql_fetch_assoc($sqla)){ $SqlEmp2 = mysql_query("SELECT EmpCode,Fname,Sname,Lname,DepartmentId,MobileNo_Vnr,MobileNo from hrm_employee INNER JOIN hrm_employee_general ON hrm_employee.EmployeeID=hrm_employee_general.EmployeeID INNER JOIN hrm_employee_personal ON hrm_employee.EmployeeID=hrm_employee_personal.EmployeeID WHERE hrm_employee.EmployeeID=".$resa['EmployeeID'], $con); $ResEmp2=mysql_fetch_assoc($SqlEmp2);
 $Ename2 = $ResEmp2['Fname'].' '.$ResEmp2['Sname'].' '.$ResEmp2['Lname']; $LEC2=strlen($ResEmp2['EmpCode']); 
 if($LEC2==1){$EC2='000'.$ResEmp2['EmpCode'];} if($LEC2==2){$EC2='00'.$ResEmp2['EmpCode'];} if($LEC2==3){$EC2='0'.$ResEmp2['EmpCode'];} if($LEC2>=4){$EC2=$ResEmp2['EmpCode'];}
-$sDept2=mysql_query("select DepartmentCode from hrm_department where DepartmentId=".$ResEmp2['DepartmentId'], $con); $rDept2=mysql_fetch_assoc($sDept2);
+$sDept2=mysql_query("select department_name as DepartmentCode from core_departments where id=".$ResEmp2['DepartmentId'], $con); $rDept2=mysql_fetch_assoc($sDept2);
 $sqlAn2=mysql_query("select AssetName from hrm_asset_name where AssetNId=".$resa['AssetNId']); $resAn2=mysql_fetch_array($sqlAn2);
 $csv_output .= '"'.str_replace('"', '""', $sno2).'",'; 
 $csv_output .= '"'.str_replace('"', '""', $EC2).'",';

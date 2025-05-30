@@ -24,13 +24,18 @@ $csv_output .= '"Evening Reports",';
 $csv_output .= "\n";		
 
 # Get Users Details form the DB #$result = mysql_query("SELECT * from formResults WHERE formID = '$formID'" );
-$sql=mysql_query("select r.*,EmpCode,Fname,Sname,Lname,DepartmentId,DesigId,HqId,RepEmployeeID,Att,MorEveDate,MorDateTime,MorReports,EveDateTime,EveReports from hrm_employee_moreve_report_".$_REQUEST['Y']." r INNER JOIN hrm_employee e ON r.EmployeeID=e.EmployeeID INNER JOIN hrm_employee_general g ON r.EmployeeID=g.EmployeeID where e.EmpStatus!='De' AND e.EmployeeID=".$_REQUEST['En']." AND e.CompanyId=".$_REQUEST['C']." AND r.MorEveDate>='".$_REQUEST['Y']."-".$_REQUEST['m']."-01' AND r.MorEveDate<='".$_REQUEST['Y']."-".$_REQUEST['m']."-31' order by MorEveDate ASC, EmployeeID ASC", $con);
+$sql=mysql_query("select r.*,EmpCode,Fname,Sname,Lname,g.HqId, g.TerrId, department_name, sub_department_name, section_name, designation_name, grade_name, state_name, city_village_name, territory_name,RepEmployeeID,Att,MorEveDate,MorDateTime,MorReports,EveDateTime,EveReports from hrm_employee_moreve_report_".$_REQUEST['Y']." r INNER JOIN hrm_employee e ON r.EmployeeID=e.EmployeeID INNER JOIN hrm_employee_general g ON r.EmployeeID=g.EmployeeID left join core_departments dept on g.DepartmentId=dept.id
+  left join core_sub_department_master subdept on g.SubDepartmentId=subdept.id
+  left join core_section sec on g.EmpSection=sec.id
+  left join core_designation desig on g.DesigId=desig.id
+  left join core_grades gr on g.GradeId=gr.id
+  left join core_states st on g.CostCenter=st.id
+  left join core_city_village_by_state vlg on g.HqId=vlg.id
+  left join core_territory Tr on g.TerrId=Tr.id where e.EmpStatus!='De' AND e.EmployeeID=".$_REQUEST['En']." AND e.CompanyId=".$_REQUEST['C']." AND r.MorEveDate>='".$_REQUEST['Y']."-".$_REQUEST['m']."-01' AND r.MorEveDate<='".$_REQUEST['Y']."-".$_REQUEST['m']."-31' order by MorEveDate ASC, EmployeeID ASC", $con);
 
 $Sno=1; $rows=mysql_num_rows($sql); $sn=1; while($res=mysql_fetch_array($sql)) { 
 $month=$_REQUEST['m'];
-$sqlDept=mysql_query("select DepartmentCode,DepartmentName from hrm_department where DepartmentId=".$res['DepartmentId'], $con); $resDept=mysql_fetch_assoc($sqlDept);
-$sqlDesig=mysql_query("select DesigCode,DesigName from hrm_designation where DesigId=".$res['DesigId'], $con); $resDesig=mysql_fetch_assoc($sqlDesig);
-$sqlHQ=mysql_query("select HqName from hrm_headquater where HqId=".$res['HqId'], $con); $resHQ=mysql_fetch_assoc($sqlHQ);
+
 $sqlRemp=mysql_query("select Fname,Sname,Lname from hrm_employee where EmployeeID=".$res['RepEmployeeID'], $con); $resRemp=mysql_fetch_assoc($sqlRemp);
 
 $csv_output .= '"'.str_replace('"', '""', $sn).'",';
@@ -40,9 +45,12 @@ if($res['Sname']==''){ $Ename=trim($res['Fname']).' '.trim($res['Lname']); }
 else{ $Ename=trim($res['Fname']).' '.trim($res['Sname']).' '.trim($res['Lname']); }
 $csv_output .= '"'.str_replace('"', '""', $Ename).'",';
 //$csv_output .= '"'.str_replace('"', '""', $res['Fname'].' '.$res['Sname'].' '.$res['Lname']).'",';
-$csv_output .= '"'.str_replace('"', '""', $resDept['DepartmentName']).'",'; 
-$csv_output .= '"'.str_replace('"', '""', $resDesig['DesigName']).'",';
-$csv_output .= '"'.str_replace('"', '""', $resHQ['HqName']).'",';
+$csv_output .= '"'.str_replace('"', '""', $res['department_name']).'",'; 
+$csv_output .= '"'.str_replace('"', '""', $res['designation_name']).'",';
+
+if($res['TerrId']>0){$Hq=$res['territory_name'];}else{$Hq=$res['city_village_name']; }
+
+$csv_output .= '"'.str_replace('"', '""', $Hq).'",';
 $csv_output .= '"'.str_replace('"', '""', $resRemp['Fname'].' '.$resRemp['Sname'].' '.$resRemp['Lname']).'",';
 $csv_output .= '"'.str_replace('"', '""', $res['MorEveDate']).'",';
 $csv_output .= '"'.str_replace('"', '""', $res['Att']).'",';

@@ -10,12 +10,12 @@ if(!isset($CompanyId)){ $CompanyId=$_REQUEST['ci']; }
 
 if(isset($_POST['SubmitDGSH']))
 {
-  $con2=mysql_connect('localhost','hrims_user','hrims@192');
+  $con2=mysql_connect('localhost','vnrseed2_hrims','5Az*hcHimJkE');
   $db2=mysql_select_db('hrims_movefromvess', $con2);
   
   $DesigMn=$_POST['DesigNN'];
   if($_POST['DesigNN']==''){ $DesigMn=$_POST['DesigM']; }
-  $sqlup = mysql_query("update hrm_employee set New_Dept=".$_POST['DeptName'].", New_Desig=".$DesigMn.", New_Grade=".$_POST['GradeName'].", New_Hq=".$_POST['HQName'].", DOE='".date("Y-m-d",strtotime($_POST['DOE']))."' where EmployeeID=".$_POST['eei'], $con2);
+  $sqlup = mysql_query("update hrm_employee set New_Dept=".$_POST['DeptName'].", New_Desig=".$DesigMn.", New_Grade=".$_POST['GradeName'].", New_State='".$_POST['StateName']."', New_Hq=".$_POST['HQQName'].", DOE='".date("Y-m-d",strtotime($_POST['DOE']))."' where EmployeeID=".$_POST['eei'], $con2);
  
   if($sqlup)
   { 
@@ -61,7 +61,21 @@ function DeptSelect(value,sn) {
 	});
 } 
 function show_NewDeptSelect(originalRequest)
-{ document.getElementById('DesigSpan'+document.getElementById("Msno").value).innerHTML = originalRequest.responseText; }	
+{ document.getElementById('DesigSpan'+document.getElementById("Msno").value).innerHTML = originalRequest.responseText; }
+
+
+function StateSelect(value,sn) { 
+   document.getElementById("Msno").value=sn;    
+   var url = 'MoveEmpFromVessAjax.php';	var pars = 'stateid='+value+'&sn='+sn;	var myAjax = new Ajax.Request(
+	url, 
+	{
+		method: 'post', 
+		parameters: pars, 
+		onComplete: show_NewStateSelect
+	});
+} 
+function show_NewStateSelect(originalRequest)
+{ document.getElementById('HQSpan'+document.getElementById("Msno").value).innerHTML = originalRequest.responseText; }
 
 
 function SelDesig(de)
@@ -233,7 +247,7 @@ function FValid(formu,sn)
     </style>
 </head>
 <?php 
-$con=mysql_connect('localhost','hrims_user','hrims@192');
+$con=mysql_connect('localhost','vnrseed2_hrims','5Az*hcHimJkE');
 $db=mysql_select_db('hrims', $con); ?>
 <body class="body">
     <span id="SpnaChkMove"></span>
@@ -320,7 +334,7 @@ $db=mysql_select_db('hrims', $con); ?>
 <?php
 //$con2=mysql_connect('localhost','hrims_user','hrims@192');
 //$db2=mysql_select_db('hrims_movefromvess', $con2);
-$con2=mysql_connect('localhost','hrims_user','hrims@192');
+$con2=mysql_connect('localhost','vnrseed2_hrims','5Az*hcHimJkE');
 if(!$con2) die("Failed to connect to database!");
 $db2=mysql_select_db('hrims_movefromvess', $con2);
 if(!$db2) die("Failed to select database!");
@@ -336,7 +350,7 @@ while($res = mysql_fetch_assoc($sql)){
 <td class="tdc" style="width:5%;"><?= $res['VCode'].''.$res['EmpCode'] ?></td>
 <td class="tdl" style="width:20%"><?= $res['Fname'] . ' ' . $res['Sname'] . ' ' . $res['Lname'] ?></td>
 <?php 
-$con2=mysql_connect('localhost','hrims_user','hrims@192');
+$con2=mysql_connect('localhost','vnrseed2_hrims','5Az*hcHimJkE');
 $db2=mysql_select_db('hrims_movefromvess', $con2);
 $sD = mysql_query("select DepartmentCode from hrm_department where DepartmentId=" . $res['DepartmentId'], $con2);
 $sDe = mysql_query("select DesigName from hrm_designation where DesigId=".$res['DesigId'], $con2);
@@ -374,7 +388,7 @@ $rHq = mysql_fetch_assoc($sHq); ?>
 <form method="post" name="formu" onSubmit="return FValid(this,<?=$sn?>)">
 <input type="hidden" name="eei" value="<?=$res['EmployeeID']?>" />
 <?php
-$con=mysql_connect('localhost','hrims_user','hrims@192');
+$con=mysql_connect('localhost','vnrseed2_hrims','5Az*hcHimJkE');
 if(!$con) die("Failed to connect to database!");
 $db=mysql_select_db('hrims', $con); 
 if(!$db) die("Failed to select database!"); ?>
@@ -382,25 +396,40 @@ if(!$db) die("Failed to select database!"); ?>
 <table style="width:100%;" border="1" cellspacing="0" cellpadding="1">
 	<tr style="height:25px;">
 		<td class="stdl">Department</td>
-		<td class="tdl"><select class="All_200" name="DeptName" id="DeptName<?=$sn?>" onChange="DeptSelect(this.value,<?=$sn?>)" style="text-transform:uppercase;" required><option value="">Select</option><?php $SqlDept=mysql_query("select * from hrm_department where CompanyId=".$CompanyId." order by DepartmentName ASC", $con); while($ResDept=mysql_fetch_array($SqlDept)) { ?>
-  <option value="<?php echo $ResDept['DepartmentId']; ?>" <?php if($res['New_Dept']==$ResDept['DepartmentId']){echo 'selected';}?>><?php echo $ResDept['DepartmentCode'].'&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;'.$ResDept['DepartmentName']; ?></option><?php } ?></select></td>
+		<td class="tdl"><select class="All_200" name="DeptName" id="DeptName<?=$sn?>" onChange="DeptSelect(this.value,<?=$sn?>)" style="text-transform:uppercase;" required><option value="">Select</option><?php $SqlDept=mysql_query("select * from core_departments order by department_name ASC", $con); while($ResDept=mysql_fetch_array($SqlDept)) { ?>
+  <option value="<?php echo $ResDept['id']; ?>" <?php if($res['New_Dept']==$ResDept['id']){echo 'selected';}?>><?php echo $ResDept['department_code'].'&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;'.$ResDept['department_name']; ?></option><?php } ?></select></td>
 	</tr>
 	<tr style="height:25px;">
 		<td class="stdl">Designaion</td>
-		<td class="tdl"><span id="DesigSpan<?=$sn?>"><select class="All_200" name="DesigName" id="DesigName<?=$sn?>" style="text-transform:uppercase;" disabled><?php if($res['New_Desig']==0){?><option value="">Select</option><?php } $SqlDe=mysql_query("select DesigId,DesigName from hrm_designation where DesigId=".$res['New_Desig'], $con); $ResDe=mysql_fetch_assoc($SqlDe);?><option value="<?php echo $res['New_Desig']; ?>" <?php if($res['New_Desig']==$ResDe['DesigId']){echo 'selected';}?>><?php echo $ResDe['DesigName']; ?></option></select>
+		<td class="tdl"><span id="DesigSpan<?=$sn?>"><select class="All_200" name="DesigName" id="DesigName<?=$sn?>" style="text-transform:uppercase;" disabled><?php if($res['New_Desig']==0){?><option value="">Select</option><?php } $SqlDe=mysql_query("select id as DesigId,designation_name as DesigName from core_designation where id=".$res['New_Desig'], $con); $ResDe=mysql_fetch_assoc($SqlDe);?><option value="<?php echo $res['New_Desig']; ?>" <?php if($res['New_Desig']==$ResDe['DesigId']){echo 'selected';}?>><?php echo $ResDe['DesigName']; ?></option></select>
 		<input type="hidden" name="DesigM" value="<?=$res['New_Desig']?>" />
 		</td>
 	</tr>
 	<tr style="height:25px;">
 		<td class="stdl">Grade</td>
-		<td class="tdl"><select class="All_200" name="GradeName" id="GradeName<?=$sn?>" required><?php if($res['New_Grade']==0){?><option value="">Select</option><?php } if($CompanyId==1){$sqlGr= mysql_query("select * from hrm_grade where CompanyId=".$CompanyId." AND CreatedDate>='2014-02-01' order by GradeId ASC", $con) or die(mysql_error());}else{$sqlGr = mysql_query("select * from hrm_grade where CompanyId=".$CompanyId." order by GradeId ASC", $con);} while($resGr = mysql_fetch_array($sqlGr)){ ?>
-  <option value="<?php echo $resGr['GradeId']; ?>" <?php if($res['New_Grade']==$resGr['GradeId']){echo 'selected';}?>><?php echo $resGr['GradeValue']; ?></option><?php } ?>
+		<td class="tdl"><select class="All_200" name="GradeName" id="GradeName<?=$sn?>" required><?php if($res['New_Grade']==0){?><option value="">Select</option><?php } $sqlGr= mysql_query("select * from core_grades WHERE is_active=1 and company_id=".$CompanyId." order by id", $con);while($resGr = mysql_fetch_array($sqlGr)){ ?>
+  <option value="<?php echo $resGr['id']; ?>" <?php if($res['New_Grade']==$resGr['id']){echo 'selected';}?>><?php echo $resGr['grade_name']; ?></option><?php } ?>
   </select></td>
 	</tr>
 	<tr style="height:25px;">
+		<td class="stdl">State</td>
+		<td class="tdl"><select class="All_200" name="StateName" id="StateName<?=$sn?>" onChange="StateSelect(this.value,<?=$sn?>)">
+  <option value="0">Select</option>
+  <?php $sCostC = mysql_query("select * from core_states WHERE is_active=1 order by state_name",$con);
+while($rCostC = mysql_fetch_array($sCostC)){ ?><option value="<?=$rCostC['id']?>" <?php if($rCostC['id']==$ResEmp['CostCenter']){echo 'selected';}?>><?=$rCostC['state_name']?></option><?php }  ?></select>
+ </span></td>
+	</tr>
+	
+	<tr style="height:25px;">
 		<td class="stdl">HQ</td>
-		<td class="tdl"><select class="All_200" name="HQName" id="HQName<?=$sn?>" onChange="HQSelect(this.value)" required><option value="">Select</option><?php $SqlHQ=mysql_query("select * from hrm_headquater where HQStatus='A' AND CompanyId=".$CompanyId." order by HqName ASC", $con); while($ResHQ=mysql_fetch_array($SqlHQ)) { ?>
-  <option value="<?php echo $ResHQ['HqId']; ?>" <?php if($res['New_Hq']==$ResHQ['HqId']){echo 'selected';}?>><?php echo $ResHQ['HqName']; ?></option><?php } ?></select></td>
+		<td class="tdl"><span id="HQSpan<?=$sn?>"><select class="All_200" name="HQName" onChange="HQSelect(this.value,<?=$sn?>)" required><option value="">Select</option></select></span>
+		<input type="hidden" name="HQQName" id="HQQName<?=$sn?>" value="0" />
+		
+		<script>
+		    function HQSelect(v,sn){ document.getElementById("HQQName"+sn).value=v; }
+		</script>
+		
+		</td>
 	</tr>
 	
 	<tr style="height:25px;">

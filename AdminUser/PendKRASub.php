@@ -234,7 +234,7 @@ function ScalateMailKra(EI,YI)
 					   <td style="width:180px;"></td>
 	                   <td style="font-size:11px; width:150px;">Select Department :-</td>
                        <td class="td1" style="font-size:11px; width:150px;">
-                       <select style="font-size:11px; width:150px; height:18px; background-color:#DDFFBB; display:block;" name="DepartmentE" id="DepartmentE" onChange="SelectDeptEmp(this.value)"><option value="" style="margin-left:0px; background-color:#84D9D5;" selected>Select Department</option><?php $SqlDepartment=mysql_query("select * from hrm_department where CompanyId=".$CompanyId." AND DepartmentId!=17 AND DepartmentId!=18 order by DepartmentName ASC", $con); while($ResDepartment=mysql_fetch_array($SqlDepartment)) { ?><option value="<?php echo $ResDepartment['DepartmentId']; ?>"><?php echo '&nbsp;'.$ResDepartment['DepartmentCode'];?></option><?php } ?><option value="All">&nbsp;ALL</option></select>
+                       <select style="font-size:11px; width:150px; height:18px; background-color:#DDFFBB; display:block;" name="DepartmentE" id="DepartmentE" onChange="SelectDeptEmp(this.value)"><option value="" style="margin-left:0px; background-color:#84D9D5;" selected>Select Department</option><?php $SqlDepartment=mysql_query("select * from core_departments where is_active=1 order by department_name", $con); while($ResDepartment=mysql_fetch_array($SqlDepartment)) { ?><option value="<?php echo $ResDepartment['id']; ?>"><?php echo '&nbsp;'.$ResDepartment['department_name'];?></option><?php } ?><option value="All">&nbsp;ALL</option></select>
 					   <input type="hidden" name="ComId" id="ComId" value="<?php echo $CompanyId; ?>" /> 
 					   <input type="hidden" name="DId" id="DId" value="<?php echo $_REQUEST['DpId']; ?>" />
                       </td>
@@ -262,8 +262,20 @@ function ScalateMailKra(EI,YI)
  </tr>
 <?php if($_REQUEST['DpId'] AND $_REQUEST['DpId']!='') { 
 
-      if($_REQUEST['DpId']!='All'){  $sqlDP = mysql_query("SELECT hrm_employee.EmployeeID,EmpCode,Fname,Sname,Lname,HqId,DepartmentId,DesigId,Gender,Married FROM hrm_employee INNER JOIN hrm_employee_general ON hrm_employee.EmployeeID=hrm_employee_general.EmployeeID INNER JOIN hrm_employee_personal ON hrm_employee.EmployeeID=hrm_employee_personal.EmployeeID WHERE hrm_employee.EmpStatus='A' AND hrm_employee.CompanyId=".$CompanyId." AND hrm_employee_general.DepartmentId=".$_REQUEST['DpId'], $con) or die(mysql_error());  }
-	  elseif($_REQUEST['DpId']=='All'){  $sqlDP = mysql_query("SELECT hrm_employee.EmployeeID,EmpCode,Fname,Sname,Lname,HqId,DepartmentId,DesigId,Gender,Married FROM hrm_employee INNER JOIN hrm_employee_general ON hrm_employee.EmployeeID=hrm_employee_general.EmployeeID INNER JOIN hrm_employee_personal ON hrm_employee.EmployeeID=hrm_employee_personal.EmployeeID WHERE hrm_employee.EmpStatus='A' AND hrm_employee_general.DepartmentId!=17 AND hrm_employee_general.DepartmentId!=18 AND hrm_employee.CompanyId=".$CompanyId, $con) or die(mysql_error());  }
+      if($_REQUEST['DpId']!='All'){  $sqlDP = mysql_query("SELECT e.EmployeeID,EmpCode,Fname,Sname,Lname,g.HqId, g.TerrId, department_name, department_code, designation_name, grade_name, city_village_name, territory_name,Gender,Married FROM hrm_employee e INNER JOIN hrm_employee_general g ON e.EmployeeID=g.EmployeeID INNER JOIN hrm_employee_personal p ON e.EmployeeID=p.EmployeeID 
+      left join core_departments dept on g.DepartmentId=dept.id
+  left join core_designation desig on g.DesigId=desig.id
+  left join core_grades gr on g.GradeId=gr.id
+  left join core_city_village_by_state vlg on g.HqId=vlg.id
+  left join core_territory Tr on g.TerrId=Tr.id
+      WHERE e.EmpStatus='A' AND g.DepartmentId=".$_REQUEST['DpId'], $con) or die(mysql_error());  }
+	  elseif($_REQUEST['DpId']=='All'){  $sqlDP = mysql_query("SELECT e.EmployeeID,EmpCode,Fname,Sname,Lname,g.HqId, g.TerrId, department_name, department_code, designation_name, grade_name, city_village_name, territory_name,Gender,Married FROM hrm_employee e INNER JOIN hrm_employee_general g ON e.EmployeeID=g.EmployeeID INNER JOIN hrm_employee_personal p ON e.EmployeeID=p.EmployeeID 
+	  left join core_departments dept on g.DepartmentId=dept.id
+  left join core_designation desig on g.DesigId=desig.id
+  left join core_grades gr on g.GradeId=gr.id
+  left join core_city_village_by_state vlg on g.HqId=vlg.id
+  left join core_territory Tr on g.TerrId=Tr.id
+	  WHERE e.EmpStatus='A' AND e.CompanyId=".$CompanyId, $con) or die(mysql_error());  }
      
       $Sno=1;  while($resDP = mysql_fetch_assoc($sqlDP)) { 
 if($resDP['Gender']=='M'){$M='Mr.';} elseif($resDP['Gender']=='F' AND $resDP['Married']=='Y'){$M='Mrs.';} elseif($resDP['Gender']=='F' AND $resDP['Married']=='N'){$M='Miss.';} 
@@ -276,18 +288,11 @@ $sql3E2=mysql_query("select EmpStatus from hrm_pms_kra where YearId=".$resSY['Cu
 		<td align="center" style="" class="All_40"><?php echo $Sno; ?></td>
 		<td align="center" style="" class="All_50">&nbsp;<?php echo $EC; ?></td>
 		<td style="" class="All_250">&nbsp;<?php echo $Name; ?></td>
-		<td style="" class="All_120">&nbsp;
-		<?php $sqlHQ = mysql_query("SELECT HqName FROM hrm_headquater WHERE HqId=".$resDP['HqId'], $con) or die(mysql_error()); 
-		      $resHQ = mysql_fetch_assoc($sqlHQ); echo $resHQ['HqName'];?>
+		<?php if($resDP['TerrId']>0){$Hq=$resDP['territory_name'];}else{$Hq=$resDP['city_village_name']; } ?>
+		<td style="" class="All_120">&nbsp;<?php echo $Hq;?>
 		</td>
-		<td style="" class="All_100">&nbsp;
-		<?php $sqlDept = mysql_query("SELECT DepartmentCode FROM hrm_department WHERE DepartmentId=".$resDP['DepartmentId'], $con) or die(mysql_error()); 
-		      $resDept = mysql_fetch_assoc($sqlDept); echo $resDept['DepartmentCode'];?>
-		</td>
-		<td style="" class="All_300">&nbsp;
-		<?php $sqlDesig = mysql_query("SELECT DesigName FROM hrm_designation WHERE DesigId=".$resDP['DesigId'], $con) or die(mysql_error()); 
-		      $resDesig = mysql_fetch_assoc($sqlDesig); echo $resDesig['DesigName']; ?>
-		</td>
+		<td style="" class="All_100">&nbsp;<?php echo $resDP['department_code'];?></td>
+		<td style="" class="All_300">&nbsp;<?php echo $resDP['designation_name']; ?></td>
 		   
 	    <td align="center" class="All_70"><?php if($res3E2['EmpStatus']=='A') {?>
 <?php if($_SESSION['User_Permission']=='Edit'){ ?>

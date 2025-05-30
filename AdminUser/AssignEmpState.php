@@ -93,17 +93,19 @@ function EEdit(v)
 <?php //---------------------------------------Display Record----------------------------------------------------------------- ?>
 <tr>
  <td>
-   <table border="1" width="2400">
+   <table border="1" width="400">
 <tr bgcolor="#7a6189">
     <td align="center" style="color:#FFFFFF;" class="All_40"><b>SNo.</b></td>
     <td align="center" style="color:#FFFFFF;" class="All_120"><b>State</b></td>
+    <td align="center" style="color:#FFFFFF;" class="All_150"><b>LOGISTICS</b></td>
+    <?php /*
 	<td align="center" style="color:#FFFFFF;" class="All_150"><b>HR</b></td>
 	<td align="center" style="color:#FFFFFF;" class="All_150"><b>R&D </b></td>
 	<td align="center" style="color:#FFFFFF;" class="All_150"><b>PD</b></td>
 	<td align="center" style="color:#FFFFFF;" class="All_150"><b>PRODUCTION</b></td>
 	<td align="center" style="color:#FFFFFF;" class="All_150"><b>PROCESSING</b></td>
 	<td align="center" style="color:#FFFFFF;" class="All_150"><b>SALES</b></td>
-	<td align="center" style="color:#FFFFFF;" class="All_150"><b>LOGISTICS</b></td>
+	
 	<td align="center" style="color:#FFFFFF;" class="All_150"><b>FINANCE</b></td>
 	<td align="center" style="color:#FFFFFF;" class="All_150"><b>IT</b></td>
 	<td align="center" style="color:#FFFFFF;" class="All_150"><b>LEGAL</b></td>
@@ -111,14 +113,27 @@ function EEdit(v)
 	<td align="center" style="color:#FFFFFF;" class="All_150"><b>MARKETING</b></td>
 	<td align="center" style="color:#FFFFFF;" class="All_150"><b>QA</b></td>
 	<td align="center" style="color:#FFFFFF;" class="All_150"><b>FS</b></td>
+	*/?>
  </tr> 
 <?php if($CompanyId==1){ ?>
 <form name="FormStateEmp1" method="post" />
-<?php $sql = mysql_query("SELECT hrm_employee_state.*,StateName from hrm_employee_state INNER JOIN hrm_state ON hrm_employee_state.StateId=hrm_state.StateId WHERE hrm_employee_state.CompanyId=".$CompanyId." order by hrm_state.StateName ASC", $con); $no=1; while($res = mysql_fetch_array($sql)) { ?>
+<?php $sql = mysql_query("SELECT hs.*,state_name from hrm_employee_state hs left JOIN core_states s ON hs.StateId=s.id WHERE hs.CompanyId=".$CompanyId." order by s.state_name ASC", $con); $no=1; while($res = mysql_fetch_array($sql)) { ?>
 <tr bgcolor="#FFFFFF">
     <td align="center" style="" class="All_40"><?php echo $no; ?></td>
-    <td align="" style=" background-color:#6FB7FF" class="All_120"><?php echo $res['StateName']; ?>
-	<input type="hidden" name="StateId_<?php echo $no; ?>" value="<?php echo $res['StateId']; ?>" /></td>
+    <td align="" style=" background-color:#6FB7FF" class="All_120"><?php echo $res['state_name']; ?>
+	<input type="hidden" name="StateId_<?php echo $no; ?>" value="<?php echo $res['id']; ?>" /></td>
+	
+	
+<?php // LOGISTIC // ?>
+	<td align="center" style="" class="All_150"><select style="width:148px;font-size:12px; font-family:Georgia;height:20px;" id="SelEmpLOG_<?php echo $no; ?>" name="SelEmpLOG_<?php echo $no; ?>" disabled><?php if($res['LOGISTICS_EId']==0) { ?><option style="background-color:#B4B4B4;padding:1px;" value="0">Select Employee</option><?php } else { ?>
+<?php $sqlE7=mysql_query("select hrm_employee.EmployeeID,EmpCode,Fname,Sname,Lname from hrm_employee_general INNER JOIN hrm_employee ON hrm_employee_general.EmployeeID=hrm_employee.EmployeeID where hrm_employee_general.EmployeeID=".$res['LOGISTICS_EId'], $con); $resE7=mysql_fetch_assoc($sqlE7); 
+$Ename7=$resE7['EmpCode'].' - '.$resE7['Fname'].' '.$resE7['Sname'].' '.$resE7['Lname']; ?>	
+	<option style="background-color:#A4FFA4;padding:1px;" value="<?php echo $res['LOGISTICS_EId']; ?>"><?php echo $Ename7; ?></option><?php } ?>
+<?php $sqlE_LOG=mysql_query("select hrm_employee.EmployeeID,EmpCode,Fname,Sname,Lname from hrm_employee_general INNER JOIN hrm_employee ON hrm_employee_general.EmployeeID=hrm_employee.EmployeeID where hrm_employee_general.DepartmentId=9 order by Fname ASC", $con); while($resE_LOG=mysql_fetch_assoc($sqlE_LOG)) 
+{ $Ename_LOG=$resE_LOG['EmpCode'].' - '.$resE_LOG['Fname'].' '.$resE_LOG['Sname'].' '.$resE_LOG['Lname']; ?>
+ <option value="<?php echo $resE_LOG['EmployeeID']; ?>" style="padding:1px;"><?php echo $Ename_LOG; ?></option><?php } ?></select></td>
+	
+	<?php /*
 	<?php // HR // ?>
 	<td align="center" style="" class="All_150"><select style="width:148px;font-size:12px; font-family:Georgia;height:20px;" id="SelEmpHR_<?php echo $no; ?>" name="SelEmpHR_<?php echo $no; ?>" disabled><?php if($res['HR_EId']==0) { ?><option style="background-color:#B4B4B4;padding:1px;" value="0">Select Employee</option><?php } else { ?>
 <?php $sqlE1=mysql_query("select hrm_employee.EmployeeID,EmpCode,Fname,Sname,Lname from hrm_employee_general INNER JOIN hrm_employee ON hrm_employee_general.EmployeeID=hrm_employee.EmployeeID where hrm_employee_general.EmployeeID=".$res['HR_EId'], $con); $resE1=mysql_fetch_assoc($sqlE1); 
@@ -173,14 +188,7 @@ $Ename6=$resE6['EmpCode'].' - '.$resE6['Fname'].' '.$resE6['Sname'].' '.$resE6['
 { $Ename_SALES=$resE_SALES['EmpCode'].' - '.$resE_SALES['Fname'].' '.$resE_SALES['Sname'].' '.$resE_SALES['Lname']; ?>
  <option value="<?php echo $resE_SALES['EmployeeID']; ?>" style="padding:1px;"><?php echo $Ename_SALES; ?></option><?php } ?></select></td>
  
-	<?php // LOGISTIC // ?>
-	<td align="center" style="" class="All_150"><select style="width:148px;font-size:12px; font-family:Georgia;height:20px;" id="SelEmpLOG_<?php echo $no; ?>" name="SelEmpLOG_<?php echo $no; ?>" disabled><?php if($res['LOGISTICS_EId']==0) { ?><option style="background-color:#B4B4B4;padding:1px;" value="0">Select Employee</option><?php } else { ?>
-<?php $sqlE7=mysql_query("select hrm_employee.EmployeeID,EmpCode,Fname,Sname,Lname from hrm_employee_general INNER JOIN hrm_employee ON hrm_employee_general.EmployeeID=hrm_employee.EmployeeID where hrm_employee_general.EmployeeID=".$res['LOGISTICS_EId'], $con); $resE7=mysql_fetch_assoc($sqlE7); 
-$Ename7=$resE7['EmpCode'].' - '.$resE7['Fname'].' '.$resE7['Sname'].' '.$resE7['Lname']; ?>	
-	<option style="background-color:#A4FFA4;padding:1px;" value="<?php echo $res['LOGISTICS_EId']; ?>"><?php echo $Ename7; ?></option><?php } ?>
-<?php $sqlE_LOG=mysql_query("select hrm_employee.EmployeeID,EmpCode,Fname,Sname,Lname from hrm_employee_general INNER JOIN hrm_employee ON hrm_employee_general.EmployeeID=hrm_employee.EmployeeID where hrm_employee_general.DepartmentId=7 order by Fname ASC", $con); while($resE_LOG=mysql_fetch_assoc($sqlE_LOG)) 
-{ $Ename_LOG=$resE_LOG['EmpCode'].' - '.$resE_LOG['Fname'].' '.$resE_LOG['Sname'].' '.$resE_LOG['Lname']; ?>
- <option value="<?php echo $resE_LOG['EmployeeID']; ?>" style="padding:1px;"><?php echo $Ename_LOG; ?></option><?php } ?></select></td>
+	
  
 	<?php // FINANCE // ?>
 	<td align="center" style="" class="All_150"><select style="width:148px;font-size:12px; font-family:Georgia;height:20px;" id="SelEmpFIN_<?php echo $no; ?>" name="SelEmpFIN_<?php echo $no; ?>" disabled><?php if($res['FINANCE_EId']==0) { ?><option style="background-color:#B4B4B4;padding:1px;" value="0">Select Employee</option><?php } else { ?>
@@ -244,6 +252,7 @@ $Ename14=$resE14['EmpCode'].' - '.$resE14['Fname'].' '.$resE14['Sname'].' '.$res
 <?php $sqlE_FS=mysql_query("select hrm_employee.EmployeeID,EmpCode,Fname,Sname,Lname from hrm_employee_general INNER JOIN hrm_employee ON hrm_employee_general.EmployeeID=hrm_employee.EmployeeID where hrm_employee_general.DepartmentId=25 order by Fname ASC", $con); while($resE_FS=mysql_fetch_assoc($sqlE_FS)) 
 { $Ename_FS=$resE_FS['EmpCode'].' - '.$resE_FS['Fname'].' '.$resE_FS['Sname'].' '.$resE_FS['Lname']; ?>
  <option value="<?php echo $resE_FS['EmployeeID']; ?>" style="padding:1px;"><?php echo $Ename_FS; ?></option><?php } ?></select></td>
+ */ ?>
 </tr>
 <?php $no++;} ?> 
 <tr bgcolor="#7a6189">

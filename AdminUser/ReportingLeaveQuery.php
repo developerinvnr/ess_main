@@ -58,7 +58,7 @@ function ExportData(v)
 <td valign="top">
 <?php if(($_SESSION['UserType']=='M' OR $_SESSION['UserType']=='S' OR $_SESSION['UserType']=='A' OR $_SESSION['UserType']=='U') AND $_SESSION['login'] = true) { ?>
 <form name="AppRevForm" method="post">	
-<?php if($_REQUEST['v']!=''){ $sqlD=mysql_query("select DepartmentCode from hrm_department where DepartmentId=".$_REQUEST['v']." AND CompanyId=".$CompanyId, $con); 
+<?php if($_REQUEST['v']!=''){ $sqlD=mysql_query("select department_name as DepartmentCode from core_departments where id=".$_REQUEST['v'], $con); 
 $resD=mysql_fetch_assoc($sqlD); } ?>  
 <table border="0" style="margin-top:0px;">
 <tr> 
@@ -74,7 +74,7 @@ $resD=mysql_fetch_assoc($sqlD); } ?>
 	 <select style="font-size:11px; width:150px; height:18px; background-color:#DDFFBB; display:block;" name="DepartmentE" id="DepartmentE" onChange="SelectDeptEmp(this.value)">
 <?php if($_REQUEST['v']!=''){ ?><option value="<?php echo $_REQUEST['v']; ?>" style="margin-left:0px; background-color:#84D9D5;" selected><?php echo $resD['DepartmentCode']; ?></option>
 <?php } else { ?><option value="" style="margin-left:0px; background-color:#84D9D5;" selected>Select Department</option><?php } ?>
-	 <?php $SqlDepartment=mysql_query("select * from hrm_department where CompanyId=".$CompanyId." order by DepartmentName ASC", $con); while($ResDepartment=mysql_fetch_array($SqlDepartment)) { ?><option value="<?php echo $ResDepartment['DepartmentId']; ?>"><?php echo '&nbsp;'.$ResDepartment['DepartmentCode'];?></option><?php } ?></select></td>
+	 <?php $SqlDepartment=mysql_query("select * from core_departments where is_active=1 order by department_name", $con); while($ResDepartment=mysql_fetch_array($SqlDepartment)) { ?><option value="<?php echo $ResDepartment['id']; ?>"><?php echo '&nbsp;'.$ResDepartment['department_name'];?></option><?php } ?></select></td>
      <td><font class="font4"><b>&nbsp;&nbsp;&nbsp;&nbsp;<span id="msg"><?php echo $msg; ?></span></b></font></td>
      <td><a href="javascript:void(0);" onClick="ExportData('<?php echo $_REQUEST['v']; ?>')" style="font-size:12px;">Export Excel</a></td>
     </tr>  
@@ -95,7 +95,7 @@ $resD=mysql_fetch_assoc($sqlD); } ?>
    </tr>
 <?php if($_REQUEST['v']!=''){ $sql = mysql_query("SELECT hrm_employee_reporting.*, EmpCode,Fname,Sname,Lname,DesigId,DR,Gender,Married FROM hrm_employee_reporting INNER JOIN hrm_employee_general ON hrm_employee_reporting.EmployeeID=hrm_employee_general.EmployeeID INNER JOIN hrm_employee ON hrm_employee_reporting.EmployeeID=hrm_employee.EmployeeID INNER JOIN hrm_employee_personal ON hrm_employee_reporting.EmployeeID=hrm_employee_personal.EmployeeID WHERE hrm_employee.EmpStatus='A' AND hrm_employee.EmpType='E' AND hrm_employee.CompanyId=".$CompanyId." AND hrm_employee_general.DepartmentId=".$_REQUEST['v']." order by ECode ASC", $con); $Sno=1;  while($res = mysql_fetch_assoc($sql)) { 
 if($res['DR']=='Y'){$MM='Dr.';} elseif($res['Gender']=='M'){$MM='Mr.';} elseif($res['Gender']=='F' AND $res['Married']=='Y'){$MM='Mrs.';} elseif($res['Gender']=='F' AND $res['Married']=='N'){$MM='Miss.';}  $Name=$MM.' '.$res['Fname'].' '.$res['Sname'].' '.$res['Lname']; 
-$sqlDe = mysql_query("SELECT DesigCode FROM hrm_designation WHERE DesigId=".$res['DesigId'], $con); $resDe = mysql_fetch_assoc($sqlDe);?>
+$sqlDe = mysql_query("SELECT designation_name as DesigCode FROM core_designation WHERE id=".$res['DesigId'], $con); $resDe = mysql_fetch_assoc($sqlDe);?>
    <tr bgcolor="#FFFFFF"> 
     <td align="center" style="" class="All_50"><?php echo $Sno; ?><input type="hidden" name="EI_<?php echo $Sno; ?>" value="<?php echo $res['EmployeeID']; ?>"/></td>
     <td align="center" style="" class="All_80">&nbsp;<?php echo $res['EmpCode']; ?></td>

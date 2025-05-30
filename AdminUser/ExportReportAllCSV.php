@@ -6,33 +6,39 @@ $FD=date("Y",strtotime($rY['FromDate'])); $TD=date("Y",strtotime($rY['ToDate']))
 if($_REQUEST['action']='ExportReportAll') 
 {
 if($_REQUEST['value']=='All') {$DeptV='All_Employee';}
-  else{ $sqlDeptV=mysql_query("select DepartmentCode from hrm_department where DepartmentId=".$_REQUEST['value'], $con); $resDeptV=mysql_fetch_assoc($sqlDeptV); 
+  else{ $sqlDeptV=mysql_query("select department_code as DepartmentCode from core_departments where id=".$_REQUEST['value'], $con); $resDeptV=mysql_fetch_assoc($sqlDeptV); 
         $DeptV=$resDeptV['DepartmentCode'];}
   
 #  Create the Column Headings
 $csv_output .= '"SNo.",'; 
 $csv_output .= '"EC",'; 
 $csv_output .= '"Name",'; 
+
+$csv_output .= '"Status",'; 
+$csv_output .= '"Function",'; 
+$csv_output .= '"Vertical",'; 
 $csv_output .= '"Department",'; 
-$csv_output .= '"Desig Code",'; 
+$csv_output .= '"Sub-Department",'; 
+$csv_output .= '"Section",';
+
 $csv_output .= '"Designation",'; 
 $csv_output .= '"Grade",'; 	
 $csv_output .= '"Bonus Category",';
-$csv_output .= '"Vertical",';
-$csv_output .= '"Section",';
+
+$csv_output .= '"State",';
+$csv_output .= '"BU",';
+$csv_output .= '"Zone",';
+$csv_output .= '"Region",';
+$csv_output .= '"HQ",';
+$csv_output .= '"Sub-Location",';
 
 $csv_output .= '"FileNo",'; 	
 $csv_output .= '"DOJ",'; 
 $csv_output .= '"DOC",'; 
 $csv_output .= '"DOB",'; 
 $csv_output .= '"Age",'; 
-$csv_output .= '"Status",';
 $csv_output .= '"Resignation",';
 $csv_output .= '"Sepration",';
-$csv_output .= '"Zone",'; 
-$csv_output .= '"Region",'; 
-$csv_output .= '"CostCenter",'; 
-$csv_output .= '"HQ",'; 
 
 $csv_output .= '"Hiring_Mode",';
 $csv_output .= '"Notice_Day_Prob",';
@@ -44,7 +50,7 @@ $csv_output .= '"Mobile",';
 $csv_output .= '"Email-ID",'; 
 $csv_output .= '"VNR Exp",'; 
 $csv_output .= '"Pre Exp",'; 
-$csv_output .= '"Total Exp",';
+//$csv_output .= '"Total Exp",';
 
 $csv_output .= '"Qualification_Main",'; 
 $csv_output .= '"Qualification_Top",'; 
@@ -196,6 +202,9 @@ $csv_output .= '"Fixed CTC",';
 
 $csv_output .= '"Variable Pay",';
 $csv_output .= '"Total CTC",';
+$csv_output .= '"Communication Allow",';
+$csv_output .= '"Car Allow",';
+$csv_output .= '"Total Gross CTC",';
 
 $csv_output .= '"MIC",'; 
 $csv_output .= '"Car Entit",'; 
@@ -224,54 +233,46 @@ $csv_output .= "\n";
 $PolyName=' ';
 
 # Get Users Details form the DB #$result = mysql_query("SELECT * from formResults WHERE formID = '$formID'" );
-if($_REQUEST['value']=='All')
-{ 
- if($_REQUEST['s']=='AD')
- {
-  $result=mysql_query("select e.*, p.*,g.*,c.*,f.*,ct.*,el.* from hrm_employee_general g LEFT JOIN hrm_employee e ON g.EmployeeID=e.EmployeeID LEFT JOIN hrm_employee_personal p ON g.EmployeeID=p.EmployeeID LEFT JOIN hrm_employee_contact c ON g.EmployeeID=c.EmployeeID LEFT JOIN hrm_employee_family f ON g.EmployeeID=f.EmployeeID LEFT JOIN hrm_employee_ctc ct ON g.EmployeeID=ct.EmployeeID LEFT JOIN hrm_employee_eligibility el ON g.EmployeeID=el.EmployeeID where e.CompanyId=".$_REQUEST['C']." AND (e.EmpStatus='A' OR e.EmpStatus='D') AND ct.Status='A' AND el.Status='A' group by e.EmpCode order by e.ECode ASC", $con);
- }
- else
- {
-  $result=mysql_query("select e.*, p.*,g.*,c.*,f.*,ct.*,el.* from hrm_employee_general g LEFT JOIN hrm_employee e ON g.EmployeeID=e.EmployeeID LEFT JOIN hrm_employee_personal p ON g.EmployeeID=p.EmployeeID LEFT JOIN hrm_employee_contact c ON g.EmployeeID=c.EmployeeID LEFT JOIN hrm_employee_family f ON g.EmployeeID=f.EmployeeID LEFT JOIN hrm_employee_ctc ct ON g.EmployeeID=ct.EmployeeID LEFT JOIN hrm_employee_eligibility el ON g.EmployeeID=el.EmployeeID where e.CompanyId=".$_REQUEST['C']." AND e.EmpStatus='".$_REQUEST['s']."' AND ct.Status='A' AND el.Status='A' group by e.EmpCode order by e.ECode ASC", $con);
- } 
-}
-else 
-{ 
- if($_REQUEST['s']=='AD')
- {
-  $result=mysql_query("select e.*, p.*,g.*,c.*,f.*,ct.*,el.* from hrm_employee_general g LEFT JOIN hrm_employee e ON g.EmployeeID=e.EmployeeID LEFT JOIN hrm_employee_personal p ON g.EmployeeID=p.EmployeeID LEFT JOIN hrm_employee_contact c ON g.EmployeeID=c.EmployeeID LEFT JOIN hrm_employee_family f ON g.EmployeeID=f.EmployeeID LEFT JOIN hrm_employee_ctc ct ON g.EmployeeID=ct.EmployeeID LEFT JOIN hrm_employee_eligibility el ON g.EmployeeID=el.EmployeeID where g.DepartmentId=".$_REQUEST['value']." AND e.CompanyId=".$_REQUEST['C']." AND (e.EmpStatus='A' OR e.EmpStatus='D') AND ct.Status='A' AND el.Status='A' group by e.EmpCode order by e.ECode ASC", $con);
- }
- else
- {
-  $result=mysql_query("select e.*, p.*,g.*,c.*,f.*,ct.*,el.* from hrm_employee_general g LEFT JOIN hrm_employee e ON g.EmployeeID=e.EmployeeID LEFT JOIN hrm_employee_personal p ON g.EmployeeID=p.EmployeeID LEFT JOIN hrm_employee_contact c ON g.EmployeeID=c.EmployeeID LEFT JOIN hrm_employee_family f ON g.EmployeeID=f.EmployeeID LEFT JOIN hrm_employee_ctc ct ON g.EmployeeID=ct.EmployeeID LEFT JOIN hrm_employee_eligibility el ON g.EmployeeID=el.EmployeeID where g.DepartmentId=".$_REQUEST['value']." AND e.CompanyId=".$_REQUEST['C']." AND e.EmpStatus='".$_REQUEST['s']."' AND ct.Status='A' AND el.Status='A' group by e.EmpCode order by e.ECode ASC", $con);
- }
+
+
+  if($_REQUEST['value']>0){ $Qdept="g.DepartmentId=".$_REQUEST['value']; }
+  elseif($_REQUEST['value']=='All'){ $Qdept="1=1"; }
   
-} 
+  if($_REQUEST['sts']=='All'){ $QSts="e.EmpStatus!='De'"; }
+  else{ $QSts="e.EmpStatus='".$_REQUEST['sts']."'"; }
+
+$result=mysql_query("select e.*, p.*,g.*,c.*,f.*,ct.*,el.*, function_name, vertical_name, department_name, sub_department_name, section_name, designation_name, grade_name, state_name, city_village_name, business_unit_name, zone_name, region_name, territory_name from hrm_employee_general g 
+  left join hrm_employee_contact c ON g.EmployeeID=c.EmployeeID 
+  left join hrm_employee_family f ON g.EmployeeID=f.EmployeeID 
+  left join hrm_employee_ctc ct ON g.EmployeeID=ct.EmployeeID 
+  left join hrm_employee_eligibility el ON g.EmployeeID=el.EmployeeID
+  left join hrm_employee e ON g.EmployeeID=e.EmployeeID 
+  left join hrm_employee_personal p on g.EmployeeID=p.EmployeeID
+  left join core_functions fun on g.EmpFunction=fun.id
+  left join core_verticals ver on g.EmpVertical=ver.id
+  left join core_departments dept on g.DepartmentId=dept.id
+  left join core_sub_department_master subdept on g.SubDepartmentId=subdept.id
+  left join core_section sec on g.EmpSection=sec.id
+  left join core_designation desig on g.DesigId=desig.id
+  left join core_grades gr on g.GradeId=gr.id
+  left join core_states st on g.CostCenter=st.id
+  left join core_city_village_by_state vlg on g.HqId=vlg.id 
+  left join core_business_unit Bu on g.BUId=Bu.id
+  left join core_zones Zn on g.ZoneId=Zn.id
+  left join core_regions Rg on g.RegionId=Rg.id
+  left join core_territory Tr on g.TerrId=Tr.id
+  where ".$QSts." AND ".$Qdept." AND e.CompanyId=".$_REQUEST['C']." AND ct.Status='A' AND el.Status='A' group by e.EmpCode order by e.ECode ASC", $con); 
+
 
 $Sno=1; while($res = mysql_fetch_array($result))
 { 
 
 if($res['Sname']==''){ $Ename=trim($res['Fname']).' '.trim($res['Lname']); }
 else{ $Ename=trim($res['Fname']).' '.trim($res['Sname']).' '.trim($res['Lname']); }
-//$Ename=$res['Fname'].' '.$res['Sname'].' '.$res['Lname']; 
-
-$sqlDept=mysql_query("select DepartmentCode from hrm_department where DepartmentId=".$res['DepartmentId'], $con); $resDept=mysql_fetch_assoc($sqlDept);
-$sqlDesig=mysql_query("select DesigCode,DesigName from hrm_designation where DesigId=".$res['DesigId'], $con); $resDesig=mysql_fetch_assoc($sqlDesig);
-$sqlGrade=mysql_query("select GradeValue from hrm_grade where GradeId=".$res['GradeId'], $con); $resGrade=mysql_fetch_assoc($sqlGrade);
-
-/*
-$sqlHQ=mysql_query("select HqName,RegionId from hrm_headquater where HqId=".$res['HqId'], $con); $resHQ=mysql_fetch_assoc($sqlHQ);
-$sqlCC=mysql_query("select StateName from hrm_state where StateId=".$res['CostCenter'], $con); $resCC=mysql_fetch_assoc($sqlCC);
-
-$sqlRR=mysql_query("select RegionName,ZoneId from hrm_sales_region where RegionId=".$resHQ['RegionId'], $con); $resRR=mysql_fetch_assoc($sqlRR);
-$sqlZZ=mysql_query("select ZoneName from hrm_sales_zone where ZoneId=".$resRR['ZoneId'], $con); $resZZ=mysql_fetch_assoc($sqlZZ);
-*/
-
-
 
 if($res['RepEmployeeID']>0){
 $sqlRn=mysql_query("select DesigId from hrm_employee_general where EmployeeID=".$res['RepEmployeeID'], $con); $resRn=mysql_fetch_assoc($sqlRn);
-$sqlDesigR=mysql_query("select DesigCode from hrm_designation where DesigId=".$resRn['DesigId'], $con); $resDesigR=mysql_fetch_assoc($sqlDesigR); }
+$sqlDesigR=mysql_query("select designation_name as DesigCode from core_designation where id=".$resRn['DesigId'], $con); $resDesigR=mysql_fetch_assoc($sqlDesigR); }
 if($res['Gender']=='M'){$Gen='Male';}else {$Gen='Female';}
 if($res['SeniorCitizen']=='Y'){$SenCi='YES';}else {$SenCi='NO';}
 if($res['MetroCity']=='Y'){$MetroCity='YES';}else {$MetroCity='NO';}
@@ -286,47 +287,29 @@ $sqlF=mysql_query("select * from hrm_employee_family2 where EmployeeID=".$res['E
 $csv_output .= '"'.str_replace('"', '""', $Sno).'",';
 $csv_output .= '"'.str_replace('"', '""', strtoupper($res['EmpCode'])).'",';
 $csv_output .= '"'.str_replace('"', '""', strtoupper($Ename)).'",';
-$csv_output .= '"'.str_replace('"', '""', strtoupper($resDept['DepartmentCode'])).'",';
-$csv_output .= '"'.str_replace('"', '""', strtoupper($resDesig['DesigCode'])).'",';
-$csv_output .= '"'.str_replace('"', '""', strtoupper($resDesig['DesigName'])).'",';
-$csv_output .= '"'.str_replace('"', '""', strtoupper($resGrade['GradeValue'])).'",';
 
-if($res['BWageId']==0){ $sB=mysql_query("select BWageId from hrm_employee_general where EmployeeID=".$res['EmployeeID'],$con); $rB=mysql_fetch_assoc($sB);
-	    $sqlCat=mysql_query("select Category from hrm_bonus_wages where BWageId=".$rB['BWageId'], $con); }else{ $sqlCat=mysql_query("select Category from hrm_bonus_wages where BWageId=".$res['BWageId'], $con); } $resCat=mysql_fetch_assoc($sqlCat);
-	    
-	    $resCat=mysql_fetch_assoc($sqlCat);
-$csv_output .= '"'.str_replace('"', '""', strtoupper($resCat['Category'])).'",';
-
-$sqlVer=mysql_query("select VerticalName from hrm_department_vertical where VerticalId=".$res['EmpVertical'], $con); $resVer=mysql_fetch_assoc($sqlVer);
+$csv_output .= '"'.str_replace('"', '""', $res['EmpStatus']).'",';
+$csv_output .= '"'.str_replace('"', '""', $res['function_name']).'",';
+$csv_output .= '"'.str_replace('"', '""', $res['vertical_name']).'",';
+$csv_output .= '"'.str_replace('"', '""', $res['department_name']).'",';
+$csv_output .= '"'.str_replace('"', '""', $res['sub_department_name']).'",';
+$csv_output .= '"'.str_replace('"', '""', $res['section_name']).'",';
 
 
+$csv_output .= '"'.str_replace('"', '""', strtoupper($res['designation_name'])).'",';
+$csv_output .= '"'.str_replace('"', '""', strtoupper($res['grade_name'])).'",';
 
-$sqlHQ=mysql_query("select HqName from hrm_headquater where HqId=".$res['HqId'], $con); $resHQ=mysql_fetch_assoc($sqlHQ);
-$sqlCC=mysql_query("select StateName from hrm_state where StateId=".$res['CostCenter'], $con); $resCC=mysql_fetch_assoc($sqlCC);
-
-/*
-$sqlRId=mysql_query("select RegionId from hrm_sales_verhq where HqId=".$res['HqId']." AND Vertical=".$res['EmpVertical']." AND DeptId=".$res['DepartmentId'], $con); $resRId=mysql_fetch_assoc($sqlRId);
-
-$sqlRR=mysql_query("select RegionName,ZoneId from hrm_sales_region where RegionId=".$resRId['RegionId'], $con); $resRR=mysql_fetch_assoc($sqlRR);
-$sqlZZ=mysql_query("select ZoneName from hrm_sales_zone where ZoneId=".$resRR['ZoneId'], $con); $resZZ=mysql_fetch_assoc($sqlZZ);
-*/
-
-$sqlRId=mysql_query("select RegionId from hrm_sales_verhq where HqId=".$res['HqId']." AND Vertical=".$res['EmpVertical']." AND DeptId=".$res['DepartmentId'], $con); $rowRId=mysql_num_rows($sqlRId);
-if($rowRId>0){ $resRId=mysql_fetch_assoc($sqlRId); }
-else
-{ $sqlHq2=mysql_query("select HqId from hrm_headquater where HqName='".$resHQ['HqName']."' and HQStatus!='De'", $con); $resHq2=mysql_fetch_assoc($sqlHq2); 
-    
-$sqlRId=mysql_query("select RegionId from hrm_sales_verhq where HqId=".$resHq2['HqId']." AND Vertical=".$res['EmpVertical']." AND DeptId=".$res['DepartmentId'], $con); $resRId=mysql_fetch_assoc($sqlRId);   
-}
-
-$sqlRR=mysql_query("select RegionName,ZoneId from hrm_sales_region where RegionId=".$resRId['RegionId'], $con); $resRR=mysql_fetch_assoc($sqlRR);
-$sqlZZ=mysql_query("select ZoneName from hrm_sales_zone where ZoneId=".$resRR['ZoneId'], $con); $resZZ=mysql_fetch_assoc($sqlZZ);
-
-$csv_output .= '"'.str_replace('"', '""', $resVer['VerticalName']).'",';
+$sBw=mysql_query("select Category from hrm_bonus_wages where BWageId=".$res['BWageId'],$con); $rBw=mysql_fetch_assoc($sBw);
+$csv_output .= '"'.str_replace('"', '""', $rBw['Category']).'",';
 
 
-$sqlSec=mysql_query("select SectionName from hrm_department_section where SectionId=".$res['EmpSection'], $con); $resSec=mysql_fetch_assoc($sqlSec);
-$csv_output .= '"'.str_replace('"', '""', $resSec['SectionName']).'",';
+$csv_output .= '"'.str_replace('"', '""', $res['state_name']).'",';
+$csv_output .= '"'.str_replace('"', '""', $res['business_unit_name']).'",';
+$csv_output .= '"'.str_replace('"', '""', $res['zone_name']).'",';
+$csv_output .= '"'.str_replace('"', '""', $res['region_name']).'",';
+if($res['TerrId']>0){$Hq=$res['territory_name'];}else{$Hq=$res['city_village_name']; }
+$csv_output .= '"'.str_replace('"', '""', $Hq).'",';
+$csv_output .= '"'.str_replace('"', '""', $res['SubLocation']).'",';
 
 
 $csv_output .= '"'.str_replace('"', '""', $res['FileNo']).'",';	
@@ -378,19 +361,11 @@ $str_a = explode('.',$mnt);
 $AgeMain=($years+$str_a[0]).'.'.$str_a[1];
 	
 $csv_output .= '"'.str_replace('"', '""', $AgeMain).'",';
-$csv_output .= '"'.str_replace('"', '""', $res['EmpStatus']).'",';
 
 if($res['DateOfResignation']=='1970-01-01' OR $res['DateOfResignation']=='0000-00-00'){$ResigD='';}else{$ResigD=date("d-M-y", strtotime($res['DateOfResignation'])); }
 if($res['DateOfSepration']=='1970-01-01' OR $res['DateOfSepration']=='0000-00-00'){$SepD='';}else{$SepD=date("d-M-y", strtotime($res['DateOfSepration'])); }
 $csv_output .= '"'.str_replace('"', '""', $ResigD).'",';
 $csv_output .= '"'.str_replace('"', '""', $SepD).'",';
-
-
-$csv_output .= '"'.str_replace('"', '""', strtoupper($resZZ['ZoneName'])).'",';
-$csv_output .= '"'.str_replace('"', '""', strtoupper($resRR['RegionName'])).'",';
-$csv_output .= '"'.str_replace('"', '""', strtoupper($resCC['StateName'])).'",';
-$csv_output .= '"'.str_replace('"', '""', strtoupper($resHQ['HqName'])).'",';
-
 
 $csv_output .= '"'.str_replace('"', '""', $res['Hiring_Mode']).'",';
 $csv_output .= '"'.str_replace('"', '""', $res['NoticeDay_Prob']).'",';
@@ -410,6 +385,9 @@ $csv_output .= '"'.str_replace('"', '""', $res['EmailId_Vnr']).'",';
 $dos=date("d-m-Y",strtotime($res['DateJoining']));
 $localtime = getdate();
 $today = $localtime['mday']."-".$localtime['mon']."-".$localtime['year'];
+if($res['EmpStatus']!='A' AND $res['DateOfSepration']>='2011-01-01')
+{ $today = date("d-m-Y",strtotime($res['DateOfSepration'])); }
+
 $dob_a = explode("-", $dos);
 $today_a = explode("-", $today);
 $dob_d = $dob_a[0];$dob_m = $dob_a[1];$dob_y = $dob_a[2];
@@ -446,7 +424,7 @@ $VNRExpMain=($years+$str_a[0]).'.'.$str_a[1];
 
 $csv_output .= '"'.str_replace('"', '""', $VNRExpMain).'",';
 $csv_output .= '"'.str_replace('"', '""', $res['PreviousExpYear']).'",';
-$csv_output .= '"'.str_replace('"', '""', $TotalExp).'",';
+//$csv_output .= '"'.str_replace('"', '""', $TotalExp).'",';
 
 $sqlQuali=mysql_query("select Qualification,Specialization,Subject,Institute from hrm_employee_qualification where EmployeeID=".$res['EmployeeID']." order by QualificationId ASC ", $con); 
 $sqlQ1=mysql_query("select Qualification,Specialization,Institute,Subject from hrm_employee_qualification where Qualification='10th' AND EmployeeID=".$res['EmployeeID'], $con); 
@@ -657,6 +635,9 @@ $csv_output .= '"'.str_replace('"', '""', $res['Tot_CTC']).'",';
 
 $csv_output .= '"'.str_replace('"', '""', $res['VariablePay']).'",';
 $csv_output .= '"'.str_replace('"', '""', $res['TotCtc']).'",';
+$csv_output .= '"'.str_replace('"', '""', $res['Communication_Allowance']).'",';
+$csv_output .= '"'.str_replace('"', '""', $res['Car_Allowance']).'",';
+$csv_output .= '"'.str_replace('"', '""', $res['Total_Gross_CTC']).'",';
 
 $csv_output .= '"'.str_replace('"', '""', $res['EmpAddBenifit_MediInsu_value']).'",';
 $csv_output .= '"'.str_replace('"', '""', $res['Car_Entitlement']).'",';

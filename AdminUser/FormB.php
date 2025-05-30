@@ -250,7 +250,7 @@ function SaveFormB(k,m)
     <tr>
 	  <td width="350" class="heading">&nbsp;&nbsp;&nbsp;&nbsp;PMS - Behavioral Parameter(Form B)</td>
 	  <td style="width:180px;">
-          <select class="InputS" name="DepartmentE" id="DepartmentE" onChange="SelectDeptEmp(this.value)"><option value="" selected>Select Department</option><?php $SqlDepartment=mysql_query("select * from hrm_department where CompanyId=".$CompanyId." order by DepartmentName ASC", $con); while($ResDepartment=mysql_fetch_array($SqlDepartment)) { ?><option value="<?php echo $ResDepartment['DepartmentId']; ?>"><?php echo '&nbsp;'.$ResDepartment['DepartmentCode'];?></option><?php } ?></select>
+          <select class="InputS" name="DepartmentE" id="DepartmentE" onChange="SelectDeptEmp(this.value)"><option value="" selected>Select Department</option><?php $SqlDepartment=mysql_query("select * from core_departments where is_active=1 order by department_name", $con); while($ResDepartment=mysql_fetch_array($SqlDepartment)) { ?><option value="<?php echo $ResDepartment['id']; ?>"><?php echo '&nbsp;'.$ResDepartment['department_name'];?></option><?php } ?></select>
 	      <input type="hidden" name="ComId" id="ComId" value="<?php echo $CompanyId; ?>" /> 
       </td>
 	  <td>
@@ -259,7 +259,7 @@ function SaveFormB(k,m)
 		<option value="D" <?php if($_REQUEST['Sts']=='D'){echo 'selected';}?>>Deactive</option>
 	   </select>
 	  </td>
-	  <td class="font" style="width:200px;">&nbsp;<?php if($_REQUEST['DPid']){ $_SESSION['DPid']=$_REQUEST['DPid']; $Sql=mysql_query("select * from hrm_department where DepartmentId=".$_SESSION['DPid'], $con); $Res=mysql_fetch_assoc($Sql); echo $Res['DepartmentName']; } ?><input type="hidden" id="DI" value="<?php echo $_REQUEST['DPid']; ?>" /></td>
+	  <td class="font" style="width:200px;">&nbsp;<?php if($_REQUEST['DPid']){ $_SESSION['DPid']=$_REQUEST['DPid']; $Sql=mysql_query("select * from core_departments where id=".$_SESSION['DPid'], $con); $Res=mysql_fetch_assoc($Sql); echo $Res['department_name']; } ?><input type="hidden" id="DI" value="<?php echo $_REQUEST['DPid']; ?>" /></td>
 	  <td class="font4" style="left">&nbsp;&nbsp;&nbsp;<b><?php echo $msg; ?></b></td>
 	</tr>
    </table>
@@ -326,7 +326,9 @@ function SaveFormB(k,m)
 	
 	
 <?php if($_REQUEST['DPid']){ $_SESSION['DPid']=$_REQUEST['DPid']; ?>			 
- <?php $sqlPer=mysql_query("select * from hrm_pms_formb where SkillStatus='".$_REQUEST['Sts']."' AND CompanyId=".$CompanyId." AND DepartmentId=".$_REQUEST['DPid'], $con); $SNo=1; while($resPer=mysql_fetch_array($sqlPer)) {
+ <?php $sqlPer=mysql_query("select * from hrm_pms_formb where SkillStatus='".$_REQUEST['Sts']."' AND DepartmentId=".$_REQUEST['DPid'], $con); 
+//AND CompanyId=".$CompanyId." 
+ $SNo=1; while($resPer=mysql_fetch_array($sqlPer)) {
       if(isset($_REQUEST['action']) && $_REQUEST['action']=="edit" && $_REQUEST['eid']==$resPer['FormBId']){ ?><form name="formEdit" method="post" onSubmit="return validateEdit(this)">	
 <tr>
  <td class="td"><?php echo $SNo; ?></td>

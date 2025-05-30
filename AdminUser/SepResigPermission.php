@@ -90,8 +90,8 @@ $(document).ready(function () { $("#table1").freezeHeader({ 'height': '450px' })
 		<td align="center" style="width:900px;" valign="top">
 		   <table border="0" width="100%">
 		     <tr><td style="width:350px; " align="left" class="heading">Employee Resignation Permission&nbsp;<td>
-			 <td style="width:160px;"><select style="font-size:11px; width:150px; height:18px; background-color:#DDFFBB; display:block;" name="DepartmentE" id="DepartmentE" onChange="SelectDeptEmp(this.value)" disabled><?php if($_REQUEST['DpId'] AND $_REQUEST['DpId']!='') { $SqlDep=mysql_query("select * from hrm_department where CompanyId=".$CompanyId." AND DepartmentId=".$_REQUEST['DpId'], $con); $ResDep=mysql_fetch_array($SqlDep);?><option value="<?php echo $_REQUEST['DpId']; ?>"><?php echo '&nbsp;'.$ResDep['DepartmentCode'];?></option><?php } else { ?><option value="" style="margin-left:0px; background-color:#84D9D5;" selected>Select Department</option><?php } ?>   
-<?php $SqlDepartment=mysql_query("select * from hrm_department where CompanyId=".$CompanyId." order by DepartmentName ASC", $con); while($ResDepartment=mysql_fetch_array($SqlDepartment)) { ?><option value="<?php echo $ResDepartment['DepartmentId']; ?>"><?php echo '&nbsp;'.$ResDepartment['DepartmentCode'];?></option><?php } ?></select>
+			 <td style="width:160px;"><select style="font-size:11px; width:150px; height:18px; background-color:#DDFFBB; display:block;" name="DepartmentE" id="DepartmentE" onChange="SelectDeptEmp(this.value)" disabled><?php if($_REQUEST['DpId'] AND $_REQUEST['DpId']!='') { $SqlDep=mysql_query("select * from core_departments where id=".$_REQUEST['DpId'], $con); $ResDep=mysql_fetch_array($SqlDep);?><option value="<?php echo $_REQUEST['DpId']; ?>"><?php echo '&nbsp;'.$ResDep['department_name'];?></option><?php } else { ?><option value="" style="margin-left:0px; background-color:#84D9D5;" selected>Select Department</option><?php } ?>   
+<?php $SqlDepartment=mysql_query("select * from core_departments where is_active=1 order by department_name", $con); while($ResDepartment=mysql_fetch_array($SqlDepartment)) { ?><option value="<?php echo $ResDepartment['id']; ?>"><?php echo '&nbsp;'.$ResDepartment['department_name'];?></option><?php } ?></select>
 				 <input type="hidden" name="ComId" id="ComId" value="<?php echo $CompanyId; ?>" /> 
                  <input type="hidden" name="YId" id="YId" value="<?php  echo $YearId;  ?>" /></td>
 	         <td align="" style="width:90px;">
@@ -112,7 +112,14 @@ $(document).ready(function () { $("#table1").freezeHeader({ 'height': '450px' })
 	<td class="th" style="width:50px;"><b>Action</b></td>
  </tr>
 <?php if($_REQUEST['DpId'] AND $_REQUEST['DpId']!='') { 
-      $sqlDP = mysql_query("SELECT e.EmployeeID,EmpCode,Fname,Sname,Lname,EmpStatus,Resig_Permission,HqName,DepartmentCode,DesigName,Gender,Married,DR FROM hrm_employee e INNER JOIN hrm_employee_general g ON e.EmployeeID=g.EmployeeID INNER JOIN hrm_employee_personal p ON e.EmployeeID=p.EmployeeID INNER JOIN hrm_department d ON g.DepartmentId=d.DepartmentId INNER JOIN hrm_designation de ON g.DesigId=de.DesigId INNER JOIN hrm_headquater hq ON g.HqId=hq.HqId WHERE e.EmpStatus!='De' AND e.CompanyId=".$CompanyId." AND g.DepartmentId=".$_REQUEST['DpId'], $con) or die(mysql_error()); 
+      $sqlDP = mysql_query("SELECT e.EmployeeID,EmpCode,Fname,Sname,Lname,EmpStatus,Resig_Permission,g.HqId, g.TerrId, department_name, sub_department_name, section_name, designation_name, grade_name, state_name, city_village_name, territory_name,Gender,Married,DR FROM hrm_employee e INNER JOIN hrm_employee_general g ON e.EmployeeID=g.EmployeeID INNER JOIN hrm_employee_personal p ON e.EmployeeID=p.EmployeeID left join core_departments dept on g.DepartmentId=dept.id
+  left join core_sub_department_master subdept on g.SubDepartmentId=subdept.id
+  left join core_section sec on g.EmpSection=sec.id
+  left join core_designation desig on g.DesigId=desig.id
+  left join core_grades gr on g.GradeId=gr.id
+  left join core_states st on g.CostCenter=st.id
+  left join core_city_village_by_state vlg on g.HqId=vlg.id
+  left join core_territory Tr on g.TerrId=Tr.id WHERE e.EmpStatus!='De' AND e.CompanyId=".$CompanyId." AND g.DepartmentId=".$_REQUEST['DpId'], $con) or die(mysql_error()); 
 	  
       $Sno=1;  while($resDP = mysql_fetch_assoc($sqlDP)) { 
 	  if($resDP['DR']=='Y'){$MS='Dr.';} elseif($resDP['Gender']=='M'){$MS='Mr.';} elseif($resDP['Gender']=='F' AND $resDP['Married']=='Y'){$MS='Mrs.';} elseif($resDP['Gender']=='F' AND $resDP['Married']=='N'){$MS='Miss.';}  $Name=$MS.' '.$resDP['Fname'].' '.$resDP['Sname'].' '.$resDP['Lname'];
@@ -123,9 +130,11 @@ $(document).ready(function () { $("#table1").freezeHeader({ 'height': '450px' })
 		<td class="tdc"><?php echo $Sno; ?></td>
 		<td class="tdc"><?php echo $EC; ?></td>
 		<td class="tdl">&nbsp;<?php echo ucwords(strtolower($Name)); ?></td>
-		<td class="tdl">&nbsp;<?php echo $resDP['HqName'];?></td>
-		<td class="tdl">&nbsp;<?php echo $resDP['DepartmentCode'];?></td>
-		<td class="tdl">&nbsp;<?php echo $resDP['DesigName'];?></td>
+		<?php if($resDP['TerrId']>0){$Hq=$resDP['territory_name'];}else{$Hq=$resDP['city_village_name']; } ?>
+
+		<td class="tdl">&nbsp;<?php echo $Hq;?></td>
+		<td class="tdl">&nbsp;<?php echo $resDP['department_name'];?></td>
+		<td class="tdl">&nbsp;<?php echo $resDP['designation_name'];?></td>
 		<td class="tdc" id="TD_<?php echo $Sno; ?>" bgcolor="<?php if($resDP['Resig_Permission']=='Y'){ echo '#FF8040'; } else {echo '#FFFFFF';} ?>">
 		<input type="checkbox" name="Permission_<?php echo $Sno; ?>" id="Permission_<?php echo $Sno; ?>" class="EditInput" <?php if($resDP['Resig_Permission']=='Y'){ echo 'checked'; } ?> onClick="ResPerCheck(<?php echo $resDP['EmployeeID'].', '.$Sno.', '.$_REQUEST['DpId']; ?>)"/>
 		</td>
@@ -180,7 +189,7 @@ $(document).ready(function () { $("#table1").freezeHeader({ 'height': '450px' })
 		  </tr>
 		  </thead>
 		  </div>
-<?php $sql=mysql_query("select * from hrm_employee_separation INNER JOIN hrm_employee ON hrm_employee.EmployeeID=hrm_employee_separation.EmployeeID where hrm_employee.CompanyId=".$CompanyId." order by Emp_ResignationDate DESC", $con);  $row=mysql_num_rows($sql); if($row>0) { $Sno=1; while($res=mysql_fetch_array($sql)) { $sqlE=mysql_query("select e.EmpCode,e.Fname,e.Sname,e.Lname,g.DepartmentId,d.DepartmentCode,s.Rep_EmployeeID,CONCAT(rep.Fname,' ',rep.Lname) as reporting,s.Hod_EmployeeID,CONCAT(hod.Fname,' ',hod.Lname) as hod_name from hrm_employee e INNER JOIN hrm_employee_general g ON e.EmployeeID=g.EmployeeID INNER JOIN hrm_department d ON g.DepartmentId=d.DepartmentId INNER JOIN hrm_employee_separation s ON s.EmployeeID = e.EmployeeID LEFT JOIN hrm_employee rep ON rep.EmployeeID = s.Rep_EmployeeID LEFT JOIN hrm_employee hod ON hod.EmployeeID = s.Hod_EmployeeID where e.EmployeeID=".$res['EmployeeID'], $con); $resE=mysql_fetch_assoc($sqlE);
+<?php $sql=mysql_query("select * from hrm_employee_separation INNER JOIN hrm_employee ON hrm_employee.EmployeeID=hrm_employee_separation.EmployeeID where hrm_employee.CompanyId=".$CompanyId." order by Emp_ResignationDate DESC", $con);  $row=mysql_num_rows($sql); if($row>0) { $Sno=1; while($res=mysql_fetch_array($sql)) { $sqlE=mysql_query("select e.EmpCode,e.Fname,e.Sname,e.Lname,g.DepartmentId,d.department_name as DepartmentCode,s.Rep_EmployeeID,CONCAT(rep.Fname,' ',rep.Lname) as reporting,s.Hod_EmployeeID,CONCAT(hod.Fname,' ',hod.Lname) as hod_name from hrm_employee e INNER JOIN hrm_employee_general g ON e.EmployeeID=g.EmployeeID INNER JOIN core_departments d ON g.DepartmentId=d.id INNER JOIN hrm_employee_separation s ON s.EmployeeID = e.EmployeeID LEFT JOIN hrm_employee rep ON rep.EmployeeID = s.Rep_EmployeeID LEFT JOIN hrm_employee hod ON hod.EmployeeID = s.Hod_EmployeeID where e.EmployeeID=".$res['EmployeeID'], $con); $resE=mysql_fetch_assoc($sqlE);
 if(isset($_REQUEST['action']) && $_REQUEST['action']=="edit" && $_REQUEST['eid']==$res['EmpSepId']){ ?>	
 <form name="formEdit" method="post" onSubmit="return validateMK(this)">	
          <div class="tbody">

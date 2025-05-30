@@ -49,8 +49,8 @@ $(document).ready(function () { $("#table1").freezeHeader({ 'height': '450px' })
 	 <tr>
 	  <td valign="top">
 	     <table border="0" style="width:100%; height:380px; float:none;" cellpadding="0">
-		  <tr><td class="thh">Eligibility: &nbsp;<select style=" font-family:Times New Roman;font-size:12px;width:150px;height:22px;background-color:#DDFFBB;" name="Dept" id="Dept" onChange="SelectDept(this.value)"><option value="" style="margin-left:0px;" selected>Select Department</option><?php $SqlDept=mysql_query("select * from hrm_department where CompanyId=".$CompanyId." AND DepartmentCode!='MANAGEMENT' order by DepartmentName ASC", $con); while($ResDept=mysql_fetch_array($SqlDept)){?>
-<option value="<?php echo $ResDept['DepartmentId']; ?>"><?php echo '&nbsp;'.$ResDept['DepartmentCode'];?></option><?php } ?><option value="All">&nbsp;All</option></select>
+		  <tr><td class="thh">Eligibility: &nbsp;<select style=" font-family:Times New Roman;font-size:12px;width:150px;height:22px;background-color:#DDFFBB;" name="Dept" id="Dept" onChange="SelectDept(this.value)"><option value="" style="margin-left:0px;" selected>Select Department</option><?php $SqlDept=mysql_query("select * from core_departments where is_active=1 order by department_name ASC", $con); while($ResDept=mysql_fetch_array($SqlDept)){?>
+<option value="<?php echo $ResDept['id']; ?>"><?php echo '&nbsp;'.$ResDept['department_name'];?></option><?php } ?><option value="All">&nbsp;All</option></select>
 
 &nbsp;&nbsp;
 <a href="https://www.vnress.in/Employee/EmpEligNext.php?ID=<?=$EmployeeId?>" target="_blank" style="font-size:12px;">Other Team Group</a>
@@ -65,7 +65,7 @@ $(document).ready(function () { $("#table1").freezeHeader({ 'height': '450px' })
 </tr>
 		  <tr>
 		   <td valign="top" width="110%"> 
-<?php if($EmployeeId==29 OR $EmployeeId==352 OR $EmployeeId==169 OR $EmployeeId==142 OR $EmployeeId == 161 OR $EmployeeId == 1501 OR $EmployeeId == 1602 OR $EmployeeId==109 OR $EmployeeId == 1312 OR $EmployeeId == 1594 OR $EmployeeId == 1707){?>	   
+<?php if($EmployeeId==29 OR $EmployeeId==352 OR $EmployeeId==169 OR $EmployeeId==142 OR $EmployeeId == 161 OR $EmployeeId == 1501 OR $EmployeeId == 1602 OR $EmployeeId==109 OR $EmployeeId == 1312 OR $EmployeeId == 1594 OR $EmployeeId == 1707 OR $EmployeeId == 1084){?>	   
 <?php //***************************************************************************** ?>	   
 <table border="1" id="table1" width="100%" cellspacing="1">
  <div class="thead">

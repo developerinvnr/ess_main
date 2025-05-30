@@ -317,7 +317,7 @@ function EditPar(c,u,id,yi)
 	  <td class="head" align="center" style="width:400px;color:#FFFFFF;">Name</td>
 	  <td class="head" align="center" style="width:190px;color:#FFFFFF;">Department</td>
 	  </tr>  
-<?php $sqlP=mysql_query("select EmpCode,Fname,Sname,Lname,DepartmentCode,DR,Married,Gender from hrm_company_conference_participant INNER JOIN hrm_employee_general ON hrm_company_conference_participant.EmployeeID=hrm_employee_general.EmployeeID INNER JOIN hrm_employee_personal ON hrm_company_conference_participant.EmployeeID=hrm_employee_personal.EmployeeID INNER JOIN hrm_employee ON hrm_company_conference_participant.EmployeeID=hrm_employee.EmployeeID INNER JOIN hrm_department ON hrm_employee_general.DepartmentId=hrm_department.DepartmentId where hrm_company_conference_participant.ConferenceId=".$_REQUEST['id'], $con); 
+<?php $sqlP=mysql_query("select EmpCode,Fname,Sname,Lname,department_name as DepartmentCode,DR,Married,Gender from hrm_company_conference_participant INNER JOIN hrm_employee_general ON hrm_company_conference_participant.EmployeeID=hrm_employee_general.EmployeeID INNER JOIN hrm_employee_personal ON hrm_company_conference_participant.EmployeeID=hrm_employee_personal.EmployeeID INNER JOIN hrm_employee ON hrm_company_conference_participant.EmployeeID=hrm_employee.EmployeeID LEFT JOIN hrm_department ON hrm_employee_general.DepartmentId=core_departments.id where hrm_company_conference_participant.ConferenceId=".$_REQUEST['id'], $con); 
 $sn=1; while($resP=mysql_fetch_array($sqlP)){  if($resP['DR']=='Y'){$MS='Dr.';} elseif($resP['Gender']=='M'){$MS='Mr.';} elseif($resP['Gender']=='F' AND $resP['Married']=='Y'){$MS='Mrs.';} elseif($resP['Gender']=='F' AND $resP['Married']=='N'){$MS='Miss.';}  $Name=$MS.' '.$resP['Fname'].' '.$resP['Sname'].' '.$resP['Lname'];
 ?>	  
 	 <tr bgcolor="#FFFFFF">
@@ -409,7 +409,7 @@ $sn2=1; while($resP2=mysql_fetch_array($sqlP2)){ ?>
     <table border="0">
 <?php /***************** Company 1 *******************************/ ?>	
 <tr bgcolor="#FFFFFF"><td colspan="2" align="center"><b style="font-size:14px;font-family:Times New Roman;">VNR SEEDS</b></td></tr>
-<?php $sqlD=mysql_query("select DepartmentId,DepartmentCode,DepartmentName from hrm_department where DeptStatus='A' AND CompanyId=".$_REQUEST['c']." order by DepartmentName ASC", $con); 
+<?php $sqlD=mysql_query("select id as DepartmentId,department_code as DepartmentCode,department_name as DepartmentName from core_departments where is_active=1 order by department_name ASC", $con); 
       while($resD=mysql_fetch_array($sqlD)) { ?>
 	 <tr bgcolor="#7a6189">
 	  <td class="body" align="center" style="width:30px;">
@@ -441,7 +441,7 @@ $row=mysql_num_rows($sqlc);
 
 <?php /***************** Company 2 *******************************/ ?>
 <tr bgcolor="#FFFFFF"><td colspan="2" align="center"><b style="font-size:14px;font-family:Times New Roman;">VNR GROUP CONCERNS</b></td></tr>
-<?php $sqlD=mysql_query("select DepartmentId,DepartmentCode,DepartmentName from hrm_department where DeptStatus='A' AND CompanyId=2 AND DepartmentCode!='MANAGEMENT' order by DepartmentName ASC", $con); 
+<?php $sqlD=mysql_query("select id as DepartmentId,department_code as DepartmentCode,department_name as DepartmentName from core_departments where is_active=1 order by department_name ASC", $con); 
       while($resD=mysql_fetch_array($sqlD)) { ?>
 	 <tr bgcolor="#7a6189">
 	  <td class="body" align="center" style="width:30px;">
@@ -474,7 +474,7 @@ $row=mysql_num_rows($sqlc);
   
 <?php /***************** Company 3 *******************************/ ?>
 <tr bgcolor="#FFFFFF"><td colspan="2" align="center"><b style="font-size:14px;font-family:Times New Roman;">VNR NURSERY</b></td></tr>
-<?php $sqlD=mysql_query("select DepartmentId,DepartmentCode,DepartmentName from hrm_department where DeptStatus='A' AND CompanyId=3 AND DepartmentCode!='MANAGEMENT' order by DepartmentName ASC", $con); 
+<?php $sqlD=mysql_query("select id as DepartmentId,department_code as DepartmentCode,department_name as DepartmentName from core_departments where is_active=1 order by department_name ASC", $con); 
       while($resD=mysql_fetch_array($sqlD)) { ?>
 	 <tr bgcolor="#7a6189">
 	  <td class="body" align="center" style="width:30px;">

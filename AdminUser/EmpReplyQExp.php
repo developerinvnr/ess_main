@@ -24,7 +24,7 @@ print("\n");
  {
   $sqlE=mysql_query("select EmpCode,Fname,Sname,Lname,DepartmentId from hrm_employee INNER JOIN hrm_employee_general ON hrm_employee_general.EmployeeID=hrm_employee.EmployeeID where hrm_employee.EmployeeID=".$resQ['EmployeeID'], $con); 
   $resE=mysql_fetch_assoc($sqlE); 
-  $sqlD=mysql_query("select DepartmentCode from hrm_department where DepartmentId=".$resE['DepartmentId'], $con); 
+  $sqlD=mysql_query("select department_name as DepartmentCode from core_departments where id=".$resE['DepartmentId'], $con); 
   $resD=mysql_fetch_assoc($sqlD);
  
   $schema_insert = "";
@@ -52,7 +52,7 @@ print("\n");
   else if($resQ['QueryReply']!=''){ $ReplyDetails='(1)'.$resQ['QReplyDT'].'-'.$resQ['QueryReply']; }
   $schema_insert .= $ReplyDetails.$sep;
   
-  $sqlD=mysql_query("select DepartmentCode from hrm_department where DepartmentId=".$resQ['QToDepartmentId'], $con); 
+  $sqlD=mysql_query("select department_name as DepartmentCode from core_departments where id=".$resQ['QToDepartmentId'], $con); 
   $resD=mysql_fetch_assoc($sqlD);
   $schema_insert .= $resD['DepartmentCode'].$sep;
   

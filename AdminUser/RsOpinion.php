@@ -89,7 +89,7 @@ function ExportSub(v)
 $sn=mysql_query("select * from hrm_opinion o inner join hrm_employee e on o.EmployeeID=e.EmployeeID where o.OpenionName='".$_REQUEST['value']."' AND o.Openion='n' AND e.CompanyId=".$CompanyId,$con);
 $ry=mysql_num_rows($sy); $rn=mysql_num_rows($sn);
 
-$sql=mysql_query("select o.*,EmpStatus,EmpCode,Fname,Sname,Lname,DepartmentName from hrm_opinion o inner join hrm_employee e on o.EmployeeID=e.EmployeeID inner join hrm_employee_general g on o.EmployeeID=g.EmployeeID inner join hrm_department d on g.DepartmentId=d.DepartmentId where o.OpenionName='".$_REQUEST['value']."' AND e.CompanyId=".$CompanyId." order by e.ECode ASC",$con); $row=mysql_num_rows($sql); ?>
+$sql=mysql_query("select o.*,EmpStatus,EmpCode,Fname,Sname,Lname,department_name as DepartmentName from hrm_opinion o inner join hrm_employee e on o.EmployeeID=e.EmployeeID inner join hrm_employee_general g on o.EmployeeID=g.EmployeeID left join core_departments d on g.DepartmentId=d.id where o.OpenionName='".$_REQUEST['value']."' AND e.CompanyId=".$CompanyId." order by e.ECode ASC",$con); $row=mysql_num_rows($sql); ?>
    <tr bgcolor="#7a6189" style="height:25px;">
     <td colspan="9" style="color:#FFFFFF;">&nbsp;&nbsp;
 	<b><font color="#E2EF87">Total Vote:</font>&nbsp;<?php echo $row; ?></b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;

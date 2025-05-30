@@ -82,10 +82,10 @@ if($_REQUEST['m']==9){$SelM='September';} if($_REQUEST['m']==10){$SelM='October'
                        <td class="td1" style="font-size:11px; width:170px;">	
 					   <input type="hidden" name="Month" id="Month" value="<?php echo date("m"); ?>" />		   
                        <select style="font-size:11px; width:120px; height:19px; background-color:#DDFFBB; display:block;" name="Department" id="Department" onChange="SelectMonthDept(this.value)">
-<?php if($_REQUEST['D']!='All') { $sqlD=mysql_query("select DepartmentCode from hrm_department where DepartmentId=".$_REQUEST['D'], $con); $resD=mysql_fetch_assoc($sqlD); ?> 
+<?php if($_REQUEST['D']!='All') { $sqlD=mysql_query("select department_name as DepartmentCode from core_departments where id=".$_REQUEST['D'], $con); $resD=mysql_fetch_assoc($sqlD); ?> 
                       <option value="<?php echo $_REQUEST['D']; ?>" style="margin-left:0px; background-color:#84D9D5;">&nbsp;<?php echo $resD['DepartmentCode']; ?></option>  
 <?php  } else { ?>	  <option value="All" style="margin-left:0px; background-color:#84D9D5;">&nbsp;All</option><?php } ?>						   
-					   <?php $SqlDepartment=mysql_query("select * from hrm_department where CompanyId=".$CompanyId." AND DeptStatus='A' order by DepartmentName ASC", $con); while($ResDepartment=mysql_fetch_array($SqlDepartment)) { ?><option value="<?php echo $ResDepartment['DepartmentId']; ?>"><?php echo '&nbsp;'.$ResDepartment['DepartmentCode'];?></option><?php } ?><option value="All">&nbsp;All</option></select>
+					   <?php $SqlDepartment=mysql_query(" select * from core_departments where is_active=1 order by department_name", $con); while($ResDepartment=mysql_fetch_array($SqlDepartment)) { ?><option value="<?php echo $ResDepartment['id']; ?>"><?php echo '&nbsp;'.$ResDepartment['department_name'];?></option><?php } ?><option value="All">&nbsp;All</option></select>
 					   <input type="hidden" name="ComId" id="ComId" value="<?php echo $CompanyId; ?>" /> 
 					   <input type="hidden" name="YearId" id="YearId" value="<?php echo $YearId; ?>" />
                       </td>
@@ -118,19 +118,39 @@ if($_REQUEST['m']==9){$SelM='September';} if($_REQUEST['m']==10){$SelM='October'
 <td style="width:50px;" class="fonttd">Status</td>
 <td style="width:50px;" class="fonttd">Details</td>
 	     </tr>
-		 <?php if($_REQUEST['D']!='All'){ $SqlEmp=mysql_query("select hrm_employee.EmployeeID,EmpCode,Fname,Sname,Lname,DepartmentId,HqId,EmpStatus from hrm_employee INNER JOIN hrm_employee_general ON hrm_employee.EmployeeID=hrm_employee_general.EmployeeID where hrm_employee.EmpStatus!='De' AND hrm_employee_general.DepartmentId=".$_REQUEST['D']." AND hrm_employee.CompanyId=".$CompanyId." order by EmpCode ASC", $con); }
-      if($_REQUEST['D']=='All'){ $SqlEmp=mysql_query("select hrm_employee.EmployeeID,EmpCode,Fname,Sname,Lname,DepartmentId,HqId,EmpStatus from hrm_employee INNER JOIN hrm_employee_general ON hrm_employee.EmployeeID=hrm_employee_general.EmployeeID where hrm_employee.EmpStatus!='De' AND hrm_employee.CompanyId=".$CompanyId." AND hrm_employee_general.DepartmentId!=17 AND hrm_employee_general.DepartmentId!=18 AND hrm_employee_general.DepartmentId!=23 AND hrm_employee_general.DepartmentId!=0 order by EmpCode ASC", $con); }
+		 <?php if($_REQUEST['D']!='All'){ $SqlEmp=mysql_query("select e.EmployeeID,EmpCode,Fname,Sname,Lname,g.HqId, g.TerrId, department_name, department_code, designation_name, grade_name, city_village_name, territory_name,EmpStatus from hrm_employee e INNER JOIN hrm_employee_general g ON e.EmployeeID=g.EmployeeID left join core_departments dept on g.DepartmentId=dept.id
+  left join core_designation desig on g.DesigId=desig.id
+  left join core_grades gr on g.GradeId=gr.id
+  left join core_city_village_by_state vlg on g.HqId=vlg.id
+  left join core_territory Tr on g.TerrId=Tr.id where e.EmpStatus!='De' AND g.DepartmentId=".$_REQUEST['D']." AND e.CompanyId=".$CompanyId." order by ECode ASC", $con); }
+      if($_REQUEST['D']=='All'){ $SqlEmp=mysql_query("SELECT 
+    e.EmployeeID,
+    e.EmpCode,
+    e.Fname,
+    e.Sname,
+    e.Lname,
+    g.DepartmentId,
+    g.HqId,
+    e.EmpStatus
+FROM hrm_employee e
+INNER JOIN hrm_employee_general g ON e.EmployeeID = g.EmployeeID
+LEFT JOIN core_departments dept ON g.DepartmentId = dept.id
+LEFT JOIN core_designation desig ON g.DesigId = desig.id
+LEFT JOIN core_grades gr ON g.GradeId = gr.id
+LEFT JOIN core_city_village_by_state vlg ON g.HqId = vlg.id
+LEFT JOIN core_territory Tr ON g.TerrId = Tr.id
+WHERE e.EmpStatus <> 'De'  AND e.CompanyId=".$CompanyId." order by ECode ASC", $con); }
 $Sno=1; $SqlRows=mysql_num_rows($SqlEmp); while($ResEmp=mysql_fetch_array($SqlEmp)) { 
 $Ename=$ResEmp['Fname'].' '.$ResEmp['Sname'].' '.$ResEmp['Lname']; $month=$_REQUEST['m'];
-$sqlD=mysql_query("select DepartmentCode from hrm_department where DepartmentId=".$ResEmp['DepartmentId'], $con); $resD=mysql_fetch_assoc($sqlD);
-$sqlHq=mysql_query("select HqName from hrm_headquater where HqId=".$ResEmp['HqId'], $con); $resHq=mysql_fetch_assoc($sqlHq);
+
 ?>
 <tr style="background-color:#FFFFFF;">
 <td align="center" valign="top" class="fonttd2">&nbsp;<?php echo $Sno; ?></td>
 <td align="center" valign="top" class="fonttd2">&nbsp;<?php echo $ResEmp['EmpCode']; ?></td>
 <td valign="top" class="fonttd2">&nbsp;<?php echo strtoupper($Ename); ?>
-<td valign="top" class="fonttd2">&nbsp;<?php echo strtoupper($resD['DepartmentCode']); ?></td>
-<td valign="top" class="fonttd2">&nbsp;<?php echo strtoupper($resHq['HqName']); ?></td>
+<td valign="top" class="fonttd2">&nbsp;<?php echo strtoupper($ResEmp['department_name']); ?></td>
+<?php if($ResEmp['TerrId']>0){$Hq=$ResEmp['territory_name'];}else{$Hq=$ResEmp['city_village_name']; } ?>
+<td valign="top" class="fonttd2">&nbsp;<?php echo $Hq; ?></td>
 <td align="center" valign="top" class="fonttd2" bgcolor="<?php if($ResEmp['EmpStatus']=='D'){echo '#FFB895'; } ?>">&nbsp;<?php echo $ResEmp['EmpStatus']; ?></td>
 <td align="center" class="fonttd2">
 <a href="#"><img src="images/select.png" border="0" alt="Edit" onClick="ReadLVReg(<?php echo $ResEmp['EmployeeID'].', '.$_REQUEST['Y']; ?>)"></a></td>

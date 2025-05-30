@@ -94,7 +94,7 @@ window.print(); //window.close();
    <?php } ?>
   </tr>
 <?php $today=date("Y-m-d"); $timestamp = strtotime($today); 
- $sql=mysql_query("select DepartmentId,DepartmentName from hrm_department where DeptStatus='A' AND CompanyId=".$CompanyId." order by DepartmentName ASC",$con); 
+ $sql=mysql_query("select id as DepartmentId,department_name as DepartmentName from core_departments where is_active=1 order by department_name",$con); 
  $SNo=1; while($res=mysql_fetch_array($sql)){ 
 ?>
 <tr id="TR<?php echo $SNo; ?>">

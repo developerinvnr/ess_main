@@ -86,7 +86,7 @@ function FucChk(sn)
 <?php $sY=mysql_query("select * from hrm_year where YearId=".$_REQUEST['ey']."", $con); $rY=mysql_fetch_assoc($sY); 
       $FD=date("Y",strtotime($rY['FromDate'])); $TD=date("Y",strtotime($rY['ToDate'])); $PRD=$FD.'-'.$TD; ?>	     
                <td class="td1" style="width:150px;">&nbsp;&nbsp;<b>Year:</b>&nbsp;<select class="tdsel" style="background-color:#DDFFBB;width:120px;" name="YearID" id="YearID" onChange="SelectYear(this.value)"><?php if($_REQUEST['ey']!=''){ $SqlY=mysql_query("select * from hrm_year where YearId=".$_REQUEST['ey'], $con); $ResY=mysql_fetch_array($SqlY); ?><option value="<?php echo $ResY['YearId']; ?>"><?php echo date("Y",strtotime($ResY['FromDate'])).'-'.date("Y",strtotime($ResY['ToDate'])); if($ResY['YearId']>5){ echo ' - Y'; }?></option><?php }else{ ?><option value="" selected>Year</option><?php } $SqlYear=mysql_query("select y.YearId,FromDate,ToDate from hrm_employee_pms p inner join hrm_year y on p.AssessmentYear=y.YearId where CompanyId=".$CompanyId." group by AssessmentYear order by AssessmentYear DESC", $con); while($ResYear=mysql_fetch_array($SqlYear)) { ?><option value="<?php echo $ResYear['YearId']; ?>"><?php echo date("Y",strtotime($ResYear['FromDate'])).'-'.date("Y",strtotime($ResYear['ToDate'])); if($ResYear['YearId']>5){ echo ' - Y'; } ?></option><?php } ?></select></td>
-               <td class="td1" style="width:200px;">&nbsp;&nbsp;<b>Department:</b>&nbsp;<select class="tdsel" style="background-color:#DDFFBB;width:180px;" name="DepartmentE" id="DepartmentE" onChange="SelectDeptEmp(this.value)"><?php if($_REQUEST['d']>0){ $SqlDept=mysql_query("select DepartmentName from hrm_department where DepartmentId=".$_REQUEST['d'],$con); $ResDept=mysql_fetch_array($SqlDept); ?><option value="<?php echo $_REQUEST['d']; ?>" selected><?php echo $ResDept['DepartmentName']; ?></option><?php }else{ ?><option value="" selected>Select Department</option><?php } $SqlDepartment=mysql_query("select * from hrm_department where CompanyId=".$CompanyId." order by DepartmentName ASC", $con); while($ResDepartment=mysql_fetch_array($SqlDepartment)) { ?><option value="<?php echo $ResDepartment['DepartmentId']; ?>"><?php echo '&nbsp;'.$ResDepartment['DepartmentCode'];?></option><?php } ?></select>
+               <td class="td1" style="width:200px;">&nbsp;&nbsp;<b>Department:</b>&nbsp;<select class="tdsel" style="background-color:#DDFFBB;width:180px;" name="DepartmentE" id="DepartmentE" onChange="SelectDeptEmp(this.value)"><?php if($_REQUEST['d']>0){ $SqlDept=mysql_query("select department_name as DepartmentName from core_departments where id=".$_REQUEST['d'],$con); $ResDept=mysql_fetch_array($SqlDept); ?><option value="<?php echo $_REQUEST['d']; ?>" selected><?php echo $ResDept['DepartmentName']; ?></option><?php }else{ ?><option value="" selected>Select Department</option><?php } $SqlDepartment=mysql_query("select * from core_departments where is_active=1 order by department_name", $con); while($ResDepartment=mysql_fetch_array($SqlDepartment)) { ?><option value="<?php echo $ResDepartment['id']; ?>"><?php echo '&nbsp;'.$ResDepartment['department_name'];?></option><?php } ?></select>
 					   <input type="hidden" name="ComId" id="ComId" value="<?php echo $CompanyId; ?>" /> 
 					   <input type="hidden" name="DId" id="DId" value="<?php echo $_REQUEST['d']; ?>" />
                </td>
@@ -122,7 +122,11 @@ function FucChk(sn)
              </tr>
              </thead>
              </div>
-             <?php if($_REQUEST['d'] AND $_REQUEST['d']!='' AND $_REQUEST['ey']!=''){ $sqlDP = mysql_query("SELECT e.EmployeeID,EmpCode,Fname,Sname,Lname,HqName,DepartmentName,DepartmentCode,DesigName,Gender,Married,DateJoining FROM hrm_employee e INNER JOIN hrm_employee_general g ON e.EmployeeID=g.EmployeeID INNER JOIN hrm_employee_personal p ON e.EmployeeID=p.EmployeeID inner join hrm_headquater hq on g.HqId=hq.HqId inner join hrm_department d on g.DepartmentId=d.DepartmentId inner join hrm_designation de on g.DesigId=de.DesigId WHERE e.EmpStatus='A' AND e.CompanyId=".$CompanyId." AND g.DepartmentId=".$_REQUEST['d'], $con) or die(mysql_error()); 
+             <?php if($_REQUEST['d'] AND $_REQUEST['d']!='' AND $_REQUEST['ey']!=''){ $sqlDP = mysql_query("SELECT e.EmployeeID,EmpCode,Fname,Sname,Lname,g.HqId, g.TerrId, department_name, department_code, designation_name, grade_name, city_village_name, territory_name,Gender,Married,DateJoining FROM hrm_employee e INNER JOIN hrm_employee_general g ON e.EmployeeID=g.EmployeeID INNER JOIN hrm_employee_personal p ON e.EmployeeID=p.EmployeeID left join core_departments dept on g.DepartmentId=dept.id
+  left join core_designation desig on g.DesigId=desig.id
+  left join core_grades gr on g.GradeId=gr.id
+  left join core_city_village_by_state vlg on g.HqId=vlg.id
+  left join core_territory Tr on g.TerrId=Tr.id WHERE e.EmpStatus='A' AND e.CompanyId=".$CompanyId." AND g.DepartmentId=".$_REQUEST['d'], $con) or die(mysql_error()); 
       $Sno=1;  while($resDP = mysql_fetch_assoc($sqlDP)){ 
 if($resDP['Gender']=='M'){$M='Mr.';} elseif($resDP['Gender']=='F' AND $resDP['Married']=='Y'){$M='Mrs.';} elseif($resDP['Gender']=='F' AND $resDP['Married']=='N'){$M='Miss.';} $Name=$M.' '.$resDP['Fname'].' '.$resDP['Sname'].' '.$resDP['Lname']; $LEC=strlen($resDP['EmpCode']); if($LEC==1){$EC='000'.$resDP['EmpCode'];} if($LEC==2){$EC='00'.$resDP['EmpCode'];} if($LEC==3){$EC='0'.$resDP['EmpCode'];} if($LEC>=4){$EC=$resDP['EmpCode'];}	 
 $sql1=mysql_query("select Emp_AchivementSave,Emp_KRASave,Emp_SkillSave,Emp_FeedBackSave,EmpPmsId from hrm_employee_pms where YearId=".$_REQUEST['ey']." AND EmployeeID=".$resDP['EmployeeID'], $con); $res1=mysql_fetch_assoc($sql1); ?>
@@ -133,9 +137,10 @@ $sql1=mysql_query("select Emp_AchivementSave,Emp_KRASave,Emp_SkillSave,Emp_FeedB
 		      <td class="tdc"><?php echo $Sno; ?></td>
 		      <td class="tdc"><?php echo $EC; ?></td>
 		      <td class="tdl"><?php echo $Name; ?></td>
-		      <td class="tdl"><?= $resDP['HqName'] ?></td>
-		      <td class="tdl"><?= $resDP['DepartmentCode']?></td>
-			  <td class="tdl"><?= $resDP['DesigName']?></td>
+		       <?php if($resDP['TerrId']>0){$Hq=$resDP['territory_name'];}else{$Hq=$resDP['city_village_name']; } ?>
+		      <td class="tdl"><?= $Hq ?></td>
+		      <td class="tdl"><?= $resDP['department_code']?></td>
+			  <td class="tdl"><?= $resDP['designation_name']?></td>
               <?php if($_SESSION['User_Permission']=='Edit'){ ?> 
 	          <td class="tdc"><?php if($res1['Emp_AchivementSave']=='Y'){ ?><a href="#" onClick="EmpForm(<?php echo $CompanyId.', '.$resSY['CurrY'].', '.$resDP['EmployeeID'].','.$res1['EmpPmsId'].',1'; ?>)">Click</a><?php } ?></td>
 		      

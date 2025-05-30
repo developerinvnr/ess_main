@@ -46,7 +46,7 @@ if(isset($_POST['ImportFile']))
  $M=$_POST['CMonth'];
  if(date("m")==01){ if($M==12){$Y=date("Y")-1;}else{$Y=date("Y");} }
  if(date("m")!=01){ $Y=date("Y");}
- if($_POST['CompoN']=='DA'){$ColName='DA';}elseif($_POST['CompoN']=='TDS'){$ColName='TDS';}elseif($_POST['CompoN']=='BONUS'){$ColName='Bonus';}elseif($_POST['CompoN']=='PPAY'){$ColName='PerformancePay';}elseif($_POST['CompoN']=='LEAVE_EnCASH'){$ColName='LeaveEncash';}elseif($_POST['CompoN']=='VAR_ADJUST'){$ColName='VariableAdjustment';}elseif($_POST['CompoN']=='VAR_REIM'){$ColName='VarRemburmnt';}elseif($_POST['CompoN']=='ARR_BASIC'){$ColName='Arr_Basic';}elseif($_POST['CompoN']=='ARR_HRA'){$ColName='Arr_Hra';}elseif($_POST['CompoN']=='ARR_SPECIAL'){$ColName='Arr_Spl';}elseif($_POST['CompoN']=='ARR_CONVEYANCE'){$ColName='Arr_Conv';}elseif($_POST['CompoN']=='ARR_ESIC'){$ColName='Arr_Esic';}elseif($_POST['CompoN']=='ARR_PF'){$ColName='Arr_Pf';}elseif($_POST['CompoN']=='VOL_CONT'){$ColName='VolContrib';}elseif($_POST['CompoN']=='Arr_LvEnCash'){$ColName='Arr_LvEnCash';}elseif($_POST['CompoN']=='YLta'){$ColName='YLta';}elseif($_POST['CompoN']=='YCea'){$ColName='YCea';}elseif($_POST['CompoN']=='Arr_Bonus'){$ColName='Arr_Bonus';}elseif($_POST['CompoN']=='Arr_LTARemb'){$ColName='Arr_LTARemb';}elseif($_POST['CompoN']=='Arr_RA'){$ColName='Arr_RA';}elseif($_POST['CompoN']=='Arr_PP'){$ColName='Arr_PP';}elseif($_POST['CompoN']=='BA'){$ColName='Bonus_Adjustment';}elseif($_POST['CompoN']=='PP_year'){$ColName='PP_year';}
+ if($_POST['CompoN']=='DA'){$ColName='DA';}elseif($_POST['CompoN']=='TDS'){$ColName='TDS';}elseif($_POST['CompoN']=='BONUS'){$ColName='Bonus';}elseif($_POST['CompoN']=='PPAY'){$ColName='PerformancePay';}elseif($_POST['CompoN']=='LEAVE_EnCASH'){$ColName='LeaveEncash';}elseif($_POST['CompoN']=='VAR_ADJUST'){$ColName='VariableAdjustment';}elseif($_POST['CompoN']=='VAR_REIM'){$ColName='VarRemburmnt';}elseif($_POST['CompoN']=='ARR_BASIC'){$ColName='Arr_Basic';}elseif($_POST['CompoN']=='ARR_HRA'){$ColName='Arr_Hra';}elseif($_POST['CompoN']=='ARR_SPECIAL'){$ColName='Arr_Spl';}elseif($_POST['CompoN']=='ARR_CONVEYANCE'){$ColName='Arr_Conv';}elseif($_POST['CompoN']=='ARR_ESIC'){$ColName='Arr_Esic';}elseif($_POST['CompoN']=='ARR_PF'){$ColName='Arr_Pf';}elseif($_POST['CompoN']=='VOL_CONT'){$ColName='VolContrib';}elseif($_POST['CompoN']=='Arr_LvEnCash'){$ColName='Arr_LvEnCash';}elseif($_POST['CompoN']=='YLta'){$ColName='YLta';}elseif($_POST['CompoN']=='YCea'){$ColName='YCea';}elseif($_POST['CompoN']=='Arr_Bonus'){$ColName='Arr_Bonus';}elseif($_POST['CompoN']=='Arr_LTARemb'){$ColName='Arr_LTARemb';}elseif($_POST['CompoN']=='Arr_RA'){$ColName='Arr_RA';}elseif($_POST['CompoN']=='Arr_PP'){$ColName='Arr_PP';}elseif($_POST['CompoN']=='BA'){$ColName='Bonus_Adjustment';}elseif($_POST['CompoN']=='PP_year'){$ColName='PP_year';}elseif($_POST['CompoN']=='Deputation_Allow'){$ColName='Deputation_Allow';}elseif($_POST['CompoN']=='IDCard_Recovery'){$ColName='IDCard_Recovery';}elseif($_POST['CompoN']=='Communication_Allow'){$ColName='Communication_Allow';}
  
  if ($_FILES['csv_file']['error']>0){ echo "Error:".$_FILES['csv_file']['error']."<br />"; }
  else
@@ -275,7 +275,10 @@ function FunTxls()
 	<option value="YLta">TAX SAVING - LTA</option>
 	<option value="YCea">TAX SAVING - CEA</option>
 	<option value="BA">BONUS ADJUSMENT</option>
+	<option value="Deputation_Allow">DEPUTATION ALLOWANCE</option>
+	<option value="IDCard_Recovery">ID CARD RECOVERY</option>
 	<option value="PP_year">PERFORMANCE PAY - YEARLY</option>
+	<option value="Communication_Allow">COMMUNICATION ALLOWANCE</option>
    </select>
    
   </td>

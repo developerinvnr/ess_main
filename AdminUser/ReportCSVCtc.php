@@ -7,7 +7,7 @@ $FD=date("Y",strtotime($rY['FromDate'])); $TD=date("Y",strtotime($rY['ToDate']))
 if($_REQUEST['action']='CtcExport') 
 { 
  if($_REQUEST['value']=='All') {$DeptV='All_Employee';}
-  else{ $sqlDeptV=mysql_query("select DepartmentCode from hrm_department where DepartmentId=".$_REQUEST['value'], $con); $resDeptV=mysql_fetch_assoc($sqlDeptV); 
+  else{ $sqlDeptV=mysql_query("select department_code as DepartmentCode from core_departments where id=".$_REQUEST['value'], $con); $resDeptV=mysql_fetch_assoc($sqlDeptV); 
         $DeptV=$resDeptV['DepartmentCode'];}
   
 #  Create the Column Headings
@@ -42,19 +42,23 @@ $csv_output .= '"MPP",';
 $csv_output .= '"Fixed CTC",';
 $csv_output .= '"Variable Pay",';
 $csv_output .= '"Total CTC",';
+$csv_output .= '"Communication Allow",';
+$csv_output .= '"Car Allow",';
+$csv_output .= '"Total Gross CTC",';
+
 $csv_output .= '"MIC",'; 
 $csv_output .= '"Car Allowance",'; 
 $csv_output .= "\n";		
 
 # Get Users Details form the DB #$result = mysql_query("SELECT * from formResults WHERE formID = '$formID'" );
-if($_REQUEST['value']=='All') { $sql=mysql_query("select hrm_employee.*,DepartmentId,DesigId,hrm_employee_ctc.* from hrm_employee_ctc INNER JOIN hrm_employee ON hrm_employee_ctc.EmployeeID=hrm_employee.EmployeeID INNER JOIN hrm_employee_general ON hrm_employee_ctc.EmployeeID=hrm_employee_general.EmployeeID where hrm_employee.CompanyId=".$_REQUEST['C']." AND hrm_employee.EmpStatus!='De' AND hrm_employee_ctc.Status='A' order by ECode ASC", $con); }
-else {$sql=mysql_query("select hrm_employee.*,DepartmentId,DesigId,hrm_employee_ctc.* from hrm_employee_ctc INNER JOIN hrm_employee ON hrm_employee_ctc.EmployeeID=hrm_employee.EmployeeID INNER JOIN hrm_employee_general ON hrm_employee_ctc.EmployeeID=hrm_employee_general.EmployeeID where hrm_employee_general.DepartmentId=".$_REQUEST['value']." AND hrm_employee.CompanyId=".$_REQUEST['C']." AND hrm_employee.EmpStatus!='De' AND hrm_employee_ctc.Status='A' order by ECode ASC", $con); } 
+if($_REQUEST['value']=='All') { $sql=mysql_query("select hrm_employee.*,DepartmentId,DesigId,hrm_employee_ctc.* from hrm_employee_ctc INNER JOIN hrm_employee ON hrm_employee_ctc.EmployeeID=hrm_employee.EmployeeID INNER JOIN hrm_employee_general ON hrm_employee_ctc.EmployeeID=hrm_employee_general.EmployeeID where hrm_employee.CompanyId=".$_REQUEST['C']." AND hrm_employee.EmpStatus='A' AND hrm_employee_ctc.Status='A' order by ECode ASC", $con); }
+else {$sql=mysql_query("select hrm_employee.*,DepartmentId,DesigId,hrm_employee_ctc.* from hrm_employee_ctc INNER JOIN hrm_employee ON hrm_employee_ctc.EmployeeID=hrm_employee.EmployeeID INNER JOIN hrm_employee_general ON hrm_employee_ctc.EmployeeID=hrm_employee_general.EmployeeID where hrm_employee_general.DepartmentId=".$_REQUEST['value']." AND hrm_employee.CompanyId=".$_REQUEST['C']." AND hrm_employee.EmpStatus='A' AND hrm_employee_ctc.Status='A' order by ECode ASC", $con); } 
 $Sno=1; while($res=mysql_fetch_array($sql)){ 
     if($res['Sname']==''){ $Ename=trim($res['Fname']).' '.trim($res['Lname']); }
 else{ $Ename=trim($res['Fname']).' '.trim($res['Sname']).' '.trim($res['Lname']); }
     //$Ename=$res['Fname'].' '.$res['Sname'].' '.$res['Lname']; 
-$sqlDept=mysql_query("select DepartmentCode from hrm_department where DepartmentId=".$res['DepartmentId'], $con); $resDept=mysql_fetch_assoc($sqlDept);
-$sqlDesig=mysql_query("select DesigName from hrm_designation where DesigId=".$res['DesigId'], $con); $resDesig=mysql_fetch_assoc($sqlDesig);
+$sqlDept=mysql_query("select department_name as DepartmentCode from core_departments where id=".$res['DepartmentId'], $con); $resDept=mysql_fetch_assoc($sqlDept);
+$sqlDesig=mysql_query("select designation_name as DesigName from core_designation where id=".$res['DesigId'], $con); $resDesig=mysql_fetch_assoc($sqlDesig);
 
 $csv_output .= '"'.str_replace('"', '""', $Sno).'",';
 $csv_output .= '"'.str_replace('"', '""', $res['EmpCode']).'",';
@@ -87,6 +91,9 @@ $csv_output .= '"'.str_replace('"', '""', $res['Mediclaim_Policy']).'",';
 $csv_output .= '"'.str_replace('"', '""', $res['Tot_CTC']).'",';
 $csv_output .= '"'.str_replace('"', '""', $res['VariablePay']).'",';
 $csv_output .= '"'.str_replace('"', '""', $res['TotCtc']).'",';
+$csv_output .= '"'.str_replace('"', '""', $res['Communication_Allowance']).'",';
+$csv_output .= '"'.str_replace('"', '""', $res['Car_Allowance']).'",';
+$csv_output .= '"'.str_replace('"', '""', $res['Total_Gross_CTC']).'",';
 $csv_output .= '"'.str_replace('"', '""', $res['EmpAddBenifit_MediInsu_value']).'",';
 $csv_output .= '"'.str_replace('"', '""', $res['CAR_ALL_Value']).'",';
 

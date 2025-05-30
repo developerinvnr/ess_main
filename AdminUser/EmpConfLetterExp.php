@@ -14,18 +14,18 @@ if($_REQUEST['action']='export')
 
  
  if($_REQUEST['value']=='all'){
-      $sql=mysql_query("SELECT e.EmpCode,e.Fname,e.Sname,e.Lname,d.DepartmentCode,dg.DesigName,g.DateConfirmation,g.ReportingName,ltr.Rep_Fill_Date,ltr.HR_Fill_Date FROM hrm_employee e 
-JOIN hrm_employee_general g ON g.EmployeeID = e.EmployeeID
-JOIN hrm_department d ON d.DepartmentId = g.DepartmentId
-JOIN hrm_designation dg ON dg.DesigId = g.DesigId
+      $sql=mysql_query("SELECT e.EmpCode,e.Fname,e.Sname,e.Lname,d.department_name as DepartmentCode,dg.designation_name as DesigName,g.DateConfirmation,g.ReportingName,ltr.Rep_Fill_Date,ltr.HR_Fill_Date FROM hrm_employee e 
+LEFT JOIN hrm_employee_general g ON g.EmployeeID = e.EmployeeID
+LEFT JOIN core_departments d ON d.id = g.DepartmentId
+LEFT JOIN core_designation dg ON dg.id = g.DesigId
 LEFT JOIN hrm_employee_confletter ltr ON ltr.EmployeeID = e.EmployeeID
 WHERE e.EmpStatus ='A' AND e.CompanyId=1
 order by e.EmployeeID ASC", $con);
  }else{
-      $sql=mysql_query("SELECT e.VCode,e.EmpCode,e.Fname,e.Sname,e.Lname,d.DepartmentCode,dg.DesigName,g.DateConfirmation,g.ReportingName,ltr.Rep_Fill_Date,ltr.HR_Fill_Date FROM hrm_employee e 
-JOIN hrm_employee_general g ON g.EmployeeID = e.EmployeeID
-JOIN hrm_department d ON d.DepartmentId = g.DepartmentId
-JOIN hrm_designation dg ON dg.DesigId = g.DesigId
+      $sql=mysql_query("SELECT e.VCode,e.EmpCode,e.Fname,e.Sname,e.Lname,d.department_name as DepartmentCode,dg.designation_name as DesigName,g.DateConfirmation,g.ReportingName,ltr.Rep_Fill_Date,ltr.HR_Fill_Date FROM hrm_employee e 
+LEFT JOIN hrm_employee_general g ON g.EmployeeID = e.EmployeeID
+LEFT JOIN core_departments d ON d.id = g.DepartmentId
+LEFT JOIN core_designation dg ON dg.id = g.DesigId
 LEFT JOIN hrm_employee_confletter ltr ON ltr.EmployeeID = e.EmployeeID
 WHERE e.EmpStatus ='A' AND e.CompanyId=1 AND g.DepartmentId=".$_REQUEST['value']." 
 order by e.EmployeeID ASC", $con); 

@@ -91,7 +91,7 @@ if($_REQUEST['y']!=0)
  }
 
 }
-if($_REQUEST['d']>0){ $sqlD=mysql_query("select DepartmentName from hrm_department where DepartmentId=".$_REQUEST['d'], $con); $resD=mysql_fetch_assoc($sqlD); }
+if($_REQUEST['d']>0){ $sqlD=mysql_query("select department_name as DepartmentName from core_departments where id=".$_REQUEST['d'], $con); $resD=mysql_fetch_assoc($sqlD); }
 ?>	     
        <b style="color:#3A7500">[ Year:&nbsp;<?php echo $PRD; ?> ]</b>&nbsp; 
 	  <?php if($_REQUEST['d']>0){ ?><b style="color:#3A7500">[ Department:&nbsp;<?php echo $resD['DepartmentName']; ?> ]</b>&nbsp;  <?php } ?>
@@ -139,7 +139,7 @@ elseif($_REQUEST['d']==0){ $sql=mysql_query("select hrm_employee.EmployeeID,EmpC
 $sql1=mysql_query("select * from hrm_employee_ctc c INNER JOIN ".$PayTable." mp ON c.EmployeeID=mp.EmployeeID where c.EmployeeID=".$res['EmployeeID']." AND CtcCreatedDate<='".$s."' AND Month=".$_REQUEST['m']." AND Year=".$y." AND Tot_Gross>0 AND CtcId=(select MAX(CtcId) from hrm_employee_ctc where hrm_employee_ctc.EmployeeID=".$res['EmployeeID']." AND CtcCreatedDate<='".$s."')", $con); 
 
   $res1=mysql_fetch_assoc($sql1);
-  $sqlD=mysql_query("select DepartmentCode from hrm_department where DepartmentId=".$res['DepartmentId'], $con); $resD=mysql_fetch_assoc($sqlD);
+  $sqlD=mysql_query("select department_name as DepartmentCode from core_departments where id=".$res['DepartmentId'], $con); $resD=mysql_fetch_assoc($sqlD);
   
 if($res1['Basic']!=0 OR $res1['Hra']!=0 OR $res1['Convance']!=0 OR $res1['Special']!=0){ ?>  
 <tr id="TR<?php echo $sn; ?>">

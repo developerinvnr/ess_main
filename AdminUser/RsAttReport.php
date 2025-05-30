@@ -113,10 +113,10 @@ if($_REQUEST['m']==9){$SelM='September';} if($_REQUEST['m']==10){$SelM='October'
                       </td>
                        <td class="td1" style="font-size:11px; width:125px;">			   
                        <select style="font-size:11px; width:120px; height:19px; background-color:#DDFFBB; display:block;" name="Department" id="Department" onChange="SelectMonthDept(this.value)">
-<?php if($_REQUEST['D']!='All') { $sqlD=mysql_query("select DepartmentCode from hrm_department where DepartmentId=".$_REQUEST['D'], $con); $resD=mysql_fetch_assoc($sqlD); ?> 
+<?php if($_REQUEST['D']!='All') { $sqlD=mysql_query("select department_name as DepartmentCode from core_departments where id=".$_REQUEST['D'], $con); $resD=mysql_fetch_assoc($sqlD); ?> 
                       <option value="<?php echo $_REQUEST['D']; ?>" style="margin-left:0px; background-color:#84D9D5;">&nbsp;<?php echo $resD['DepartmentCode']; ?></option>  
 <?php  } else { ?>	  <option value="All" style="margin-left:0px; background-color:#84D9D5;">&nbsp;All</option><?php } ?>						   
-					   <?php $SqlDepartment=mysql_query("select * from hrm_department where CompanyId=".$CompanyId." AND DeptStatus='A' order by DepartmentName ASC", $con); while($ResDepartment=mysql_fetch_array($SqlDepartment)) { ?><option value="<?php echo $ResDepartment['DepartmentId']; ?>"><?php echo '&nbsp;'.$ResDepartment['DepartmentCode'];?></option><?php } ?><option value="All">&nbsp;All</option></select>
+					   <?php $SqlDepartment=mysql_query("select * from core_departments where is_active=1 order by department_name", $con); while($ResDepartment=mysql_fetch_array($SqlDepartment)) { ?><option value="<?php echo $ResDepartment['id']; ?>"><?php echo '&nbsp;'.$ResDepartment['department_name'];?></option><?php } ?><option value="All">&nbsp;All</option></select>
 					   <input type="hidden" name="ComId" id="ComId" value="<?php echo $CompanyId; ?>" /> 
 					   <input type="hidden" name="YearId" id="YearId" value="<?php echo $YearId; ?>" />
                       </td>
@@ -195,11 +195,22 @@ elseif($id==2){if($Y==2012 OR $Y==2016 OR $Y==2020 OR $Y==2024 OR $Y==2028 OR $Y
         </tr>
 <?php if($_REQUEST['acttc']=='opentbl' AND $_REQUEST['D']!='All'){
 
-if($_REQUEST['D']!='All' AND $_REQUEST['rpi']==0){ $SqlEmp=mysql_query("select e.EmployeeID,EmpCode,Fname,Sname,Lname,DepartmentCode,DesigCode,HqName,RepEmployeeID from hrm_employee e INNER JOIN hrm_employee_general g ON e.EmployeeID=g.EmployeeID inner join hrm_department d on g.DepartmentId=d.DepartmentId inner join hrm_designation de on g.DesigId=de.DesigId inner join hrm_headquater hq on g.hqId=hq.HqId where e.EmpStatus!='De' AND g.DepartmentId=".$_REQUEST['D']." AND e.CompanyId=".$CompanyId." AND (e.DateOfSepration='0000-00-00' OR e.DateOfSepration='1970-01-01' OR e.DateOfSepration>='".date($_REQUEST['Y']."-".$_REQUEST['m']."-01")."') AND g.DateJoining<='".date($_REQUEST['Y']."-".$_REQUEST['m']."-31")."' order by e.ECode ASC", $con); }
+$m=$_REQUEST['m'];
+if(strlen($_REQUEST['m'])==1){ $m='0'.$_REQUEST['m']; }
+
+if($_REQUEST['D']!='All' AND $_REQUEST['rpi']==0){ $SqlEmp=mysql_query("select e.EmployeeID,EmpCode,Fname,Sname,Lname,g.HqId, g.TerrId, department_name, department_code, designation_name, grade_name, city_village_name, territory_name,RepEmployeeID from hrm_employee e INNER JOIN hrm_employee_general g ON e.EmployeeID=g.EmployeeID left join core_departments dept on g.DepartmentId=dept.id
+  left join core_designation desig on g.DesigId=desig.id
+  left join core_grades gr on g.GradeId=gr.id
+  left join core_city_village_by_state vlg on g.HqId=vlg.id
+  left join core_territory Tr on g.TerrId=Tr.id where e.EmpStatus!='De' AND g.DepartmentId=".$_REQUEST['D']." AND e.CompanyId=".$CompanyId." AND (e.DateOfSepration='0000-00-00' OR e.DateOfSepration='1970-01-01' OR e.DateOfSepration>='".date($_REQUEST['Y']."-".$m."-01")."') AND g.DateJoining<='".date($_REQUEST['Y']."-".$m."-31")."' order by e.ECode ASC", $con); }
 
 //elseif($_REQUEST['D']=='All'  AND $_REQUEST['rpi']==0){ $SqlEmp=mysql_query("select e.EmployeeID,EmpCode,Fname,Sname,Lname,DepartmentCode,DesigCode,HqName,RepEmployeeID from hrm_employee e INNER JOIN hrm_employee_general g ON e.EmployeeID=g.EmployeeID inner join hrm_department d on g.DepartmentId=d.DepartmentId inner join hrm_designation de on g.DesigId=de.DesigId inner join hrm_headquater hq on g.hqId=hq.HqId where e.EmpStatus='A' AND e.CompanyId=".$CompanyId." AND g.DepartmentId!=17 AND g.DepartmentId!=18 AND g.DepartmentId!=23 AND g.DepartmentId!=0 AND (e.DateOfSepration='0000-00-00' OR e.DateOfSepration='1970-01-01' OR e.DateOfSepration>='".date($_REQUEST['Y']."-".$_REQUEST['m']."-01")."') AND g.DateJoining<='".date($_REQUEST['Y']."-".$_REQUEST['m']."-31")."' order by e.EmpCode ASC", $con); }
 
-elseif($_REQUEST['D']!='All' AND $_REQUEST['rpi']>0){ $SqlEmp=mysql_query("select e.EmployeeID,EmpCode,Fname,Sname,Lname,DepartmentCode,DesigCode,HqName,RepEmployeeID from hrm_employee e INNER JOIN hrm_employee_general g ON e.EmployeeID=g.EmployeeID inner join hrm_department d on g.DepartmentId=d.DepartmentId inner join hrm_designation de on g.DesigId=de.DesigId inner join hrm_headquater hq on g.hqId=hq.HqId where e.EmpStatus!='De' AND g.DepartmentId=".$_REQUEST['D']." AND g.RepEmployeeID=".$_REQUEST['rpi']." AND e.CompanyId=".$CompanyId." AND (e.DateOfSepration='0000-00-00' OR e.DateOfSepration='1970-01-01' OR e.DateOfSepration>='".date($_REQUEST['Y']."-".$_REQUEST['m']."-01")."') AND g.DateJoining<='".date($_REQUEST['Y']."-".$_REQUEST['m']."-31")."' order by e.ECode ASC", $con); }
+elseif($_REQUEST['D']!='All' AND $_REQUEST['rpi']>0){ $SqlEmp=mysql_query("select e.EmployeeID,EmpCode,Fname,Sname,Lname,g.HqId, g.TerrId, department_name, department_code, designation_name, grade_name, city_village_name, territory_name,RepEmployeeID from hrm_employee e INNER JOIN hrm_employee_general g ON e.EmployeeID=g.EmployeeID left join core_departments dept on g.DepartmentId=dept.id
+  left join core_designation desig on g.DesigId=desig.id
+  left join core_grades gr on g.GradeId=gr.id
+  left join core_city_village_by_state vlg on g.HqId=vlg.id
+  left join core_territory Tr on g.TerrId=Tr.id where e.EmpStatus!='De' AND g.DepartmentId=".$_REQUEST['D']." AND g.RepEmployeeID=".$_REQUEST['rpi']." AND e.CompanyId=".$CompanyId." AND (e.DateOfSepration='0000-00-00' OR e.DateOfSepration='1970-01-01' OR e.DateOfSepration>='".date($_REQUEST['Y']."-".$m."-01")."') AND g.DateJoining<='".date($_REQUEST['Y']."-".$m."-31")."' order by e.ECode ASC", $con); }
 
 //elseif($_REQUEST['D']=='All'  AND $_REQUEST['rpi']>0){ $SqlEmp=mysql_query("select e.EmployeeID,EmpCode,Fname,Sname,Lname,DepartmentCode,DesigCode,HqName,RepEmployeeID from hrm_employee e INNER JOIN hrm_employee_general g ON e.EmployeeID=g.EmployeeID inner join hrm_department d on g.DepartmentId=d.DepartmentId inner join hrm_designation de on g.DesigId=de.DesigId inner join hrm_headquater hq on g.hqId=hq.HqId where e.EmpStatus='A' AND g.RepEmployeeID=".$_REQUEST['rpi']." AND e.CompanyId=".$CompanyId." AND g.DepartmentId!=17 AND g.DepartmentId!=18 AND g.DepartmentId!=23 AND g.DepartmentId!=0 AND (e.DateOfSepration='0000-00-00' OR e.DateOfSepration='1970-01-01' OR e.DateOfSepration>='".date($_REQUEST['Y']."-".$_REQUEST['m']."-01")."') AND g.DateJoining<='".date($_REQUEST['Y']."-".$_REQUEST['m']."-31")."' order by e.EmpCode ASC", $con); }
   
@@ -212,9 +223,10 @@ $month=$_REQUEST['m']; $sqlRep=mysql_query("select Fname,Sname,Lname from hrm_em
  <td class="td" style="width:10px;"><?php echo $Sno; ?></td>
  <td class="td" style="width:50px;"><?php echo $ResEmp['EmpCode']; ?></td>
  <td class="tdl" style="width:200px;">&nbsp;<?php echo strtoupper($ResEmp['Fname'].' '.$ResEmp['Sname'].' '.$ResEmp['Lname']);?><input type="hidden" name="EmpId" id="EmpId" value="<?php echo $ResEmp['EmployeeID']; ?>"/></td>
- <td class="tdl" style="width:80px;">&nbsp;<?php echo strtoupper($ResEmp['DepartmentCode']); ?></td>
- <td class="tdl" style="width:150px;">&nbsp;<?php echo strtoupper($ResEmp['DesigCode']); ?></td>
- <td class="tdl" style="width:80px;">&nbsp;<?php echo strtoupper($ResEmp['HqName']); ?></td>
+ <td class="tdl" style="width:80px;">&nbsp;<?php echo strtoupper($ResEmp['department_name']); ?></td>
+ <td class="tdl" style="width:150px;">&nbsp;<?php echo strtoupper($ResEmp['designation_name']); ?></td>
+ <?php if($ResEmp['TerrId']>0){$Hq=$ResEmp['territory_name'];}else{$Hq=$ResEmp['city_village_name']; } ?>
+ <td class="tdl" style="width:80px;">&nbsp;<?php echo $Hq; ?></td>
  <td class="tdl" style="width:200px;">&nbsp;<?php echo strtoupper($resRep['Fname'].' '.$resRep['Sname'].' '.$resRep['Lname']); ?></td>
  
  <?php //if($_REQUEST['OldNew']=='Old'){ $SqlEmp2=mysql_query("SELECT * FROM ".$AttReport." WHERE EmployeeID =".$ResEmp['EmployeeID']." AND Year=".$Y." AND Month=".$month, $con); $ResEmp2=mysql_fetch_array($SqlEmp2); } 

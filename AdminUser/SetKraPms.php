@@ -6,6 +6,36 @@ require_once('logcheck.php');
 if($_SESSION['logCheckUser']!=$logadmin){header('Location:../index.php');}
 if($_SESSION['login'] = true){require_once('AdminMenuSession.php');} else {$msg= "Session Expiry...............";}
 
+/*
+ $sql=mysql_query("select e.EmployeeID,EmpCode,EmpVertical,GradeId,DesigId,DepartmentId from hrm_employee e inner join hrm_employee_general g on e.EmployeeID=g.EmployeeID where e.EmpStatus='A' AND e.EmpType='E' AND CompanyId=".$CompanyId, $con);
+ while($res=mysql_fetch_assoc($sql))
+ { 
+  
+  $sql3=mysql_query("select EmpPmsId from hrm_employee_pms where YearId=13 AND EmployeeID=".$res['EmployeeID'], $con); $row3=mysql_num_rows($sql3); 
+  
+  if($row3>0){ $sqlIns=mysql_query("update hrm_employee_pms set HR_CurrDesigId=".$res['DesigId'].", HR_CurrGradeId=".$res['GradeId'].", HR_Curr_DepartmentId=".$res['DepartmentId']." where AssessmentYear=13 AND YearId=13 AND EmployeeID=".$res['EmployeeID']."", $con); }
+  elseif($row3==0){ $sqlIns=mysql_query("insert into hrm_employee_pms(AssessmentYear, CompanyId, EmployeeID, HR_CurrDesigId, HR_CurrGradeId, HR_Curr_DepartmentId, YearId) values(13, ".$CompanyId.", ".$res['EmployeeID'].", ".$res['DesigId'].", ".$res['GradeId'].", ".$res['DepartmentId'].", 13)", $con); }
+ } 
+ 
+ 
+ 
+ $sql=mysql_query("select e.EmployeeID,EmpCode,EmpVertical,GradeId,DesigId,DepartmentId,c.Communication_Allowance,Car_Allowance from hrm_employee e inner join hrm_employee_general g on e.EmployeeID=g.EmployeeID inner join hrm_employee_ctc c on e.EmployeeID=c.EmployeeID where c.Status='A' AND e.EmpStatus='A' AND e.EmpType='E' AND CompanyId=".$CompanyId, $con);
+ while($res=mysql_fetch_assoc($sql))
+ { 
+  
+  $sql3=mysql_query("select EmpPmsId from hrm_employee_pms where YearId=13 AND EmployeeID=".$res['EmployeeID'], $con); $row3=mysql_num_rows($sql3); 
+  
+  $sqlIns=mysql_query("update hrm_employee_pms set EmpCurrCommunicationAlw=".$res['Communication_Allowance'].", EmpCurrCarAlw=".$res['Car_Allowance']." where AssessmentYear=13 AND YearId=13 AND EmployeeID=".$res['EmployeeID']."", $con);
+  //if($row3>0){ $sqlIns=mysql_query("update hrm_employee_pms set HR_CurrDesigId=".$res['DesigId'].", HR_CurrGradeId=".$res['GradeId'].", HR_Curr_DepartmentId=".$res['DepartmentId']." where AssessmentYear=13 AND YearId=13 AND EmployeeID=".$res['EmployeeID']."", $con); }
+  //elseif($row3==0){ $sqlIns=mysql_query("insert into hrm_employee_pms(AssessmentYear, CompanyId, EmployeeID, HR_CurrDesigId, HR_CurrGradeId, HR_Curr_DepartmentId, YearId) values(13, ".$CompanyId.", ".$res['EmployeeID'].", ".$res['DesigId'].", ".$res['GradeId'].", ".$res['DepartmentId'].", 13)", $con); }
+ }
+*/ 
+
+
+
+
+
+
 if(isset($_POST['SaveEdit']))
 {
   $SqlUpdate = mysql_query("UPDATE hrm_pms_setting SET OldY=".$_POST['Old'].", CurrY=".$_POST['Curr'].", NewY=".$_POST['New'].", NewY_AllowEntry='".$_POST['NewY_AllowEntry']."', PrintDate='".$_POST['pd']."', EffectedDate='".$_POST['ed']."', EffectedDate2='".date("Y-m-d",strtotime($_POST['ed2']))."', AllowEmpDoj='".date("Y-m-d",strtotime($_POST['ed3']))."', Arrear_NOM=".$_POST['Arrear_NOM'].", WishingMsg='".$_POST['wMsg']."', LettPeriod='".$_POST['LettPeriod']."' WHERE CompanyId=".$CompanyId." AND SettingId=".$_POST['EditId'], $con) or die(mysql_error()); //Prod_EffectedDate='".$_POST['Ped']."',

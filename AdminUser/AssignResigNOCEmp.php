@@ -82,7 +82,7 @@ function Esave(sn,di)
  <td style="color:#ffffff;font-family:Georgia;font-size:12px;width:50px;" align="center"><b>Save</b></td>
 </tr>
 <?php 
-$sqlDept=mysql_query("select DepartmentId,DepartmentName,DepartmentCode from hrm_department where CompanyId=".$CompanyId." AND DeptStatus='A' order by DepartmentId ASC",$con); //(DepartmentId=1 OR DepartmentId=7 OR DepartmentId=8 OR DepartmentId=9 OR DepartmentId=19 OR DepartmentId=20 OR DepartmentId=21 OR DepartmentId=22 OR DepartmentId=26) 
+$sqlDept=mysql_query("select id as DepartmentId, department_name as DepartmentName, department_code as DepartmentCode from core_departments where is_active=1 order by department_name",$con); //(DepartmentId=1 OR DepartmentId=7 OR DepartmentId=8 OR DepartmentId=9 OR DepartmentId=19 OR DepartmentId=20 OR DepartmentId=21 OR DepartmentId=22 OR DepartmentId=26) 
 $sn=1; while($resDept=mysql_fetch_array($sqlDept)){ 
 $sql=mysql_query("select * from hrm_employee_separation_nocdept_emp where DepartmentId=".$resDept['DepartmentId'], $con); $res=mysql_fetch_array($sql);
 ?>

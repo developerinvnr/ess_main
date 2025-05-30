@@ -287,7 +287,12 @@ if($ResEmp['BloodGroup']=='B-'){$BG='B Negative';}if($ResEmp['BloodGroup']=='AB-
   <td class="All_120">Religion :</td><td class="All_180"><select name="Religion" id="Religion" class="All_90" disabled>
    <?php if($ResEmp['Religion']!=''){ ?><option value="<?php echo $ResEmp['Religion']; ?>"><?php echo $ResEmp['Religion']; ?></option><?php }?>
    <?php if($ResEmp['Religion']==''){  ?><option style="background-color:#DBD3E2;" value="">-Select-</option><?php } ?>
-   <option value="HINDU">HINDU</option><option value="MUSLIM">MUSLIM</option><option value="SIKH">SIKH</option><option value="CHRISTAIN">CHRISTAIN</option>
+   <option value="HINDU">HINDU</option>
+   <option value="HINDUISM">HINDUISM</option>
+   <option value="MUSLIM">MUSLIM</option>
+   <option value="SIKH">SIKH</option>
+   <option value="CHRISTAIN">CHRISTAIN</option>
+   <option value="CHRISTIANITY">CHRISTIANITY</option>
    <option value="JAIN">JAIN</option><option value="BUDHH">BUDHH</option><option value="ANY OTHER">ANY OTHER</option></select>
 
    &nbsp;&nbsp;

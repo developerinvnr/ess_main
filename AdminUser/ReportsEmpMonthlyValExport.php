@@ -80,7 +80,10 @@ $csv_output .= '"ARR SPECIAL",';
 $csv_output .= '"ARR BONUS",';
 $csv_output .= '"ARR RA",';
 $csv_output .= '"ARR LEAVE ENCASH",';
+$csv_output .= '"DEPUTATION ALLOW",';
 $csv_output .= '"BONUS ADJUSTMENT",';
+$csv_output .= '"COMMUNICATION ALLOW",';
+$csv_output .= '"CAR ALLOW",';
 
 $csv_output .= '"GROSS",';
 
@@ -145,10 +148,13 @@ $csv_output .= '"'.str_replace('"', '""', $res['Arr_Spl']).'",';
 $csv_output .= '"'.str_replace('"', '""', $res['Arr_Bonus']).'",';
 $csv_output .= '"'.str_replace('"', '""', $res['Arr_RA']).'",';
 $csv_output .= '"'.str_replace('"', '""', $res['Arr_LvEnCash']).'",';
+$csv_output .= '"'.str_replace('"', '""', $res['Deputation_Allow']).'",';
 $csv_output .= '"'.str_replace('"', '""', $res['Bonus_Adjustment']).'",';
+$csv_output .= '"'.str_replace('"', '""', $res['Communication_Allow']).'",';
+$csv_output .= '"'.str_replace('"', '""', $res['Car_Allow']).'",';
 
 
-$Gross=$res['Basic']+$res['Hra']+$res['Convance']+$res['Bonus_Month']+$res['Special']+$res['DA']+$res['Incentive']+$res['PerformancePay']+$res['LeaveEncash']+$res['VariableAdjustment']+$res['CCA']+$res['RA']+$res['Bonus']+$res['YCea']+$res['YMr']+$res['YLta']+$res['Arr_Basic']+$res['Arr_Hra']+$res['Arr_Conv']+$res['Arr_Spl']+$res['Arr_Bonus']+$res['Arr_RA']+$res['Arr_LvEnCash']+$res['Bonus_Adjustment']+$res['PP_Inc']+$res['PP_year'];
+$Gross=$res['Basic']+$res['Hra']+$res['Convance']+$res['Bonus_Month']+$res['Special']+$res['DA']+$res['Incentive']+$res['PerformancePay']+$res['LeaveEncash']+$res['VariableAdjustment']+$res['CCA']+$res['RA']+$res['Bonus']+$res['YCea']+$res['YMr']+$res['YLta']+$res['Arr_Basic']+$res['Arr_Hra']+$res['Arr_Conv']+$res['Arr_Spl']+$res['Arr_Bonus']+$res['Arr_RA']+$res['Arr_LvEnCash']+$res['Deputation_Allow']+$res['Bonus_Adjustment']+$res['PP_Inc']+$res['PP_year']+$res['Communication_Allow']+$res['Car_Allow'];
 $csv_output .= '"'.str_replace('"', '""', $Gross).'",';
 
 $csv_output .= '"'.str_replace('"', '""', $res['Tot_Pf_Employee']).'",';

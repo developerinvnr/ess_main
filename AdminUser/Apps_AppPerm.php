@@ -67,8 +67,8 @@ function SelectStsEmp(v)
 					   <td style="width:250px;" class="heading">Ess-Mobile Apps Permission</td>
 	                   <td class="tdr" style="width:100px;"><b>Department :</b></td>
                        <td class="tdl" style="width:3px;">
-                       <select style="font-size:11px; width:150px; height:18px; background-color:#DDFFBB; display:block;" name="DepartmentE" id="DepartmentE" onChange="SelectDeptEmp(this.value)"><?php if($_REQUEST['DpId'] AND $_REQUEST['DpId']!='') { if($_REQUEST['DpId']=='All'){$DN='ALL';} else { $SqlDep=mysql_query("select * from hrm_department where CompanyId=".$CompanyId." AND DepartmentId=".$_REQUEST['DpId'], $con); $ResDep=mysql_fetch_array($SqlDep); $DN=$ResDep['DepartmentCode']; }?><option value="<?php echo $_REQUEST['DpId']; ?>"><?php echo '&nbsp;'.$DN;?></option><?php } else { ?><option value="" style="margin-left:0px; background-color:#84D9D5;" selected>Select Department</option><?php } ?>   
-<?php $SqlDepartment=mysql_query("select * from hrm_department where CompanyId=".$CompanyId." order by DepartmentName ASC", $con); while($ResDepartment=mysql_fetch_array($SqlDepartment)) { ?><option value="<?php echo $ResDepartment['DepartmentId']; ?>"><?php echo $ResDepartment['DepartmentCode'];?></option><?php } ?>
+                       <select style="font-size:11px; width:150px; height:18px; background-color:#DDFFBB; display:block;" name="DepartmentE" id="DepartmentE" onChange="SelectDeptEmp(this.value)"><?php if($_REQUEST['DpId'] AND $_REQUEST['DpId']!='') { if($_REQUEST['DpId']=='All'){$DN='ALL';} else { $SqlDep=mysql_query("select * from core_departments where id=".$_REQUEST['DpId'], $con); $ResDep=mysql_fetch_array($SqlDep); $DN=$ResDep['department_name']; }?><option value="<?php echo $_REQUEST['DpId']; ?>"><?php echo '&nbsp;'.$DN;?></option><?php } else { ?><option value="" style="margin-left:0px; background-color:#84D9D5;" selected>Select Department</option><?php } ?>   
+<?php $SqlDepartment=mysql_query("select * from core_departments where is_active=1 order by department_name", $con); while($ResDepartment=mysql_fetch_array($SqlDepartment)) { ?><option value="<?php echo $ResDepartment['id']; ?>"><?php echo $ResDepartment['department_name'];?></option><?php } ?>
 <option value="All" >ALL</option></select>
 	  <input type="hidden" name="ComId" id="ComId" value="<?php echo $CompanyId; ?>" /> 
                       </td>
@@ -112,8 +112,13 @@ function SelectStsEmp(v)
  </div>
 <?php  if($_REQUEST['DpId'] AND $_REQUEST['DpId']!=''){
 
-$selQ="e.EmployeeID, EmpCode, Fname, Sname, Lname, EmpStatus, HqName, DateJoining, DepartmentCode, DesigName, Gender, Married, DR, UseApps, UseApps_GpsTracking, UseApps_Punch";
-$join="hrm_employee e INNER JOIN hrm_employee_general g ON e.EmployeeID=g.EmployeeID INNER JOIN hrm_employee_personal p ON e.EmployeeID=p.EmployeeID INNER JOIN hrm_department d ON g.DepartmentId=d.DepartmentId INNER JOIN hrm_designation de ON g.DesigId=de.DesigId INNER JOIN hrm_headquater hq ON g.HqId=hq.HqId";
+$selQ="e.EmployeeID, EmpCode, Fname, Sname, Lname, EmpStatus, DateJoining, department_code, designation_name, city_village_name, g.HqId, g.TerrId, territory_name, Gender, Married, DR, UseApps, UseApps_GpsTracking, UseApps_Punch";
+$join="hrm_employee e left join hrm_employee_general g ON e.EmployeeID=g.EmployeeID left join hrm_employee_personal p ON e.EmployeeID=p.EmployeeID left join core_departments dept on g.DepartmentId=dept.id
+  left join core_sub_department_master subdept on g.SubDepartmentId=subdept.id
+  left join core_designation desig on g.DesigId=desig.id
+  left join core_grades gr on g.GradeId=gr.id
+  left join core_city_village_by_state vlg on g.HqId=vlg.id 
+  left join core_territory Tr on g.TerrId=Tr.id";
 
 if($_REQUEST['s']=='All'){ $stsCon="e.EmpStatus!='De'"; }else{ $stsCon="e.EmpStatus='".$_REQUEST['s']."'"; }
 if($_REQUEST['DpId']=='All'){ $deptCon="1=1"; }else{ $deptCon="g.DepartmentId=".$_REQUEST['DpId']; }
@@ -135,9 +140,10 @@ $sqlDP = mysql_query("SELECT ".$selQ." FROM ".$join." WHERE ".$stsCon." AND ".$d
   <td class="tdc"><?php echo $Sno; ?></td>
   <td class="tdc"><?php echo $EC; ?></td>
   <td class="tdl">&nbsp;<?php echo ucwords(strtolower($Name)); ?></td>
-  <td class="tdl">&nbsp;<?php echo ucwords(strtolower($resDP['HqName']));?></td>
-  <td class="tdc"><?php echo $resDP['DepartmentCode'];?></td>
-  <td class="tdl">&nbsp;<?php echo ucwords(strtolower($resDP['DesigName']));?></td>
+  <?php if($resDP['TerrId']>0){$Hq=$res['territory_name'];}else{$Hq=$resDP['city_village_name']; } ?>
+  <td class="tdl">&nbsp;<?php echo ucwords(strtolower($Hq));?></td>
+  <td class="tdc"><?php echo $resDP['department_code'];?></td>
+  <td class="tdl">&nbsp;<?php echo ucwords(strtolower($resDP['designation_name']));?></td>
   <td class="tdc" bgcolor="<?php if($resDP['EmpStatus']=='D'){echo '#FBE4BB';}?>"><?php echo $resDP['EmpStatus']; ?></td>
   <td align="center" id="On3TDL_<?php echo $resDP['EmployeeID']; ?>" style="background-color:<?php if($resDP['UseApps']=='Y'){echo '#69D200';  }?>;"><input type="checkbox"  id="UseApps_<?php echo $resDP['EmployeeID']; ?>" onClick="FunUseApps(1,<?php echo $resDP['EmployeeID']; ?>)" <?php if($resDP['UseApps']=='Y'){echo 'checked';} ?> /></td>
   <td align="center" id="On4TDL_<?php echo $resDP['EmployeeID']; ?>" style="background-color:<?php if($resDP['UseApps_Punch']=='Y'){echo '#69D200';  }?>;"><input type="checkbox"  id="UseApps_Punch_<?php echo $resDP['EmployeeID']; ?>" onClick="FunUseApps(2,<?php echo $resDP['EmployeeID']; ?>)" <?php if($resDP['UseApps_Punch']=='Y'){echo 'checked';} ?> /></td>

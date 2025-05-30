@@ -24,7 +24,7 @@ else{$AttTable='hrm_employee_attendance_'.$_REQUEST['y']; }
 
 </head>
 <body>
-<?php $sql=mysql_query("select e.EmployeeID,EmpCode,Fname,Sname,Lname,TimeApply,InTime,OutTime,HqName from hrm_employee e INNER JOIN hrm_employee_general g ON e.EmployeeID=g.EmployeeID INNER JOIN hrm_department d ON g.DepartmentId=d.DepartmentId INNER JOIN hrm_headquater h ON g.HqId=h.hqId where e.EmployeeID=".$_REQUEST['ei'], $con); 
+<?php $sql=mysql_query("select e.EmployeeID,EmpCode,Fname,Sname,Lname,TimeApply,InTime,OutTime from hrm_employee e INNER JOIN hrm_employee_general g ON e.EmployeeID=g.EmployeeID INNER JOIN hrm_department d ON g.DepartmentId=d.DepartmentId where e.EmployeeID=".$_REQUEST['ei'], $con); 
       $rows=mysql_num_rows($sql); $res=mysql_fetch_array($sql);  	  
 ?>
 <table border="0" style="margin-top:0px;width:100%;">
@@ -36,7 +36,7 @@ else{$AttTable='hrm_employee_attendance_'.$_REQUEST['y']; }
 	  <td align="center"><font color="#2D002D" style='font-family:Times New Roman;' size="4">
 	  <b>Set In/Out Time (Month wise)</b><br>
 	  Name:&nbsp;<b><?php echo $res['Fname'].' '.$res['Sname'].' '.$res['Lname']; ?></b>,&nbsp;&nbsp;
-	  Location:&nbsp;<b><?php echo $res['HqName']; ?></b></font><br>
+	  </b></font><br>
 	  Standard Time:&nbsp;<b>In-<?php echo date("H:i",strtotime($res['InTime'])).',&nbsp;&nbsp;Out-'.date("H:i",strtotime($res['OutTime'])); ?></b>&nbsp;&nbsp;
 	  Month:&nbsp;<b><?php echo date("F",strtotime($_REQUEST['y']."-".$_REQUEST['m']."-01")); ?></b></font></td>
     </tr>

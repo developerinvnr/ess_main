@@ -59,8 +59,9 @@ function Printpage()
 <?php if($_REQUEST['value']=='All') {$sql=mysql_query("select hrm_employee.*,DepartmentId,DesigId,hrm_employee_eligibility.* from hrm_employee_general INNER JOIN hrm_employee ON hrm_employee_general.EmployeeID=hrm_employee.EmployeeID INNER JOIN hrm_employee_eligibility ON hrm_employee_general.EmployeeID=hrm_employee_eligibility.EmployeeID where hrm_employee.CompanyId=".$CompanyId." AND hrm_employee.EmpStatus='A' AND hrm_employee_eligibility.Status='A' order by EmpCode ASC", $con); }
 else {$sql=mysql_query("select hrm_employee.*,DepartmentId,DesigId,hrm_employee_eligibility.* from hrm_employee_general INNER JOIN hrm_employee ON hrm_employee_general.EmployeeID=hrm_employee.EmployeeID INNER JOIN hrm_employee_eligibility ON hrm_employee_general.EmployeeID=hrm_employee_eligibility.EmployeeID where hrm_employee_general.DepartmentId=".$_REQUEST['value']." AND hrm_employee.CompanyId=".$CompanyId." AND hrm_employee.EmpStatus='A' AND hrm_employee_eligibility.Status='A' order by EmpCode ASC", $con); } 
 $Sno=1; while($res=mysql_fetch_array($sql)){ $Ename=$res['Fname'].' '.$res['Sname'].' '.$res['Lname']; 
-$sqlDept=mysql_query("select DepartmentCode from hrm_department where DepartmentId=".$res['DepartmentId'], $con); $resDept=mysql_fetch_assoc($sqlDept);
-$sqlDesig=mysql_query("select DesigName from hrm_designation where DesigId=".$res['DesigId'], $con); $resDesig=mysql_fetch_assoc($sqlDesig);
+$sqlDept=mysql_query("select department_code as DepartmentCode from core_departments where id=".$res['DepartmentId'], $con); $resDept=mysql_fetch_assoc($sqlDept);
+$sqlDesig=mysql_query("select designation_name as DesigName from core_designation where id=".$res['DesigId'], $con); $resDesig=mysql_fetch_assoc($sqlDesig);
+$sqlGrade=mysql_query("select grade_name as GradeValue from core_grades where id=".$res['GradeId'], $con); $resGrade=mysql_fetch_assoc($sqlGrade);
 ?> 
    <tr bgcolor="#FFFFFF">
     <td align="center" style="" class="All_50" valign="top"><?php echo $Sno; ?></td>

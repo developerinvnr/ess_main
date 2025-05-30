@@ -73,10 +73,10 @@ function Esave(qi,sn,d)
 	                   <td style="font-size:11px; width:100px;"><?php if($_REQUEST['v']){ echo 'Department :-'; } else { echo 'Select :-'; } ?></td>
                        <td class="td1" style="font-size:11px; width:150px;">
 <select style="font-size:11px; width:150px; height:18px; background-color:#DDFFBB; display:block;" name="DepartmentE" id="DepartmentE" onChange="SelectDeptEmp(this.value)">
-<?php if($_REQUEST['v']){ $SqlD=mysql_query("select DepartmentCode from hrm_department where DepartmentId=".$_REQUEST['v'], $con); $ResD=mysql_fetch_assoc($SqlD); ?>
-<option value="<?php echo $_REQUEST['v']; ?>" style="margin-left:0px; background-color:#84D9D5;">&nbsp;<?php echo $ResD['DepartmentCode']; ?></option><?php } else { ?>				   
+<?php if($_REQUEST['v']){ $SqlD=mysql_query("select department_name from core_departments where id=".$_REQUEST['v'], $con); $ResD=mysql_fetch_assoc($SqlD); ?>
+<option value="<?php echo $_REQUEST['v']; ?>" style="margin-left:0px; background-color:#84D9D5;">&nbsp;<?php echo $ResD['department_name']; ?></option><?php } else { ?>				   
 <option value="" style="margin-left:0px; background-color:#84D9D5;" selected>Department</option><?php } ?>
-<?php $SqlDepartment=mysql_query("select * from hrm_department where CompanyId=".$CompanyId." order by DepartmentName ASC", $con); while($ResDepartment=mysql_fetch_array($SqlDepartment)) { ?><option value="<?php echo $ResDepartment['DepartmentId']; ?>"><?php echo '&nbsp;'.$ResDepartment['DepartmentCode'];?></option><?php } ?></select>
+<?php $SqlDepartment=mysql_query("select id as DepartmentId, department_name as DepartmentName, department_code as DepartmentCode from core_departments where is_active=1 order by department_name", $con); while($ResDepartment=mysql_fetch_array($SqlDepartment)) { ?><option value="<?php echo $ResDepartment['DepartmentId']; ?>"><?php echo '&nbsp;'.$ResDepartment['DepartmentName'];?></option><?php } ?></select>
 					   <input type="hidden" name="ComId" id="ComId" value="<?php echo $CompanyId; ?>" /> 
                        <input type="hidden" name="YId" id="YId" value="<?php  echo $YearId;  ?>" />
                       </td>
@@ -106,10 +106,10 @@ function Esave(qi,sn,d)
  <select style="width:398px;font-size:12px; font-family:Georgia;height:20px;" id="SelEmpID_<?php echo $sn; ?>" name="SelEmpID_<?php echo $sn; ?>" disabled>
  <?php if($res['AssignEmpId']==0) { ?><option value="0" style="background-color:#84C1FF;padding:1px;">&nbsp;Select Employee</option>
  <?php } elseif($res['AssignEmpId']==9999) { ?><option value="9999" style="background-color:#84C1FF;padding:1px;">&nbsp;State Wise</option>
- <?php } else { $sqlEE=mysql_query("select EmpCode,Fname,Sname,Lname,DesigId from hrm_deptquerysub INNER JOIN hrm_employee ON hrm_deptquerysub.AssignEmpId=hrm_employee.EmployeeID INNER JOIN hrm_employee_general ON hrm_deptquerysub.AssignEmpId=hrm_employee_general.EmployeeID where hrm_deptquerysub.AssignEmpId=".$res['AssignEmpId'], $con); $resEE=mysql_fetch_assoc($sqlEE); $sqlDeE=mysql_query("select DesigName from hrm_designation where DesigId=".$resEE['DesigId'], $con); $resDeE=mysql_fetch_assoc($sqlDeE);
+ <?php } else { $sqlEE=mysql_query("select EmpCode,Fname,Sname,Lname,DesigId from hrm_deptquerysub INNER JOIN hrm_employee ON hrm_deptquerysub.AssignEmpId=hrm_employee.EmployeeID INNER JOIN hrm_employee_general ON hrm_deptquerysub.AssignEmpId=hrm_employee_general.EmployeeID where hrm_deptquerysub.AssignEmpId=".$res['AssignEmpId'], $con); $resEE=mysql_fetch_assoc($sqlEE); $sqlDeE=mysql_query("select designation_name as DesigName from core_designation where id=".$resEE['DesigId'], $con); $resDeE=mysql_fetch_assoc($sqlDeE);
 $ECEDesig=$resEE['EmpCode'].' - '.$resEE['Fname'].' '.$resEE['Sname'].' '.$resEE['Lname'].'/ '.$resDeE['DesigName']; ?>
   <option value="<?php echo $res['AssignEmpId']; ?>"><?php echo $ECEDesig; ?></option><?php } ?>
- <?php $sqlE22=mysql_query("select hrm_employee.EmployeeID,EmpCode,Fname,Sname,Lname,DesigId from hrm_employee_general INNER JOIN hrm_employee ON hrm_employee_general.EmployeeID=hrm_employee.EmployeeID where hrm_employee_general.DepartmentId=".$_REQUEST['v']." order by Fname ASC", $con); while($resE22=mysql_fetch_assoc($sqlE22)) { $sqlDe22=mysql_query("select DesigName from hrm_designation where DesigId=".$resE22['DesigId'], $con); $resDe22=mysql_fetch_assoc($sqlDe22);
+ <?php $sqlE22=mysql_query("select hrm_employee.EmployeeID,EmpCode,Fname,Sname,Lname,DesigId from hrm_employee_general INNER JOIN hrm_employee ON hrm_employee_general.EmployeeID=hrm_employee.EmployeeID where hrm_employee_general.DepartmentId=".$_REQUEST['v']." order by Fname ASC", $con); while($resE22=mysql_fetch_assoc($sqlE22)) { $sqlDe22=mysql_query("select designation_name as DesigName from core_designation where id=".$resE22['DesigId'], $con); $resDe22=mysql_fetch_assoc($sqlDe22);
   $Ename2=$resE22['EmpCode'].' - '.$resE22['Fname'].' '.$resE22['Sname'].' '.$resE22['Lname'].'/ '.$resDe22['DesigName']; ?>
  <option value="<?php echo $resE22['EmployeeID']; ?>" style="padding:1px;"><?php echo $Ename2; ?></option><?php } ?>
  <option value="9999" style="padding:1px;">&nbsp;State Wise</option>

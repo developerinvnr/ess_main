@@ -16,7 +16,7 @@ if($_REQUEST['Act']!='' AND $_REQUEST['Act']=='Submit')
   */
   
   $sqlUp=mysql_query("update hrm_employee_queryemp set QToDepartmentId=".$_REQUEST['DpI'].", AssignEmpId=".$_REQUEST['EI'].", Level_1ID=".$_REQUEST['EI'].", Level_1QToDT='".date("Y-m-d h:i:s")."', Level_2ID=".$_REQUEST['AI'].", Level_2QToDT='".$_REQUEST['ED']."', Level_3ID=".$_REQUEST['HI'].", Level_3QToDT='".$_REQUEST['AD']."', Mngmt_QToDT='".$_REQUEST['HD']."' where QueryId=".$_REQUEST['QI'], $con);
-  $sqlDD=mysql_query("select DepartmentCode from hrm_department where DepartmentId=".$_REQUEST['DI'], $con); $resDD=mysql_fetch_assoc($sqlDD);   
+  $sqlDD=mysql_query("select department_name as DepartmentCode from core_departments where id=".$_REQUEST['DI'], $con); $resDD=mysql_fetch_assoc($sqlDD);   
    
   $QS=$_REQUEST['QS'];	
   if($_REQUEST['HYN']=='Y'){$name='Name Undisclosed';}else{$name=$_REQUEST['EN'];}
@@ -146,17 +146,17 @@ function Forwd(EI,QI,QEI,DI,SN,HYN,DpI,EN,AEN,AI,HI,ED,AD,HD)
 <?php $sqlE=mysql_query("select EmpCode,Fname,Sname,Lname,DepartmentId from hrm_employee INNER JOIN hrm_employee_general ON hrm_employee_general.EmployeeID=hrm_employee.EmployeeID where hrm_employee.EmployeeID=".$resQ['EmployeeID'], $con); $resE=mysql_fetch_assoc($sqlE);?>	 		  
 	      <td width="60" class="TableHead1" align="center" valign="top"><?php echo $resE['EmpCode']; ?></td>
 		  <td width="200" class="TableHead1" align="left" valign="top"><?php echo $resE['Fname'].' '.$resE['Sname'].' '.$resE['Lname']; ?></td>
-<?php $sqlD=mysql_query("select DepartmentCode from hrm_department where DepartmentId=".$resQ['QToDepartmentId'], $con); $resD=mysql_fetch_assoc($sqlD);?>		  
+<?php $sqlD=mysql_query("select department_name as DepartmentCode from core_departments where id=".$resQ['QToDepartmentId'], $con); $resD=mysql_fetch_assoc($sqlD);?>		  
 		  <td width="100" class="TableHead1" align="left" valign="top"><?php echo $resD['DepartmentCode']; ?></td>
 		  <td width="150" class="TableHead1" align="left" valign="top"><?php if($resQ['QuerySubject']=='N'){echo substr_replace($resQ['OtherSubject'], '', 15).'.....';} else {echo substr_replace($resQ['QuerySubject'], '', 15).'.....'; }?><input type="hidden" id="QSubject_<?php echo $Sno; ?>" value="<?php if($resQ['QuerySubject']=='N'){echo $resQ['OtherSubject'];} else {echo $resQ['QuerySubject']; }?>" /></td>
 		  <td width="60" class="TableHead1" align="center" valign="top"><a href="javascript:ReadQuery(<?php echo $resQ['QueryId']; ?>)">Read</a></td>
 		  <td width="80" class="TableHead1" align="center" valign="top"><?php echo date("d-M-y", strtotime($resQ['QueryDT'])); ?></td>
 		  <td width="60" class="TableHead1" align="center" valign="top" style="background-color:#C4FFC4;">Open</td>
 		  <td width="100" class="TableHead1" align="center" valign="top"><select style="font-size:12px; width:100px; height:20px; background-color:#DDFFBB;" name="DeptName" id="DeptName" onChange="DGD_Dept(this.value,<?php echo $Sno; ?>)">
-<?php if($_REQUEST['DpI']!='' AND $_REQUEST['SN']==$Sno){ $SqlDe=mysql_query("select DepartmentCode from hrm_department where DepartmentId=".$_REQUEST['DpI'], $con);
+<?php if($_REQUEST['DpI']!='' AND $_REQUEST['SN']==$Sno){ $SqlDe=mysql_query("select department_name as DepartmentCode from core_departments where id=".$_REQUEST['DpI'], $con);
 $ResDe=mysql_fetch_array($SqlDe); ?><option style="background-color:#DBD3E2;" value="<?php echo $ResDe['DepartmentId']; ?>">&nbsp;<?php echo $ResDe['DepartmentCode']; ?></option>
 <?php } else {?><option style="background-color:#DBD3E2;" value="">&nbsp;Select</option><?php } ?>
-<?php $SqlDept=mysql_query("select * from hrm_department where DeptStatus='A' AND CompanyId=".$CompanyId." order by DepartmentCode ASC", $con); while($ResDept=mysql_fetch_array($SqlDept)) { ?><option value="<?php echo $ResDept['DepartmentId']; ?>">&nbsp;<?php echo $ResDept['DepartmentCode']; ?></option><?php } ?></select></td>
+<?php $SqlDept=mysql_query("select * from core_departments where is_active=1 order by department_name", $con); while($ResDept=mysql_fetch_array($SqlDept)) { ?><option value="<?php echo $ResDept['id']; ?>">&nbsp;<?php echo $ResDept['department_name']; ?></option><?php } ?></select></td>
           <td width="200" class="TableHead1" align="center" valign="top">
 <?php 
 if($_REQUEST['EI']!='' AND $_REQUEST['SN']==$Sno)
@@ -182,7 +182,7 @@ if($resAssign['DR']=='Y'){$M3='Dr.';} elseif($resAssign['Gender']=='M'){$M3='Mr.
 } 
 ?>
 		  <select name="Action" id="Action" onChange="ActionQ(this.value,<?php echo $resQ['QueryId'].', '. $resQ['EmployeeID'].', '.$resQ['QToDepartmentId'].', '.$Sno; ?>, '<?php echo $resQ['HideYesNo']; ?>', <?php echo $_REQUEST['DpI']; ?>)" style="padding:1px;font-size:12px; height:20px;font-family:Times New Roman;" class="All_200" <?php if($_REQUEST['SN']==$Sno){echo '';} else{echo 'disabled';} ?>><?php if($_REQUEST['EI']!='' AND $_REQUEST['SN']==$Sno){ ?><option value="<?php echo $_REQUEST['EI']; ?>">&nbsp;<?php echo $AssignName; ?></option><?php } else {?>
-		  <option value="0">&nbsp;Select Employee</option><?php } if($_REQUEST['DpI']){ $sqlDept=mysql_query("select hrm_employee.EmployeeID,EmpCode,Fname,Sname,Lname,DesigName from hrm_employee_general INNER JOIN hrm_employee ON hrm_employee_general.EmployeeID=hrm_employee.EmployeeID INNER JOIN hrm_designation ON hrm_employee_general.DesigId=hrm_designation.DesigId where hrm_employee.EmpStatus='A' AND hrm_employee_general.DepartmentId=".$_REQUEST['DpI']." order by EmpCode ASC", $con); while($resDept=mysql_fetch_assoc($sqlDept)){ 
+		  <option value="0">&nbsp;Select Employee</option><?php } if($_REQUEST['DpI']){ $sqlDept=mysql_query("select e.EmployeeID,EmpCode,Fname,Sname,Lname,de.designation_name as DesigName from hrm_employee_general g INNER JOIN hrm_employee e ON g.EmployeeID=e.EmployeeID left join core_designation de ON g.DesigId=de.id where e.EmpStatus='A' AND e.CompanyId=".$CompanyId." AND g.DepartmentId=".$_REQUEST['DpI']." order by e.ECode ASC", $con); while($resDept=mysql_fetch_assoc($sqlDept)){ 
 $Ename=$resDept['EmpCode'].' - '.$resDept['Fname'].' '.$resDept['Sname'].' '.$resDept['Lname'].' ('.$resDept['DesigName'].')';?>	
 <option value="<?php echo $resDept['EmployeeID']; ?>">&nbsp;<?php echo $Ename; ?></option>
 <?php } }?></select></td>

@@ -143,9 +143,9 @@ function FunClrCheck(v)
 <?php if($_REQUEST['Y']!=$i){ ?><option value="<?php echo $i; ?>"><?php echo $i; ?></option><?php } ?>
 <?php } ?></select></td> 
 		   <td class="td1" style="font-size:11px;"> 
-		   <select style="font-size:11px; width:100px; height:19px; background-color:#DDFFBB; display:block;" name="Department" id="Department" onChange="SelectDept(this.value, <?php echo $_REQUEST['m'].', '.$_REQUEST['Y']; ?>)">
-<?php $SqlD2=mysql_query("select DepartmentId,DepartmentCode from hrm_department where CompanyId=".$CompanyId." AND DeptStatus='A' order by DepartmentCode ASC", $con); 
-      while($ResD2=mysql_fetch_array($SqlD2)) { ?><option value="<?php echo $ResD2['DepartmentId']; ?>" <?php if($_REQUEST['d']==$ResD2['DepartmentId']){ echo 'selected';}?>><?php echo $ResD2['DepartmentCode'];?></option><?php } ?><option value='all' <?php if($_REQUEST['d']=='all'){ echo 'selected';}?>>All</option></option></select></td>
+		   <select style="font-size:11px; width:150px; height:19px; background-color:#DDFFBB; display:block;" name="Department" id="Department" onChange="SelectDept(this.value, <?php echo $_REQUEST['m'].', '.$_REQUEST['Y']; ?>)">
+<?php $SqlD2=mysql_query("select * from core_departments where is_active=1 order by department_name", $con); 
+      while($ResD2=mysql_fetch_array($SqlD2)) { ?><option value="<?php echo $ResD2['id']; ?>" <?php if($_REQUEST['d']==$ResD2['id']){ echo 'selected';}?>><?php echo $ResD2['department_name'];?></option><?php } ?><option value='all' <?php if($_REQUEST['d']=='all'){ echo 'selected';}?>>All</option></option></select></td>
       
           <td><input type="text" style="width:200px;height:19px; background-color:#DDFFBB;" id="Searchkey" name="Searchkey" placeholder="search from code or name" value="<?=$_REQUEST['seh']?>"/></td>
       

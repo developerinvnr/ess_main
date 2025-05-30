@@ -92,7 +92,7 @@ if($_REQUEST['y']!=0)
 
 }
 
-if($_REQUEST['d']>0){ $sqlD=mysql_query("select DepartmentName from hrm_department where DepartmentId=".$_REQUEST['d'], $con); $resD=mysql_fetch_assoc($sqlD); }
+if($_REQUEST['d']>0){ $sqlD=mysql_query("select department_name as DepartmentName from core_departments where id=".$_REQUEST['d'], $con); $resD=mysql_fetch_assoc($sqlD); }
 ?>	     
        <b style="color:#3A7500">[ Year:&nbsp;<?php echo $PRD; ?> ]</b>&nbsp; 
 	  <?php if($_REQUEST['d']>0){ ?><b style="color:#3A7500">[ Department:&nbsp;<?php echo $resD['DepartmentName']; ?> ]</b>&nbsp;  <?php } ?>
@@ -149,8 +149,13 @@ if($_REQUEST['d']>0){ $sqlD=mysql_query("select DepartmentName from hrm_departme
    <td align="center" class="font" style="width:50px;">ARR BONUS</td>
    <td align="center" class="font" style="width:50px;">ARR RA</td>
    <td align="center" class="font" style="width:50px;">ARR LEAVE EnCASH</td>
+   <td align="center" class="font" style="width:50px;">ARR COMMUNICATION ALLOW</td>
    
    <td align="center" class="font" style="width:50px;">BONUS ADJUSTMENT</td>
+   <td align="center" class="font" style="width:50px;">DEPUTATION ALLOW</td>
+   
+   <td align="center" class="font" style="width:50px;">COMMUNICATION ALLOW</td>
+   <td align="center" class="font" style="width:50px;">CAR ALLOW</td>
    
    <td align="center" class="font" style="width:50px;">GROSS</td>
    <td align="center" class="font" style="width:50px;">PF</td>
@@ -162,11 +167,13 @@ if($_REQUEST['d']>0){ $sqlD=mysql_query("select DepartmentName from hrm_departme
    <td align="center" class="font" style="width:50px;">NPS</td>
    <td align="center" class="font" style="width:50px;">DEDCT ADJUST</td>
    <td align="center" class="font" style="width:50px;">Rec. Spl. Allow</td>
+   <td align="center" class="font" style="width:50px;">ID CARD RECOVERY</td>
    <td align="center" class="font" style="width:50px;">TOTAL DEDUCT</td>
    <td align="center" class="font" style="width:50px;">TOTAL NET-AMT</td>
    <td align="center" class="font" style="width:50px;">DEDCT CEA</td>
    <td align="center" class="font" style="width:50px;">DEDCT MR</td>
    <td align="center" class="font" style="width:50px;">DEDCT LTA</td>
+  
   </tr>
 <?php
  if($_REQUEST['act']=='ValMonth')
@@ -187,9 +194,9 @@ if($_REQUEST['d']>0){ $sqlD=mysql_query("select DepartmentName from hrm_departme
 */ 
 
   $sn=1; while($res=mysql_fetch_assoc($sql)){ 
-  $sqlD=mysql_query("select DepartmentCode from hrm_department where DepartmentId=".$res['DepartmentId'], $con); $resD=mysql_fetch_assoc($sqlD);
+  $sqlD=mysql_query("select department_name as DepartmentCode from core_departments where id=".$res['DepartmentId'], $con); $resD=mysql_fetch_assoc($sqlD);
   
-if($res['Basic']!=0 OR $res['Hra']!=0 OR $res['Convance']!=0 OR $res['Special']!=0 OR $res['DA']!=0 OR $res['Incentive']!=0 OR $res['PerformancePay']!=0 OR $res['LeaveEncash']!=0 OR $res['VariableAdjustment']!=0 OR $res['CCA']!=0 OR $res['RA']!=0 OR $res['Bonus']!=0 OR $res['YCea']!=0 OR $res['YMr']!=0 OR $res['YLta']!=0 OR $res['Arr_Basic']!=0 OR $res['Arr_Hra']!=0 OR $res['Arr_Conv']!=0 OR $res['Arr_Spl']!=0 OR $res['Tot_Pf_Employee']!=0 OR $res['Arr_Pf']!=0 OR $res['ESCI_Employee']!=0 OR $res['Arr_Esic']!=0 OR $res['TDS']!=0 OR $res['CEA_Ded']!=0 OR $res['MA_Ded']!=0 OR $res['LTA_Ded']!=0 OR $res['VolContrib']!=0 OR $res['DeductAdjmt']!=0 OR $res['Bonus_Adjustment']!=0 OR $res['Bonus_Month']!=0 OR $res['PP_Inc']!=0){ 
+if($res['Basic']!=0 OR $res['Hra']!=0 OR $res['Convance']!=0 OR $res['Special']!=0 OR $res['DA']!=0 OR $res['Incentive']!=0 OR $res['PerformancePay']!=0 OR $res['LeaveEncash']!=0 OR $res['VariableAdjustment']!=0 OR $res['CCA']!=0 OR $res['RA']!=0 OR $res['Bonus']!=0 OR $res['YCea']!=0 OR $res['YMr']!=0 OR $res['YLta']!=0 OR $res['Arr_Basic']!=0 OR $res['Arr_Hra']!=0 OR $res['Arr_Conv']!=0 OR $res['Arr_Spl']!=0 OR $res['Tot_Pf_Employee']!=0 OR $res['Arr_Pf']!=0 OR $res['ESCI_Employee']!=0 OR $res['Arr_Esic']!=0 OR $res['TDS']!=0 OR $res['CEA_Ded']!=0 OR $res['MA_Ded']!=0 OR $res['LTA_Ded']!=0 OR $res['VolContrib']!=0 OR $res['DeductAdjmt']!=0 OR $res['Bonus_Adjustment']!=0 OR $res['Bonus_Month']!=0 OR $res['PP_Inc']!=0 OR $res['Deputation_Allow']!=0 OR $res['IDCard_Recovery']!=0 OR $res['Communication_Allow']!=0 OR $res['Car_Allow']!=0 OR $res['Arr_Communication_Allow']!=0){ 
   ?>
    
 <tr id="TR<?php echo $sn; ?>">
@@ -229,10 +236,16 @@ if($res['Basic']!=0 OR $res['Hra']!=0 OR $res['Convance']!=0 OR $res['Special']!
    <td align="right" class="font1"><?php echo floatval($res['Arr_Bonus']); ?>&nbsp;</td>
    <td align="right" class="font1"><?php echo floatval($res['Arr_RA']); ?>&nbsp;</td>
    <td align="right" class="font1"><?php echo floatval($res['Arr_LvEnCash']); ?>&nbsp;</td>
+   <td align="right" class="font1"><?php echo floatval($res['Arr_Communication_Allow']); ?>&nbsp;</td>
    
    <td align="right" class="font1"><?php echo floatval($res['Bonus_Adjustment']); ?>&nbsp;</td>
+   <td align="right" class="font1"><?php echo floatval($res['Deputation_Allow']); ?>&nbsp;</td>
+   <td align="right" class="font1"><?php echo floatval($res['Communication_Allow']); ?>&nbsp;</td>
+   <td align="right" class="font1"><?php echo floatval($res['Car_Allow']); ?>&nbsp;</td>
    
-<?php $Gross=$res['Basic']+$res['Hra']+$res['Convance']+$res['Bonus_Month']+$res['Special']+$res['DA']+$res['Incentive']+$res['PerformancePay']+$res['LeaveEncash']+$res['VariableAdjustment']+$res['CCA']+$res['RA']+$res['Bonus']+$res['YCea']+$res['YMr']+$res['YLta']+$res['Arr_Basic']+$res['Arr_Hra']+$res['Arr_Conv']+$res['Arr_Spl']+$res['Arr_Bonus']+$res['Arr_RA']+$res['Arr_LvEnCash']+$res['Bonus_Adjustment']+$res['PP_Inc']+$res['PP_year']; ?>   
+   
+   
+<?php $Gross=$res['Basic']+$res['Hra']+$res['Convance']+$res['Bonus_Month']+$res['Special']+$res['DA']+$res['Incentive']+$res['PerformancePay']+$res['LeaveEncash']+$res['VariableAdjustment']+$res['CCA']+$res['RA']+$res['Bonus']+$res['YCea']+$res['YMr']+$res['YLta']+$res['Arr_Basic']+$res['Arr_Hra']+$res['Arr_Conv']+$res['Arr_Spl']+$res['Arr_Bonus']+$res['Arr_RA']+$res['Arr_LvEnCash']+$res['Bonus_Adjustment']+$res['PP_Inc']+$res['PP_year']+$res['Deputation_Allow']+$res['Communication_Allow']+$res['Car_Allow']+$res['Arr_Communication_Allow']; ?>   
    <td align="right" class="font1" bgcolor="#FFD9FF"><?php echo floatval($Gross); ?>&nbsp;</td>
    
    <td align="right" class="font1"><?php echo floatval($res['Tot_Pf_Employee']); ?>&nbsp;</td>
@@ -245,14 +258,16 @@ if($res['Basic']!=0 OR $res['Hra']!=0 OR $res['Convance']!=0 OR $res['Special']!
    <td align="right" class="font1"><?php echo floatval($res['NPS_Value']); ?>&nbsp;</td>
    <td align="right" class="font1"><?php echo floatval($res['DeductAdjmt']); ?>&nbsp;</td>
    <td align="right" class="font1"><?php echo floatval($res['RecSplAllow']); ?>&nbsp;</td>
+   <td align="right" class="font1"><?php echo floatval($res['IDCard_Recovery']); ?>&nbsp;</td>
     
-<?php $TotDeduct=$res['Tot_Pf_Employee']+$res['Arr_Pf']+$res['ESCI_Employee']+$res['Arr_Esic']+$res['TDS']+$res['VolContrib']+$res['DeductAdjmt']+$res['NPS_Value']+$res['RecSplAllow']; ?>   
+<?php $TotDeduct=$res['Tot_Pf_Employee']+$res['Arr_Pf']+$res['ESCI_Employee']+$res['Arr_Esic']+$res['TDS']+$res['VolContrib']+$res['DeductAdjmt']+$res['NPS_Value']+$res['RecSplAllow']+$res['IDCard_Recovery']; ?>   
    <td align="right" class="font1" bgcolor="#FFD9FF"><?php echo floatval($TotDeduct); ?>&nbsp;</td>
 <?php $TotalNetAmt=$Gross-$TotDeduct; ?>   
    <td align="right" class="font1" bgcolor="#DDFFBB"><?php echo floatval($TotalNetAmt); ?>&nbsp;</td>
    <td align="right" class="font1"><?php echo floatval($res['CEA_Ded']); ?>&nbsp;</td>
    <td align="right" class="font1"><?php echo floatval($res['MA_Ded']); ?>&nbsp;</td>
    <td align="right" class="font1"><?php echo floatval($res['LTA_Ded']); ?>&nbsp;</td>  
+    
    
 </tr>
 <?php } $sn++; } ?>

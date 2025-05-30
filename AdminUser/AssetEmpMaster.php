@@ -126,7 +126,7 @@ $SqlAsset=mysql_query("select AssetNId,AssetName from hrm_asset_name where Statu
 		   
 		   <option value="" style="margin-left:0px; background-color:#84D9D5;" <?php if($_REQUEST['DpId']==''){echo 'selected';}?>>SELECT DEPARTMENT</option>
 		   <?php 
-$SqlDepartment=mysql_query("select * from hrm_department where CompanyId=".$CompanyId." order by DepartmentName ASC", $con); while($ResDepartment=mysql_fetch_array($SqlDepartment)) { ?><option value="<?php echo $ResDepartment['DepartmentId']; ?>" <?php if($_REQUEST['DpId']==$ResDepartment['DepartmentId']){echo 'selected';} ?>><?php echo strtoupper($ResDepartment['DepartmentCode']);?></option><?php } ?>
+$SqlDepartment=mysql_query("select * from core_departments where is_active=1 order by department_name", $con); while($ResDepartment=mysql_fetch_array($SqlDepartment)) { ?><option value="<?php echo $ResDepartment['id']; ?>" <?php if($_REQUEST['DpId']==$ResDepartment['id']){echo 'selected';} ?>><?php echo strtoupper($ResDepartment['department_name']);?></option><?php } ?>
 <option value="All" <?php if($_REQUEST['DpId']=='All'){echo 'selected';}?>>ALL</option>
 
 

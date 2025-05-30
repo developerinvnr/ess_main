@@ -75,16 +75,16 @@ $(document).ready(function () { $("#table1").freezeHeader({ 'height': '480px' })
  </tr>
  </thead>
  </div>
-<?php  $sqlD=mysql_query("select * from hrm_department where DeptStatus='A' AND CompanyId=".$CompanyId." order by DepartmentName ASC",$con); $Sno=1; while($resD=mysql_fetch_assoc($sqlD)){ 
-       $sqlCh=mysql_query("select * from hrm_api_punch_department where DepartmentId=".$resD['DepartmentId'],$con); 
+<?php  $sqlD=mysql_query("select * from core_departments where is_active=1 order by department_name",$con); $Sno=1; while($resD=mysql_fetch_assoc($sqlD)){ 
+       $sqlCh=mysql_query("select * from hrm_api_punch_department where DepartmentId=".$resD['id'],$con); 
 	   $rowCh=mysql_num_rows($sqlCh); $resCh=mysql_fetch_assoc($sqlCh); ?>
  <div class="tbody">
  <tbody>
  <tr style="background-color:#FFFFFF;"> 
   <td class="tdc"><?php echo $Sno; ?></td>
-  <td class="tdl">&nbsp;<?php echo ucwords(strtolower($resD['DepartmentName'])); ?></td>
-  <td align="center" id="On3TDL_<?=$resD['DepartmentId']?>" style="background-color:<?php if($rowCh>0 && $resCh['Sts']=='Y'){echo '#69D200';  }?>;"><input type="checkbox"  id="UsePunch_<?=$resD['DepartmentId']?>" onClick="FunUsePunch(<?=$resD['DepartmentId']?>)" <?php if($rowCh>0 && $resCh['Sts']=='Y'){echo 'checked';} ?> /></td>
-  <td align="center" id="On4TDL_<?=$resD['DepartmentId']?>"><select type="text" id="InTime_<?=$resD['DepartmentId']?>" style="width:100%; border:hidden;text-align:center;" onChange="FunInTime(this.value,<?=$resD['DepartmentId']?>)" onKeyPress="return isNumberKey(event)">
+  <td class="tdl">&nbsp;<?php echo $resD['department_name']; ?></td>
+  <td align="center" id="On3TDL_<?=$resD['id']?>" style="background-color:<?php if($rowCh>0 && $resCh['Sts']=='Y'){echo '#69D200';  }?>;"><input type="checkbox"  id="UsePunch_<?=$resD['id']?>" onClick="FunUsePunch(<?=$resD['id']?>)" <?php if($rowCh>0 && $resCh['Sts']=='Y'){echo 'checked';} ?> /></td>
+  <td align="center" id="On4TDL_<?=$resD['id']?>"><select type="text" id="InTime_<?=$resD['id']?>" style="width:100%; border:hidden;text-align:center;" onChange="FunInTime(this.value,<?=$resD['id']?>)" onKeyPress="return isNumberKey(event)">
   <option value="00:00:00" <?php if($resCh['InTime']=='00:00:00' || $resCh['InTime']==''){echo 'selected';}?>></option>
   <option value="08:00:00" <?php if($resCh['InTime']=='08:00:00'){echo 'selected';}?>>08:00 AM</option>
   <option value="08:30:00" <?php if($resCh['InTime']=='08:30:00'){echo 'selected';}?>>08:30 AM</option>
@@ -99,7 +99,7 @@ $(document).ready(function () { $("#table1").freezeHeader({ 'height': '480px' })
   <option value="13:30:00" <?php if($resCh['InTime']=='13:30:00'){echo 'selected';}?>>1:30 PM</option>
   <option value="17:00:00" <?php if($resCh['InTime']=='17:00:00'){echo 'selected';}?>>05:00 PM</option>
   </select></td>
-  <td align="center" id="On5TDL_<?=$resD['DepartmentId']?>" style="background-color:<?php if($rowCh>0 && $resCh['Gps_Tracking']==1){echo '#69D200';  }?>;"><input type="checkbox"  id="Gps_Tracking_<?=$resD['DepartmentId']?>" onClick="FunGps_Tracking(<?=$resD['DepartmentId']?>)" <?php if($rowCh>0 && $resCh['Gps_Tracking']==1){echo 'checked';} ?> /></td>
+  <td align="center" id="On5TDL_<?=$resD['id']?>" style="background-color:<?php if($rowCh>0 && $resCh['Gps_Tracking']==1){echo '#69D200';  }?>;"><input type="checkbox"  id="Gps_Tracking_<?=$resD['id']?>" onClick="FunGps_Tracking(<?=$resD['id']?>)" <?php if($rowCh>0 && $resCh['Gps_Tracking']==1){echo 'checked';} ?> /></td>
  </tr>
  </tbody>
  </div>

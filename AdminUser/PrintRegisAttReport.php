@@ -37,7 +37,7 @@ function PrintWin()
 <?php if($_REQUEST['m']==1){$SelM='January';} if($_REQUEST['m']==2){$SelM='February';} if($_REQUEST['m']==3){$SelM='March';}if($_REQUEST['m']==4){$SelM='April';} 
 if($_REQUEST['m']==5){$SelM='May';} if($_REQUEST['m']==6){$SelM='June';} if($_REQUEST['m']==7){$SelM='July';} if($_REQUEST['m']==8){$SelM='August';} 
 if($_REQUEST['m']==9){$SelM='September';} if($_REQUEST['m']==10){$SelM='October';} if($_REQUEST['m']==11){$SelM='November';} if($_REQUEST['m']==12){$SelM='December';} ?> 	
-<?php if($_REQUEST['D']!='All') { $sqlD=mysql_query("select DepartmentName from hrm_department where DepartmentId=".$_REQUEST['D'], $con); $resD=mysql_fetch_assoc($sqlD); ?>
+<?php if($_REQUEST['D']!='All') { $sqlD=mysql_query("select department_name as DepartmentName from core_departments where id=".$_REQUEST['D'], $con); $resD=mysql_fetch_assoc($sqlD); ?>
 <?php $Dept=$resD['DepartmentName']; } else { $Dept='All'; }?>
    <table border="0">
    <thead>
@@ -87,7 +87,7 @@ else
 <td style="background-color:#7a6189;color:#FFFFFF;font-family:Times New Roman; width:150px; font-size:13px;" align="center"><b>Name</b></td>
 <td style="background-color:#7a6189;color:#FFFFFF;font-family:Times New Roman; width:750px; font-size:14px;" align=""><b>&nbsp;Month :</b>&nbsp;
 <font style="font:Times New Roman; color:#FFFFFF; font-size:16px; background-color:#7a6189; font-weight:bold;"><?php echo $SelM; ?></font>
-&nbsp;&nbsp;&nbsp;<?php if($_REQUEST['D']!='All') { $sqlD=mysql_query("select DepartmentName from hrm_department where DepartmentId=".$_REQUEST['D'], $con); 
+&nbsp;&nbsp;&nbsp;<?php if($_REQUEST['D']!='All') { $sqlD=mysql_query("select department_name as DepartmentName from core_departments where id=".$_REQUEST['D'], $con); 
 $resD=mysql_fetch_assoc($sqlD); }?><b>Department :</b>&nbsp;
 <font style="font:Times New Roman; color:#FFFFFF; font-size:14px; background-color:#7a6189;font-weight:bold;">
 <?php if($_REQUEST['D']!='All') {echo $resD['DepartmentName']; } else { echo  'All'; } ?></font>

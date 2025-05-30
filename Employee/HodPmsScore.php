@@ -237,7 +237,7 @@ window.onload = startBlink;
     <td class="formh" style="width:120px;">(<i>Team Score</i>) :&nbsp;</td>
 	<?php if($_SESSION['hStatus']=='Y'){ ?>
 	<td class="tdd" style="width:80px;"><b>Department:</b></td>
-    <td class="td1" style="width:100px;"><select class="tdsel" name="DeE" id="DeE" onChange="SelectDeptEmp(this.value,<?php echo $EmployeeId.','.$_SESSION['PmsYId']; ?>)"><option value="All" style="margin-left:0px; background-color:#84D9D5;" selected>All</option><?php $SqlDept=mysql_query("select HR_Curr_DepartmentId,DepartmentName,DepartmentCode from hrm_employee_pms pms inner join hrm_department d on pms.HR_Curr_DepartmentId=d.DepartmentId where AssessmentYear=".$_SESSION['PmsYId']." AND pms.CompanyId=".$CompanyId." AND HOD_EmployeeID=".$EmployeeId." group by HR_Curr_DepartmentId order by DepartmentName ASC"); while($ResDept=mysql_fetch_array($SqlDept)) { ?><option value="<?php echo $ResDept['HR_Curr_DepartmentId']; ?>"><?php echo $ResDept['DepartmentCode'];?></option><?php } ?><option value="All">All</option></select></td>
+    <td class="td1" style="width:100px;"><select class="tdsel" name="DeE" id="DeE" onChange="SelectDeptEmp(this.value,<?php echo $EmployeeId.','.$_SESSION['PmsYId']; ?>)"><option value="All" style="margin-left:0px; background-color:#84D9D5;" selected>All</option><?php $SqlDept=mysql_query("select HR_Curr_DepartmentId,department_name as DepartmentName, department_code as DepartmentCode from hrm_employee_pms pms inner join core_departments d on pms.HR_Curr_DepartmentId=d.id where AssessmentYear=".$_SESSION['PmsYId']." AND pms.CompanyId=".$CompanyId." AND HOD_EmployeeID=".$EmployeeId." group by HR_Curr_DepartmentId order by DepartmentName ASC"); while($ResDept=mysql_fetch_array($SqlDept)) { ?><option value="<?php echo $ResDept['HR_Curr_DepartmentId']; ?>"><?php echo $ResDept['DepartmentCode'];?></option><?php } ?><option value="All">All</option></select></td>
 	<td class="tddr" style="width:40px;"><b>State:</b></td>
 	<td class="td1" style="width:150px;"><select class="tdsel" name="StE" id="StE" onChange="SelectStateEmpInc(this.value,<?php echo $EmployeeId.','.$_SESSION['PmsYId']; ?>)"><option value="All" selected>All</option><?php $SqlSt=mysql_query("select st.* from hrm_state st inner join hrm_headquater hq on st.StateId=hq.StateId inner join hrm_employee_general g on hq.HqId=g.HqId inner join hrm_employee_pms pms on g.EmployeeID=pms.EmployeeID where pms.HOD_EmployeeID=".$EmployeeId." AND hq.CompanyId=".$CompanyId." group by st.StateId order by StateName ASC"); while($ResSt=mysql_fetch_array($SqlSt)) { ?><option value="<?php echo $ResSt['StateId']; ?>"><?php echo $ResSt['StateName'];?></option><?php } ?><option value="All">All</option></select></td>
 	
@@ -351,11 +351,13 @@ if($res['DateConfirmationYN']=='Y' AND $res['DateJoining']>$DojY AND $res['DateJ
 	  <td class="tdc" valign="top"><input class="tdinpl" name="Reason_<?php echo $sno; ?>" id="Reason_<?php echo $sno; ?>" style="background-color:#FFFFB7;width:100%;height:100%;" value="<?php echo $resReas['Hod_Reason']; ?>" disabled maxlength="200"/></td>
 	  
 	  <td class="tdc">
+	  <?php /*    
       <SPAN id="SpanEdit_<?php echo $sno; ?>" style="cursor:pointer;">
       <?php if($res['HodSubmit_IncStatus']!=2){ ?><img src="images/edit.png" border="0" onClick="ClickEdit(<?php echo $sno; ?>)"/>&nbsp;&nbsp;<img src="images/go-back-icon.png" border="0" onClick="ClickResend(<?php echo $sno; ?>)"/><?php } ?></SPAN>
 			
 	   <SPAN id="SpanEditSave_<?php echo $sno; ?>" style="display:none;cursor:pointer;"><img src="images/Floppy-Small-icon.png" border="0" onClick="return ClickSaveEdit(<?php echo $sno.','.$res['EmpPmsId'].','.$res['EmployeeID']; ?>); EditSHod(<?php echo $sno; ?>);"></SPAN>
 	   <SPAN id="SpanResendSave_<?php echo $sno; ?>" style="display:none;cursor:pointer;"><img src="images/Floppy-Small-icon.png" border="0" onClick="return ClickSaveResend(<?php echo $sno.','.$res['EmpPmsId'].','.$res['EmployeeID']; ?>)"></SPAN>
+	   */ ?>
 	   </td>
 	  </tr>
 	  </tbody>

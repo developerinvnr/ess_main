@@ -58,8 +58,8 @@ $(document).ready(function () { $("#table1").freezeHeader({ 'height': '450px' })
 <?php //*********************************************** Open Type******************************************************?> 	     
 
 	     <table border="0" style="width:100%; height:380px; float:none;" cellpadding="0">
-		  <tr><td class="thh">Running Km: &nbsp;<select style=" font-family:Times New Roman;font-size:12px;width:150px;height:22px;background-color:#DDFFBB;" name="Dept" id="Dept" onChange="SelectDept(this.value)"><option value="" style="margin-left:0px;" selected>Select Department</option><?php $SqlDept=mysql_query("select * from hrm_department where CompanyId=".$CompanyId." AND DepartmentCode!='MANAGEMENT' order by DepartmentName ASC", $con); while($ResDept=mysql_fetch_array($SqlDept)){?>
-<option value="<?php echo $ResDept['DepartmentId']; ?>"><?php echo '&nbsp;'.$ResDept['DepartmentCode'];?></option><?php } ?><option value="All">&nbsp;All</option></select>
+		  <tr><td class="thh">Running Km: &nbsp;<select style=" font-family:Times New Roman;font-size:12px;width:150px;height:22px;background-color:#DDFFBB;" name="Dept" id="Dept" onChange="SelectDept(this.value)"><option value="" style="margin-left:0px;" selected>Select Department</option><?php $SqlDept=mysql_query("select * from core_departments where is_active=1 order by department_name", $con); while($ResDept=mysql_fetch_array($SqlDept)){?>
+<option value="<?php echo $ResDept['id']; ?>"><?php echo '&nbsp;'.$ResDept['department_name'];?></option><?php } ?><option value="All">&nbsp;All</option></select>
 
 &nbsp;&nbsp;
 <a href="https://www.vnress.in/Employee/EmpTrvTrvRunKM.php?ID=<?=$EmployeeId?>" target="_blank" style="font-size:12px;">Other Team Group</a>
@@ -117,8 +117,8 @@ $(document).ready(function () { $("#table1").freezeHeader({ 'height': '450px' })
   $exprodb=mysql_select_db(dbexpro,$con2) or die(mysql_error());
 ?>
  
-<?php if($_REQUEST['value']=='All') {$sql=mysql_query("select g.EmployeeID, EmpCode, Fname, Sname, Lname, g.DepartmentId, DepartmentCode, GradeValue, VehiclePolicy_EntryDate, VehiclePolicy_Type, Running_TotalKM from hrm_employee_general g INNER JOIN hrm_employee e ON g.EmployeeID=e.EmployeeID INNER JOIN hrm_department d ON g.DepartmentId=d.DepartmentId INNER JOIN hrm_grade gr ON g.GradeId=gr.GradeId where e.CompanyId=".$CompanyId." AND e.EmpStatus='A' order by e.EmpCode ASC", $con); }
-else {$sql=mysql_query("select g.EmployeeID, EmpCode, Fname, Sname, Lname, g.DepartmentId, DepartmentCode, GradeValue, VehiclePolicy_EntryDate, VehiclePolicy_Type, Running_TotalKM from hrm_employee_general g INNER JOIN hrm_employee e ON g.EmployeeID=e.EmployeeID INNER JOIN hrm_department d ON g.DepartmentId=d.DepartmentId INNER JOIN hrm_grade gr ON g.GradeId=gr.GradeId where g.DepartmentId=".$_REQUEST['value']." AND e.CompanyId=".$CompanyId." AND e.EmpStatus='A' order by e.EmpCode ASC", $con); } 
+<?php if($_REQUEST['value']=='All') {$sql=mysql_query("select g.EmployeeID, EmpCode, Fname, Sname, Lname, g.DepartmentId, department_name as DepartmentCode, grade_name as GradeValue, VehiclePolicy_EntryDate, VehiclePolicy_Type, Running_TotalKM from hrm_employee_general g INNER JOIN hrm_employee e ON g.EmployeeID=e.EmployeeID left join core_departments d ON g.DepartmentId=d.id INNER JOIN core_grades gr ON g.GradeId=gr.id where e.CompanyId=".$CompanyId." AND e.EmpStatus='A' order by e.EmpCode ASC", $con); }
+else {$sql=mysql_query("select g.EmployeeID, EmpCode, Fname, Sname, Lname, g.DepartmentId, department_name as DepartmentCode, grade_name as GradeValue, VehiclePolicy_EntryDate, VehiclePolicy_Type, Running_TotalKM from hrm_employee_general g INNER JOIN hrm_employee e ON g.EmployeeID=e.EmployeeID left join core_departments d ON g.DepartmentId=d.id INNER JOIN core_grades gr ON g.GradeId=gr.id where g.DepartmentId=".$_REQUEST['value']." AND e.CompanyId=".$CompanyId." AND e.EmpStatus='A' order by e.EmpCode ASC", $con); } 
 $Sno=1; while($res=mysql_fetch_array($sql)){ ?> 
 <div class="tbody">
 <tbody>

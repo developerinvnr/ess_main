@@ -11,7 +11,7 @@ if($_REQUEST['action']='FormKraExport')
  if($_REQUEST['ee']=='Dept')
 { $name='Department Wise'; 
   if($_REQUEST['value']!=0)
-  { $sqlA=mysql_query("select DepartmentName from hrm_department where DepartmentId=".$_REQUEST['value'], $con); $resA=mysql_fetch_assoc($sqlA); $name2=$resA['DepartmentName']; }
+  { $sqlA=mysql_query("select department_code as DepartmentCode from core_departments where id=".$_REQUEST['value'], $con); $resA=mysql_fetch_assoc($sqlA); $name2=$resA['DepartmentName']; }
   else{$name2='All_Department';}
 }
 
@@ -44,10 +44,9 @@ if($_REQUEST['ee']=='Dept' AND $_REQUEST['a']==1)
  $Sno=1; while($res=mysql_fetch_array($sql))
  { 
  if($_REQUEST['a']==1){
- $sqlDept=mysql_query("select DepartmentCode from hrm_department where DepartmentId=".$res['DepartmentId'], $con); 
- $sqlDesig=mysql_query("select DesigName,DesigCode from hrm_designation where DesigId=".$res['DesigId'], $con); 
- $sqlG=mysql_query("select GradeValue from hrm_grade where GradeId=".$res['GradeId'], $con);  
- $resDept=mysql_fetch_assoc($sqlDept);  $resDesig=mysql_fetch_assoc($sqlDesig); $resG=mysql_fetch_assoc($sqlG);
+  $sqlDept=mysql_query("select department_name as DepartmentCode from core_departments where id=".$res['DepartmentId'], $con); $resDept=mysql_fetch_assoc($sqlDept); 
+ $sqlDesig=mysql_query("select designation_name as DesigName,designation_code as DesigCode from core_designation where id=".$res['DesigId'], $con); $resDesig=mysql_fetch_assoc($sqlDesig);
+ $sqlG=mysql_query("select grade_name as GradeValue from core_grades where id=".$res['HR_CurrGradeId'], $con);  $resG=mysql_fetch_assoc($sqlG);
  }
  
   $schema_insert = "";

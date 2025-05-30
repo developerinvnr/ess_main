@@ -12,7 +12,7 @@ if($_REQUEST['action']='FormAchExport')
  if($_REQUEST['ee']=='Dept')
 { $name='Department Wise'; 
   if($_REQUEST['value']!=0)
-  { $sqlA=mysql_query("select DepartmentName from hrm_department where DepartmentId=".$_REQUEST['value'], $con); $resA=mysql_fetch_assoc($sqlA); $name2=$resA['DepartmentName']; }
+  { $sqlA=mysql_query("select department_code as DepartmentName from core_departments where id=".$_REQUEST['value'], $con); $resA=mysql_fetch_assoc($sqlA); $name2=$resA['DepartmentName']; }
   else{$name2='All_Department';}
 }
 

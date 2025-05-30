@@ -39,7 +39,8 @@ if($rowQA>0)
 
   $sqlMK4=mysql_query("select * from hrm_employee_querymail_key where QueryMailId=4 AND CompanyId=".$CompanyId,$con); 
   $resMK4=mysql_fetch_assoc($sqlMK4);
-
+  
+  /*
   if($resEA['EmailId_Vnr']!='' AND $resMK4['Employee']=='Y')   //Self AJAY
   {
     $email_to = "ajaykumar.dewangan@vnrseeds.in"; 
@@ -57,7 +58,7 @@ if($rowQA>0)
 	$email_message .="</body></html>";	  
     $ok = @mail($email_to, $email_subject, $email_message, $headers);
    }         
-
+  */
    if($resEA['EmailId_Vnr']!='' AND $resMK4['Employee']=='Y')   //Self
    { 
 	$email_to22 = $resEA['EmailId_Vnr'];

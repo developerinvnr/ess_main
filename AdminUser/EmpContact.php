@@ -219,7 +219,7 @@ $Ename = $ResEmp['Fname'].'&nbsp;'.$ResEmp['Sname'].'&nbsp;'.$ResEmp['Lname']; $
   <select class="All_120" id="EmpCurrAddState" name="EmpCurrAddState" onChange="CurrentState(this.value)" disabled>
 <?php $sqlSt=mysql_query("select StateName from hrm_state where StateId=".$ResEmp['CurrAdd_State'], $con); $ResSt=mysql_fetch_array($sqlSt);?>  
   <option value="<?php echo $ResEmp['CurrAdd_State']; ?>"><?php echo $ResSt['StateName']; ?></option>
-<?php $sqlS=mysql_query("select StateId,StateName from hrm_state order by StateName ASC", $con); while($ResS=mysql_fetch_array($sqlS)) {?>
+<?php $sqlS=mysql_query("select StateId,StateName from hrm_state  order by StateName ASC", $con); while($ResS=mysql_fetch_array($sqlS)) {?>
   <option value="<?php echo $ResS['StateId']; ?>"><?php echo $ResS['StateName']; ?></option><?php } ?></select></td>
   <td class="All_80" align="right">City:&nbsp;</td><td style="width:120px;">
 <?php $sqlSt=mysql_query("select CityName from hrm_city where CityId=".$ResEmp['CurrAdd_City'], $con); $ResSt=mysql_fetch_array($sqlSt);?>
@@ -235,7 +235,7 @@ $Ename = $ResEmp['Fname'].'&nbsp;'.$ResEmp['Sname'].'&nbsp;'.$ResEmp['Lname']; $
   <select class="All_120" id="EmpPerAddState" name="EmpPerAddState" onChange="PermanentState(this.value)" disabled>
   <?php $sqlSt=mysql_query("select StateName from hrm_state where StateId=".$ResEmp['ParAdd_State'], $con); $ResSt=mysql_fetch_array($sqlSt);?>  
   <option value="<?php echo $ResEmp['ParAdd_State']; ?>"><?php echo $ResSt['StateName']; ?></option>
-  <?php $sqlS1=mysql_query("select StateId,StateName from hrm_state order by StateName ASC", $con); while($ResS1=mysql_fetch_array($sqlS1)) {?>
+  <?php $sqlS1=mysql_query("select StateId,StateName from hrm_state   order by StateName ASC", $con); while($ResS1=mysql_fetch_array($sqlS1)) {?>
   <option value="<?php echo $ResS1['StateId']; ?>"><?php echo $ResS1['StateName']; ?></option><?php } ?></select></td>
   <td class="All_80" align="right">City:&nbsp;</td><td style="width:120px;">
  <?php $sqlSt=mysql_query("select CityName from hrm_city where CityId=".$ResEmp['ParAdd_City'], $con); $ResPSt=mysql_fetch_array($sqlSt);?>

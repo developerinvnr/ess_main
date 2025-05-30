@@ -57,6 +57,7 @@ if($_REQUEST['action']=='SetFormBB' AND $_REQUEST['EI']!='' AND $_REQUEST['YI']!
  { $resPms=mysql_fetch_array($sqlPms);
 
    /********************** FormB FormB Open ****************************/
+   
    $sqlb=mysql_query("select * from hrm_employee_pms_behavioralformb where EmpId=".$_REQUEST['EI']." AND YearId=".$_REQUEST['YI']."", $con); $rowb=mysql_num_rows($sqlb);
    if($rowb>0)
    {
@@ -88,7 +89,18 @@ if($_REQUEST['action']=='SetFormBB' AND $_REQUEST['EI']!='' AND $_REQUEST['YI']!
    
  }
 }
+
+if($_REQUEST['act']=='Revert' AND $_REQUEST['e']!='' AND $_REQUEST['YI']!='')
+{
+    
+ $sqlRevrtK=mysql_query("update hrm_pms_kra set UseKRA='E', EmpStatus='P' where EmployeeID=".$_REQUEST['e']." AND YearId=".$_REQUEST['YI'], $con); 
+ //echo "update hrm_pms_kra set UseKRA='E', EmpStatus='P' where EmployeeID=".$_REQUEST['e']." AND YearId=".$_REQUEST['YI'];
+    
+}
+
 ?>
+
+
 
 <html>
 <head>
@@ -116,7 +128,20 @@ $(document).ready(function () { $("#table1").freezeHeader({ 'height': '500px' })
 
 function SelYearId(YeId){ document.getElementById("DisPyRecd").style.display='none'; }
 function edit(value,YeId)
-{ var DI=document.getElementById("DId").value;  window.location="EditEmpKRA.php?act=checked&valu=true&rr=234&rtr=4&Dpp=55&rest=false&e="+value+"&DI="+DI+"&YeId="+YeId; }				
+{ var DI=document.getElementById("DId").value;  window.location="EditEmpKRA.php?act=checked&valu=true&rr=234&rtr=4&Dpp=55&rest=false&e="+value+"&DI="+DI+"&YeId="+YeId; }
+
+function Revert(value,YeId)
+{   
+    var agree = confirm("Are you sure?");
+    if(agree)
+    {
+    var DI=document.getElementById("DId").value;        
+    window.location="EditKRA.php?act=Revert&valu=true&rr=234&rtr=4&Dpp=55&rest=false&e="+value+"&YI="+YeId+"&DpId="+DI+"&YeId="+YeId; 
+    }
+    else{ return false; }
+}
+
+
 	
 function  SelectDeptEmp(v)
 { var YeId = document.getElementById("YearE").value; var x = "EditKRA.php?act=checked&valu=true&rr=234&rtr=4&Dpp=55&rest=false&DpId="+v+"&YeId="+YeId+"&tt=44&rtr=r%r";  window.location=x;}				
@@ -125,13 +150,13 @@ function EmpKRA(CId,YId,EmpId)
 { window.open ("EmpKraForm.php?YId="+YId+"&EmpId="+EmpId+"&CId="+CId,"KRAForm","menubar=yes,scrollbars=yes,resizable=1,width=1100,height=550");}
 
 function SetK(EI,YI)
-{ var DI=document.getElementById("DId").value;  window.location="EditKRA.php?action=SetKRA&EI="+EI+"&YI="+YI+"&DpId="+DI;}		
+{ var DI=document.getElementById("DId").value;  window.location="EditKRA.php?action=SetKRA&EI="+EI+"&YI="+YI+"&DpId="+DI+"&YeId="+YI;}		
 
 function EmpFormB(T,CId,YId,EmpId) 
 { window.open ("EmpFormBForm.php?YId="+YId+"&EmpId="+EmpId+"&CId="+CId+"&T="+T,"FormBForm","menubar=yes,scrollbars=yes,resizable=1,width=1100,height=550");}
-
+//&rr=234&rtr=4&Dpp=55&rest=false&DpId=15&YeId=13&tt=44&rtr=r%r#
 function SetBB(EI,YI)
-{ var DI=document.getElementById("DId").value;  window.location="EditKRA.php?action=SetFormBB&EI="+EI+"&YI="+YI+"&DpId="+DI;}
+{ var DI=document.getElementById("DId").value;  window.location="EditKRA.php?action=SetFormBB&EI="+EI+"&YI="+YI+"&DpId="+DI+"&YeId="+YI;}
 
 function FucChk(sn)
 { if(document.getElementById("Chk"+sn).checked==true){document.getElementById("TR"+sn).style.background='#9BEF47'; }
@@ -171,7 +196,7 @@ function FucChk(sn)
 			  <select class="tdsel" style="background-color:#DDFFBB;width:100%;" name="YearE" id="YearE" onChange="SelYearId(this.value)"><?php if($_REQUEST['YeId']!=''){ $SqlY=mysql_query("select * from hrm_year where YearId=".$_REQUEST['YeId'], $con); $ResY=mysql_fetch_array($SqlY); ?><option value="<?php echo $ResY['YearId']; ?>"><?php echo '&nbsp;'.date("Y",strtotime($ResY['FromDate'])); if($ResY['YearId']<=5){ echo '-'.date("Y",strtotime($ResY['ToDate'])); } ?></option><?php }else{ ?><option value="" selected>Select Year</option><?php } $SqlYear=mysql_query("select YearId,FromDate,ToDate from hrm_year where YearId<=".$resSY['NewY']." order by YearId DESC", $con); while($ResYear=mysql_fetch_array($SqlYear)) { ?><option value="<?php echo $ResYear['YearId']; ?>"><?php echo '&nbsp;'.date("Y",strtotime($ResYear['FromDate'])); if($ResYear['YearId']<=5){ echo '-'.date("Y",strtotime($ResYear['ToDate'])); } ?></option><?php } ?></select>
 			  </td>
 			  <td class="td1" style="font-size:11px; width:150px;">
-			   <select class="tdsel" style="background-color:#DDFFBB;width:100%;" name="DepartmentE" id="DepartmentE" onChange="SelectDeptEmp(this.value)"><?php if($_REQUEST['DpId']>0){ $SqlDept=mysql_query("select DepartmentCode from hrm_department where DepartmentId=".$_REQUEST['DpId'], $con); $ResDet=mysql_fetch_array($SqlDept); ?><option value="<?php echo $_REQUEST['DpId'];?>" style="margin-left:0px; background-color:#84D9D5;" selected><?php echo $ResDet['DepartmentCode']; ?></option><?php }else{?><option value="" style="margin-left:0px; background-color:#84D9D5;" selected>Select Department</option><?php } $SqlDepartment=mysql_query("select * from hrm_department where CompanyId=".$CompanyId." order by DepartmentName ASC", $con); while($ResDepartment=mysql_fetch_array($SqlDepartment)) { ?><option value="<?php echo $ResDepartment['DepartmentId']; ?>"><?php echo '&nbsp;'.$ResDepartment['DepartmentCode'];?></option><?php } ?></select>
+			   <select class="tdsel" style="background-color:#DDFFBB;width:100%;" name="DepartmentE" id="DepartmentE" onChange="SelectDeptEmp(this.value)"><?php if($_REQUEST['DpId']>0){ $SqlDept=mysql_query("select department_name as DepartmentCode from core_departments where id=".$_REQUEST['DpId'], $con); $ResDet=mysql_fetch_array($SqlDept); ?><option value="<?php echo $_REQUEST['DpId'];?>" style="margin-left:0px; background-color:#84D9D5;" selected><?php echo $ResDet['DepartmentCode']; ?></option><?php }else{?><option value="" style="margin-left:0px; background-color:#84D9D5;" selected>Select Department</option><?php } $SqlDepartment=mysql_query("select * from core_departments where is_active=1 order by department_name", $con); while($ResDepartment=mysql_fetch_array($SqlDepartment)) { ?><option value="<?php echo $ResDepartment['id']; ?>"><?php echo '&nbsp;'.$ResDepartment['department_name'];?></option><?php } ?></select>
 			   <input type="hidden" name="ComId" id="ComId" value="<?php echo $CompanyId; ?>" /> 
 			   <input type="hidden" name="DId" id="DId" value="<?php echo $_REQUEST['DpId']; ?>" />
 			  </td>
@@ -194,12 +219,13 @@ $resKey=mysql_fetch_assoc($sqlKey); ?>
    <td rowspan="2" class="th" style="width:13%;">HeadQuater</td>
    <td rowspan="2" class="th" style="width:10%;">Department</td>
  <?php /*?><td rowspan="2" class="th" style="width:15%;"><b>Designation</b></td><?php */?>
-   <td colspan="4" class="th" style="width:15%;">KRA</td>
+   <td colspan="5" class="th" style="width:15%;">KRA</td>
    <td colspan="4" class="th" style="width:15%;">Form-B</td>
  </tr>
  <tr bgcolor="#7a6189">
 	<td class="th" style="width:5%;"><b>KRA</b></td>	
-	<td class="th" style="width:5%;"><b>Action</b></td>
+	<td class="th" style="width:5%;"><b>Edit</b></td>
+	<td class="th" style="width:5%;"><b>Revert</b></td>
 	<td class="th" style="width:5%;"><b>SetKRA</b></td>
 	<td class="th" style="width:5%;"><b>Set</b></td>
 	
@@ -211,7 +237,12 @@ $resKey=mysql_fetch_assoc($sqlKey); ?>
  </thead>
  </div>
 <?php if($_REQUEST['DpId'] AND $_REQUEST['DpId']!='' AND $_REQUEST['YeId']!='') { 
-      $sqlDP = mysql_query("select e.EmployeeID, EmpCode, Fname, Sname, Lname, HqName, DepartmentCode, DesigName, Gender, Married, DateJoining from hrm_employee e INNER JOIN hrm_employee_general g ON e.EmployeeID=g.EmployeeID INNER JOIN hrm_employee_personal p ON e.EmployeeID=p.EmployeeID INNER JOIN hrm_department d ON g.DepartmentId=d.DepartmentId INNER JOIN hrm_designation de ON g.DesigId=de.DesigId INNER JOIN hrm_grade gr ON g.GradeId=gr.GradeId INNER JOIN hrm_headquater hq ON g.HqId=hq.HqId INNER JOIN hrm_state st ON hq.StateId=st.StateId where e.EmpStatus='A' AND e.CompanyId=".$CompanyId." AND g.DepartmentId=".$_REQUEST['DpId'], $con); $Sno=1; while($resDP = mysql_fetch_assoc($sqlDP)){ 
+      $sqlDP = mysql_query("select e.EmployeeID, EmpCode, Fname, Sname, Lname, g.HqId, g.TerrId, department_name, department_code, designation_name, grade_name, territory_name, city_village_name, Gender, Married, DateJoining from hrm_employee e INNER JOIN hrm_employee_general g ON e.EmployeeID=g.EmployeeID INNER JOIN hrm_employee_personal p ON e.EmployeeID=p.EmployeeID 
+  left join core_departments dept on g.DepartmentId=dept.id
+  left join core_designation desig on g.DesigId=desig.id
+  left join core_grades gr on g.GradeId=gr.id
+  left join core_city_village_by_state vlg on g.HqId=vlg.id
+  left join core_territory Tr on g.TerrId=Tr.id where e.EmpStatus='A' AND e.CompanyId=".$CompanyId." AND g.DepartmentId=".$_REQUEST['DpId']." order by e.ECode ASC", $con); $Sno=1; while($resDP = mysql_fetch_assoc($sqlDP)){ 
 if($resDP['Gender']=='M'){$M='Mr.';} elseif($resDP['Gender']=='F' AND $resDP['Married']=='Y'){$M='Mrs.';} elseif($resDP['Gender']=='F' AND $resDP['Married']=='N'){$M='Miss.';} $Name=$M.' '.$resDP['Fname'].' '.$resDP['Sname'].' '.$resDP['Lname']; $LEC=strlen($resDP['EmpCode']); 
 if($LEC==1){$EC='000'.$resDP['EmpCode'];} if($LEC==2){$EC='00'.$resDP['EmpCode'];} if($LEC==3){$EC='0'.$resDP['EmpCode'];} if($LEC>=4){$EC=$resDP['EmpCode'];}	 
 
@@ -226,12 +257,15 @@ $sqlSet=mysql_query("select KRASetting,SkillSetting from hrm_employee_pms where 
   <td class="td"><?php echo $Sno; ?></td>
   <td class="td"><?php echo $EC; ?></td>
   <td class="tdl">&nbsp;<?php echo $Name; ?></td>
-  <td class="tdl">&nbsp;<?php echo $resDP['HqName'];?></td>
-  <td class="tdl">&nbsp;<?php echo $resDP['DepartmentCode'];?></td>
-<?php /*?><td class="tdl">&nbsp;<?php echo $resDP['DesigName'];?></td><?php */?>   
+  <?php if($resDP['TerrId']>0){$Hq=$resDP['territory_name'];}else{$Hq=$resDP['city_village_name']; } ?>
+  <td class="tdl">&nbsp;<?php echo $Hq;?></td>
+  <td class="tdl">&nbsp;<?php echo $resDP['department_code'];?></td>
+<?php /*?><td class="tdl">&nbsp;<?php echo $resDP['designation_name'];?></td><?php */?>   
   <td class="td" style="background-color:#D2E9FF;"><?php if($res3E2['EmpStatus']=='A'){ ?><a href="#" onClick="EmpKRA(<?php echo $CompanyId.', '.$_REQUEST['YeId'].', '.$resDP['EmployeeID']; ?>)">Click</a><?php } ?></td>
 
   <td class="td" style="background-color:#D2E9FF;"><?php if($_REQUEST['YeId']==$resSY['CurrY'] OR $_REQUEST['YeId']==$resSYP['CurrY'] OR $_REQUEST['YeId']==$resSY['NewY']){ ?><?php if($_SESSION['User_Permission']=='Edit'){ ?><a href="#"><img src="images/edit.png" border="0" alt="Edit" onClick="edit(<?php echo $resDP['EmployeeID'].','.$_REQUEST['YeId']; ?>)"></a><?php } } ?></td>
+  
+  <td class="td" style="background-color:#D2E9FF;"><?php if($res3E2['EmpStatus']=='A'){ ?><a href="#"><img src="images/go-back-icon.png" border="0" alt="Edit" onClick="Revert(<?php echo $resDP['EmployeeID'].','.$_REQUEST['YeId']; ?>)"></a><?php } ?></td>
   		
   <td class="td" style="background-color:#D2E9FF;"><?php if($resSet['KRASetting']=='Y'){echo '<font color="#008000">Yes</font>';}else{echo 'No';}?></td>
   <td class="td" style="background-color:#D2E9FF;">

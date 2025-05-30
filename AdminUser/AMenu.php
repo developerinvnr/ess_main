@@ -16,7 +16,7 @@
         <ul> 
 		  <?php if($_SESSION['Master']==1 OR $_SESSION['Mas_ComMaster_Basic']==1){?><li><a href="CompanyDetails.php">Basic Details</a></li><?php } ?>
 		  <?php if($_SESSION['Master']==1 OR $_SESSION['Mas_ComMaster_Statutory']==1){?><li><a href="StatutoryDetails.php">Statutory Details</a></li><?php } ?>
-		  <?php if($_SESSION['Master']==1 OR $_SESSION['Mas_ComMaster_Vendors']==1){?><li><a href="VendorDetails.php">Vendors Details</a></li><?php } ?> 
+		  <?php /* if($_SESSION['Master']==1 OR $_SESSION['Mas_ComMaster_Vendors']==1){?><li><a href="VendorDetails.php">Vendors Details</a></li><?php } */ ?> 
 		</ul>
 	  </li>
 	  <?php } ?>
@@ -25,16 +25,17 @@
 	  <li><a href="#" class="fly">Mandatory</a>
        <ul> 
 	     <?php if($_SESSION['Master']==1 OR $_SESSION['Mas_DetailMand_Dept']==1){?><li><a href="Department.php">Department</a></li><?php } ?>
-		 <?php if($_SESSION['Master']==1 OR $_SESSION['Mas_DetailMand_HQ']==1){?>
-		  <li><a href="ZoneRegion.php">HQ-Region-Zone</a></li>
-		  <li><a href="HeadQuater.php">Head Quarter</a></li>
-		 <?php } ?>
-		 <?php if($_SESSION['Master']==1 OR $_SESSION['Mas_DetailMand_Grade']==1){?><li><a href="Grade.php">Grade</a></li><?php } ?>
+		 <?php if($_SESSION['Master']==1 OR $_SESSION['Mas_DetailMand_HQ']==1){?><?php } ?>
 		 <?php if($_SESSION['Master']==1 OR $_SESSION['Mas_DetailMand_Desig']==1){?><li><a href="Designation.php">Designation</a></li><?php } ?>
-		 <?php if($_SESSION['Master']==1 OR $_SESSION['Mas_DetailMand_DeptGradeDesig']==1){?><li><a href="DeptGradeDesig.php">Departmentt->Designation</a></li><?php } ?>
+		 <?php if($_SESSION['Master']==1 OR $_SESSION['Mas_DetailMand_Grade']==1){?><li><a href="Grade.php">Grade</a></li><?php } ?>
+		 
+		 <?php /* if($_SESSION['Master']==1 OR $_SESSION['Mas_DetailMand_DeptGradeDesig']==1){?><li><a href="DeptGradeDesig.php">Departmentt->Designation</a></li><?php } */?>
 		 <?php if($_SESSION['Master']==1 OR $_SESSION['Mas_DetailMand_DesigGrade']==1){?><li><a href="DesigGrade.php">Designation->Grade</a></li><?php } ?>
 		 <?php if($_SESSION['Master']==1 OR $_SESSION['Mas_DetailMand_CityClass']==1){?><li><a href="CityClassification.php">City Classification</a></li><?php } ?>
-		 <?php if($_SESSION['Master']==1 OR $_SESSION['Mas_DetailMand_CostCenter']==1){?><li><a href="CostCenter.php">Cost Center </a></li><?php } ?>   
+		 <?php if($_SESSION['Master']==1 OR $_SESSION['Mas_DetailMand_CostCenter']==1){?><li><a href="CostCenter.php">Cost Center </a></li><?php } ?> 
+		  <li><a href="ZoneRegion.php">HQ-Region-Zone</a></li>
+		  <li><a href="HeadQuater.php">Head Quarter</a></li>
+		 
 		</ul>
 	  </li> 
 	  <?php } if($_SESSION['Master']==1 OR $_SESSION['Mas_DetailMice_CounStatCity']==1){ ?>
@@ -53,11 +54,12 @@
 		 <li><a href="EligPolicy.php?d=1&t=1">New Policy & Field</a></li>
 		 <li><a href="EligPolicyTable.php?d=1&t=1">Vehicle Policy Table</a></li>
 		 <?php } ?>    
-	        
-		 <?php if($_SESSION['Master']==1 OR $_SESSION['Mas_DetailElig_LodEntitle']==1){?><li><a href="LodgingEn.php">Lodging Entitlement</a></li><?php } ?>
+	     
+	          
+		 <?php /* if($_SESSION['Master']==1 OR $_SESSION['Mas_DetailElig_LodEntitle']==1){?><li><a href="LodgingEn.php">Lodging Entitlement</a></li><?php } ?>
 		 <?php if($_SESSION['Master']==1 OR $_SESSION['Mas_DetailElig_TravelEntitle']==1){?><li><a href="TravelEn.php">Travel Entitlement</a></li><?php } ?>
 		 <?php if($_SESSION['Master']==1 OR $_SESSION['Mas_DetailElig_TravelElig']==1){?><li><a href="TravelElig.php">Travel Elig.(Per KM)</a></li><li><a href="VehicleLimPolicy.php">Vehicle Policy</a></li><?php } ?>
-		 <?php if($_SESSION['Master']==1 OR $_SESSION['Mas_DetailElig_DailyAllow']==1){?><li><a href="DailyAllowance.php">DA+MH+MRS+MRNS+MC</a></li><?php } ?>
+		 <?php if($_SESSION['Master']==1 OR $_SESSION['Mas_DetailElig_DailyAllow']==1){?><li><a href="DailyAllowance.php">DA+MH+MRS+MRNS+MC</a></li><?php } */ ?>
 		</ul>
 	  </li>
 	 <?php } ?> 
@@ -76,16 +78,14 @@
 	                                                                    <li><a href="SendThought.php">Send Today Event</a></li><?php } ?>
       <?php if(($_SESSION['UserType']=="S" OR $_SESSION['UserType']=="M") AND ($_SESSION['Master']==1 OR $_SESSION['Mas_NewCompany']==1)){?><li><a href="NewCompany.php">Create New Company</a></li><?php } ?>
       
-	  <?php if($_SESSION['Mas_Restructuring']==1 AND ($UserId==9 OR $UserId==10 OR $UserId==14  OR $UserId==41 OR $UserId==53 OR $UserId==5)){?>
+	  <?php if($_SESSION['Mas_Restructuring']==1 AND ($UserId==9 OR $UserId==10 OR $UserId==14  OR $UserId==41 OR $UserId==53)){?>
 	  
-	  <?php /*<li><a href="NewComRestr.php?ee=ere&pp=prp&d=<?php echo $D; ?>&y=<?php echo date("Y"); ?>">Restructuring</a></li>*/ ?>
-	  <li><a href="NewCoreRestr.php?ee=ere&pp=prp&d=<?php echo $D; ?>&y=<?php echo date("Y"); ?>">Core Mapping</a></li>
+	  <li><a href="NewComRestr.php?ee=ere&pp=prp&d=<?php echo $D; ?>&y=<?php echo date("Y"); ?>">Restructuring</a></li>
+	  <?php /*<li><a href="NewCoreRestr.php?ee=ere&pp=prp&d=<?php echo $D; ?>&y=<?php echo date("Y"); ?>">Core Mapping</a></li>
 	  <li><a href="NewCoreRestrLoc.php?ee=ere&pp=prp&d=<?php echo $D; ?>&y=<?php echo date("Y"); ?>">Core Mapping : Zn/Rg/Tr</a></li>
-	  <li><a href="NewCoreRestrTerr.php?ee=ere&pp=prp&d=FC&y=<?php echo date("Y"); ?>">Core Mapping : Territory</a></li>
+	  <li><a href="NewCoreRestrTerr.php?ee=ere&pp=prp&d=FC&y=<?php echo date("Y"); ?>">Core Mapping : Territory</a></li>*/ ?>
 	  
-	  <?php if($_SESSION['Mas_Restructuring']==1 AND ($UserId==9 OR $UserId==10 OR $UserId==14 OR $UserId==41 OR $UserId==53)){?>
-	   <li><a href="NewCoreRestrProcess.php?ee=ere&pp=prp&d=FC&y=<?php echo date("Y"); ?>">Mapping : Final Process</a></li>
-	  <?php } ?>
+	  <li><a href="NewPolicyUpdate.php?ee=ere&pp=prp&d=<?php echo $D; ?>&y=<?php echo date("Y"); ?>">Policy & Lodging Change</a></li>
 	  
 	  <?php } //NewComRestr.php ?>
 
@@ -233,7 +233,7 @@
 	
 	
 	<?php if($_SESSION['Utility']==1 OR $_SESSION['Util_ImportEmpIncrement']==1){ ?>
-	 <li><a>HR Policy Manual</a></li>
+	 <?php /*<li><a>HR Policy Manual</a></li>*/?>
 	 <li><a href="ReportsFamily.php?YI=<?php echo $YearId; ?>">Vaccination Status</a></li>
 	
 	<li><a href="#" class="fly">Upload Document</a>
@@ -304,6 +304,7 @@
     <ul> 
 	<?php if($_SESSION['PMS']==1 OR $_SESSION['PMS_KRA']==1){?><li><a href="KRA.php?YI=<?php echo $YearId; ?>">Departmental KRA</a></li><?php } ?>
     <?php /* if($_SESSION['PMS']==1 OR $_SESSION['PMS_DeptKRA']==1){?><li><a href="DesigKRA.php">Distribute Standard KRA</a></li><?php } */ ?>
+    <?php if($_SESSION['PMS']==1 OR $_SESSION['PMS_KRAStatus']==1){?><li><a href="EmployeeKRA.php">Employee KRA Detail</a></li><?php } ?>
     <?php if($_SESSION['PMS']==1 OR $_SESSION['PMS_EditKRA']==1){?><li><a href="EditKRA.php">Employee KRA/ Form-B</a></li><?php } ?>
     <?php if($_SESSION['PMS']==1 OR $_SESSION['PMS_KRAStatus']==1){?><li><a href="KRAStatus.php">KRA Status</a></li><?php } ?>
     <?php if($_SESSION['PMS']==1 OR $_SESSION['PMS_EditKRA']==1){?><li><a href="PendKRASub.php">Pending KRA Submission</a></li><?php } ?>
@@ -354,7 +355,7 @@
         <li><b></b></li>
 	<?php if($_SESSION['UserType']=='S' AND  ($_SESSION['PMS']==1 OR $_SESSION['PMS_OpenCloseMenu']==1)){?>
         
-        <?php if($UserId==9 OR $UserId==10 OR $UserId==14 OR $UserId==15 OR $UserId==4 OR $UserId==11 OR $UserId==41){ ?>
+        <?php if($UserId==9 OR $UserId==10 OR $UserId==14 OR $UserId==15 OR $UserId==4 OR $UserId==11 OR $UserId==41 OR $UserId==53 OR $UserId==57 OR $UserId==65 OR $UserId==66){ ?>
         <li><a href="SetKraPms.php">Setting KRA/PMS</a></li>
         
         <?php if($_SESSION['PMS']==1 OR $_SESSION['PMS_IncDistri']==1){?>
@@ -368,6 +369,7 @@
         <?php /*<li><a href="PmsOpenClose.php?ey=<?php echo $YearId; ?>">Open/ Close Menu</a></li> */ ?>
         <li><a href="EditEmpForms.php?ey=<?php echo $YearId; ?>&h=0&d=0&r=0">Employee Forms</a></li>
         <li><a href="EditAdminPms.php?YI=<?php echo $YearId; ?>&hod=0&hr=0&app=1&rev=0">Edit Pms Form</a></li>
+        <li><a href="DepartmentLogicMapping.php">Department Logic Map</a></li>
        <?php } ?>   
 	</ul>
    </li>
@@ -553,12 +555,12 @@
 	<li><a href="HealthIdCard.php?act=resutreports&vcheck=true&yy=23%23%e&truekey=false&YI=<?php echo $YearId; ?>&s=A&rightn=ee&rr=34&frf=34&yey=5&d=0">Health ID Card</a></li>
 	<?php } ?>
 	<li>&nbsp;<font color="#ff6">---------------------</font></li>	
-	<?php if($_SESSION['Report']==1){?><li><a href="RsAttrition.php?y=<?php echo $YearId; ?>">Attrition</a></li><?php } ?>
-	<?php if($_SESSION['Report']==1){?><li><a href="RsHCount.php?y=<?php echo $YearId; ?>">Head Count & Attrition</a></li><?php } ?>
-	<?php if($_SESSION['Report']==1){?><li><a href="RsAgeing.php?y=<?php echo $YearId; ?>">Ageing (Exp Slab)</a></li><?php } ?>
+	<?php if($_SESSION['Report']==1 || $UserId==80){?><li><a href="RsAttrition.php?y=<?php echo $YearId; ?>">Attrition</a></li><?php } ?>
+	<?php if($_SESSION['Report']==1 || $UserId==80){?><li><a href="RsHCount.php?y=<?php echo $YearId; ?>">Head Count & Attrition</a></li><?php } ?>
+	<?php if($_SESSION['Report']==1 || $UserId==80){?><li><a href="RsAgeing.php?y=<?php echo $YearId; ?>">Ageing (Exp Slab)</a></li><?php } ?>
 	<?php if($_SESSION['Report']==1){?><li><a href="RsManPower.php?y=<?php echo $YearId; ?>">Ageing (Manpower Slab)</a></li><?php } ?>
-	<?php if($_SESSION['Report']==1){?><li><a href="RsOnBoarding.php?y=<?php echo $YearId; ?>">On Boarding</a></li><?php } ?>
-	<?php if($_SESSION['Report']==1){?><li><a href="RsLocDeptManPower.php?y=<?php echo $YearId; ?>">Manpower (Loc & Dept)</a></li><?php } ?>
+	<?php if($_SESSION['Report']==1 || $UserId==80){?><li><a href="RsOnBoarding.php?y=<?php echo $YearId; ?>">On Boarding</a></li><?php } ?>
+	<?php if($_SESSION['Report']==1 || $UserId==80){?><li><a href="RsLocDeptManPower.php?y=<?php echo $YearId; ?>">Manpower (Loc & Dept)</a></li><?php } ?>
 	<?php if($_SESSION['Report']==1){?><li><a href="RsCopensation.php?y=<?php echo $YearId; ?>">Compensation</a></li><?php } ?>
 	<li>&nbsp;<font color="#ff6">---------------------</font></li>
 	<?php } ?>

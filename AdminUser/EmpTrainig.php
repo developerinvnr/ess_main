@@ -9,6 +9,7 @@ if($_SESSION['login'] = true){require_once('AdminMenuSession.php');} else {$msg=
 $_SESSION['EmpID']=$_REQUEST['ID'];
 $EMPID=$_SESSION['EmpID'];
 //**********************************
+
 ?> 
 <html>
 <head>

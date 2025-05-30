@@ -94,12 +94,11 @@ $FD=date("Y",strtotime($rY['FromDate'])); $TD=date("Y",strtotime($rY['ToDate']))
 <td class="td1" style="font-size:14px;width:180px;font-family:Times New Roman;" >&nbsp;&nbsp;<b>Year:</b>&nbsp;
 <select class="tdsel" style="background-color:#DDFFBB;width:115px;" name="YearID" id="YearID" onChange="SelectYear(this.value)"><?php if($_REQUEST['YI']!=''){ $SqlY=mysql_query("select * from hrm_year where YearId=".$_REQUEST['YI'], $con); $ResY=mysql_fetch_array($SqlY); ?><option value="<?php echo $ResY['YearId']; ?>"><?php echo date("Y",strtotime($ResY['FromDate'])).'-'.date("Y",strtotime($ResY['ToDate'])); if($ResY['YearId']>5){ echo ' - Y'; }?></option><?php }else{ ?><option value="" selected>Year</option><?php } $SqlYear=mysql_query("select y.YearId,FromDate,ToDate from hrm_employee_pms p inner join hrm_year y on p.AssessmentYear=y.YearId where CompanyId=".$CompanyId." group by AssessmentYear order by AssessmentYear DESC", $con); while($ResYear=mysql_fetch_array($SqlYear)) { ?><option value="<?php echo $ResYear['YearId']; ?>"><?php echo date("Y",strtotime($ResYear['FromDate'])).'-'.date("Y",strtotime($ResYear['ToDate'])); if($ResYear['YearId']>5){ echo ' - Y'; } ?></option><?php } ?></select></td>	
 
-<td class="td1" style="font-size:12px;" align="center"><select style="font-size:12px; width:158px; height:20px; background-color:#DDFFBB;" name="DeptScore" id="DeptScore" onChange="SelectEFdBck(this.value,<?php echo $_REQUEST['YI']; ?>,'d',0)"><option value="" style="margin-left:0px;" selected>SELECT DEPARTMENT</option><?php $SqlDept=mysql_query("select * from hrm_department where CompanyId=".$CompanyId." order by DepartmentName ASC", $con); while($ResDept=mysql_fetch_array($SqlDept)) { ?><option value="<?php echo $ResDept['DepartmentId']; ?>"><?php echo '&nbsp;'.$ResDept['DepartmentCode'];?></option><?php } ?><option value="0">&nbsp;All</option></select></td>
+<td class="td1" style="font-size:12px;" align="center"><select style="font-size:12px; width:158px; height:20px; background-color:#DDFFBB;" name="DeptScore" id="DeptScore" onChange="SelectEFdBck(this.value,<?php echo $_REQUEST['YI']; ?>,'d',0)"><option value="" style="margin-left:0px;" selected>SELECT DEPARTMENT</option><?php $SqlDept=mysql_query("select * from core_departments where is_active=1 order by department_name", $con); while($ResDept=mysql_fetch_array($SqlDept)) { ?><option value="<?php echo $ResDept['id']; ?>"><?php echo '&nbsp;'.$ResDept['department_name'];?></option><?php } ?><option value="0">&nbsp;All</option></select></td>
 <td>&nbsp;</td>
 <td class="td1" style="font-size:12px; width:150px;" align="center">
                        <select style="font-size:12px; width:158px; height:20px; background-color:#DDFFBB;" name="DeptScore" id="DeptScore" onChange="SelectEFdBck(this.value,<?php echo $_REQUEST['YI']; ?>,'d',1)"><option value="" style="margin-left:0px;" selected>NAME WISE</option>
-<?php $SqlDept=mysql_query("select * from hrm_department where CompanyId=".$CompanyId." order by DepartmentName ASC", $con); while($ResDept=mysql_fetch_array($SqlDept)) { ?>
-                       <option value="<?php echo $ResDept['DepartmentId']; ?>"><?php echo '&nbsp;'.$ResDept['DepartmentCode'];?></option><?php } ?>
+<?php $SqlDept=mysql_query("select * from core_departments where is_active=1 order by department_name", $con); while($ResDept=mysql_fetch_array($SqlDept)) { ?><option value="<?php echo $ResDept['id']; ?>"><?php echo '&nbsp;'.$ResDept['department_name'];?></option><?php } ?>
 					   <option value="0">&nbsp;All</option>
 					   </select></td>
 
@@ -118,7 +117,7 @@ $FD=date("Y",strtotime($rY['FromDate'])); $TD=date("Y",strtotime($rY['ToDate']))
 if($_REQUEST['ee']=='Dept')
 { $name='Department Wise'; 
   if($_REQUEST['value']!=0)
-  { $sqlA=mysql_query("select DepartmentName from hrm_department where DepartmentId=".$_REQUEST['value'], $con); $resA=mysql_fetch_assoc($sqlA); $name2=$resA['DepartmentName']; }
+  { $sqlA=mysql_query("select department_name as DepartmentName from core_departments where id=".$_REQUEST['value'], $con); $resA=mysql_fetch_assoc($sqlA); $name2=$resA['DepartmentName']; }
   else{$name2='All Department';}
 }
 ?>
@@ -146,8 +145,8 @@ if($_REQUEST['ee']=='Dept')
 	 </tr>	
 	 </thead>
 	 </div>
-<?php if($_REQUEST['value']==0){ $sql=mysql_query("SELECT w.*,Fname,Sname,Lname,DepartmentCode from hrm_employee_pms_workenvironment w INNER JOIN hrm_employee_pms p ON w.EmpPmsId=p.EmpPmsId INNER JOIN hrm_employee_general g ON p.EmployeeID=g.EmployeeID INNER JOIN hrm_employee e ON p.EmployeeID=e.EmployeeID INNER JOIN hrm_department d ON g.DepartmentId=d.DepartmentId WHERE p.CompanyId=".$CompanyId." AND p.AssessmentYear=".$_REQUEST['YI']." AND g.DateJoining<='".$YYear."-06-30' AND e.EmpCode<=11000 AND w.Answer!='' order by w.WorkEnvironment ASC", $con); }
-  else{ $sql=mysql_query("SELECT w.*,Fname,Sname,Lname,DepartmentCode from hrm_employee_pms_workenvironment w INNER JOIN hrm_employee_pms p ON w.EmpPmsId=p.EmpPmsId INNER JOIN hrm_employee_general g ON p.EmployeeID=g.EmployeeID INNER JOIN hrm_employee e ON p.EmployeeID=e.EmployeeID INNER JOIN hrm_department d ON g.DepartmentId=d.DepartmentId WHERE p.CompanyId=".$CompanyId." AND p.AssessmentYear=".$_REQUEST['YI']." AND g.DateJoining<='".$YYear."-06-30' AND e.EmpCode<=11000 AND w.Answer!='' AND p.HR_Curr_DepartmentId=".$_REQUEST['value']." order by w.WorkEnvironment ASC", $con); } 
+<?php if($_REQUEST['value']==0){ $sql=mysql_query("SELECT w.*,Fname,Sname,Lname,department_name as DepartmentCode from hrm_employee_pms_workenvironment w INNER JOIN hrm_employee_pms p ON w.EmpPmsId=p.EmpPmsId INNER JOIN hrm_employee_general g ON p.EmployeeID=g.EmployeeID INNER JOIN hrm_employee e ON p.EmployeeID=e.EmployeeID INNER JOIN core_departments d ON g.DepartmentId=d.id WHERE p.CompanyId=".$CompanyId." AND p.AssessmentYear=".$_REQUEST['YI']." AND g.DateJoining<='".$YYear."-06-30' AND e.EmpCode<=11000 AND w.Answer!='' order by w.WorkEnvironment ASC", $con); }
+  else{ $sql=mysql_query("SELECT w.*,Fname,Sname,Lname,epartment_name as DepartmentCode from hrm_employee_pms_workenvironment w INNER JOIN hrm_employee_pms p ON w.EmpPmsId=p.EmpPmsId INNER JOIN hrm_employee_general g ON p.EmployeeID=g.EmployeeID INNER JOIN hrm_employee e ON p.EmployeeID=e.EmployeeID core_departments d ON g.DepartmentId=d.id WHERE p.CompanyId=".$CompanyId." AND p.AssessmentYear=".$_REQUEST['YI']." AND g.DateJoining<='".$YYear."-06-30' AND e.EmpCode<=11000 AND w.Answer!='' AND p.HR_Curr_DepartmentId=".$_REQUEST['value']." order by w.WorkEnvironment ASC", $con); } 
   $Sno=1; while($res=mysql_fetch_array($sql)){
 ?>	 
      <div class="tbody">

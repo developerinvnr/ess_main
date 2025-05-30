@@ -336,13 +336,17 @@ $Ename = $ResEmp['Fname'].'&nbsp;'.$ResEmp['Sname'].'&nbsp;'.$ResEmp['Lname']; $
 <tr>
  <td colspan="2" width="850">
   <table border="0"><tr>
-<?php $sqlReti=mysql_query("select RetiStatus,RetiDate from hrm_employee where EmployeeID=".$EMPID, $con); $resReti=mysql_fetch_assoc($sqlReti);
+<?php $sqlReti=mysql_query("select RetiStatus,RetiDate,EmpStatus,DateOfSepration from hrm_employee where EmployeeID=".$EMPID, $con); $resReti=mysql_fetch_assoc($sqlReti);
 $sqlExp=mysql_query("select DateJoining,VNRExpYear,VNRExpMonth,PreviousExpYear,PreviousExpMonth from hrm_employee_general where EmployeeID=".$EMPID, $con); 
  $resExp=mysql_fetch_assoc($sqlExp);
+ 
+$date2 = date("Y-m-d"); 
 if($resReti['RetiStatus']=='N'){$StratDate=$resExp['DateJoining'];}elseif($resReti['RetiStatus']=='Y'){$StratDate=$resReti['RetiDate'];}
+if($resReti['EmpStatus']!='A' AND $resReti['DateOfSepration']>='2011-01-01')
+{ $date2 = $resReti['DateOfSepration']; }
 
 $date1 = $StratDate;
-$date2 = date("Y-m-d");
+
 $diff = abs(strtotime($date2) - strtotime($date1));
 $years = floor($diff/(365*60*60*24));
 $months = floor(($diff-$years*365*60*60*24)/(30*60*60*24));
@@ -352,6 +356,9 @@ $days = floor(($diff-$years*365*60*60*24-$months*30*60*60*24)/(60*60*24));
 $dos=date("d-m-Y",strtotime($StratDate));
 $localtime = getdate();
 $today = $localtime['mday']."-".$localtime['mon']."-".$localtime['year'];
+
+if($resReti['EmpStatus']!='A' AND $resReti['DateOfSepration']>='2011-01-01')
+{ $today = date("d-m-Y",strtotime($resReti['DateOfSepration'])); }
 $dob_a = explode("-", $dos);
 $today_a = explode("-", $today);
 $dob_d = $dob_a[0];$dob_m = $dob_a[1];$dob_y = $dob_a[2];
@@ -381,7 +388,7 @@ $days = floor($difference/(60*60*24)); $months = floor($difference/(60*60*24*30)
 $ExpVNRMain=number_format($years2, 1); */
 	  
 ?> 
- <td class="All_80">VNR Exp. <?php if($resReti['RetiStatus']=='Y'){echo '(Consulted)';} ?>:</td><td class="All_60"><input name="VNRExpYear" id="VNRExpYear" value="<?php echo $ExpVNRMain; ?>" class="All_50" readonly></td>  
+ <td class="All_80">VNR Exp.<?php if($resReti['RetiStatus']=='Y'){echo '(Consulted)';} ?>:</td><td class="All_60"><input name="VNRExpYear" id="VNRExpYear" value="<?php echo $ExpVNRMain; ?>" class="All_50" readonly></td>  
  <td class="All_100">Previous Exp. :</td><td class="All_220"><input name="PreviousExpYear" id="PreviousExpYear" value="<?php echo floatval($resExp['PreviousExpYear']); ?>" class="All_50" readonly></td>
   </tr></table>
  </td>
@@ -468,12 +475,16 @@ $ExpVNRMain=number_format($years2, 1); */
 <tr>
  <td colspan="2" width="800">
   <table border="0"><tr>
-<?php $sqlReti=mysql_query("select RetiStatus,RetiDate from hrm_employee where EmployeeID=".$EMPID, $con); $resReti=mysql_fetch_assoc($sqlReti);
+<?php $sqlReti=mysql_query("select RetiStatus,RetiDate,EmpStatus,DateOfSepration from hrm_employee where EmployeeID=".$EMPID, $con); $resReti=mysql_fetch_assoc($sqlReti);
 $sqlExp=mysql_query("select DateJoining,VNRExpYear,VNRExpMonth,PreviousExpYear,PreviousExpMonth from hrm_employee_general where EmployeeID=".$EMPID, $con); 
  $resExp=mysql_fetch_assoc($sqlExp);
+ 
+$date2 = date("Y-m-d"); 
 if($resReti['RetiStatus']=='N'){$StratDate=$resExp['DateJoining'];}elseif($resReti['RetiStatus']=='Y'){$StratDate=$resReti['RetiDate'];}
+if($resReti['EmpStatus']!='A' AND $resReti['DateOfSepration']>='2011-01-01')
+{ $date2 = $resReti['DateOfSepration']; }
+
 $date1 = $StratDate;
-$date2 = date("Y-m-d");
 $diff = abs(strtotime($date2) - strtotime($date1));
 $years = floor($diff/(365*60*60*24));
 $months = floor(($diff-$years*365*60*60*24)/(30*60*60*24));
@@ -483,6 +494,9 @@ $days = floor(($diff-$years*365*60*60*24-$months*30*60*60*24)/(60*60*24));
 $dos=date("d-m-Y",strtotime($StratDate));
 $localtime = getdate();
 $today = $localtime['mday']."-".$localtime['mon']."-".$localtime['year'];
+if($resReti['EmpStatus']!='A' AND $resReti['DateOfSepration']>='2011-01-01')
+{ $today = date("d-m-Y",strtotime($resReti['DateOfSepration'])); }
+
 $dob_a = explode("-", $dos);
 $today_a = explode("-", $today);
 $dob_d = $dob_a[0];$dob_m = $dob_a[1];$dob_y = $dob_a[2];

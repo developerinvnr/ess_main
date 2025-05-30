@@ -61,7 +61,7 @@ $csv_output .= '"Total Emp",';
 $csv_output .= "\n";		
 
 $today=date("Y-m-d"); $timestamp = strtotime($today); 
- $sql=mysql_query("select DepartmentId,DepartmentName from hrm_department where DeptStatus='A' AND CompanyId=".$_REQUEST['c']." order by DepartmentName ASC",$con); 
+ $sql=mysql_query("select id as DepartmentId,department_name as DepartmentName from core_departments where is_active=1 order by department_name",$con); 
  $SNo=1; while($res=mysql_fetch_array($sql)){
  
 $csv_output .= '"'.str_replace('"', '""', $Sno).'",'; 

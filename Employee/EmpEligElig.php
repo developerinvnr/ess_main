@@ -18,11 +18,67 @@
  <td>
  
 <?php $SqlE=mysql_query("SELECT Fname, Sname, Lname, EmpCode, GradeId, DesigId, DepartmentId, EmpAddBenifit_MediInsu_value, CompanyId FROM hrm_employee_general g INNER JOIN hrm_employee_ctc c ON g.EmployeeID=c.EmployeeID inner join hrm_employee e on e.EmployeeID=g.EmployeeID WHERE g.EmployeeID=".$_REQUEST['id'], $con); $ResE=mysql_fetch_assoc($SqlE); 
+$CompanyId=$ResE['CompanyId'];
+
+$sqlGrade=mysql_query("select grade_name as GradeValue from core_grades where id=".$ResE['GradeId'], $con); 
+$resGrade=mysql_fetch_assoc($sqlGrade);
 
 $SqlCtc=mysql_query("SELECT ESCI FROM hrm_employee_ctc WHERE Status='A' AND EmployeeID=".$_REQUEST['id'], $con); $ResCtc=mysql_fetch_assoc($SqlCtc); 
 
-$sqlGrade=mysql_query("select GradeValue from hrm_grade where GradeId=".$ResE['GradeId'], $con); 
-$resGrade=mysql_fetch_assoc($sqlGrade);
+/* --------------------------------------------------------------*/
+/* --------------------------------------------------------------*/
+$OGradeId=$ResE['GradeId']-1; $O2GradeId=$ResE['GradeId']-2;
+
+$sGrade=mysql_query("select grade_name as GradeValue from core_grades where id=".$OGradeId, $con); $rGrade=mysql_fetch_assoc($sGrade);
+$s2Grade=mysql_query("select grade_name as GradeValue from core_grades where id=".$O2GradeId, $con); $r2Grade=mysql_fetch_assoc($s2Grade);
+
+$Cmnt=intval(date("m")); $Oldy=date("Y")-1;
+if($Cmnt==4 || $Cmnt==5 || $Cmnt==6){ $LDate=date("Y").'-04-01'; }
+elseif($Cmnt==7){ $LDate=date("Y").'-05-01'; }
+elseif($Cmnt==8){ $LDate=date("Y").'-06-01'; }
+elseif($Cmnt==9){ $LDate=date("Y").'-07-01'; }
+elseif($Cmnt==10){ $LDate=date("Y").'-08-01'; }
+elseif($Cmnt==11){ $LDate=date("Y").'-09-01'; }
+elseif($Cmnt==12){ $LDate=date("Y").'-10-01'; }
+elseif($Cmnt==1){ $LDate=$Oldy.'-11-01'; }
+elseif($Cmnt==2){ $LDate=$Oldy.'-12-01'; }
+elseif($Cmnt==3){ $LDate=date("Y").'-01-01'; }
+
+$OGrade=0; $OGradeName='';
+$schk = mysql_query("SELECT Current_Grade, Proposed_Grade,SalaryChange_Date FROM hrm_pms_appraisal_history where SalaryChange_Date>='".$LDate."' AND SalaryChange_Date<='".date("Y-m-d")."' AND Current_Grade='".$rGrade['GradeValue']."' AND Proposed_Grade='".$resGrade['GradeValue']."' AND EmpCode=".$ResE['EmpCode']." AND CompanyId=".$CompanyId." order by SalaryChange_Date", $con); 
+$rowchk = mysql_num_rows($schk); $reschk = mysql_fetch_assoc($schk);
+
+if($rowchk>0){ $OGrade=$OGradeId; $OGradeName=$reschk['Current_Grade']; $OGradeDate=date("d-m-Y",strtotime($reschk['SalaryChange_Date'])); }
+else
+{
+$schk = mysql_query("SELECT Current_Grade, Proposed_Grade, SalaryChange_Date FROM hrm_pms_appraisal_history where SalaryChange_Date>='".$LDate."' AND SalaryChange_Date<='".date("Y-m-d")."' AND Current_Grade='".$r2Grade['GradeValue']."' AND Proposed_Grade='".$resGrade['GradeValue']."' AND EmpCode=".$ResE['EmpCode']." AND CompanyId=".$CompanyId." order by SalaryChange_Date", $con); 
+$rowchk = mysql_num_rows($schk); $reschk = mysql_fetch_assoc($schk);
+if($rowchk>0){ $OGrade=$O2GradeId; $OGradeName=$reschk['Current_Grade']; $OGradeDate=date("d-m-Y",strtotime($reschk['SalaryChange_Date'])); }
+}
+
+if($OGrade>0)
+{
+    /******************/
+    $SqlEv = mysql_query("SELECT EmpVertical,DepartmentId FROM hrm_employee_general WHERE EmployeeID=".$_REQUEST['id'], $con); $Resv=mysql_fetch_assoc($SqlEv); 
+ 
+    $sElig=mysql_query("select * from hrm_master_eligibility where DepartmentId='".$Resv['DepartmentId']."' AND GradeId='".$OGrade."' AND VerticalId=".$Resv['EmpVertical']." AND CompanyId=".$ResE['CompanyId'], $con); $rowElig=mysql_num_rows($sElig); 
+ 
+ 
+    if($rowElig>0){ $rElig=mysql_fetch_assoc($sElig); }
+    else
+    {
+     
+      $sElig2=mysql_query("select * from hrm_master_eligibility where DepartmentId='".$Resv['DepartmentId']."' AND GradeId='".$OGrade."' AND VerticalId>0 AND CompanyId=".$ResE['CompanyId'], $con);  $rowElig2=mysql_num_rows($sElig2);
+      if($rowElig2>0){ $rElig=mysql_fetch_assoc($sElig2); }
+      else{ $sElig3=mysql_query("select * from hrm_master_eligibility where DepartmentId='".$Resv['DepartmentId']."' AND GradeId='".$OGrade."' AND VerticalId=0 AND CompanyId=".$ResE['CompanyId'], $con);  $rElig=mysql_fetch_assoc($sElig3); }
+    }
+    /******************/
+}
+/* --------------------------------------------------------------*/
+/* --------------------------------------------------------------*/
+
+
+/*
 if($resGrade['GradeValue']!='')
 {
  $sqlLod=mysql_query("select * from hrm_lodentitle where GradeValue='".$resGrade['GradeValue']."'", $con); 
@@ -33,20 +89,25 @@ if($resGrade['GradeValue']!='')
  $resEnt=mysql_fetch_assoc($sqlEnt);
  $sqlElig=mysql_query("select * from hrm_traveleligibility where GradeValue='".$resGrade['GradeValue']."'", $con);
  $resElig=mysql_fetch_assoc($sqlElig); 
-} 	  
+}*/ 	  
 
 $SqlEligEmp = mysql_query("SELECT * FROM hrm_employee_eligibility WHERE EmployeeID=".$_REQUEST['id']." AND Status='A'", $con) or die(mysql_error());  $ResEligEmp=mysql_fetch_assoc($SqlEligEmp); 
 
-$CompanyId=$ResE['CompanyId'];
+$SqlEligEmp_old = mysql_query("SELECT * FROM hrm_employee_eligibility WHERE EmployeeID=".$_REQUEST['id']." AND EligibilityId=(SELECT Max(EligibilityId) as EligibilityId FROM hrm_employee_eligibility WHERE EmployeeID=".$_REQUEST['id']." AND Status!='A')", $con);  $ResEligEmp_old=mysql_fetch_assoc($SqlEligEmp_old); 
+
 ?> 
  
   <table width="100%" style="margin-top:0px;">
 	 <tr>
 	  <td valign="top">
 	     <table border="0" style="width:100%;float:none;" cellpadding="0">
-		  <?php $sqlDesig=mysql_query("select DesigName from hrm_designation where DesigId=".$ResE['DesigId'],$con); $resDesig=mysql_fetch_assoc($sqlDesig); ?>   
+		  <?php $sqlDesig=mysql_query("select designation_name as DesigName from core_designation where id=".$ResE['DesigId'],$con); $resDesig=mysql_fetch_assoc($sqlDesig); ?>   
 <tr><td align="center" style="font-size:18px;font-family:Times New Roman;color:#000000; border:hidden;"><b><?php echo $ResE['EmpCode'].' - '.$ResE['Fname'].' '.$ResE['Sname'].' '.$ResE['Lname']; ?><br>
 <?php echo 'Grade:- <font color="#0080FF">'.$resGrade['GradeValue'].'</font>&nbsp;&nbsp;&nbsp;Designation:- <font color="#0080FF">'.ucwords(strtolower($resDesig['DesigName'])).'</font>';?></b></td></tr>
+<?php if($OGrade>0){ ?>
+<tr><td align="center" style="font-size:18px;font-family:Times New Roman;border:hidden;color:#000000;"><b>
+<?php echo 'Old Grade:- <font color="#FF0000">'.$OGradeName.'</font>&nbsp;&nbsp;&nbsp;Change Date:- <font color="#FF0000">'.$OGradeDate.'</font>';?></b></td></tr>
+<?php } ?>
          
 		  <tr>
 		   <td valign="top" align="center"> 	   
@@ -88,8 +149,19 @@ if(!isset($_REQUEST['typeT']) && !isset($_REQUEST['m']))
   <td style="width:150px;font-size:16px;" align="center"><b>B</b></td>
   <td style="width:150px;font-size:16px;" align="center"><b>C</b></td>
  </tr>
+ <?php /*
  <tr>
-  <td style="width:150px;font-size:16px;" align="center">Amount (in Rs.)</td>
+  <td style="width:150px;font-size:16px;" align="center">Year 2024-25</td>
+  <td style="width:155px;" align="center">
+  <?php if($ResEligEmp['old_Lodging_CategoryA']!=''){echo intval($ResEligEmp['old_Lodging_CategoryA']);}?></td>
+  <td style="width:155px;" align="center">
+  <?php if($ResEligEmp['old_Lodging_CategoryB']!=''){echo intval($ResEligEmp['old_Lodging_CategoryB']);}?></td>
+  <td style="width:155px;" align="center">
+  <?php if($ResEligEmp['old_Lodging_CategoryC']!=''){echo intval($ResEligEmp['old_Lodging_CategoryC']);}?></td>
+ </tr>
+ */?>
+ <tr>
+  <td style="width:150px;font-size:16px;" align="center">New</td>
   <td style="width:155px;" align="center">
   <?php if($ResEligEmp['Lodging_CategoryA']!=''){echo intval($ResEligEmp['Lodging_CategoryA']);}?></td>
   <td style="width:155px;" align="center">
@@ -97,6 +169,17 @@ if(!isset($_REQUEST['typeT']) && !isset($_REQUEST['m']))
   <td style="width:155px;" align="center">
   <?php if($ResEligEmp['Lodging_CategoryC']!=''){echo intval($ResEligEmp['Lodging_CategoryC']);}?></td>
  </tr>
+ <?php if($OGrade>0){ ?>
+ <tr>
+  <td style="width:150px;font-size:16px;color:#FF0000;" align="center">Old</td>
+  <td style="width:155px;color:#FF0000;" align="center">
+  <?php if($rElig['CategoryA']!=''){echo intval($rElig['CategoryA']);}?></td>
+  <td style="width:155px;color:#FF0000;" align="center">
+  <?php if($rElig['CategoryB']!=''){echo intval($rElig['CategoryB']);}?></td>
+  <td style="width:155px;color:#FF0000;" align="center">
+  <?php if($rElig['CategoryC']!=''){echo intval($rElig['CategoryC']);}?></td>
+ </tr>
+ <?php } ?>
  </table>
  </td>
 </tr>
@@ -126,6 +209,25 @@ if(!isset($_REQUEST['typeT']) && !isset($_REQUEST['m']))
   <td style="width:35%;" align="center">&nbsp;<?=$ResEligEmp['DA_Outside_Hq']?></td>
  </tr>
  <?php } ?>
+ 
+ <?php if($OGrade>0){ ?>
+ 
+ <?php if($rElig['DA_InSiteHQ']!='' AND $rElig['DA_InSiteHQ']!='NA' AND $rElig['DA_InSiteHQ']!=' '){ ?>
+ <tr>
+  <td style="width:65%;font-size:16px;color:#FF0000;">&nbsp;DA@HQ <font color="#FF0000">Old</font> : <?=$rElig['DA_InSiteHQ_Rmk']?></td>
+  <td style="width:35%;color:#FF0000;" align="center">&nbsp;<?=$rElig['DA_InSiteHQ']?></td>
+ </tr>
+ <?php } 
+ if($rElig['DA_OutSiteHQ']!='' AND $rElig['DA_OutSiteHQ']!='NA' AND $rElig['DA_OutSiteHQ']!=' '){ ?>
+ <tr>
+  <td style="width:65%;font-size:16px;color:#FF0000;">&nbsp;<?php if($ResE['DepartmentId']==2){echo 'Fooding Expense (For outside HQ travel with night halt)'; }else{ echo 'DA OutsideHQ '.$rElig['DA_OutSiteHQ_Rmk']; } ?> <font color="#FF0000">Old</font> : </td>
+  <td style="width:35%;color:#FF0000;" align="center">&nbsp;<?=$rElig['DA_OutSiteHQ']?></td>
+ </tr>
+ <?php } ?>
+ 
+ <?php } ?>
+ 
+ 
  </table>
  </td>
 </tr>
@@ -191,12 +293,12 @@ if(!isset($_REQUEST['typeT']) && !isset($_REQUEST['m']))
 <tr>
  <td colspan="3" style="width:100%;">
  <table border="1" style="width:100%;" cellpadding="1" cellspacing="0">
- <?php if(($ResEligEmp['Mobile_Exp_Rem']=='Y' AND $ResEligEmp['Mobile_Exp_Rem_Rs']!='' AND $ResEligEmp['Mobile_Exp_Rem_Rs']!='NA' AND $ResEligEmp['Prd']!='') OR ($ResEligEmp['Mobile_Exp_RemPost_Rs']!='' AND $ResEligEmp['Mobile_Exp_RemPost_Rs']!='NA' AND $ResEligEmp['PrdPost']!='')){ ?>
+ <?php if(($ResEligEmp_old['Mobile_Exp_Rem']=='Y' AND $ResEligEmp_old['Mobile_Exp_Rem_Rs']!='' AND $ResEligEmp_old['Mobile_Exp_Rem_Rs']!='NA' AND $ResEligEmp_old['Prd']!='') OR ($ResEligEmp_old['Mobile_Exp_RemPost_Rs']!='' AND $ResEligEmp_old['Mobile_Exp_RemPost_Rs']!='NA' AND $ResEligEmp_old['PrdPost']!='')){ ?>
  <tr>
-  <td style="width:40%;font-size:16px;">&nbsp;Mobile expenses Reimbursement : </td>
-  <td style="width:60%;" align="center">&nbsp;<?php if($ResEligEmp['Mobile_Exp_Rem']=='Y' AND $ResEligEmp['Mobile_Exp_Rem_Rs']!='' AND $ResEligEmp['Mobile_Exp_Rem_Rs']!='NA' AND $ResEligEmp['Prd']!=''){ if($ResE['DepartmentId']!=2){echo '<b>Prepaid:</b>';} echo ' Rs. '.$ResEligEmp['Mobile_Exp_Rem_Rs']; if($ResEligEmp['Prd']=='Mnt'){echo '/Month.';}elseif($ResEligEmp['Prd']=='Qtr'){echo '/Quarter.';}elseif($ResEligEmp['Prd']=='1/2 Yearly'){echo '/half Yearly.';}elseif($ResEligEmp['Prd']=='Yearly.'){echo '/Year';}  if($ResEligEmp['Mobile_Exp_Rem_Rmk']!=''){ echo ' '.$ResEligEmp['Mobile_Exp_Rem_Rmk']; } echo '<br>'; } ?>
+  <td style="width:40%;font-size:16px;">&nbsp;Mobile expenses Reimbursement<br>&nbsp;<b>(2024-25)</b> : </td>
+  <td style="width:60%;" align="center">&nbsp;<?php if($ResEligEmp_old['Mobile_Exp_Rem']=='Y' AND $ResEligEmp_old['Mobile_Exp_Rem_Rs']!='' AND $ResEligEmp_old['Mobile_Exp_Rem_Rs']!='NA' AND $ResEligEmp_old['Prd']!=''){ if($ResE['DepartmentId']!=2){echo '<b>Prepaid:</b>';} echo ' Rs. '.$ResEligEmp_old['Mobile_Exp_Rem_Rs']; if($ResEligEmp_old['Prd']=='Mnt'){echo '/Month.';}elseif($ResEligEmp_old['Prd']=='Qtr'){echo '/Quarter.';}elseif($ResEligEmp_old['Prd']=='1/2 Yearly'){echo '/half Yearly.';}elseif($ResEligEmp_old['Prd']=='Yearly.'){echo '/Year';}  if($ResEligEmp_old['Mobile_Exp_Rem_Rmk']!=''){ echo ' '.$ResEligEmp_old['Mobile_Exp_Rem_Rmk']; } echo '<br>'; } ?>
   
-  <?php if($ResEligEmp['Mobile_Exp_RemPost_Rs']!='' AND $ResEligEmp['Mobile_Exp_RemPost_Rs']!='NA' AND $ResEligEmp['PrdPost']!=''){ if($ResE['DepartmentId']!=2){echo '<b>Postpaid:</b>';} echo ' Rs. '.$ResEligEmp['Mobile_Exp_RemPost_Rs']; if($ResEligEmp['PrdPost']=='Mnt'){echo '/Month.';}elseif($ResEligEmp['PrdPost']=='Qtr'){echo '/Quarter.';}elseif($ResEligEmp['PrdPost']=='1/2 Yearly'){echo '/Half Yearly.';}elseif($ResEligEmp['PrdPost']=='Yearly'){echo '/Year.';} if($ResEligEmp['Mobile_Exp_RemPost_Rmk']!=''){ echo ' '.$ResEligEmp['Mobile_Exp_RemPost_Rmk']; }  } ?>
+  <?php if($ResEligEmp_old['Mobile_Exp_RemPost_Rs']!='' AND $ResEligEmp_old['Mobile_Exp_RemPost_Rs']!='NA' AND $ResEligEmp_old['PrdPost']!=''){ if($ResE['DepartmentId']!=2){echo '<b>Postpaid:</b>';} echo ' Rs. '.$ResEligEmp_old['Mobile_Exp_RemPost_Rs']; if($ResEligEmp_old['PrdPost']=='Mnt'){echo '/Month.';}elseif($ResEligEmp_old['PrdPost']=='Qtr'){echo '/Quarter.';}elseif($ResEligEmp_old['PrdPost']=='1/2 Yearly'){echo '/Half Yearly.';}elseif($ResEligEmp_old['PrdPost']=='Yearly'){echo '/Year.';} if($ResEligEmp_old['Mobile_Exp_RemPost_Rmk']!=''){ echo ' '.$ResEligEmp_old['Mobile_Exp_RemPost_Rmk']; }  } ?>
   
   </td>
  </tr>
@@ -407,7 +509,9 @@ $Lm=date('F',strtotime("-1 months",strtotime(date("Y-m-d"))));
     <table width="100%" border="0">
     <tr>
      <td style="width:100%;">
-<?php $m=$_REQUEST['m']; if(date("m")==1 AND $m==12){$y=date("Y")-1;}else{$y=date("Y");} 
+<?php $m=$_REQUEST['m']; 
+      //if(date("m")==1 AND $m==12){$y=date("Y")-1;}else{$y=date("Y");}
+      $y=$_REQUEST['y'];
 $mkdate = mktime(0,0,0, $m, 1, $y); $FDay = date('w',$mkdate); $pwkDay = date('w',$mkdate);
 $days = date('t',$mkdate); $sieve = $_REQUEST['y'].$_REQUEST['m'].'01'; $day = '1';  $showBtn=1; ?>	
  
@@ -432,7 +536,7 @@ $days = date('t',$mkdate); $sieve = $_REQUEST['y'].$_REQUEST['m'].'01'; $day = '
 	  $sE=mysql_query("SELECT * FROM hrm_employee_attendance WHERE EmployeeID=".$_REQUEST['id']." AND AttDate='".date($y."-".$m."-".$day)."'", $con); $rowE=mysql_num_rows($sE); 
 	  if($rowE==0)
 	  {
-	   $sE=mysql_query("SELECT * FROM hrm_employee_attendance_".date("Y")." WHERE EmployeeID=".$_REQUEST['id']." AND AttDate='".date($y."-".$m."-".$day)."'", $con); $rowE=mysql_num_rows($sE);
+	   $sE=mysql_query("SELECT * FROM hrm_employee_attendance_".$y." WHERE EmployeeID=".$_REQUEST['id']." AND AttDate='".date($y."-".$m."-".$day)."'", $con); $rowE=mysql_num_rows($sE);
 	  }
 	  $rE=mysql_fetch_array($sE); 
 	  ?>

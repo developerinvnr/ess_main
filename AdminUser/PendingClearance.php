@@ -118,7 +118,7 @@ $(document).ready(function () { $("#table1").freezeHeader({ 'height': '500px' })
 	  <td width="250" class="heading">&nbsp;Pending Clearance</td>
 	  <td class="td1" style="width:180px;"><select class="tdsel" style="background-color:#DDFFBB; width:100%;" name="Dept" id="Dept" onChange="SelectDept(this.value)">
 	  <option value="" <?php if(!$_REQUEST['DPid']){echo 'selected';}?>>SELECT DEPARTMENT</option>
-	  <?php $SqlDept=mysql_query("select * from hrm_department where CompanyId=".$CompanyId." order by DepartmentName ASC", $con); while($ResDept=mysql_fetch_array($SqlDept)) { ?><option value="<?php echo $ResDept['DepartmentId'];?>" <?php if($_REQUEST['DPid']==$ResDept['DepartmentId']){echo 'selected';}?>><?php echo $ResDept['DepartmentCode'];?></option><?php } ?>
+	  <?php $SqlDept=mysql_query("select * from core_departments where is_active=1 order by department_name", $con); while($ResDept=mysql_fetch_array($SqlDept)) { ?><option value="<?php echo $ResDept['id'];?>" <?php if($_REQUEST['DPid']==$ResDept['id']){echo 'selected';}?>><?php echo $ResDept['department_name'];?></option><?php } ?>
 	  <option value="All" <?php if($_REQUEST['DPid']=='All'){echo 'selected';}?>>All</option>
 	  </select></td>
 	   <td><a href="#" onClick="Export('<?php echo $_REQUEST['DPid']; ?>')" style="font-size:12px;">Export Excel</a></td>
@@ -172,7 +172,7 @@ $(document).ready(function () { $("#table1").freezeHeader({ 'height': '500px' })
   		  
 <?php if($_REQUEST['DPid']>0){ $sqry='g.DepartmentId='.$_REQUEST['DPid'];}else{ $sqry='1=1'; }
 
-$sql=mysql_query("select s.*,e.EmpCode,e.Fname,e.Sname,e.Lname,g.DepartmentId,d.DepartmentCode,g.DateJoining from hrm_employee_separation s INNER JOIN hrm_employee e ON s.EmployeeID=e.EmployeeID INNER JOIN hrm_employee_general g ON s.EmployeeID=g.EmployeeID INNER JOIN hrm_department d ON g.DepartmentId=d.DepartmentId where s.ResignationStatus=4 AND e.CompanyId=".$CompanyId." AND ".$sqry." order by s.Emp_ResignationDate DESC", $con); 
+$sql=mysql_query("select s.*,e.EmpCode,e.Fname,e.Sname,e.Lname,g.DepartmentId,d.department_code as DepartmentCode,g.DateJoining from hrm_employee_separation s INNER JOIN hrm_employee e ON s.EmployeeID=e.EmployeeID INNER JOIN hrm_employee_general g ON s.EmployeeID=g.EmployeeID LEFT JOIN core_departments d ON g.DepartmentId=d.id where s.ResignationStatus=4 AND e.CompanyId=".$CompanyId." AND ".$sqry." order by s.Emp_ResignationDate DESC", $con); 
 $Sno=1; while($res=mysql_fetch_array($sql)) { 
 
 
@@ -207,7 +207,7 @@ $ExpVNRMain=$years.'.'.$months;
 		  <?php if($res['Emp_ExitInt']=='Y'){echo '<font color="#007100">SUBMITTED</font>';}else{echo '<font color="#FF8000">PENDING</font>';} ?></a></td>
 		  <td class="tdc"><a href="javascript:OpenRepExitInt(<?php echo $res['EmpSepId'].', '.$res['EmployeeID'];?>,'<?php echo $res['Rep_ExitIntForm'];?>')"><?php if($res['Rep_ExitIntForm']=='Y'){echo '<font color="#007100">SUBMITTED</font>';}else{echo '<font color="#FF8000">PENDING</font>';} ?></a></td>
 		  <td class="tdc"><a href="javascript:OpenRepClearance(<?php echo $res['EmpSepId']; ?>,'<?php echo $res['Rep_NOC'];?>')"> <?php if($res['Rep_NOC']=='Y'){echo '<font color="#007100">SUBMITTED</font>';}else{echo '<font color="#FF8000">PENDING</font>';} ?></a></td>
-		  <td class="tdc"><?php if($res['DepartmentId']==6){ ?><a href="javascript:OpenClearanceF(<?php echo $res['EmpSepId'];?>,'<?php echo $res['Log_NOC'];?>')"><?php if($res['Log_NOC']=='Y'){echo '<font color="#007100">SUBMITTED</font>';}else{echo '<font color="#FF8000">PENDING</font>';} ?></a><?php } ?></td>
+		  <td class="tdc"><?php if($res['DepartmentId']==15){ ?><a href="javascript:OpenClearanceF(<?php echo $res['EmpSepId'];?>,'<?php echo $res['Log_NOC'];?>')"><?php if($res['Log_NOC']=='Y'){echo '<font color="#007100">SUBMITTED</font>';}else{echo '<font color="#FF8000">PENDING</font>';} ?></a><?php } ?></td>
 		  				
 		  <td class="tdc"><a href="javascript:OpenItClearance(<?php echo $res['EmpSepId'];?>)"><?php if($res['IT_NOC']=='Y'){echo '<font color="#007100">SUBMITTED</font>';}else{echo '<font color="#FF8000">PENDING</font>';} ?></a></td>		  
 		  <td class="tdc"><a href="javascript:OpenHrClearance(<?php echo $res['EmpSepId'].', '.$UserId.', '.$CompanyId;?>)">

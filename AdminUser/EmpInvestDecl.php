@@ -96,10 +96,10 @@ if($resMs['Month']==1){$m1='January';}elseif($resMs['Month']==2){$m1='February';
 </select>&nbsp;<span id="ReturnValue">&nbsp;</span></td>
 					  
 					  <td class="td1" style="font-size:11px; width:138px;" align="right">
-<?php if($_REQUEST['dd']!='All'){ $sqlDept=mysql_query("select DepartmentCode from hrm_department where DepartmentId=".$_REQUEST['dd'], $con); $resDept=mysql_fetch_assoc($sqlDept); $dept=$resDept['DepartmentCode'];}if($_REQUEST['dd']=='All'){$dept='All';} ?>					  
+<?php if($_REQUEST['dd']!='All'){ $sqlDept=mysql_query("select department_name as DepartmentCode from core_departments where id=".$_REQUEST['dd'], $con); $resDept=mysql_fetch_assoc($sqlDept); $dept=$resDept['DepartmentCode'];}if($_REQUEST['dd']=='All'){$dept='All';} ?>					  
 <select style="font-size:14px;width:140px;background-color:#DDFFBB;font-family:Times New Roman;" name="Dept" id="Dept" onChange="SelectDept(this.value)"><option value="<?php echo $_REQUEST['dd']; ?>" style="margin-left:0px;" selected>&nbsp;<?php echo $dept; ?></option>
-<?php $SqlDept=mysql_query("select * from hrm_department where CompanyId=".$CompanyId." order by DepartmentName ASC", $con); while($ResDept=mysql_fetch_array($SqlDept)) { ?>
-                       <option value="<?php echo $ResDept['DepartmentId']; ?>"><?php echo '&nbsp;'.$ResDept['DepartmentCode'];?></option><?php } ?>
+<?php $SqlDept=mysql_query("select * from core_departments where is_active=1 order by department_name", $con); while($ResDept=mysql_fetch_array($SqlDept)) { ?>
+                       <option value="<?php echo $ResDept['id']; ?>"><?php echo '&nbsp;'.$ResDept['department_name'];?></option><?php } ?>
 					   <option value="All">&nbsp;All</option>
 					   </select></td>
                                            <td align="center" style="" class="All_100"><a href="#" onClick="PrintInvestDelFormate('<?php echo $resMs['Period']; ?>',<?php echo '0,'.$resMs['Month']; ?>)"><i><b>Formate</b></i></a></td>
@@ -144,7 +144,7 @@ $no=1; while($res = mysql_fetch_array($sql)) { ?>
     <td align="center" style="" class="All_40"><?php echo $no; ?></td>
     <td align="center" style="" class="All_60"><?php echo $res['EmpCode']; ?></td>
 	<td align="" style="" class="All_250">&nbsp;<?php echo $res['Fname'].' '.$res['Sname'].' '.$res['Lname']; ?></td>
-<?php $sqlDept=mysql_query("select DepartmentCode from hrm_department where DepartmentId=".$res['DepartmentId'], $con);  $resDept=mysql_fetch_assoc($sqlDept); ?> 
+<?php $sqlDept=mysql_query("select department_code as DepartmentCode from core_departments where id=".$res['DepartmentId'], $con);  $resDept=mysql_fetch_assoc($sqlDept); ?> 
 	<td align="" style="" class="All_100">&nbsp;<?php echo $resDept['DepartmentCode']; ?></td>
 <?php $Ms2=mysql_query("select Period,Month from hrm_investdecl_ym where YMId=".$_REQUEST['mxid'], $con); $resMs2=mysql_fetch_array($Ms2);
 $sqlID=mysql_query("select FormSubmit,Inv_Date,SubmittedDate from hrm_employee_investment_declaration where EmployeeID=".$res['EmployeeID']." AND Period='".$resMs2['Period']."' AND Month=".$resMs2['Month'], $con); $rowID=mysql_num_rows($sqlID);  $resID=mysql_fetch_assoc($sqlID); ?>	

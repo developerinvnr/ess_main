@@ -89,9 +89,10 @@ function ClearChange(EI)
                      <tr>
 					  <td colspan="12" align="left" class="heading">Employee Profile Status Report &nbsp;<span id="ReturnValue">&nbsp;</span></td>
 					  <td class="td1" style="font-size:11px; width:150px;" align="center">
-                       <select style="font-size:11px; width:148px; height:18px; background-color:#DDFFBB;" name="DeptEmpprofile" id="DeptEmpprofile" onChange="SelectDeptEmpprofile(this.value)">                       <option value="" style="margin-left:0px;" selected>Select Department</option>
-<?php $SqlDept=mysql_query("select * from hrm_department where CompanyId=".$CompanyId." order by DepartmentName ASC", $con); while($ResDept=mysql_fetch_array($SqlDept)) { ?>
-                       <option value="<?php echo $ResDept['DepartmentId']; ?>"><?php echo '&nbsp;'.$ResDept['DepartmentCode'];?></option><?php } ?>
+                       <select style="font-size:12px; width:148px; height:22px; background-color:#DDFFBB;" name="DeptEmpprofile" id="DeptEmpprofile" onChange="SelectDeptEmpprofile(this.value)">                       <option value="" style="margin-left:0px;" selected>Select Department</option>
+<?php $SqlDept=mysql_query("select * from core_departments where is_active=1 order by department_name
+", $con); while($ResDept=mysql_fetch_array($SqlDept)) { ?>
+                       <option value="<?php echo $ResDept['id']; ?>"><?php echo '&nbsp;'.$ResDept['department_name'];?></option><?php } ?>
 					   <option value="All">&nbsp;All</option>
 					   </select></td>
 					 </tr>
@@ -104,7 +105,7 @@ function ClearChange(EI)
  <td>
    <table border="1" width="1100">
      <tr>
-<?php if($_REQUEST['value']!='All') {$sqlA=mysql_query("select DepartmentName from hrm_department where DepartmentId=".$_REQUEST['value'], $con);  $resA=mysql_fetch_assoc($sqlA); } ?>	
+<?php if($_REQUEST['value']!='All') {$sqlA=mysql_query("select department_name as DepartmentName from core_departments where id=".$_REQUEST['value'], $con);  $resA=mysql_fetch_assoc($sqlA); } ?>	
 	  <td colspan="16" valign="top" style=" background-color:#0069D2; font-size:14px; color:#FFFFFF; font-family:Georgia; font-weight:bold;">&nbsp;Employee Profile Status Department Wise :
 	  &nbsp;&nbsp;(&nbsp;Department - <?php if($_REQUEST['value']!='All') { echo $resA['DepartmentName'];  } else echo 'All';?>&nbsp;)&nbsp;&nbsp;&nbsp;
 	 <?php  /* <a href="#" onClick="PrintAppRev(<?php if($_REQUEST['value']!='All') { echo $resA['DepartmentName'];  } else echo 'All';?>)" style="color:#F9F900; font-size:12px;">Print</a> */ ?>
@@ -145,7 +146,7 @@ $no=1; while($res = mysql_fetch_array($sql)) { ?>
     <td align="center" style="" class="All_40"><?php echo $no; ?></td>
     <td align="center" style="" class="All_60"><?php echo $res['EmpCode']; ?></td>
 	<td align="" style="" class="All_180">&nbsp;<?php echo $res['Fname'].' '.$res['Sname'].' '.$res['Lname']; ?></td>
-<?php $sqlDept=mysql_query("select DepartmentCode from hrm_department where DepartmentId=".$res['DepartmentId'], $con);  $resDept=mysql_fetch_assoc($sqlDept); ?> 
+<?php $sqlDept=mysql_query("select department_code as DepartmentCode from core_departments where id=".$res['DepartmentId'], $con);  $resDept=mysql_fetch_assoc($sqlDept); ?> 
 	<td align="" style="" class="All_120">&nbsp;<?php echo $resDept['DepartmentCode']; ?></td>
 	<td align="center" style="background-color:<?php if($res['EmpGen_Status']=='YY'){echo '#88FF88';}if($res['EmpGen_Status']=='Y'){echo '#FFFFFF';}if($res['EmpGen_Status']=='N'){echo '#FF7171';} ?>;"  class="All_80">
 	<?php if($res['EmpGen_Status']=='YY'){echo 'Agree';}if($res['EmpGen_Status']=='Y'){echo 'NoAction';}if($res['EmpGen_Status']=='N'){echo 'DisAgree';} ?></td>

@@ -169,8 +169,8 @@ function ReadHis(pmsid,ci,ec,yi)
 				
 <td class="td1" style="font-size:11px;width:150px;" align="center">
                        <select style="font-size:12px; width:155px; height:20px; background-color:#DDFFBB;" name="DeptInc" id="DeptInc" onChange="SelectECmptPrs(this.value,<?php echo $_REQUEST['YI']; ?>,'d')">                       <option value="" style="margin-left:0px;" selected>SELECT DEPARTMENT</option>
-<?php $SqlDept=mysql_query("select * from hrm_department where CompanyId=".$CompanyId." order by DepartmentName ASC", $con); while($ResDept=mysql_fetch_array($SqlDept)) { ?>
-                       <option value="<?php echo $ResDept['DepartmentId']; ?>"><?php echo '&nbsp;'.$ResDept['DepartmentCode'];?></option><?php } ?>
+<?php $SqlDept=mysql_query("select * from core_departments where is_active=1 order by department_name", $con); while($ResDept=mysql_fetch_array($SqlDept)) { ?>
+                       <option value="<?php echo $ResDept['id']; ?>"><?php echo '&nbsp;'.$ResDept['department_name'];?></option><?php } ?>
 					   <option value="0">&nbsp;All</option>
 					   </select></td>
 					   <td class="td1" style="font-size:11px; width:150px;" align="center">
@@ -205,7 +205,7 @@ function ReadHis(pmsid,ci,ec,yi)
 if($_REQUEST['ee']=='Dept')
 { $name='Department Wise'; 
   if($_REQUEST['value']!=0)
-  { $sqlA=mysql_query("select DepartmentName from hrm_department where DepartmentId=".$_REQUEST['value'], $con); $resA=mysql_fetch_assoc($sqlA); $name2=$resA['DepartmentName']; }
+  { $sqlA=mysql_query("select department_name as DepartmentName from core_departments where id=".$_REQUEST['value'], $con); $resA=mysql_fetch_assoc($sqlA); $name2=$resA['DepartmentName']; }
   else{$name2='All Department';}
 }
 elseif($_REQUEST['ee']=='App')

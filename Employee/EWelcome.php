@@ -26,9 +26,9 @@
    <font style='font-size:14px;color:#2E4B33;'><b><?php echo 'Consulted';; ?></b></font>
 <?php } ?>	
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <?php if($rowo>0 AND $cvd=='Y'){ ?>
+    <?php /*if($rowo>0 AND $cvd=='Y'){ ?>
     <a href="ChangePwd.php" class="top_link" style="text-decoration:none;"><b style="color:#804000;"><u>Change Password</u></b></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <?php } ?>
+    <?php }*/ ?>
 	 <a href="../Home.php?logout=true" class="top_link" style="text-decoration:none;">
     <b style="color:#804000;"><u>LogOut</u></b>
    </a>

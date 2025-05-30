@@ -211,7 +211,7 @@ elseif($_REQUEST['ee']=='Hod')
 	    <td class="tdc"><input type="checkbox" id="Chk<?php echo $Sno; ?>" onClick="FucChk(<?php echo $Sno; ?>)" /></td>
 		<td class="tdc"><?php echo $Sno; ?></td>
 <?php if($_REQUEST['ee']=='Dept'){ $sqlE=mysql_query("select * from hrm_employee_pms p INNER JOIN hrm_employee e ON p.EmployeeID=e.EmployeeID INNER JOIN hrm_employee_general g ON e.EmployeeID=g.EmployeeID where e.EmpStatus='A' AND e.CompanyId=".$CompanyId." AND p.AssessmentYear=".$_REQUEST['YI']." AND p.HOD_EmployeeID>0 AND g.DepartmentId=".$res['DepartmentId']." AND p.Appraiser_EmployeeID!=0", $con); //g.DateJoining<='".date($FD.'-06-30')."'
-$rowNOE=mysql_num_rows($sqlE); $sD=mysql_query("select DepartmentName from hrm_department where DepartmentId=".$res['DepartmentId'], $con); $rD=mysql_fetch_assoc($sD); } ?>
+$rowNOE=mysql_num_rows($sqlE); $sD=mysql_query("select department_name as DepartmentName from core_departments where id=".$res['DepartmentId'], $con); $rD=mysql_fetch_assoc($sD); } ?>
 <?php if($_REQUEST['ee']=='Hod'){ $sqlE=mysql_query("select * from hrm_employee_pms p INNER JOIN hrm_employee e ON p.EmployeeID=e.EmployeeID INNER JOIN hrm_employee_general g ON e.EmployeeID=g.EmployeeID where e.EmpStatus='A' AND e.CompanyId=".$CompanyId." AND p.AssessmentYear=".$_REQUEST['YI']." AND p.HOD_EmployeeID>0 AND p.HOD_EmployeeID=".$res['HOD_EmployeeID']." AND p.Appraiser_EmployeeID!=0", $con); //g.DateJoining<='".date($FD.'-06-30')."' 
 $rowNOE=mysql_num_rows($sqlE); $sH=mysql_query("select Fname,Sname,Lname from hrm_employee where EmployeeID=".$res['HOD_EmployeeID'], $con); $rH=mysql_fetch_assoc($sH); } ?>			
 <?php if($_REQUEST['ee']=='Dept'){ ?><td class="tdl">&nbsp;<?php echo $rD['DepartmentName']; ?></td><?php } ?>

@@ -91,7 +91,7 @@ function ExportFF(c)
 	  <td width="300" class="heading">&nbsp;Full & Final Settlement Statement &nbsp;&nbsp;&nbsp;
 	  <td class="td1" style="width:180px;"><select class="tdsel" style="background-color:#DDFFBB; width:100%;" name="Dept" id="Dept" onChange="SelectDept(this.value)">
 	  <option value="" <?php if(!$_REQUEST['DPid']){echo 'selected';}?>>SELECT DEPARTMENT</option>
-	  <?php $SqlDept=mysql_query("select * from hrm_department where CompanyId=".$CompanyId." order by DepartmentName ASC", $con); while($ResDept=mysql_fetch_array($SqlDept)) { ?><option value="<?php echo $ResDept['DepartmentId'];?>" <?php if($_REQUEST['DPid']==$ResDept['DepartmentId']){echo 'selected';}?>><?php echo $ResDept['DepartmentCode'];?></option><?php } ?>
+	  <?php $SqlDept=mysql_query("select * from core_departments where is_active=1 order by department_name", $con); while($ResDept=mysql_fetch_array($SqlDept)) { ?><option value="<?php echo $ResDept['id'];?>" <?php if($_REQUEST['DPid']==$ResDept['id']){echo 'selected';}?>><?php echo $ResDept['department_name'];?></option><?php } ?>
 	  <option value="All" <?php if($_REQUEST['DPid']=='All'){echo 'selected';}?>>All</option>
 	  </select></td>
 	  
@@ -134,7 +134,7 @@ function ExportFF(c)
   		  
 <?php if($_REQUEST['DPid']>0){ $sqry='g.DepartmentId='.$_REQUEST['DPid'];}else{ $sqry='1=1'; }
 
-$sql=mysql_query("select s.*,e.EmpCode,e.Fname,e.Sname,e.Lname,d.DepartmentCode from hrm_employee_separation s INNER JOIN hrm_employee e ON s.EmployeeID=e.EmployeeID INNER JOIN hrm_employee_general g ON s.EmployeeID=g.EmployeeID INNER JOIN hrm_department d ON g.DepartmentId=d.DepartmentId where s.ResignationStatus=4 AND e.CompanyId=".$CompanyId." AND ".$sqry." order by s.Emp_ResignationDate DESC", $con); $Sno=1; while($res=mysql_fetch_array($sql)){ ?>	
+$sql=mysql_query("select s.*,e.EmpCode,e.Fname,e.Sname,e.Lname,d.department_code as DepartmentCode from hrm_employee_separation s INNER JOIN hrm_employee e ON s.EmployeeID=e.EmployeeID INNER JOIN hrm_employee_general g ON s.EmployeeID=g.EmployeeID LEFT JOIN core_departments d ON g.DepartmentId=d.id where s.ResignationStatus=4 AND e.CompanyId=".$CompanyId." AND ".$sqry." order by s.Emp_ResignationDate DESC", $con); $Sno=1; while($res=mysql_fetch_array($sql)){ ?>	
 	     <div class="tbody">
          <tbody>
 	     <tr bgcolor="#FFFFFF" id="TR<?php echo $Sno; ?>">

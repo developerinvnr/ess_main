@@ -29,8 +29,7 @@ function PrintPage()
 <?php $sqlSE=mysql_query("select * from hrm_employee_separation where EmpSepId=".$_REQUEST['si'], $con); $resSE=mysql_fetch_assoc($sqlSE);
 $sqlE=mysql_query("select hrm_employee.CompanyId,EmpCode,Fname,Sname,Lname,RetiStatus,DesigId,DepartmentId,DR,Gender,Married,ParAdd,ParAdd_State,ParAdd_City,DateJoining,Fa_SN,FatherName,GradeId,AccountNo,BankName,BranchName,MobileNo,EmailId_Self,MobileNo_Vnr from hrm_employee INNER JOIN hrm_employee_general ON hrm_employee.EmployeeID=hrm_employee_general.EmployeeID INNER JOIN hrm_employee_personal ON hrm_employee.EmployeeID=hrm_employee_personal.EmployeeID INNER JOIN hrm_employee_contact ON hrm_employee.EmployeeID=hrm_employee_contact.EmployeeID INNER JOIN hrm_employee_family ON hrm_employee.EmployeeID=hrm_employee_family.EmployeeID where hrm_employee.EmployeeID=".$resSE['EmployeeID'], $con); $resE=mysql_fetch_assoc($sqlE); $LEC=strlen($resE['EmpCode']); 
 if($LEC==1){$EC='000'.$resE['EmpCode'];} if($LEC==2){$EC='00'.$resE['EmpCode'];} if($LEC==3){$EC='0'.$resE['EmpCode'];} if($LEC>=4){$EC=$resE['EmpCode'];}
-$sqlDept=mysql_query("select DepartmentCode,DepartmentName from hrm_department where DepartmentId=".$resE['DepartmentId'], $con); $resDept=mysql_fetch_assoc($sqlDept);
-$sqlDept=mysql_query("select DepartmentCode,DepartmentName from hrm_department where DepartmentId=".$resE['DepartmentId'], $con); $resDept=mysql_fetch_assoc($sqlDept);
+$sqlDept=mysql_query("select department_code as DepartmentCode,department_name as DepartmentName from core_departments where id=".$resE['DepartmentId'], $con); $resDept=mysql_fetch_assoc($sqlDept);
 if($resE['DR']=='Y'){$M='Dr.';} elseif($resE['Gender']=='M'){$M='Mr.';} elseif($resE['Gender']=='F' AND $resE['Married']=='Y'){$M='Mrs.';} elseif($resE['Gender']=='F' AND $resE['Married']=='N'){$M='Miss.';}  $NameE=$M.' '.strtoupper($resE['Fname']).' '.strtoupper($resE['Sname']).' '.strtoupper($resE['Lname']); 
 $sqlCity=mysql_query("select CityName from hrm_city where CityId=".$resE['ParAdd_City'], $con); $resCity=mysql_fetch_assoc($sqlCity);
 $sqlState=mysql_query("select StateName from hrm_state where StateId=".$resE['ParAdd_State'], $con); $resState=mysql_fetch_assoc($sqlState);
@@ -52,8 +51,8 @@ $DesigId=$resE['DesigId']; $GradeId=$resE['GradeId'];
 /*<!------------------------------------------------->*/
 /*<!------------------------------------------------->*/
 
-$sqlDesig=mysql_query("select DesigName from hrm_designation where DesigId=".$DesigId, $con); $resDesig=mysql_fetch_assoc($sqlDesig); 
-$sqlGrade=mysql_query("select GradeValue from hrm_grade where GradeId=".$GradeId, $con); $resGrade=mysql_fetch_assoc($sqlGrade);  
+$sqlDesig=mysql_query("select designation_name as DesigName from core_designation where id=".$DesigId, $con); $resDesig=mysql_fetch_assoc($sqlDesig); 
+$sqlGrade=mysql_query("select grade_name as GradeValue from core_grades where id=".$GradeId, $con); $resGrade=mysql_fetch_assoc($sqlGrade);  
 ?>	
 <table border="0">
  <tr>
@@ -110,7 +109,7 @@ $sqlGrade=mysql_query("select GradeValue from hrm_grade where GradeId=".$GradeId
 		  <td class="Text" style="width:80px;" align="">&nbsp;<?php if($resSE['Retired']=='Y'){echo 'Retirement Date :'; }elseif($resSE['TerMination']!='Y'){echo 'Resignation :'; } ?></td><td class="Text" style="width:100px;">&nbsp;<?php if($resSE['TerMination']!='Y'){ ?><?php echo date("d-m-Y",strtotime($resSE['Emp_ResignationDate'])); ?><?php } ?></td>
 		  <td style="width:20px;" bgcolor="#E0DBE3"></td>
 		 
-		  <td class="Text" style="width:90px;" align="">&nbsp;<?php if($resSE['TerMination']=='Y'){ echo 'Termination';}else{echo 'Relieving'; } ?> :</td><td class="Text" style="width:140px;">&nbsp;<?php if($resSE['HR_RelievingDate3']!='0000-00-00' AND $resSE['HR_RelievingDate3']!='1970-01-01'){echo date("d-m-Y",strtotime($resSE['HR_RelievingDate3']));}elseif($resSE['HR_RelievingDate2']!='0000-00-00' AND $resSE['HR_RelievingDate2']!='1970-01-01'){echo date("d-m-Y",strtotime($resSE['HR_RelievingDate2']));}elseif($resSE['HR_RelievingDate']!='0000-00-00' AND $resSE['HR_RelievingDate']!='1970-01-01'){echo date("d-m-Y",strtotime($resSE['HR_RelievingDate']));} ?></td>
+		  <td class="Text" style="width:90px;" align="">&nbsp;<?php if($resSE['TerMination']=='Y'){ echo 'Termination';}else{echo 'Relieving'; } ?> :</td><td class="Text" style="width:140px;">&nbsp;<?php if($resSE['HR_RelievingDate3']>='2010-01-01'){echo date("d-m-Y",strtotime($resSE['HR_RelievingDate3']));}elseif($resSE['HR_RelievingDate2']>='2010-01-01'){echo date("d-m-Y",strtotime($resSE['HR_RelievingDate2']));}elseif($resSE['HR_RelievingDate']>='2010-01-01'){echo date("d-m-Y",strtotime($resSE['HR_RelievingDate']));} ?></td>
 		</tr>
 	   </table>
 	  </td></tr></table></td>
@@ -468,6 +467,8 @@ $sqlCtc=mysql_query("select * from hrm_employee_ctc where EmployeeID=".$resSE['E
 			<td style="width:80px;" class="Text" align="right">&nbsp;</td>
 			<td style="width:80px;" class="Text" align="right"><?php echo intval($resHr['PP']); ?>&nbsp;</td>
 		   </tr>
+		   
+		   
 <?php } if($resHr['VA']>0){ ?>	   
 		   <tr bgcolor="#FFFFFF">
 		    <td style="width:240px;" class="Text" align="">&nbsp;Variable Adjustment</td>
@@ -512,7 +513,22 @@ $sqlCtc=mysql_query("select * from hrm_employee_ctc where EmployeeID=".$resSE['E
 		    <td style="width:240px;" class="Text" align="">&nbsp;CEA</td>
 			<td style="width:80px;" class="Text" align="right"><?php echo round($resCtc['CHILD_EDU_ALL_Value']/12); ?>&nbsp;</td>
 			<td style="width:80px;" class="Text" align="right"><?php echo intval($resHr['CEA']); ?>&nbsp;</td>
-		   </tr>	
+		   </tr>
+		   
+<?php if($resHr['Car_Allow']>0){ ?>		   	
+            <tr bgcolor="#FFFFFF">
+		    <td style="width:240px;" class="Text" align="">&nbsp;Car Allowance</td>
+			<td style="width:80px;" class="Text" align="right">&nbsp;</td>
+			<td style="width:80px;" class="Text" align="right"><?php echo intval($resHr['Car_Allow']); ?>&nbsp;</td>
+		   </tr>
+<?php } if($resHr['Comm_Allow']>0){ ?>		   	
+            <tr bgcolor="#FFFFFF">
+		    <td style="width:240px;" class="Text" align="">&nbsp;Communication Allowance</td>
+			<td style="width:80px;" class="Text" align="right">&nbsp;</td>
+			<td style="width:80px;" class="Text" align="right"><?php echo intval($resHr['Comm_Allow']); ?>&nbsp;</td>
+		   </tr>
+<?php } ?>			   
+		   
 		   	<tr bgcolor="#8F8F8F">
 		    <td style="width:240px;" class="Text" align="">&nbsp;<b>Annual Components earnings</b></td>
 			<td style="width:80px;" class="Text" align="right">&nbsp;</td>
@@ -550,6 +566,9 @@ $sqlCtc=mysql_query("select * from hrm_employee_ctc where EmployeeID=".$resSE['E
 		    <td colspan="2" style="width:240px;" class="Text" align="">&nbsp;Exgretia</td>
 			<td style="width:80px;" class="Text" align="right"><?php echo intval($resHr['Exgredia']); ?>&nbsp;</td>
 		   </tr>
+		   
+	   
+		   
 		   <tr bgcolor="#FFFFFF">
 		    <td colspan="2" style="width:240px;" class="Text" align="">&nbsp;Notice Pay</td>
 			<td style="width:80px;" class="Text" align="right"><?php echo intval($resHr['NoticePay']); ?>&nbsp;</td>

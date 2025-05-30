@@ -51,6 +51,10 @@ function SelectMonthDept(value){ var x = 'NewCoreRestrLoc.php?d='+value; window.
 function ApplyCore(v,no,idnm,nm)
 {  
   document.getElementById(idnm+'_'+no).value=v;  
+  if(nm=='Zone'){ document.getElementById("Zonee_"+no).value=0; document.getElementById("Regionn_"+no).value=0; document.getElementById("Terrr_"+no).value=0; }
+  else if(nm=='Region'){ document.getElementById("Regionn_"+no).value=0; document.getElementById("Terrr_"+no).value=0; }
+  else if(nm=='Terr'){ document.getElementById("Terrr_"+no).value=0; }
+
   if(nm!='')
   { 
    document.getElementById("vID").value=v; document.getElementById("noID").value=no; document.getElementById("nmID").value=nm; 
@@ -86,7 +90,7 @@ function FunSave(no,empid,uid)
    var Zone = document.getElementById("Zonee_"+no).value; 
    var Region = document.getElementById("Regionn_"+no).value;
    var Terr = document.getElementById("Terrr_"+no).value;
-   if(Bu==0 || Zone==0 || Region==0 || Terr==0){ alert("please check the selected value!"); return false; }
+   if(Bu==0 && Zone==0 && Region==0 && Terr==0){ alert("please check the selected value!"); return false; }
    else
    {
     var url = 'NewCoreRestrAjax.php';  var pars = 'Act=UpdateCoreLocMapping&no='+no+'&empid='+empid+'&uid='+uid+'&Bu='+Bu+'&Zone='+Zone+'&Region='+Region+'&Terr='+Terr;
@@ -156,6 +160,7 @@ function ExportData()
 	  <b>Core Location Mapping : </td> 
 	  <td class="td1" style="font-size:11px; width:250px;">			   
 	   <select style="font-size:12px;width:200px;height:21px;background-color:#DDFFBB;display:block;" name="Dept" id="Dept" onChange="SelectMonthDept(this.value)"><?php $sDept=mysql_query("select * from hrm_department where CompanyId=".$CompanyId." AND DeptStatus='A' order by DepartmentName ASC", $con); while($rDept=mysql_fetch_array($sDept)){?><option value="<?=$rDept['DepartmentId']?>" <?php if($_REQUEST['d']==$rDept['DepartmentId']){echo 'selected';}?>><?php echo '&nbsp;'.$rDept['DepartmentCode'];?></option><?php } ?><option value="All" <?php if($_REQUEST['d']=='All'){echo 'selected';}?>>&nbsp;All</option></select>
+     &nbsp;&nbsp;
 	   <input type="hidden" name="ComId" id="ComId" value="<?php echo $CompanyId; ?>" /> 
 	   <input type="hidden" name="YearId" id="YearId" value="<?php echo $YearId; ?>" />
 	   <input type="hidden" name="Sn" id="Sn" value="" />
@@ -173,7 +178,8 @@ function ExportData()
 	  <td class="th" style="width:30px;"><b>SN</b></td>
     <td class="th" style="width:40px;">EC</b></td>
 	  <td class="th" style="width:150px;"><b>Name</b></td>
-    <td class="th" style="width:100px;"><b>Vertical</b></td>
+    <td class="th" style="width:100px;"><b>Designation</b></td>
+    <td class="th" style="width:80px;"><b>Vertical</b></td>
     <td class="th" style="width:100px;"><b>Unit</b></td>
 	  <td class="th" style="width:60px;"><b>Zone</b></td>
 	  <td class="th" style="width:80px;"><b>Region</b></td>
@@ -234,57 +240,79 @@ while($rTr = mysql_fetch_array($sTr)){ $aTr[$rTr['id']]=strtoupper($rTr['territo
  left join hrm_state st on g.CostCenter=st.StateId
  left join hrm_headquater hq on g.HqId=hq.HqId
  left join hrm_department_section sec on g.EmpSection=sec.SectionId
- WHERE e.EmpStatus='A' AND e.CompanyId=".$CompanyId." AND ".$subQ." order by e.ECode ASC limit 0,5", $con);
+ WHERE e.EmpStatus='A' AND e.CompanyId=".$CompanyId." AND ".$subQ." order by e.ECode ASC", $con);
  $no=1; 
  while($res = mysql_fetch_assoc($sql))
  { 
   $EC = str_pad($res['EmpCode'], 4, '0', STR_PAD_LEFT);
   $C=$CompanyId; $YI=$YearId; $U=$UserId;	  
+  $hq=0; $rg=0; $zn=0; $bu=0;
+  $sqlQ=mysql_query("select Hq_fc,Hq_vc,Terr_fc,Terr_vc from hrm_sales_dealer where (Terr_fc=".$res['EmployeeID']." OR Terr_vc=".$res['EmployeeID'].")",$con); $resQ=mysql_fetch_assoc($sqlQ);
+  if($resQ['Hq_fc']>0 && $resQ['Terr_fc']==$res['EmployeeID'])
+  {
+    $hq=$resQ['Hq_fc'];
+    $sR=mysql_query("select region_id from core_region_territory where territory_id=".$hq,$con); $rR=mysql_fetch_assoc($sR);
+    $sZ=mysql_query("select zone_id from core_zone_region_mapping where region_id=".$rR['region_id'],$con); $rZ=mysql_fetch_assoc($sZ);
+    $sB=mysql_query("select business_unit_id from core_bu_zone_mapping where zone_id=".$rZ['zone_id'],$con); $rB=mysql_fetch_assoc($sB);
+    $rg=$rR['region_id']; $zn=$rZ['zone_id']; $bu=$rB['business_unit_id'];
+  }
+  else if($resQ['Hq_vc']>0 && $resQ['Terr_vc']==$res['EmployeeID'])
+  {
+    $hq=$resQ['Hq_vc'];
+    $sR=mysql_query("select region_id from core_region_territory where territory_id=".$hq,$con); $rR=mysql_fetch_assoc($sR);
+    $sZ=mysql_query("select zone_id from core_zone_region_mapping where region_id=".$rR['region_id'],$con); $rZ=mysql_fetch_assoc($sZ);
+    $sB=mysql_query("select business_unit_id from core_bu_zone_mapping where zone_id=".$rZ['zone_id'],$con); $rB=mysql_fetch_assoc($sB);
+    $rg=$rR['region_id']; $zn=$rZ['zone_id']; $bu=$rB['business_unit_id'];
+  }
+  else{ $hq=0; $rg=0; $zn=0; $bu=0; }
+  
+
 ?> 	 
  <input type="hidden" name="EmpId_<?php echo $Sno; ?>" value="<?php echo $res['EmployeeID']; ?>" />
  <tr bgcolor="<?php if($no%2){ echo '#FFFFFF'; } else {echo '#FFFFFF';} //#D9D1E7 ?>" style="height:22px;"> 
   <td class="tdc"><?=$no?></td>
 	<td class="tdc"><?=$res['EmpCode']?></td>
 	<td class="tdl"><?=$res['Name']?></td>
+  <td class="tdl"><?=$res['DesigCode']?></td>
   <td class="tdl"><?=ucwords(strtolower($res['VerticalName']))?></td>
 
-  <?php $sqll = mysql_query("SELECT * FROM core_ess_mapping WHERE EmployeeID=".$res['EmployeeID'], $con);
+  <?php $sqll = mysql_query("SELECT * FROM core_ess_mapping WHERE (BUId>0 OR ZoneId>0 OR RegionId>0 OR TerrId>0) AND EmployeeID=".$res['EmployeeID'], $con);
         $rowss = mysql_num_rows($sqll); $ress = mysql_fetch_assoc($sqll); ?> 
 
   <td class="tdc">
    <span id="SpanBu_<?=$no?>">
 	  <select name="Bu_<?=$no?>" id="Bu_<?=$no?>" onChange="ApplyCore(this.value,<?=$no?>,'Buu','Zone')" class="tdll"> 
-    <option value="0">Select</option> 
+    <option value="0">Select</option>
     <?php foreach ($aBu as $key => $value) { ?>
-      <option value="<?=$key?>" <?php if($ress['BUId']==$key){echo 'selected';}?>><?=$value?></option>
+      <option value="<?=$key?>" <?php if($ress['BUId']>0 && $ress['BUId']==$key){echo 'selected';}?>><?=$value?></option>
      <?php } ?>
 	  </select> 
     </span>
-    <input type="hidden" id="Buu_<?=$no?>" value="<?php if($ress['BUId']==''){echo 0;}else{echo $ress['BUId']; }?>" />
+    <input type="hidden" id="Buu_<?=$no?>" value="<?php if($ress['BUId']>0){echo $ress['BUId'];}else{echo 0; }?>" />
 	</td>	
 
   <td class="tdc">
 	<span id="SpanZone_<?=$no?>">
   <select name="Zone_<?=$no?>" id="Zone_<?=$no?>" onChange="ApplyCore(this.value,<?=$no?>,'Zonee','Region')" class="tdll">
-    <option value="0">Select</option>
+  <option value="0">Select</option>
     <?php foreach ($aZn as $key => $value) { ?>
-      <option value="<?=$key?>" <?php if($ress['ZoneId']==$key){echo 'selected';}?>><?=$value?></option>
+      <option value="<?=$key?>" <?php if($ress['ZoneId']>0 && $ress['ZoneId']==$key){echo 'selected';}?>><?=$value?></option>
     <?php } ?>
 	</select> 
   </span>
-  <input type="hidden" id="Zonee_<?=$no?>" value="<?php if($ress['ZoneId']==''){echo 0;}else{echo $ress['ZoneId']; }?>" />
+  <input type="hidden" id="Zonee_<?=$no?>" value="<?php if($ress['ZoneId']>0){echo $ress['ZoneId'];}else{echo 0; }?>" />
 	</td>
 
   <td class="tdc">
 	<span id="SpanRegion_<?=$no?>">
   <select name="Region_<?=$no?>" id="Region_<?=$no?>" onChange="ApplyCore(this.value,<?=$no?>,'Regionn','Terr')" class="tdll">
-    <option value="0">Select</option>
+  <option value="0">Select</option>
     <?php foreach ($aRg as $key => $value) { ?>
-      <option value="<?=$key?>" <?php if($ress['RegionId']==$key){echo 'selected';}?>><?=$value?></option>
+      <option value="<?=$key?>" <?php if($ress['RegionId']>0 && $ress['RegionId']==$key){echo 'selected';}?>><?=$value?></option>
     <?php } ?>
 	</select> 
   </span>
-  <input type="hidden" id="Regionn_<?=$no?>" value="<?php if($ress['RegionId']==''){echo 0;}else{echo $ress['RegionId']; }?>" />
+  <input type="hidden" id="Regionn_<?=$no?>" value="<?php if($ress['RegionId']>0){echo $ress['RegionId'];}else{echo 0; }?>" />
 	</td>
 
   <td class="tdc">
@@ -292,11 +320,11 @@ while($rTr = mysql_fetch_array($sTr)){ $aTr[$rTr['id']]=strtoupper($rTr['territo
   <select name="Terr_<?=$no?>" id="Terr_<?=$no?>" onChange="ApplyCore(this.value,<?=$no?>,'Terrr','')" class="tdll">
     <option value="0">Select</option>
     <?php foreach ($aTr as $key => $value) { ?>
-      <option value="<?=$key?>" <?php if($ress['TerrId']==$key){echo 'selected';}?>><?=$value?></option>
+      <option value="<?=$key?>" <?php if($ress['TerrId']>0 && $ress['TerrId']==$key){echo 'selected';}?>><?=$value?></option>
     <?php } ?>
 	</select> 
   </span>
-  <input type="hidden" id="Terrr_<?=$no?>" value="<?php if($ress['TerrId']==''){echo 0;}else{echo $ress['TerrId']; }?>" />
+  <input type="hidden" id="Terrr_<?=$no?>" value="<?php if($ress['TerrId']>0){echo $ress['TerrId'];}else{echo 0; }?>" />
 	</td>
 
   <td class="tdc" style="color:<?php if($rowss>0){echo '#009300';}?>">

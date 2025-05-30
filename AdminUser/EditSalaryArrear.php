@@ -16,8 +16,8 @@ else
  $sqlMP=mysql_query("select * from ".$PayTable." where EmployeeID=".$_POST['E']." AND Month=".$_POST['M']." AND Year=".$_POST['Y']."", $con); 
  $rowMP=mysql_num_rows($sqlMP);
  if($rowMP>0){ 
- $UpSal=mysql_query("update ".$PayTable." set Arr_Basic='".$_POST['Arr_Basic']."', Arr_Hra='".$_POST['Arr_Hra']."', Car_Allowance_Arr='".$_POST['Car_Allowance_Arr']."', Arr_Spl='".$_POST['Arr_Spl']."', Arr_Conv='".$_POST['Arr_Conv']."', Arr_LvEnCash='".$_POST['Arr_LvEnCash']."', Arr_Pf='".$_POST['Arr_Pf']."', Arr_Esic='".$_POST['Arr_Esic']."' where EmployeeID=".$_POST['E']." AND Month=".$_POST['M']." AND Year=".$_POST['Y']."", $con);}
- else{$UpSal=mysql_query("insert into ".$PayTable."(EmployeeID, Month, Year, Arr_Basic, Arr_Hra, Car_Allowance_Arr, Arr_Spl, Arr_Conv, Arr_LvEnCash, Arr_Pf, Arr_Esic) values(".$_POST['E'].", ".$_POST['M'].", ".$_POST['Y'].", '".$_POST['Arr_Basic']."', '".$_POST['Arr_Hra']."', '".$_POST['Car_Allowance_Arr']."', '".$_POST['Arr_Spl']."', '".$_POST['Arr_Conv']."', '".$_POST['Arr_LvEnCash']."', '".$_POST['Arr_Pf']."', '".$_POST['Arr_Esic']."')", $con);}
+ $UpSal=mysql_query("update ".$PayTable." set Arr_Basic='".$_POST['Arr_Basic']."', Arr_Hra='".$_POST['Arr_Hra']."', Car_Allowance_Arr='".$_POST['Car_Allowance_Arr']."', Arr_Spl='".$_POST['Arr_Spl']."', Arr_Conv='".$_POST['Arr_Conv']."', Arr_LvEnCash='".$_POST['Arr_LvEnCash']."', Arr_Pf='".$_POST['Arr_Pf']."', Arr_Esic='".$_POST['Arr_Esic']."', Arr_Communication_Allow='".$_POST['Arr_Communication_Allow']."' where EmployeeID=".$_POST['E']." AND Month=".$_POST['M']." AND Year=".$_POST['Y']."", $con);}
+ else{$UpSal=mysql_query("insert into ".$PayTable."(EmployeeID, Month, Year, Arr_Basic, Arr_Hra, Car_Allowance_Arr, Arr_Spl, Arr_Conv, Arr_LvEnCash, Arr_Pf, Arr_Esic, Arr_Communication_Allow) values(".$_POST['E'].", ".$_POST['M'].", ".$_POST['Y'].", '".$_POST['Arr_Basic']."', '".$_POST['Arr_Hra']."', '".$_POST['Car_Allowance_Arr']."', '".$_POST['Arr_Spl']."', '".$_POST['Arr_Conv']."', '".$_POST['Arr_LvEnCash']."', '".$_POST['Arr_Pf']."', '".$_POST['Arr_Esic']."', '".$_POST['Arr_Communication_Allow']."')", $con);}
  if($UpSal){$msg='Successfully updated...';}
 } 
 ?>
@@ -46,6 +46,8 @@ function EditAOI()
  document.getElementById("Car_Allowance_Arr").readOnly=false; document.getElementById("Car_Allowance_Arr").style.background='#FFFFFF';
  document.getElementById("Arr_LvEnCash").readOnly=false; document.getElementById("Arr_LvEnCash").style.background='#FFFFFF';
  document.getElementById("TRAmt").style.background='#FFFFFF';
+ 
+ document.getElementById("Arr_Communication_Allow").readOnly=false; document.getElementById("Arr_Communication_Allow").style.background='#FFFFFF';
 }
 
 </script>
@@ -53,8 +55,8 @@ function EditAOI()
 <?php 
 
 $sqlE = mysql_query("SELECT EmpCode,Fname,Sname,Lname,DR,Gender,Married,DesigId,DepartmentId FROM hrm_employee INNER JOIN hrm_employee_general ON hrm_employee.EmployeeID=hrm_employee_general.EmployeeID INNER JOIN hrm_employee_personal ON hrm_employee.EmployeeID=hrm_employee_personal.EmployeeID WHERE hrm_employee.EmployeeID=".$_REQUEST['E'], $con);  $ResE = mysql_fetch_assoc($sqlE); 
-$sqlDesig=mysql_query("select DesigName from hrm_designation where DesigId=".$ResE['DesigId'], $con); $resDesig=mysql_fetch_assoc($sqlDesig);
-$sqlD=mysql_query("select DepartmentCode from hrm_department where DepartmentId=".$ResE['DepartmentId'], $con); $resD=mysql_fetch_assoc($sqlD);
+$sqlDesig=mysql_query("select designation_name as DesigName from core_designation where id=".$ResE['DesigId'], $con); $resDesig=mysql_fetch_assoc($sqlDesig);
+$sqlD=mysql_query("select department_name as DepartmentCode from core_departments where id=".$ResE['DepartmentId'], $con); $resD=mysql_fetch_assoc($sqlD);
 if($ResE['DR']=='Y'){$M='Dr.';} elseif($ResE['Gender']=='M'){$M='Mr.';} elseif($ResE['Gender']=='F' AND $ResE['Married']=='Y'){$M='Mrs.';} elseif($ResE['Gender']=='F' AND $ResE['Married']=='N'){$M='Miss.';}  
 $Ename=$M.' '.$ResE['Fname'].' '.$ResE['Sname'].' '.$ResE['Lname']; $LEC=strlen($ResE['EmpCode']); 
 if($LEC==1){$EC='000'.$ResE['EmpCode'];} if($LEC==2){$EC='00'.$ResE['EmpCode'];} if($LEC==3){$EC='0'.$ResE['EmpCode'];} if($LEC>=4){$EC=$ResE['EmpCode'];}
@@ -85,7 +87,7 @@ else
 </tr>
  <td bgcolor="#D9D1E7">
  <table border="1">
- <tr><td colspan="9" align="center" style="font-family:Times New Roman;font-size:14px;width:400px;background-color:#7a6189;color:#FFFFFF;"><b>Arrear Basic</b></td></tr> 
+ <tr><td colspan="10" align="center" style="font-family:Times New Roman;font-size:14px;width:400px;background-color:#7a6189;color:#FFFFFF;"><b>Arrear </b></td></tr> 
 <?php if($_REQUEST['M']==1){$SelM='JAN';} elseif($_REQUEST['M']==2){$SelM='FEB';} elseif($_REQUEST['M']==3){$SelM='MAR';} 
       elseif($_REQUEST['M']==4){$SelM='APR';} elseif($_REQUEST['M']==5){$SelM='MAY';} elseif($_REQUEST['M']==6){$SelM='JUN';} 
 	  elseif($_REQUEST['M']==7){$SelM='JUL';} elseif($_REQUEST['M']==8){$SelM='AUG';} elseif($_REQUEST['M']==9){$SelM='SEP';} 
@@ -100,6 +102,7 @@ else
    <td align="center" class="Des" style="background-color:#BCB198;">ESIC</td>
    <td align="center" class="Des" style="background-color:#BCB198;">CAR<br>ALLOW</td>
    <td align="center" class="Des" style="background-color:#BCB198;">Leave<br>Encash</td>
+   <td align="center" class="Des" style="background-color:#BCB198;">Comm<sup>n</sup><br>ALLOW</td>
  </tr>
  <tr id="TRAmt" style="background-color:#DDDDDD;">
    <td class="Des" style="background-color:#FFFFFF;">&nbsp;<b><?php echo $SelM.'-'.$_REQUEST['Y']; ?></b></td>
@@ -112,12 +115,14 @@ else
    <td align="center" class="Amt"><input style="text-align:right;font-family:Times New Roman;font-size:12px;width:60px;border-style:hidden;background-color:#DDDDDD;" id="Car_Allowance_Arr" name="Car_Allowance_Arr" value="<?php echo intval($res['Car_Allowance_Arr']); ?>" readonly /></td>
    <td align="center" class="Amt"><input style="text-align:right;font-family:Times New Roman;font-size:12px;width:60px;border-style:hidden;background-color:#DDDDDD;" id="Arr_LvEnCash" name="Arr_LvEnCash" value="<?php echo intval($res['Arr_LvEnCash']); ?>" readonly /></td>
    
+   <td align="center" class="Amt"><input style="text-align:right;font-family:Times New Roman;font-size:12px;width:60px;border-style:hidden;background-color:#DDDDDD;" id="Arr_Communication_Allow" name="Arr_Communication_Allow" value="<?php echo intval($res['Arr_Communication_Allow']); ?>" readonly /></td>
+   
    <input type="hidden" name="E" value="<?php echo $_REQUEST['E']; ?>" /><input type="hidden" name="C" value="<?php echo $_REQUEST['C']; ?>" />
    <input type="hidden" name="YI" value="<?php echo $_REQUEST['YI']; ?>" /><input type="hidden" name="U" value="<?php echo $_REQUEST['U']; ?>" />
    <input type="hidden" name="M" value="<?php echo $_REQUEST['M']; ?>" /><input type="hidden" name="Y" value="<?php echo $_REQUEST['Y']; ?>" />
  <tr>
  <tr bgcolor="#7a6189">
-   <td align="right" colspan="9">
+   <td align="right" colspan="10">
     <table>
 	 <tr>
 	 <td style="font-family:Times New Roman;font-size:12px; font-weight:bold; color:#FFFFFF;"><?php echo $msg; ?>&nbsp;</td>

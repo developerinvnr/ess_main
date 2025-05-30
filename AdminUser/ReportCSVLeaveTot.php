@@ -7,7 +7,7 @@ date_default_timezone_set('Asia/Calcutta');
 if($_REQUEST['action']='LeaveTotExport') 
 { 
  if($_REQUEST['value']=='All') {$DeptV='All_Employee';}
- else{ $sqlDeptV=mysql_query("select DepartmentCode from hrm_department where DepartmentId=".$_REQUEST['value'], $con); $resDeptV=mysql_fetch_assoc($sqlDeptV); $DeptV=$resDeptV['DepartmentCode'];}
+ else{ $sqlDeptV=mysql_query("select department_name as DepartmentCode from core_departments where id=".$_REQUEST['value'], $con); $resDeptV=mysql_fetch_assoc($sqlDeptV); $DeptV=$resDeptV['DepartmentCode'];}
 $xls_filename = 'EmpTotal_Availed_Leave_'.$DeptV.''.$_REQUEST['Y'].'.xls';
 
 $BY=date("Y")-1;
@@ -40,16 +40,16 @@ echo "\tLv-Jan\tLv-Feb\tLv-Mar\tLv-Apr\tLv-May\tLv-Jun\tLv-Jul\tLv-Aug\tLv-Sep\t
 
 print("\n");
 
-if($_REQUEST['D']!='All' AND $_REQUEST['st']!='A'){ $SqlEmp=mysql_query("select e.*,DepartmentId,DateJoining from hrm_employee e INNER JOIN hrm_employee_general g ON e.EmployeeID=g.EmployeeID where g.DepartmentId=".$_REQUEST['D']." AND e.CompanyId=".$_REQUEST['C']." AND (e.DateOfSepration='0000-00-00' OR e.DateOfSepration='1970-01-01' OR e.DateOfSepration>='".date($_REQUEST['Y']."-01-01")."') AND g.DateJoining<='".date($_REQUEST['Y']."-12-31")."' order by e.ECode ASC", $con); }
-      if($_REQUEST['D']=='All' AND $_REQUEST['st']!='A'){ $SqlEmp=mysql_query("select e.*,DepartmentId,DateJoining from hrm_employee e INNER JOIN hrm_employee_general g ON e.EmployeeID=g.EmployeeID where e.CompanyId=".$_REQUEST['C']." AND g.DepartmentId!=17 AND g.DepartmentId!=18 AND g.DepartmentId!=23 AND g.DepartmentId!=0 AND (e.DateOfSepration='0000-00-00' OR e.DateOfSepration='1970-01-01' OR e.DateOfSepration>='".date($_REQUEST['Y']."-01-01")."') AND g.DateJoining<='".date($_REQUEST['Y']."-12-31")."' order by e.ECode ASC", $con); }
-	  if($_REQUEST['D']!='All' AND $_REQUEST['st']=='A'){ $SqlEmp=mysql_query("select e.*,DepartmentId,DateJoining from hrm_employee e INNER JOIN hrm_employee_general g ON e.EmployeeID=g.EmployeeID where e.EmpStatus='".$_REQUEST['st']."' AND g.DepartmentId=".$_REQUEST['D']." AND e.CompanyId=".$_REQUEST['C']." AND g.DateJoining<='".date($_REQUEST['Y']."-12-31")."' order by e.ECode ASC", $con); }
-      if($_REQUEST['D']=='All' AND $_REQUEST['st']=='A'){ $SqlEmp=mysql_query("select e.*,DepartmentId,DateJoining from hrm_employee e INNER JOIN hrm_employee_general g ON e.EmployeeID=g.EmployeeID where e.EmpStatus='".$_REQUEST['st']."' AND e.CompanyId=".$_REQUEST['C']." AND g.DepartmentId!=17 AND g.DepartmentId!=18 AND g.DepartmentId!=23 AND g.DepartmentId!=0 AND g.DateJoining<='".date($_REQUEST['Y']."-12-31")."' order by e.ECode ASC", $con); }
+if($_REQUEST['D']!='All' AND $_REQUEST['st']!='A'){ $SqlEmp=mysql_query("select e.*,DepartmentId,DateJoining from hrm_employee e LEFT JOIN hrm_employee_general g ON e.EmployeeID=g.EmployeeID where g.DepartmentId=".$_REQUEST['D']." AND e.CompanyId=".$_REQUEST['C']." AND (e.DateOfSepration='0000-00-00' OR e.DateOfSepration='1970-01-01' OR e.DateOfSepration>='".date($_REQUEST['Y']."-01-01")."') AND g.DateJoining<='".date($_REQUEST['Y']."-12-31")."' order by e.ECode ASC", $con); }
+      if($_REQUEST['D']=='All' AND $_REQUEST['st']!='A'){ $SqlEmp=mysql_query("select e.*,DepartmentId,DateJoining from hrm_employee e LEFT JOIN hrm_employee_general g ON e.EmployeeID=g.EmployeeID where e.CompanyId=".$_REQUEST['C']."  AND g.DepartmentId!=0 AND (e.DateOfSepration='0000-00-00' OR e.DateOfSepration='1970-01-01' OR e.DateOfSepration>='".date($_REQUEST['Y']."-01-01")."') AND g.DateJoining<='".date($_REQUEST['Y']."-12-31")."' order by e.ECode ASC", $con); }
+	  if($_REQUEST['D']!='All' AND $_REQUEST['st']=='A'){ $SqlEmp=mysql_query("select e.*,DepartmentId,DateJoining from hrm_employee e LEFT JOIN hrm_employee_general g ON e.EmployeeID=g.EmployeeID where e.EmpStatus='".$_REQUEST['st']."' AND g.DepartmentId=".$_REQUEST['D']." AND e.CompanyId=".$_REQUEST['C']." AND g.DateJoining<='".date($_REQUEST['Y']."-12-31")."' order by e.ECode ASC", $con); }
+      if($_REQUEST['D']=='All' AND $_REQUEST['st']=='A'){ $SqlEmp=mysql_query("select e.*,DepartmentId,DateJoining from hrm_employee e LEFT JOIN hrm_employee_general g ON e.EmployeeID=g.EmployeeID where e.EmpStatus='".$_REQUEST['st']."' AND e.CompanyId=".$_REQUEST['C']."  AND g.DepartmentId!=0 AND g.DateJoining<='".date($_REQUEST['Y']."-12-31")."' order by e.ECode ASC", $con); }
 	  
 $Sno=1; $SqlRows=mysql_num_rows($SqlEmp); while($ResEmp=mysql_fetch_array($SqlEmp)) { 
 if($ResEmp['Sname']==''){ $Ename=trim($ResEmp['Fname']).' '.trim($ResEmp['Lname']); }
 else{ $Ename=trim($ResEmp['Fname']).' '.trim($ResEmp['Sname']).' '.trim($ResEmp['Lname']); }    
 //$Ename=$ResEmp['Fname'].' '.$ResEmp['Sname'].' '.$ResEmp['Lname']; $Y=$_REQUEST['Y']; 
-$sqlDept=mysql_query("select DepartmentCode,DepartmentName from hrm_department where DepartmentId=".$ResEmp['DepartmentId'], $con); $resDept=mysql_fetch_assoc($sqlDept);
+$sqlDept=mysql_query("select department_name as DepartmentCode from core_departments where id=".$ResEmp['DepartmentId'], $con); $resDept=mysql_fetch_assoc($sqlDept);
 
   $schema_insert = "";
   $schema_insert .= $Sno.$sep;

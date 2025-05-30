@@ -50,7 +50,7 @@ if($_REQUEST['actti']=='formbempproc' && $_REQUEST['DPid']!='' && $_REQUEST['fbi
   }
   
   /* 222222222222222222222222222 */ 
-  $sqlBck=mysql_query("select * from hrm_pms_formb fb INNER JOIN hrm_pms_formb_grade fbg ON fb.FormBId=fbg.FormBId where fb.SkillStatus='A' AND fb.FormBId=".$_REQUEST['fbid']." AND fb.GroupFor!='' AND fb.DepartmentId=".$_REQUEST['DPid']." AND fbg.GradeId=".$res['GradeId']." group by GroupFor", $con); $resBck=mysql_num_rows($sqlBck);
+  $sqlBck=mysql_query("select * from hrm_pms_formb fb INNER JOIN hrm_pms_formb_grade fbg ON fb.FormBId=fbg.FormBId where fb.SkillStatus='A' AND fb.FormBId=".$_REQUEST['fbid']." AND fb.GroupFor!='' AND fb.DepartmentId=".$_REQUEST['DPid']." AND fbg.GradeId=".$res['GradeId']." ORDER BY fb.FormBId group by GroupFor", $con); $resBck=mysql_num_rows($sqlBck);
   
   $sqlb=mysql_query("select * from hrm_employee_pms_behavioralformb where FormBId=".$_REQUEST['fbid']." AND EmpId=".$res['EmployeeID']." AND YearId=".$_REQUEST['yid']."", $con); $rowb=mysql_num_rows($sqlb);
   $sqlPmsId=mysql_query("select EmpPmsId from hrm_employee_pms where EmployeeID=".$res['EmployeeID']." AND AssessmentYear=".$_REQUEST['yid']."", $con); $rowPmsId=mysql_num_rows($sqlPmsId);
@@ -186,17 +186,17 @@ function fEView(fbId,YId,DpId)
    <table border="0">
     <tr><td align="right" width="400" class="heading">PMS - Grade Wise Behavioral Parameter(Form B)</td><td width="50">&nbsp;</td>
 		 <td class="td1" style="font-size:11px; width:150px;">
-           <select class="InputS" style="width:150px;" id="DepartmentE" onChange="SelectDeptEmp(this.value,0)"><option value="" <?php if($_REQUEST['DPid']==''){echo 'selected'; } ?>>Select Department</option><?php $SqlDepartment=mysql_query("select * from hrm_department where CompanyId=".$CompanyId." AND DeptStatus='A' order by DepartmentName ASC", $con); while($ResDepartment=mysql_fetch_array($SqlDepartment)) { ?><option value="<?php echo $ResDepartment['DepartmentId']; ?>" <?php if($_REQUEST['DPid']==$ResDepartment['DepartmentId']){ echo 'selected';} ?>><?php echo '&nbsp;'.$ResDepartment['DepartmentCode'];?></option><?php } ?></select>
+           <select class="InputS" style="width:150px;" id="DepartmentE" onChange="SelectDeptEmp(this.value,0)"><option value="" <?php if($_REQUEST['DPid']==''){echo 'selected'; } ?>>Select Department</option><?php $SqlDepartment=mysql_query("select * from core_departments where is_active=1 order by department_name", $con); while($ResDepartment=mysql_fetch_array($SqlDepartment)) { ?><option value="<?php echo $ResDepartment['id']; ?>" <?php if($_REQUEST['DPid']==$ResDepartment['id']){ echo 'selected';} ?>><?php echo '&nbsp;'.$ResDepartment['department_name'];?></option><?php } ?></select>
 		   <input type="hidden" name="ComId" id="ComId" value="<?php echo $CompanyId; ?>" /> 
         </td>
 		<td width="20">&nbsp;</td>
-		<td><select class="InputS" style="width:150px;" id="VPid" onChange="SelectDeptEmp(<?=$_REQUEST['DPid']?>,this.value)" <?php if($_REQUEST['DPid']>0){ echo '';}else{ echo 'disabled'; } ?>><option value="0" <?php if($_REQUEST['VPid']=='' OR $_REQUEST['VPid']==0){echo 'selected'; } ?>>Select Vertical</option><?php $sCat=mysql_query("select * from hrm_department_vertical where ComId=".$CompanyId." AND DeptId=".$_REQUEST['DPid']." order by VerticalName ASC"); while($rCat=mysql_fetch_assoc($sCat)){ ?><option value="<?=$rCat['VerticalId']; ?>" <?php if($_REQUEST['VPid']==$rCat['VerticalId']){ echo 'selected';} ?>><?php echo '&nbsp;'.$rCat['VerticalName']; ?></option><?php } ?></select></td>
+		<td><select class="InputS" style="width:150px;" id="VPid" onChange="SelectDeptEmp(<?=$_REQUEST['DPid']?>,this.value)" <?php if($_REQUEST['DPid']>0){ echo '';}else{ echo 'disabled'; } ?>><option value="0" <?php if($_REQUEST['VPid']=='' OR $_REQUEST['VPid']==0){echo 'selected'; } ?>>Select Vertical</option><?php $sCat=mysql_query("select * from core_verticals group by vertical_name order by vertical_name ASC"); while($rCat=mysql_fetch_assoc($sCat)){ ?><option value="<?=$rCat['id']; ?>" <?php if($_REQUEST['VPid']==$rCat['id']){ echo 'selected';} ?>><?php echo '&nbsp;'.$rCat['vertical_name']; ?></option><?php } ?></select></td>
 		
 		<?php /*<td><?php if($_REQUEST['DPid']){ $_SESSION['DPid']=$_REQUEST['DPid']; $Sql=mysql_query("select * from hrm_department where DepartmentId=".$_SESSION['DPid'], $con); $Res=mysql_fetch_assoc($Sql); } ?>		
 <input class="InputT" style="color:#4A0000;font-size:14px;background-color:#E0DBE3;border-style:none;font-weight:bold;" value="<?php echo $Res['DepartmentName'] ?>" /></td>*/ ?>
 
 		<td class="font4" style="left">&nbsp;&nbsp;&nbsp;<b><span id="MsgSpan"></span><?php echo $msg;?></b></td>
-		<td align="center" style="width:60px;"><input type="button" name="back" id="back" style="width:90px;" value="back" onClick="javascript:window.location='Index.php?log=<?php echo $_SESSION['logCheckUser']; ?>'"/></td>        <td align="center" style="width:60px;"><input type="button" name="Refresh" value="refresh" onClick="javascript:window.location='GradeFormB.php'"/></td>
+		<td align="center" style="width:60px;"><input type="button" name="back" id="back" style="width:90px;" value="back" onClick="javascript:window.location='Index.php?log=<?php echo $_SESSION['logCheckUser']; ?>'"/></td><td align="center" style="width:60px;"><input type="button" name="Refresh" value="refresh" onClick="javascript:window.location='GradeFormB.php'"/></td>
 	</tr>
    </table>
   </td>

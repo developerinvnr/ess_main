@@ -67,7 +67,7 @@ function FunATotal(v)
     <td class="th" style="width:4%;"><b>SN</b></td>
     <td class="th" style="width:6%;"><b>EC</b></td>
     <td class="th" style="width:31%;"><b>Name</b></td>
-    <td class="th" style="width:20%;"><b>Department</b></td>
+    <?php /*<td class="th" style="width:20%;"><b>Department</b></td>*/?>
     <td class="th" style="width:6%;"><b>Emp</b></td>	
     <td class="th" style="width:6%;"><b>App</b></td>	
     <td class="th" style="width:6%;"><b>Rev</b></td>
@@ -86,7 +86,7 @@ function FunATotal(v)
 <?php
 if($Y<2017){ $Yydate=$Y.'-03-31'; }else{ $Yydate=$Y.'-06-30'; }
 
-$sql=mysql_query("select p.EmployeeID,EmpCode,Fname,Sname,Lname,DateJoining,EmpPmsId,Dummy_EmpRating,Dummy_AppRating,Dummy_RevRating,Dummy_HodRating,HR_Curr_DepartmentId,HR_CurrDesigId,DepartmentCode,EmpCurrGrossPM from hrm_employee_pms p INNER JOIN hrm_employee e ON p.EmployeeID=e.EmployeeID INNER JOIN hrm_employee_general g ON p.EmployeeID=g.EmployeeID INNER JOIN hrm_department de ON p.HR_Curr_DepartmentId=de.DepartmentId where p.AssessmentYear=".$_REQUEST['YI']." AND p.CompanyId=".$_REQUEST['CI']." AND e.EmpStatus='A' AND g.DateJoining<='".$Yydate."' AND p.Appraiser_EmployeeID!=0 order by EmpCode ASC", $con); 
+$sql=mysql_query("select p.EmployeeID,EmpCode,Fname,Sname,Lname,DateJoining,EmpPmsId,Dummy_EmpRating,Dummy_AppRating,Dummy_RevRating,Dummy_HodRating,HR_Curr_DepartmentId,HR_CurrDesigId,department_code as DepartmentCode,EmpCurrGrossPM from hrm_employee_pms p INNER JOIN hrm_employee e ON p.EmployeeID=e.EmployeeID INNER JOIN hrm_employee_general g ON p.EmployeeID=g.EmployeeID INNER JOIN core_departments de ON p.HR_Curr_DepartmentId=de.id where p.AssessmentYear=".$_REQUEST['YI']." AND p.CompanyId=".$_REQUEST['CI']." AND e.EmpStatus='A' AND g.DateJoining<='".$Yydate."' AND p.Appraiser_EmployeeID!=0 order by EmpCode ASC", $con); 
 $no=1; while($res=mysql_fetch_array($sql)) { //".$_REQUEST['YI']."
  ?> 
  <div id="tbody">
@@ -95,7 +95,7 @@ $no=1; while($res=mysql_fetch_array($sql)) { //".$_REQUEST['YI']."
    <td class="tdc"><?php echo $no; ?><input type="hidden" name="PmsId" id="PmsId" value="<?php echo $res['EmpPmsId']; ?>" /></td>
    <td class="tdc"><?php echo $res['EmpCode']; ?></td>
    <td class="tdl">&nbsp;<?php echo $res['Fname'].' '.$res['Sname'].' '.$res['Lname']; ?></td>  
-   <td class="tdl">&nbsp;<?php echo $res['DepartmentCode']; ?></td>
+   <?php /*<td class="tdl">&nbsp;<?php echo $res['DepartmentCode']; ?></td>*/ ?>
    <td class="tdc"><select name="DumEmp<?php echo $no; ?>" id="DumEmp<?php echo $no; ?>" style="width:100%;height:22px;font-family:Times New Roman;font-size:12px;border:hidden;" disabled><option value="<?php echo $res['Dummy_EmpRating']; ?>"><?php echo round($res['Dummy_EmpRating'],1); ?></option><?php $sqlR=mysql_query("select * from hrm_pms_rating where YearId=".$_REQUEST['YI']." AND CompanyId=".$_REQUEST['CI']." AND RatingStatus='A' order by Rating ASC", $con); 
       $sn=1; while($resR=mysql_fetch_array($sqlR)){ ?><option value="<?php echo $resR['Rating']; ?>"><?php echo $resR['Rating']; ?></option><?php } ?></select></td>	
    <td class="tdc"><select name="DumApp<?php echo $no; ?>" id="DumApp<?php echo $no; ?>" style="width:100%;height:22px;font-family:Times New Roman;font-size:12px;border:hidden;" disabled><option value="<?php echo $res['Dummy_AppRating']; ?>"><?php echo round($res['Dummy_AppRating'],1); ?></option><?php $sqlR=mysql_query("select * from hrm_pms_rating where YearId=".$_REQUEST['YI']." AND CompanyId=".$_REQUEST['CI']." AND RatingStatus='A' order by Rating ASC", $con); 

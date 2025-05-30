@@ -279,12 +279,12 @@ while($rTr = mysql_fetch_array($sTr)){ $aTr[$rTr['id']]=strtoupper($rTr['territo
 
 /*************************************************************************************************/
 /*********************************************************************************************** 15 **/
-$sql = mysql_query("select Hq_fc, HqName, StateName from hrm_sales_dealer d left join hrm_headquater hq on d.Hq_fc=hq.HqId left join hrm_state s on hq.StateId=s.StateId where d.Hq_fc!=0 group by Hq_fc order by Hq_fc", $con); 
+$sql = mysql_query("select Hq_fc_old, HqName, StateName from hrm_sales_dealer d left join hrm_headquater hq on d.Hq_fc_old=hq.HqId left join hrm_state s on hq.StateId=s.StateId where d.Hq_fc_old!=0 group by Hq_fc_old order by Hq_fc_old", $con); 
  $no=1; 
  while($res = mysql_fetch_assoc($sql))
  { 
   $C=$CompanyId; $YI=$YearId; $U=$UserId; $Region=''; $Zone=''; 
-  $sRg=mysql_query("select vh.RegionId,RegionName,ZoneName from hrm_sales_verhq vh left join hrm_sales_region sr on vh.RegionId=sr.RegionId left join hrm_sales_zone z on sr.ZoneId=z.ZoneId where vh.HqId=".$res['Hq_fc']." AND vh.Vertical=15 AND DeptId=6", $con); $rRg=mysql_fetch_assoc($sRg); 
+  $sRg=mysql_query("select vh.RegionId,RegionName,ZoneName from hrm_sales_verhq vh left join hrm_sales_region sr on vh.RegionId=sr.RegionId left join hrm_sales_zone z on sr.ZoneId=z.ZoneId where vh.HqId=".$res['Hq_fc_old']." AND vh.Vertical=15 AND DeptId=6", $con); $rRg=mysql_fetch_assoc($sRg); 
   if($rRg['ZoneName']!=''){ $Zone=$rRg['ZoneName'];}
   if($rRg['RegionName']!=''){ $Region=$rRg['RegionName'];}
 ?> 	 
@@ -296,7 +296,7 @@ $sql = mysql_query("select Hq_fc, HqName, StateName from hrm_sales_dealer d left
     <td class="tdl" style="background-color:#FFFFCA;">&nbsp;<?=ucwords(strtolower($res['HqName']))?>
     <input type="hidden" id="Hq_FC_<?=$no?>" value="<?php if($res['Hq_fc']==''){echo 0;}else{echo $res['Hq_fc']; }?>" /></td>
 
-  <?php $sqll = mysql_query("SELECT * FROM core_terr_mapping WHERE HqFC=".$res['Hq_fc'], $con);
+  <?php $sqll = mysql_query("SELECT * FROM core_terr_mapping WHERE HqFC=".$res['Hq_fc_old'], $con);
         $rowss = mysql_num_rows($sqll); $ress = mysql_fetch_assoc($sqll); ?> 
 
   <td class="tdc">
@@ -404,12 +404,12 @@ while($rTr = mysql_fetch_array($sTr)){ $bTr[$rTr['id']]=strtoupper($rTr['territo
 
 /*************************************************************************************************/
 /*********************************************************************************************** 14 **/
-$sql = mysql_query("select Hq_vc, HqName, StateName from hrm_sales_dealer d left join hrm_headquater hq on d.Hq_vc=hq.HqId left join hrm_state s on hq.StateId=s.StateId where d.Hq_vc!=0 group by Hq_vc order by Hq_vc", $con); 
+$sql = mysql_query("select Hq_vc_old, HqName, StateName from hrm_sales_dealer d left join hrm_headquater hq on d.Hq_vc_old=hq.HqId left join hrm_state s on hq.StateId=s.StateId where d.Hq_vc_old!=0 group by Hq_vc_old order by Hq_vc_old", $con); 
  $no=1; 
  while($res = mysql_fetch_assoc($sql))
  { 
   $C=$CompanyId; $YI=$YearId; $U=$UserId; $Region=''; $Zone=''; 
-  $sRg=mysql_query("select vh.RegionId,RegionName,ZoneName from hrm_sales_verhq vh left join hrm_sales_region sr on vh.RegionId=sr.RegionId left join hrm_sales_zone z on sr.ZoneId=z.ZoneId where vh.HqId=".$res['Hq_vc']." AND vh.Vertical=14 AND DeptId=6", $con); $rRg=mysql_fetch_assoc($sRg); 
+  $sRg=mysql_query("select vh.RegionId,RegionName,ZoneName from hrm_sales_verhq vh left join hrm_sales_region sr on vh.RegionId=sr.RegionId left join hrm_sales_zone z on sr.ZoneId=z.ZoneId where vh.HqId=".$res['Hq_vc_old']." AND vh.Vertical=14 AND DeptId=6", $con); $rRg=mysql_fetch_assoc($sRg); 
   if($rRg['ZoneName']!=''){ $Zone=$rRg['ZoneName'];}
   if($rRg['RegionName']!=''){ $Region=$rRg['RegionName'];}
 ?> 	 
@@ -421,7 +421,7 @@ $sql = mysql_query("select Hq_vc, HqName, StateName from hrm_sales_dealer d left
     <td class="tdl" style="background-color:#FFFFCA;">&nbsp;<?=ucwords(strtolower($res['HqName']))?>
     <input type="hidden" id="Hq_FC_<?=$no?>" value="<?php if($res['Hq_vc']==''){echo 0;}else{echo $res['Hq_vc']; }?>" /></td>
 
-  <?php $sqll = mysql_query("SELECT * FROM core_terr_mapping WHERE HqVC=".$res['Hq_vc'], $con);
+  <?php $sqll = mysql_query("SELECT * FROM core_terr_mapping WHERE HqVC=".$res['Hq_vc_old'], $con);
         $rowss = mysql_num_rows($sqll); $ress = mysql_fetch_assoc($sqll); ?> 
 
   <td class="tdc">

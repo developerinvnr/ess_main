@@ -132,8 +132,8 @@ function OpenHodWindow(id)
 <?php $sqlE=mysql_query("select EmpCode,Fname,Sname,Lname,DepartmentId from hrm_employee INNER JOIN hrm_employee_general ON hrm_employee_general.EmployeeID=hrm_employee.EmployeeID where hrm_employee.EmployeeID=".$res['EmployeeID'], $con); $resE=mysql_fetch_assoc($sqlE);?>	 		  
 	      <td width="50" class="TableHead1" align="center" valign="top"><?php echo $resE['EmpCode']; ?></td>
 		  <td width="200" class="TableHead1" align="left" valign="top"><?php echo $resE['Fname'].' '.$resE['Sname'].' '.$resE['Lname']; ?></td>
-<?php $sqlD=mysql_query("select DepartmentCode from hrm_department where DepartmentId=".$resE['DepartmentId'], $con); $resD=mysql_fetch_assoc($sqlD);?>		  
-		  <td width="100" class="TableHead1" align="left" valign="top"><?php echo $resD['DepartmentCode']; ?></td>
+<?php $sqlD=mysql_query("select department_name from core_departments where id=".$resE['DepartmentId'], $con); $resD=mysql_fetch_assoc($sqlD);?>		  
+		  <td width="100" class="TableHead1" align="left" valign="top"><?php echo $resD['department_name']; ?></td>
 		  <td width="80" class="TableHead1" align="center" valign="top"><?php echo date("d-m-Y",strtotime($res['Emp_ResignationDate']));?></td>
 		  <td width="80" class="TableHead1" align="center" valign="top"><?php echo date("d-m-Y",strtotime($res['Emp_RelievingDate'])); ?></td>
 		  <td width="150" class="TableHead1">&nbsp;<a href="javascript:OpenWindow(<?php echo $res['EmpSepId'];?>)"><?php echo substr_replace($res['Emp_Reason'], '', 15).'.....';?></a></td>
@@ -141,21 +141,40 @@ function OpenHodWindow(id)
 		  <td width="50" class="TableHead1" align="center"><a href="javascript:OpenHodWindow(<?php echo $res['EmpSepId'];?>)">CLICK</a></td>
 		  
 		  
-		  <td width="50" class="TableHead1" align="center"><?php if($res['SprUploadFile']!='' && file_exists('../Employee/SprUploadFile/'.$res['SprUploadFile'])){ echo '<font color="#006600"><u><a href="../Employee/SprUploadFile/'.$res["SprUploadFile"].'" target="_blank"/>Click</u></font>'; } ?></td>
+		  <td width="50" class="TableHead1" align="center"><?php
+$fileUrl = 'https://vnrseeds.co.in/Employee/SprUploadFile/' . $res['SprUploadFile'];
+
+if (!empty($res['SprUploadFile'])) {
+    $headers = @get_headers($fileUrl);
+    if ($headers && strpos($headers[0], '200')) { // Check if the HTTP response is 200 (OK)
+        echo '<font color="#006600"><u><a href="' . $fileUrl . '" target="_blank">Click</a></u></font>';
+    } else {
+        echo '<font color="#FF0000">File not found</font>';
+    }
+} else {
+    echo '<font color="#FF0000">No file provided</font>';
+}
+?>
+</td>
 		  
 <?php if($_SESSION['User_Permission']=='Edit'){?>		  
 		  <td width="80" class="TableHead1" align="center" style="color:<?php if($res['Rep_Approved']=='Y'){echo '#006400';}elseif($res['Rep_Approved']=='C'){echo '#804000';} ?>;">
 		  <?php if($res['Rep_Approved']=='Y'){$actApp='APPROVED';}elseif($res['Rep_Approved']=='C'){$actApp='REJECT';} ?>
+		  
 		  <?php if(($res['Rep_Approved']=='N' OR $res['Rep_Approved']=='P') AND date("Y-m-d")<$res['HOD_Date']) {?>
 		  <select style="width:80px;height:22px;font-size:14px;font-family:Times New Roman;background-color:#B7FFB7;" onChange="SelStusApp(this.value,<?php echo $res['EmpSepId'];?>)">
 	      <option value="0"><?php if($res['Rep_Approved']=='N' OR $res['Rep_Approved']=='P'){echo 'Pending';}?></option>
-		  <option value="A">Approval</option><option value="C">Reject</option></select><?php } else { if($res['Rep_Approved']=='Y' AND $res['Hod_Approved']=='N'){echo 'APPROVED';}elseif($res['Rep_Approved']=='N' AND $res['Hod_Approved']=='N'){echo 'PENDING';}elseif($res['Rep_Approved']=='C' AND $res['Hod_Approved']=='N'){echo 'REJECT';}elseif($res['Rep_Approved']=='N' AND $res['Hod_Approved']=='Y'){echo '';} } ?>
+		  <option value="A">Approval</option><option value="C">Reject</option></select>
+		  <?php } else 
+		  { 
+		      if($res['Rep_Approved']=='Y' AND $res['Hod_Approved']=='N'){echo 'APPROVED';}elseif(($res['Rep_Approved']=='N' OR $res['Rep_Approved']=='P') AND ($res['Hod_Approved']=='N'OR $res['Hod_Approved']=='P')){echo 'PENDING';}elseif($res['Rep_Approved']=='C' AND ($res['Hod_Approved']=='N' OR $res['Hod_Approved']=='P')){echo 'REJECT';}elseif(($res['Rep_Approved']=='N' OR $res['Rep_Approved']=='P') AND $res['Hod_Approved']=='Y'){echo '';} 
+		  } ?>
 		  </td>
 		  <td width="80" class="TableHead1" align="center" style="color:<?php if($res['Hod_Approved']=='Y'){echo '#006400';}elseif($res['Hod_Approved']=='C'){echo '#804000';} ?>;">
-		  <?php if($res['Rep_Approved']=='N' AND ($res['Hod_Approved']=='N' OR $res['Hod_Approved']=='P') AND date("Y-m-d")>=$res['HOD_Date']){ ?>
+		  <?php if(($res['Rep_Approved']=='N' OR $res['Rep_Approved']=='P' ) AND ($res['Hod_Approved']=='N' OR $res['Hod_Approved']=='P') AND date("Y-m-d")>=$res['HOD_Date']){ ?>
 		  <select style="width:80px;height:22px;font-size:14px;font-family:Times New Roman;background-color:#B7FFB7;" onChange="SelStusHod(this.value,<?php echo $res['EmpSepId'];?>)">
 	      <option value="0"><?php if($res['Hod_Approved']=='N' OR $res['Hod_Approved']=='P'){echo 'Pending';}?></option>
-		  <option value="A">Approval</option><option value="C">Reject</option></select><?php } else { if($res['Hod_Approved']=='Y' AND $res['Rep_Approved']=='N'){echo 'APPROVED';}elseif($res['Hod_Approved']=='N' AND $res['Rep_Approved']=='N'){echo 'PENDING';}elseif($res['Hod_Approved']=='C' AND $res['Rep_Approved']=='N'){echo 'REJECT';}elseif($res['Hod_Approved']=='N' AND $res['Rep_Approved']=='Y'){echo '';} } ?>
+		  <option value="A">Approval</option><option value="C">Reject</option></select><?php } else { if($res['Hod_Approved']=='Y' AND ($res['Rep_Approved']=='N' OR $res['Rep_Approved']=='P')){echo 'APPROVED';}elseif(($res['Hod_Approved']=='N' OR $res['Hod_Approved']=='P') AND ($res['Rep_Approved']=='N' OR $res['Rep_Approved']=='P')){echo 'PENDING';}elseif($res['Hod_Approved']=='C' AND ($res['Rep_Approved']=='N' OR $res['Rep_Approved']=='P')){echo 'REJECT';}elseif(($res['Hod_Approved']=='N' OR $res['Hod_Approved']=='P') AND $res['Rep_Approved']=='Y'){echo '';} } ?>
 		  </td>
 		  <td width="80" class="TableHead1" align="center" style="color:<?php if($res['HR_Approved']=='N' OR $res['HR_Approved']=='P'){echo '#0080FF';}elseif($res['HR_Approved']=='Y'){echo '#006400';}elseif($res['HR_Approved']=='C'){echo '#804000';} ?>;"><?php if($res['HR_Approved']=='N' OR $res['HR_Approved']=='P'){echo 'PENDING';}elseif($res['HR_Approved']=='Y'){ echo 'APPROVED'; }elseif($res['HR_Approved']=='C'){echo 'REJECT';} ?></td>
 	      <td width="80" class="TableHead1" align="center">

@@ -200,7 +200,7 @@ $sql=mysql_query("select * from hrm_asset_employee_request INNER JOIN hrm_employ
 $SqlEmp = mysql_query("SELECT EmpCode,Fname,Sname,Lname,DepartmentId,MobileNo_Vnr,MobileNo from hrm_employee INNER JOIN hrm_employee_general ON hrm_employee.EmployeeID=hrm_employee_general.EmployeeID INNER JOIN hrm_employee_personal ON hrm_employee.EmployeeID=hrm_employee_personal.EmployeeID WHERE hrm_employee.EmployeeID=".$res['EmployeeID'], $con); $ResEmp=mysql_fetch_assoc($SqlEmp);
 $Ename = $ResEmp['Fname'].'&nbsp;'.$ResEmp['Sname'].'&nbsp;'.$ResEmp['Lname']; $LEC=strlen($ResEmp['EmpCode']); 
 if($LEC==1){$EC='000'.$ResEmp['EmpCode'];} if($LEC==2){$EC='00'.$ResEmp['EmpCode'];} if($LEC==3){$EC='0'.$ResEmp['EmpCode'];} if($LEC>=4){$EC=$ResEmp['EmpCode'];}
-$sDept=mysql_query("select DepartmentCode from hrm_department where DepartmentId=".$ResEmp['DepartmentId'], $con); $rDept=mysql_fetch_assoc($sDept);
+$sDept=mysql_query("select department_name as DepartmentCode from core_departments where id=".$ResEmp['DepartmentId'], $con); $rDept=mysql_fetch_assoc($sDept);
 if($_REQUEST['page']==1){$sno=1;} elseif($_REQUEST['page']==2){$sno=21;} elseif($_REQUEST['page']==3){$sno=41;}
 elseif($_REQUEST['page']==4){$sno=61;} elseif($_REQUEST['page']==5){$sno=81;} elseif($_REQUEST['page']==6){$sno=101;} 
 elseif($_REQUEST['page']==7){$sno=121;} elseif($_REQUEST['page']==8){$sno=141;} elseif($_REQUEST['page']==161){$sno=81;} 

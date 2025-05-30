@@ -11,13 +11,14 @@ $_SESSION['EmpID']=$_REQUEST['ID'];   //loyee
 $EMPID=$_SESSION['EmpID'];
 //********************************** 
 
+
 if(isset($_POST['EditGeneralE'])) 
-{ $sql = mysql_query("select hrm_employee.*,hrm_employee_general.* from hrm_employee INNER JOIN hrm_employee_general ON hrm_employee.EmployeeID=hrm_employee_general.EmployeeID where hrm_employee.EmployeeID=".$EMPID, $con); $res=mysql_fetch_assoc($sql);
+{
+    $sql = mysql_query("select hrm_employee.*,hrm_employee_general.* from hrm_employee INNER JOIN hrm_employee_general ON hrm_employee.EmployeeID=hrm_employee_general.EmployeeID where hrm_employee.EmployeeID=".$EMPID, $con); $res=mysql_fetch_assoc($sql);
    if($sql)
    {  $sqlIns=mysql_query("Insert into hrm_employee_event(EmployeeID,EmpCode,EmpPass,EmpType,EmpStatus,Fname,Sname,Lname,CompanyId,CreatedBy,CreatedDate,YearId)values(".$res['EmployeeID'].", '".$res['EmpCode']."','".$res['EmpPass']."','".$res['EmpType']."','".$res['EmpStatus']."','".$res['Fname']."','".$res['Sname']."','".$res['Lname']."',".$res['CompanyId'].",".$res['CreatedBy'].",'".$res['CreatedDate']."',".$res['YearId'].")", $con);
 
-    
-     $sqlIns1=mysql_query("Insert into hrm_employee_general_event(GeneralId,EmployeeID,FileNo,DateJoining,DateConfirmationYN,DateConfirmation,DOB,DOB_dm,GradeId,CostCenter,HqId,DepartmentId,DesigId,DesigId2,MobileNo_Vnr,EmailId_Vnr,BankName,AccountNo,BranchName,BranchAdd,BankName2,AccountNo2,BranchName2,BranchAdd2,InsuCardNo,PfAccountNo,PF_UAN,EsicAllow,EsicNo,ReportingName,ReportingDesigId,ReportingEmailId,ReportingContactNo,CreatedBy,CreatedDate,SysDate,YearId)values(".$res['GeneralId'].",".$res['EmployeeID'].",".$res['FileNo'].",'".$res['DateJoining']."','".$res['DateConfirmationYN']."','".$res['DateConfirmation']."','".$res['DOB']."','".$res['DOB_dm']."',".$res['GradeId'].",'".$res['CostCenter']."',".$res['HqId'].",".$res['DepartmentId'].",".$res['DesigId'].",".$res['DesigId2'].",".$res['MobileNo_Vnr'].",'".$res['EmailId_Vnr']."','".$res['BankName']."',".$res['AccountNo'].",'".$res['BranchName']."','".$res['BranchAdd']."','".$res['BankName2']."',".$res['AccountNo2'].",'".$res['BranchName2']."','".$res['BranchAdd2']."','".$res['InsuCardNo']."','".$res['PfAccountNo']."','".$res['PF_UAN']."','".$res['EsicAllow']."','".$res['EsicNo']."','".$res['ReportingName']."',".$res['ReportingDesigId'].",'".$res['ReportingEmailId']."',".$res['ReportingContactNo'].",".$res['CreatedBy'].",'".$res['CreatedDate']."','".$res['SysDate']."',".$res['YearId'].")", $con);
+     $sqlIns1=mysql_query("Insert into hrm_employee_general_event(GeneralId,EmployeeID,FileNo,DateJoining,DateConfirmationYN,DateConfirmation,DOB,DOB_dm, GradeId, CostCenter, HqId, DepartmentId, DesigId, SubLocation, SubDepartmentId, TerrId, BUId, ZoneId, RegionId, Section, EmpFunction, EmpVertical, EmpSection, MobileNo_Vnr,EmailId_Vnr,BankName,AccountNo,BranchName,BranchAdd,BankName2,AccountNo2,BranchName2,BranchAdd2,InsuCardNo,PfAccountNo,PF_UAN,EsicAllow,EsicNo,ReportingName,ReportingDesigId,ReportingEmailId,ReportingContactNo,CreatedBy,CreatedDate,SysDate,YearId, GradeId_Old, CostCenter_Old, HqId_Old, DepartmentId_Old, DesigId_Old, SubLocation_old, EmpVertical_old, Section_old)values(".$res['GeneralId'].",".$res['EmployeeID'].",".$res['FileNo'].",'".$res['DateJoining']."','".$res['DateConfirmationYN']."','".$res['DateConfirmation']."','".$res['DOB']."','".$res['DOB_dm']."', '".$res['GradeId']."', '".$res['CostCenter']."', '".$res['HqId']."', '".$res['DepartmentId']."', '".$res['DesigId']."', '".$res['SubLocation']."', '".$res['SubDepartmentId']."', '".$res['TerrId']."', '".$res['BUId']."', '".$res['ZoneId']."', '".$res['RegionId']."', '".$res['Section']."', '".$res['EmpFunction']."', '".$res['EmpVertical']."', '".$res['EmpSection']."', ".$res['MobileNo_Vnr'].",'".$res['EmailId_Vnr']."','".$res['BankName']."',".$res['AccountNo'].",'".$res['BranchName']."','".$res['BranchAdd']."','".$res['BankName2']."',".$res['AccountNo2'].",'".$res['BranchName2']."','".$res['BranchAdd2']."','".$res['InsuCardNo']."','".$res['PfAccountNo']."','".$res['PF_UAN']."','".$res['EsicAllow']."','".$res['EsicNo']."','".$res['ReportingName']."',".$res['ReportingDesigId'].",'".$res['ReportingEmailId']."',".$res['ReportingContactNo'].",".$res['CreatedBy'].",'".$res['CreatedDate']."','".$res['SysDate']."',".$res['YearId'].", '".$res['GradeId_Old']."', '".$res['CostCenter_Old']."', '".$res['HqId_Old']."', '".$res['DepartmentId_Old']."', '".$res['DesigId_Old']."', '".$res['SubLocation_old']."', '".$res['EmpVertical_old']."', '".$res['Section_old']."')", $con);
   
      if($sqlIns)
      { $Fname=ucfirst($_POST['Fname']);  $Sname=ucfirst($_POST['Sname']);  $Lname=ucfirst($_POST['Lname']); //$pass=encrypt($_POST['EmpPass']);
@@ -62,11 +63,14 @@ else{ $ename=trim($resE['Fname']).' '.trim($resE['Sname']).' '.trim($resE['Lname
        
        if($_POST['ESICNo']!='' && $_POST['ESICNo']!=0){ $EsicAllow='Y';  }
        else{ $EsicAllow='N'; }
-       
-       $SqlUpGen1 = mysql_query("UPDATE hrm_employee_general SET Hiring_Mode = '".$_POST['hiring_mode']."', FileNo='".$_POST['FileNo']."', DateJoining='".date("Y-m-d",strtotime($_POST['DOJ']))."', DOB='".date("Y-m-d",strtotime($_POST['DOB']))."', DOB_dm='".date("0000-m-d",strtotime($_POST['DOB']))."', GradeId='".$_POST['GradeName']."', CostCenter='".$_POST['CostCenter']."', HqId='".$_POST['HQName']."', SubLocation='".$_POST['SubLocation']."', DepartmentId='".$_POST['DeptName']."', DesigId='".$_POST['DesigName']."', PositionCode='".$_POST['PositionCode']."', MobileNo_Vnr='".$_POST['OffiMobileNo']."', MobileNo2_Vnr='".$_POST['MobileNo2_Vnr']."', EmailId_Vnr='".$_POST['OffiEmialId']."', BankName='".$_POST['BankName1']."', AccountNo='".$_POST['AccountNo1']."', BranchName='".$_POST['Branch1']."', BranchAdd='".$_POST['Address1']."', BankName2='".$_POST['BankName2']."', AccountNo2='".$_POST['AccountNo2']."', BranchName2='".$_POST['Branch2']."', BranchAdd2='".$_POST['Address2']."', BankIfscCode='".$_POST['ifsc1']."', BankIfscCode2='".$_POST['ifsc2']."', InsuCardNo='".$_POST['InsCardNo']."', PfAccountNo='".$_POST['PfAccountNo']."', PF_UAN='".$_POST['PF_UAN']."', EsicAllow='".$EsicAllow."', EsicNo='".$_POST['ESICNo']."', AttMobileNo1='".$_POST['OffiMobileNo']."', EmpVertical='".$_POST['EmpVertical']."', EmpSection='".$_POST['EmpSection']."', BWageId='".$_POST['BWageCategory']."', CreatedBy='".$UserId."', CreatedDate='".date("Y-m-d",strtotime($_POST['DateCTC']))."', apply_Bond='".$_POST['TrfBond']."', Transfer_Dept_Date='".date("Y-m-d",strtotime($_POST['TrfDate']))."', Transfer_Dept_Name='".$_POST['TrfDept']."', Transfer2_Dept_Date='".date("Y-m-d",strtotime($_POST['Trf2Date']))."', Transfer2_Dept_Name='".$_POST['Trf2Dept']."', Bond_Year='".$_POST['BondYear']."', NoticeDay_Prob='".$_POST['NoticeDay_Prob']."', NoticeDay_Conf='".$_POST['NoticeDay_Conf']."', Transfer_location='".$_POST['TrfLoc']."', Transfer2_location='".$_POST['Trf2Loc']."', SysDate='".date('Y-m-d')."', YearId='".$YearId."' WHERE EmployeeID=".$EMPID, $con);
+
+       // GradeId, CostCenter, HqId, DepartmentId, DesigId, SubLocation, SubDepartmentId, TerrId, BUId, ZoneId, RegionId, Section, EmpFunction, EmpVertical, EmpSection
+       //".$res['EmpGrade'].",'".$res['EmpState']."',".$res['EmpCity'].",".$res['EmpDept'].",".$res['EmpDesig'].",'".$res['SubLocation']."', '".$res['EmpSubDept']."', '".$res['EmpTerr']."', '".$res['EmpBU']."', '".$res['EmpZone']."', '".$res['EmpRegion']."', '".$res['EmpSec']."', '".$res['EmpFun']."', '".$res['EmpVer']."', '".$res['EmpSec']."',
+
+       $SqlUpGen1 = mysql_query("UPDATE hrm_employee_general SET Hiring_Mode = '".$_POST['hiring_mode']."', FileNo='".$_POST['FileNo']."', DateJoining='".date("Y-m-d",strtotime($_POST['DOJ']))."', DOB='".date("Y-m-d",strtotime($_POST['DOB']))."', DOB_dm='".date("0000-m-d",strtotime($_POST['DOB']))."', GradeId='".$_POST['EmpGrade']."',DesigSuffix='".$_POST['DesigSuffix']."', CostCenter='".$_POST['EmpState']."', HqId='".$_POST['EmpCity']."', DepartmentId='".$_POST['EmpDept']."', DesigId='".$_POST['EmpDesig']."', SubLocation='".$_POST['SubLocation']."', SubDepartmentId='".$_POST['EmpSubDept']."', TerrId='".$_POST['EmpTerr']."', BUId='".$_POST['EmpBU']."', ZoneId='".$_POST['EmpZone']."', RegionId='".$_POST['EmpRegion']."', Section='".$_POST['EmpSec']."', EmpFunction='".$_POST['EmpFun']."', EmpVertical='".$_POST['EmpVer']."', EmpSection='".$_POST['EmpSec']."', PositionCode='".$_POST['PositionCode']."', MobileNo_Vnr='".$_POST['OffiMobileNo']."', MobileNo2_Vnr='".$_POST['MobileNo2_Vnr']."', EmailId_Vnr='".$_POST['OffiEmialId']."', BankName='".$_POST['BankName1']."', AccountNo='".$_POST['AccountNo1']."', BranchName='".$_POST['Branch1']."', BranchAdd='".$_POST['Address1']."', BankName2='".$_POST['BankName2']."', AccountNo2='".$_POST['AccountNo2']."', BranchName2='".$_POST['Branch2']."', BranchAdd2='".$_POST['Address2']."', BankIfscCode='".$_POST['ifsc1']."', BankIfscCode2='".$_POST['ifsc2']."', InsuCardNo='".$_POST['InsCardNo']."', PfAccountNo='".$_POST['PfAccountNo']."', PF_UAN='".$_POST['PF_UAN']."', EsicAllow='".$EsicAllow."', EsicNo='".$_POST['ESICNo']."', AttMobileNo1='".$_POST['OffiMobileNo']."', BWageId='".$_POST['BWageCategory']."', CreatedBy='".$UserId."', CreatedDate='".date("Y-m-d",strtotime($_POST['DateCTC']))."', apply_Bond='".$_POST['TrfBond']."', Transfer_Dept_Date='".date("Y-m-d",strtotime($_POST['TrfDate']))."', Transfer_Dept_Name='".$_POST['TrfDept']."', Transfer2_Dept_Date='".date("Y-m-d",strtotime($_POST['Trf2Date']))."', Transfer2_Dept_Name='".$_POST['Trf2Dept']."', Bond_Year='".$_POST['BondYear']."', NoticeDay_Prob='".$_POST['NoticeDay_Prob']."', NoticeDay_Conf='".$_POST['NoticeDay_Conf']."', Transfer_location='".$_POST['TrfLoc']."', Transfer2_location='".$_POST['Trf2Loc']."', SysDate='".date('Y-m-d')."', YearId='".$YearId."' WHERE EmployeeID=".$EMPID, $con);
 	   
        
-       
+       /*
       $sqlRatt=mysql_query("select * from hrm_sales_verhq rh where HqId=".$_POST['HQName']." AND Vertical=".$_POST['EmpVertical']." AND DeptId=".$_POST['DeptName']." AND CompanyId=".$CompanyId, $con); 
 	  $resRatt=mysql_num_rows($sqlRatt);
 	   if($resRatt>0)
@@ -77,7 +81,7 @@ else{ $ename=trim($resE['Fname']).' '.trim($resE['Sname']).' '.trim($resE['Lname
        {
         $SqlUpdate = mysql_query("insert into hrm_sales_verhq (Vertical, HqId, RegionId, CompanyId, DeptId, Status, CreatedBy, CreatedDate) values(".$_POST['EmpVertical'].", ".$_POST['HQName'].", ".$_POST['RegionId'].", ".$CompanyId.", ".$_POST['DeptName'].", 'A', ".$UserId.", '".date("Y-m-d")."')", $con);
        }
-       
+       */
        
 
 /****************************** History History History History History History *************************/
@@ -89,7 +93,7 @@ else{ $ename=trim($resE['Fname']).' '.trim($resE['Sname']).' '.trim($resE['Lname
 		  
 		  $sPms=mysql_query("select HR_CurrGradeId, HR_CurrDesigId, HR_Curr_DepartmentId from hrm_employee_pms where EmployeeID=".$EMPID." AND AssessmentYear=".$yPms." AND CompanyId=".$CompanyId,$con); $rPms=mysql_fetch_assoc($sPms);
 	       
-	     if($res['DepartmentId']!=0 AND $res['DesigId']!=0 AND $res['GradeId']!=0 AND ($rPms['HR_Curr_DepartmentId']!=$_POST['DeptName'] OR $rPms['HR_CurrDesigI']!=$_POST['DesigName'] OR $rPms['HR_CurrGradeId']!=$_POST['GradeName'])) 
+	     if($res['DepartmentId']!=0 AND $res['DesigId']!=0 AND $res['GradeId']!=0 AND ($rPms['HR_Curr_DepartmentId']!=$_POST['EmpDept'] OR $rPms['HR_CurrDesigI']!=$_POST['EmpDesig'] OR $rPms['HR_CurrGradeId']!=$_POST['EmpGrade'])) 
 		 { 
 		     
 		     
@@ -97,22 +101,22 @@ else{ $ename=trim($resE['Fname']).' '.trim($resE['Sname']).' '.trim($resE['Lname
 		  
 		  if(date("Y-m-d")<=date('Y-03-15'))
 		  {
-		  $upPms=mysql_query("update hrm_employee_pms set HR_CurrGradeId='".$_POST['GradeName']."', HR_CurrDesigId='".$_POST['DesigName']."', HR_Curr_DepartmentId='".$_POST['DeptName']."' where EmployeeID=".$EMPID." AND AssessmentYear=".$yPms." AND CompanyId=".$CompanyId,$con);
+		  $upPms=mysql_query("update hrm_employee_pms set HR_CurrGradeId='".$_POST['EmpGrade']."', HR_CurrDesigId='".$_POST['EmpDesig']."', HR_Curr_DepartmentId='".$_POST['EmpDept']."' where EmployeeID=".$EMPID." AND AssessmentYear=".$yPms." AND CompanyId=".$CompanyId,$con);
 		  }
 		  /************************** PMS *************************/
 		     
 		  /***************************************** History Open **************/ 
 		  
-          $SqlE = mysql_query("select EmpCode,Fname,Sname,Lname from hrm_employee where EmployeeID=".$EMPID, $con); 
+        $SqlE = mysql_query("select EmpCode,Fname,Sname,Lname from hrm_employee where EmployeeID=".$EMPID, $con); 
 		  $ResE=mysql_fetch_assoc($SqlE); 
 		  
 		  if($ResE['Sname']==''){ $EnameE=trim($ResE['Fname']).' '.trim($ResE['Lname']); }
 else{ $EnameE=trim($ResE['Fname']).' '.trim($ResE['Sname']).' '.trim($ResE['Lname']); }
 		  
 		  //$EnameE = $ResE['Fname'].' '.$ResE['Sname'].' '.$ResE['Lname']; 
-          $sqlEDept = mysql_query("select DepartmentName from hrm_department where DepartmentId=".$_POST['DeptName'],$con);
-		  $sqlEDe=mysql_query("select DesigName from hrm_designation where DesigId=".$_POST['DesigName'], $con);
-		  $sqlEGr=mysql_query("select GradeValue from hrm_grade where GradeId=".$_POST['GradeName']." AND CompanyId=".$CompanyId, $con);
+          $sqlEDept = mysql_query("select department_name from core_departments where id=".$_POST['EmpDept'],$con);
+		  $sqlEDe=mysql_query("select designation_name from core_designation where id=".$_POST['EmpDesig'], $con);
+		  $sqlEGr=mysql_query("select grade_name from core_grades where id=".$_POST['EmpGrade']." AND company_id=".$CompanyId, $con);
 		  $resEDept=mysql_fetch_assoc($sqlEDept); $resEDe=mysql_fetch_assoc($sqlEDe); $resEGr=mysql_fetch_assoc($sqlEGr);
     
           $sqlHC = mysql_query("SELECT MAX(SalaryChange_Date) as SalaryChD FROM hrm_pms_appraisal_history where EmpCode=".$ResE['EmpCode']." AND CompanyId=".$CompanyId, $con); $resHC = mysql_fetch_assoc($sqlHC); 
@@ -122,11 +126,11 @@ else{ $EnameE=trim($ResE['Fname']).' '.trim($ResE['Sname']).' '.trim($ResE['Lnam
 		   $sqlHis = mysql_query("select * from hrm_pms_appraisal_history where EmpCode=".$ResE['EmpCode']." AND SalaryChange_Date='".date('Y-m-d')."' AND CompanyId=".$CompanyId, $con); $rowHis=mysql_num_rows($sqlHis); 
            if($rowHis>0)
            { 
-            $sqlUhis=mysql_query("update hrm_pms_appraisal_history set Proposed_Grade='".$resEGr['GradeValue']."', Department='".$resEDept['DepartmentName']."', Proposed_Designation='".$resEDe['DesigName']."' where EmpCode=".$ResE['EmpCode']." AND SalaryChange_Date='".date('Y-m-d')."' AND CompanyId=".$CompanyId, $con); 
+            $sqlUhis=mysql_query("update hrm_pms_appraisal_history set Proposed_Grade='".$resEGr['grade_name']."', Department='".$resEDept['department_name']."', Proposed_Designation='".$resEDe['designation_name']."' where EmpCode=".$ResE['EmpCode']." AND SalaryChange_Date='".date('Y-m-d')."' AND CompanyId=".$CompanyId, $con); 
            }
            if($rowHis==0)
            { 
-            $sqlUhis=mysql_query("insert into hrm_pms_appraisal_history(EmpPmsId, EmpCode, EmpName, Current_Grade, Proposed_Grade, Department, Current_Designation, Proposed_Designation, SalaryChange_Date, SystemDate, Salary_Basic, Salary_HRA, Salary_CA, Salary_SA, Previous_GrossSalaryPM, Current_GrossSalaryPM, Proposed_GrossSalaryPM, BonusAnnual_September, Prop_PeInc_GSPM, PropSalary_Correction, TotalProp_GSPM, TotalProp_PerInc_GSPM, Score, Rating, CompanyId, YearId) values(0, '".$ResE['EmpCode']."', '".$EnameE."', '".$resMax['Current_Grade']."', '".$resEGr['GradeValue']."', '".$resEDept['DepartmentName']."', '".$resMax['Current_Designation']."', '".$resEDe['DesigName']."', '".date("Y-m-d",strtotime($_POST['DateCTC']))."', '".date("Y-m-d")."', '".$resMax['Salary_Basic']."', '".$resMax['Salary_HRA']."', '".$resMax['Salary_CA']."', '".$resMax['Salary_SA']."', '".$resMax['Previous_GrossSalaryPM']."', '".$resMax['Current_GrossSalaryPM']."', '".$resMax['Proposed_GrossSalaryPM']."', '".$resMax['BonusAnnual_September']."', '".$resMax['Prop_PeInc_GSPM']."', '".$resMax['PropSalary_Correction']."', '".$resMax['TotalProp_GSPM']."', 0, 0, 0, ".$CompanyId.", ".$YearId.")", $con);
+            $sqlUhis=mysql_query("insert into hrm_pms_appraisal_history(EmpPmsId, EmpCode, EmpName, Current_Grade, Proposed_Grade, Department, Current_Designation, Proposed_Designation, SalaryChange_Date, SystemDate, Salary_Basic, Salary_HRA, Salary_CA, Salary_SA, Previous_GrossSalaryPM, Current_GrossSalaryPM, Proposed_GrossSalaryPM, BonusAnnual_September, Prop_PeInc_GSPM, PropSalary_Correction, TotalProp_GSPM, TotalProp_PerInc_GSPM, Score, Rating, CompanyId, YearId) values(0, '".$ResE['EmpCode']."', '".$EnameE."', '".$resMax['Current_Grade']."', '".$resEGr['grade_name']."', '".$resEDept['department_name']."', '".$resMax['Current_Designation']."', '".$resEDe['designation_name']."', '".date("Y-m-d",strtotime($_POST['DateCTC']))."', '".date("Y-m-d")."', '".$resMax['Salary_Basic']."', '".$resMax['Salary_HRA']."', '".$resMax['Salary_CA']."', '".$resMax['Salary_SA']."', '".$resMax['Previous_GrossSalaryPM']."', '".$resMax['Current_GrossSalaryPM']."', '".$resMax['Proposed_GrossSalaryPM']."', '".$resMax['BonusAnnual_September']."', '".$resMax['Prop_PeInc_GSPM']."', '".$resMax['PropSalary_Correction']."', '".$resMax['TotalProp_GSPM']."', 0, 0, 0, ".$CompanyId.", ".$YearId.")", $con);
            }
 		  }
 		  
@@ -231,72 +235,103 @@ if($_POST['DeptName']!='' AND $_POST['DeptName']!=0)  //AND $_POST['DeptName']==
 <script type="text/javascript" src="js/EmpMasterAddNewAjaxCall.js"></script>
 <Script type="text/javascript">window.history.forward(1);</script>
 <script language="javascript">
-/*
-function EsicAllow(value)
-{ if(value=='N'){document.getElementById("ESICNo1").style.display = 'block'; document.getElementById("ESICNo2").style.display = 'none';}
-else if(value=='Y'){document.getElementById("ESICNo1").style.display = 'none'; document.getElementById("ESICNo2").style.display = 'block';} }
-*/
-
-function RefGen()
-{ document.getElementById("BankName1").value = ''; document.getElementById("AccountNo1").value = ''; document.getElementById("Branch1").value = ''; document.getElementById("Address1").value = ''; document.getElementById("BankName2").value = ''; document.getElementById("AccountNo2").value = ''; document.getElementById("Branch2").value = ''; document.getElementById("Address2").value = ''; document.getElementById("InsCardNo").value = ''; document.getElementById("PfAccountNo").value = ''; document.getElementById("ESIC_Allow").value = 'N';
-document.getElementById("ESICNo1").style.display = 'block'; document.getElementById("ESICNo2").style.display = 'none'; }
-
 function EditGeneral()
 {
-document.getElementById("EditGeneralE").style.display = 'block'; document.getElementById("ChangeGeneral").style.display = 'none'; document.getElementById("Fname").readOnly = false; document.getElementById("Sname").readOnly = false; document.getElementById("Lname").readOnly = false; document.getElementById("FileNo").readOnly = false; document.getElementById("DOJ").readOnly = false; document.getElementById("DOC").readOnly = false; document.getElementById("DOB").readOnly = false; document.getElementById("DeptName").disabled = false; document.getElementById("DesigName").disabled = false; document.getElementById("GradeName").disabled = false; document.getElementById("HQName").disabled = false; 
-    document.getElementById("RegionId").disabled = false; 
-    document.getElementById("SubLocation").disabled = false; 
-
-document.getElementById("CostCenter").disabled = false; document.getElementById("OffiMobileNo").readOnly = false; document.getElementById("OffiEmialId").readOnly = false; document.getElementById("BankName1").readOnly = false; document.getElementById("AccountNo1").readOnly = false; document.getElementById("Branch1").readOnly = false; document.getElementById("Address1").readOnly = false; document.getElementById("BankName2").readOnly = false; document.getElementById("AccountNo2").readOnly = false; document.getElementById("Branch2").readOnly = false; document.getElementById("Address2").readOnly = false; document.getElementById("ifsc1").readOnly = false; document.getElementById("ifsc2").readOnly = false;
-   document.getElementById("ESICNo").readOnly = false;
-   document.getElementById("MobileNo2_Vnr").readOnly = false;
-   
-   
-
+document.getElementById("EmpStatus").disabled = false; document.getElementById("FileNo").readOnly = false; 
+document.getElementById("DOJ").readOnly = false; document.getElementById("f_btn1").disabled = false; 
+document.getElementById("DOC").readOnly = false; document.getElementById("f_btn2").disabled = false;
+document.getElementById("DOB").readOnly = false; document.getElementById("f_btn3").disabled = false;
+document.getElementById("BWageCategory").disabled = false; document.getElementById("OffiEmialId").readOnly = false;
+document.getElementById("OffiMobileNo").readOnly = false; document.getElementById("MobileNo2_Vnr").readOnly = false;
+document.getElementById("PositionCode").readOnly = false; document.getElementById("hiring_mode").disabled = false;
+document.getElementById("EsslCode").readOnly = false;
+document.getElementById("Fun").disabled = false; document.getElementById("Ver").disabled = false;
+document.getElementById("Dept").disabled = false; document.getElementById("SubDept").disabled = false;
+document.getElementById("Sec").disabled = false; document.getElementById("Desig").disabled = false;
+document.getElementById("Grade").disabled = false; document.getElementById("DesigSuffix").disabled = false; 
+document.getElementById("State").disabled = false;
+document.getElementById("City").disabled = false; document.getElementById("SubLocation").readOnly = false;
+document.getElementById("BU").disabled = false; document.getElementById("Zone").disabled = false;
+document.getElementById("Region").disabled = false; document.getElementById("Terr").disabled = false;
+document.getElementById("BankName1").readOnly = false; document.getElementById("AccountNo1").readOnly = false; 
+document.getElementById("ifsc1").readOnly = false; document.getElementById("Branch1").readOnly = false; 
+document.getElementById("Address1").readOnly = false; 
+document.getElementById("BankName2").readOnly = false; document.getElementById("AccountNo2").readOnly = false; 
+document.getElementById("ifsc2").readOnly = false; document.getElementById("Branch2").readOnly = false; 
+document.getElementById("Address2").readOnly = false; 
 document.getElementById("InsCardNo").readOnly = false; document.getElementById("PfAccountNo").readOnly = false;
-document.getElementById("PF_UAN").readOnly = false; document.getElementById("ESIC_Allow").disabled = false; document.getElementById("RepName").disabled = false; document.getElementById("f_btn1").disabled = false; document.getElementById("f_btn2").disabled = false; document.getElementById("f_btn3").disabled = false; document.getElementById("EmpStatus").disabled = false; document.getElementById("GradeName").disabled = false; 
-
-document.getElementById("DateCTC").value=document.getElementById("DateHide").value;
-document.getElementById("f_btn11").disabled = false;
-
+document.getElementById("PF_UAN").readOnly = false; document.getElementById("ESICNo").readOnly = false;
+document.getElementById("RepName").disabled = false;
+document.getElementById("NoticeDay_Prob").disabled = false; document.getElementById("NoticeDay_Conf").disabled = false;
+document.getElementById("f_btnn6").disabled = false;
+document.getElementById("TrfDept").disabled = false; document.getElementById("TrfLoc").disabled = false;
+document.getElementById("f_btnn7").disabled = false;
+document.getElementById("Trf2Dept").disabled = false; document.getElementById("Trf2Loc").disabled = false;
 document.getElementById("RetiStatus").disabled = false;  document.getElementById("f_btnReti").disabled = false; 
 document.getElementById("RetiNewCode").readOnly = false;  document.getElementById("RetiOldCode").readOnly = false;
-document.getElementById("PositionCode").readOnly = false;
-
-
+document.getElementById("f_btn11").disabled = false; 
+document.getElementById("EditGeneralE").style.display = 'block'; document.getElementById("ChangeGeneral").style.display = 'none'; 
 }
 
+/**********************************************************************************/
+/**********************************************************************************/
+function ApplyFilter(v,Field,EmpField,TargetName,TargetSpan,FieldNxt,EmpFieldNxt,TargetNameNxt,TargetSpanNxt)
+ { 
+   
+   document.getElementById(EmpField).value = v; document.getElementById("TargetDiv").value = TargetSpan; 
+   var dept=0; var fun=0; var comid = document.getElementById("comid").value;
+   if(TargetName=='Grade'){ var dept = document.getElementById("EmpDept").value; } 
+   if(TargetName=='Dept'){ var fun = document.getElementById("EmpFun").value;  } 
+   if(TargetName!='0' && TargetName!=' ')
+   { 
+     var url = 'FilterMasterAjax.php';  var pars = 'Act=FilerDataShow&v='+v+'&Field='+Field+'&EmpField='+EmpField+'&TargetName='+TargetName+'&TargetSpan='+TargetSpan+'&dept='+dept+'&fun='+fun+'&FieldNxt='+FieldNxt+'&EmpFieldNxt='+EmpFieldNxt+'&TargetNameNxt='+TargetNameNxt+'&TargetSpanNxt='+TargetSpanNxt+'&comid='+comid;  
+     var myAjax = new Ajax.Request(
+     url, 
+     {
+      method: 'post', 
+      parameters: pars,
+      onComplete: show_ApplyFilter
+     });
+   }
+ } 
+ 
+function show_ApplyFilter(originalRequest)
+{ 
+  var TargetSpan=document.getElementById("TargetDiv").value; 
+  document.getElementById(TargetSpan).innerHTML = originalRequest.responseText; 
+  var v = document.getElementById("EmpDept").value;
+  if(TargetSpan=='SubDeptSpan')
+  {   
+    var v = document.getElementById("EmpDept").value; 
+    ApplyFilter(v,'Dept','EmpDept','Desig','DesigSpan','Desig','EmpDesig','Grade','GradeSpan');
+  }
+  else if(TargetSpan=='DesigSpan')
+  {   
+    var v = document.getElementById("EmpDept").value; 
+    ApplyFilter(v,'Dept','EmpDept','Sec','SecSpan','Sec','EmpSec','0','0');
+  }
+  
+  //else if(nmID=='Sec'){ ApplyCore(vID,noID,'Desig');  }
+}
+/**********************************************************************************/
+/**********************************************************************************/
 function Deact(v){ if(v=='D'){ document.getElementById("Resig").readOnly = false; document.getElementById("Sep").readOnly = false; document.getElementById("Resig_btn").disabled = false; document.getElementById("Sep_btn").disabled = false;}
  if(v=='A'){ document.getElementById("Resig").readOnly = true; document.getElementById("Sep").readOnly = true; document.getElementById("Resig_btn").disabled = true; document.getElementById("Sep_btn").disabled = true;}
 }
+
 
 function PassCheck()
 { if(document.getElementById("EmpPCheck").checked==true)
   { var agree=confirm("Are you sure you want to Change this Employee Password?"); if (agree) { document.getElementById("EmpPass").readOnly = false; }
     else { document.getElementById("EmpPass").readOnly = true; document.getElementById("EmpPCheck").checked=false;}
-  } else { document.getElementById("EmpPass").readOnly = true; }  }
+  } else { document.getElementById("EmpPass").readOnly = true; }  
+}
 
 </script>
 <?php  if($_REQUEST['Event']=='Edit') {?>
 <script language="javascript">
 function validate(formEgeneral) 
-{ var FName = formEgeneral.Fname.value;  var filter=/^[a-zA-Z. /]+$/; var test_bool = filter.test(FName);
-  if (FName.length === 0) { alert("You must enter a First Name.");  return false; }
-  if(test_bool==false) { alert('Please Enter Only Alphabets in the First Name Field');  return false; } 
-  
-/*  var SName = formEgeneral.Sname.value;  
-  if(SName!=''){ var filter=/^[a-zA-Z. /]+$/; var test_bool2 = filter.test(SName);
-  if(test_bool2==false) { alert('Please Enter Only Alphabets in the Middle Name Field');  return false; } }
-  //else if (SName.length === 0) { alert("You must enter a Middle Name.");  return false; }
-  
-  var LName = formEgeneral.Lname.value;  var filter=/^[a-zA-Z. /]+$/; var test_bool3 = filter.test(LName);
-  if (LName.length === 0) { alert("You must enter a last Name.");  return false; }
-  if(test_bool3==false) { alert('Please Enter Only Alphabets in the last name Field');  return false; } 
-    
-/*  var FileNo = formEgeneral.FileNo.value; 
-  if (FileNo!='')  { var Numfilter=/^[0-9 ]+$/;  var test_num = Numfilter.test(FileNo)
-  if(test_num==false) { alert('Please Enter Only Number in the file number Field'); return false; }} */
-  
+{    
   var DOJ = formEgeneral.DOJ.value;  
   if (DOJ.length === 0) { alert("You must enter a date of joining.");  return false; }
   
@@ -314,18 +349,26 @@ function validate(formEgeneral)
   var Timed1=date1.getTime(); var Timed2=date2.getTime();
   if(Timed2>Timed1){alert('Error : Please check date of birth!'); return false;}	
   
-  
-  var DeptName = formEgeneral.DeptName.value;  
-  if (DeptName==0) { alert("Please select Department name.");  return false; }
-  
-  var DesigName = formEgeneral.DesigName.value;  
-  if (DesigName==0) { alert("Please select Designation name.");  return false; }
-  
-/*  var CostCenter = formEgeneral.CostCenter.value;  
-  if (CostCenter==0) { alert("Please select Cost Center name.");  return false; } */
-  
-  var HQName = formEgeneral.HQName.value;  
-  if (HQName==0) { alert("Please select Head Quater name.");  return false; }
+  var Fun = formEgeneral.Fun.value;  
+  if (Fun==0) { alert("Please select function name.");  return false; }
+
+  var Ver = formEgeneral.Ver.value;  
+  if (Ver==0) { alert("Please select vertical name.");  return false; }
+
+  var Dept = formEgeneral.Dept.value;  
+  if (Dept==0) { alert("Please select department name.");  return false; }
+
+  var Desig = formEgeneral.Desig.value;  
+  if (Desig==0) { alert("Please select designation name.");  return false; }
+
+  var Grade = formEgeneral.Grade.value;  
+  if (Grade==0) { alert("Please select grade name.");  return false; }
+
+  var State = formEgeneral.State.value;  
+  if (State==0) { alert("Please select state name.");  return false; }
+
+  var City = formEgeneral.City.value;  
+  if (City==0) { alert("Please select city name.");  return false; }
   
   var OffiMobileNo = formEgeneral.OffiMobileNo.value; 
   if (OffiMobileNo!='')  { var Numfilter=/^[0-9 ]+$/;  var test_num2 = Numfilter.test(OffiMobileNo)
@@ -353,28 +396,9 @@ function validate(formEgeneral)
   var Address1 = formEgeneral.Address1.value;  
   //if(BankName1!='' && Address1.length == 0){ alert('Please Enter Bank 1 Address');  return false; } 
   
-  var BankName2 = formEgeneral.BankName2.value;  
-  if(BankName2!=''){  var filter=/^[a-zA-Z. /]+$/; var test_bool4 = filter.test(BankName2);
-  if(test_bool4==false) { alert('Please Enter Only Alphabets in the Bank Name_2 Field');  return false; } }
-  
-  var AccountNo2 = formEgeneral.AccountNo2.value;  
-  if(BankName2!='' && AccountNo2.length == 0){ alert('Please Enter Bank_2 Account number ');  return false; } 
-  if(AccountNo2!=''){  var Numfilter=/^[0-9 ]+$/;  var test_num4 = Numfilter.test(AccountNo2)
-  if(test_num4==false) { alert('Please Enter Only Number in the Account No_2 Field');  return false; } }
-  
-  var Branch2 = formEgeneral.Branch2.value;  
-  //if(BankName2!='' && Branch2.length == 0){ alert('Please Enter Bank_2 branch name');  return false; } 
-  
-  var Address2 = formEgeneral.Address2.value;  
-  //if(BankName2!='' && Address2.length == 0){ alert('Please Enter Bank_2 Address');  return false; } 
-  
-  var InsCardNo = formEgeneral.InsCardNo.value;  
-  //if(InsCardNo!=''){  var Numfilter=/^[0-9 ]+$/;  var test_num5 = Numfilter.test(InsCardNo)
-  //if(test_num5==false) { alert('Please Enter Only Number in the Insurance number Field');  return false; } }
-  
-  var PfAccountNo = formEgeneral.PfAccountNo.value;  
-  //if(PfAccountNo!=''){  var Numfilter=/^[0-9 ]+$/;  var test_num5 = Numfilter.test(PfAccountNo)
-  //if(test_num5==false) { alert('Please Enter Only Number in the Pf AccountNo number Field');  return false; } }
+  var agree = confirm('Are you sure you want to save the data?');
+  if(agree){ return true; }else{ return false; } 
+ 
 }
 
 /*function toUpper(txt)
@@ -383,10 +407,40 @@ function validate(formEgeneral)
 <?php } ?>
 </head>
 <body class="body">
+<input type="hidden" id="TargetDiv" value="0" />
+<input type="hidden" id="comid" value="<?=$CompanyId?>" />
+
 <?php 
-$SqlEmp = mysql_query("SELECT hrm_employee.*,hrm_employee_general.* FROM hrm_employee INNER JOIN hrm_employee_general ON hrm_employee.EmployeeID=hrm_employee_general.EmployeeID WHERE hrm_employee.EmployeeID=".$EMPID, $con) or die(mysql_error());  $ResEmp=mysql_fetch_assoc($SqlEmp);
-$Ename = $ResEmp['Fname'].'&nbsp;'.$ResEmp['Sname'].'&nbsp;'.$ResEmp['Lname']; $LEC=strlen($ResEmp['EmpCode']); 
-      if($LEC==1){$EC='000'.$ResEmp['EmpCode'];} if($LEC==2){$EC='00'.$ResEmp['EmpCode'];} if($LEC==3){$EC='0'.$ResEmp['EmpCode'];} if($LEC>=4){$EC=$ResEmp['EmpCode'];}
+//$SqlEmp = mysql_query("SELECT hrm_employee.*,hrm_employee_general.* FROM hrm_employee INNER JOIN hrm_employee_general ON hrm_employee.EmployeeID=hrm_employee_general.EmployeeID WHERE hrm_employee.EmployeeID=".$EMPID, $con) or die(mysql_error());  $ResEmp=mysql_fetch_assoc($SqlEmp);
+      
+$SqlEmp = mysql_query("SELECT e.*, g.*, function_name, vertical_name, department_name, sub_department_name, section_name, designation_name, city_village_name, zone_name, region_name, territory_name from hrm_employee e inner join hrm_employee_general g on e.EmployeeID=g.EmployeeID  left join core_functions fun on g.EmpFunction=fun.id
+  left join core_verticals ver on g.EmpVertical=ver.id
+  left join core_departments dept on g.DepartmentId=dept.id
+  left join core_sub_department_master subdept on g.SubDepartmentId=subdept.id
+  left join core_section sec on g.EmpSection=sec.id
+  left join core_designation desig on g.DesigId=desig.id
+  left join core_city_village_by_state vlg on g.HqId=vlg.id 
+  left join core_business_unit bu on g.BUId=bu.id
+  left join core_zones z on g.ZoneId=z.id
+  left join core_regions rg on g.RegionId=rg.id
+  left join core_territory tr on g.TerrId=tr.id
+  WHERE e.EmployeeID=".$EMPID,$con);
+
+//grade_name, state_name,
+//left join core_grades gr on g.GradeId=gr.id
+//left join core_states st on g.CostCenter=st.id
+  /*left join core_business_unit bu on g.BUId=bu.id
+  left join core_zones z on g.ZoneId=z.id
+  left join core_regions rg on g.RegionId=rg.id
+  left join core_territory tr on g.TerrId=tr.id*/
+
+$ResEmp=mysql_fetch_assoc($SqlEmp);
+$Ename = $ResEmp['Fname'].'&nbsp;'.$ResEmp['Sname'].'&nbsp;'.$ResEmp['Lname']; 
+if($ResEmp['VCode']=='V'){ $EC = $ResEmp['EmpCode']; }
+else
+{ 
+  $LEC=strlen($ResEmp['EmpCode']); if($LEC==1){$EC='000'.$ResEmp['EmpCode'];} if($LEC==2){$EC='00'.$ResEmp['EmpCode'];} if($LEC==3){$EC='0'.$ResEmp['EmpCode'];} if($LEC>=4){$EC=$ResEmp['EmpCode'];}
+}  
 ?>
 <table class="table">
 <tr><td><table class="menutable"><tr><td><?php if($_SESSION['login'] = true){require_once("AMenu.php"); } ?></td></tr></table></td></tr>
@@ -440,6 +494,10 @@ $Ename = $ResEmp['Fname'].'&nbsp;'.$ResEmp['Sname'].'&nbsp;'.$ResEmp['Lname']; $
 <span id="EditTEmp"></span>
 <table border="0" width="750" id="TEmp" style="display:block;">
 <tr>
+<td colspan="6" style="font-size:11px;">
+ <fieldset align="center"><legend><b>Basic Details</b></legend> 
+ <table style="width:100%;">
+ <tr>
   <td class="All_100">Status :</td><td class="All_125"><select name="EmpStatus" id="EmpStatus" class="All_120" disabled style="text-transform:uppercase;" onChange="Deact(this.value)">
   <option value="<?php echo $ResEmp['EmpStatus']; ?>"><?php if($ResEmp['EmpStatus']=='A'){echo 'Active';} else { echo 'Deactive';} ?></option>
   <option value="<?php if($ResEmp['EmpStatus']=='A'){echo 'D';} else { echo 'A';} ?>"><?php if($ResEmp['EmpStatus']=='A'){echo 'Deactive';} else { echo 'Active';} ?></option></select>
@@ -466,64 +524,6 @@ $Ename = $ResEmp['Fname'].'&nbsp;'.$ResEmp['Sname'].'&nbsp;'.$ResEmp['Lname']; $
   <script type="text/javascript">  var cal = Calendar.setup({ onSelect:  function(cal) { cal.hide()}, showTime: true }); 
   cal.manageFields("f_btn2", "DOC", "%d-%m-%Y");  cal.manageFields("f_btn1", "DOJ", "%d-%m-%Y");</script></td>
 </tr>
-<tr>
-  <td class="All_100" valign="top">Date Of Birth :</td><td class="All_125"><input name="DOB" id="DOB" class="All_90" value="<?php echo date("d-m-Y",strtotime($ResEmp['DOB'])); ?>" readonly><button id="f_btn3" class="CalenderButton" disabled></button>
-  <script type="text/javascript">  var cal = Calendar.setup({ onSelect:  function(cal) { cal.hide()}, showTime: true }); 
-  cal.manageFields("f_btn3", "DOB", "%d-%m-%Y");</script></td>
-  <td class="All_100" valign="top">Department :&nbsp;<font color="#FF0000">*</font></td><td class="All_125"><select class="All_120" name="DeptName" id="DeptName" onChange="DeptSelect(this.value)" style="text-transform:uppercase;" disabled>
-  <?php $SqlD=mysql_query("select DepartmentName from hrm_department where DepartmentId=".$ResEmp['DepartmentId'], $con); $ResD=mysql_fetch_assoc($SqlD);?>
-  <option value="<?php echo $ResEmp['DepartmentId']; ?>"><?php echo $ResD['DepartmentName']; ?></option>
-  <?php $SqlDept=mysql_query("select * from hrm_department where CompanyId=".$CompanyId." order by DepartmentName ASC", $con); while($ResDept=mysql_fetch_array($SqlDept)) { ?>
-  <option value="<?php echo $ResDept['DepartmentId']; ?>"><?php echo $ResDept['DepartmentCode'].'&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;'.$ResDept['DepartmentName']; ?></option><?php } ?></select></td>
-  <td class="All_100">Designation :&nbsp;<font color="#FF0000">*</font></td><td class="All_125"><span id="DesigSpan">
-  <select class="All_120" name="DesigName" id="DesigName" style="text-transform:uppercase;" disabled>
-  <?php $SqlDe=mysql_query("select DesigName from hrm_designation where DesigId=".$ResEmp['DesigId'], $con); $ResDe=mysql_fetch_assoc($SqlDe);?>
-  <option value="<?php echo $ResEmp['DesigId']; ?>"><?php echo $ResDe['DesigName']; ?></option></select></span></td>
-</tr>
-<tr>
-  <td class="All_100" valign="top">Head Quater :&nbsp;<font color="#FF0000">*</font></td><td class="All_125" valign="top"> <select class="All_120" name="HQName" id="HQName" onChange="HQSelect(this.value)" disabled>
- <?php $SqlH=mysql_query("select HqName from hrm_headquater where HqId=".$ResEmp['HqId'], $con); $ResH=mysql_fetch_array($SqlH); ?>
-  <option  value="<?php echo $ResEmp['HqId']; ?>"><?php echo $ResH['HqName']; ?></option>
- <?php $SqlHQ=mysql_query("select * from hrm_headquater where HQStatus='A' AND CompanyId=".$CompanyId." order by HqName ASC", $con); while($ResHQ=mysql_fetch_array($SqlHQ)) { ?>
-  <option value="<?php echo $ResHQ['HqId']; ?>"><?php echo $ResHQ['HqName']; ?></option><?php } ?></select></td>
-  <td class="All_100" valign="top">Grade :</td><td class="All_125">
-  <select class="All_120" name="GradeName" id="GradeName" disabled>
-  <?php $SqlG=mysql_query("select GradeValue from hrm_grade where GradeId=".$ResEmp['GradeId'], $con); $ResG=mysql_fetch_array($SqlG); ?> 
-  <option value="<?php echo $ResEmp['GradeId']; ?>"><?php echo $ResG['GradeValue']; ?></option>
-<?php if($CompanyId==1){$sql = mysql_query("select * from hrm_grade where CompanyId=".$CompanyId." AND CreatedDate>='2014-02-01' order by GradeId ASC", $con) or die(mysql_error());}else{$sql = mysql_query("select * from hrm_grade where CompanyId=".$CompanyId." order by GradeId ASC", $con) or die(mysql_error());} while($res = mysql_fetch_array($sql)){ ?>
-  <option value="<?php echo $res['GradeId']; ?>"><?php echo $res['GradeValue']; ?></option><?php } ?>
-  </select></td>  
-  
-  <td class="All_100" valign="top">Cost Center :&nbsp;<font color="#FF0000"></font></td><td class="All_125"><select class="All_120" name="CostCenter" id="CostCenter" disabled>
- <?php $SqlC=mysql_query("select StateId,StateName from hrm_state where StateId=".$ResEmp['CostCenter'], $con); $ResC=mysql_fetch_assoc($SqlC);?>
-  <option value="<?php echo $ResC['StateId']; ?>"><?php echo $ResC['StateName']; ?></option>
-  
- <?php $SqlCC=mysql_query("select * from hrm_state INNER JOIN hrm_costcenter ON hrm_state.StateId=hrm_costcenter.CostCenterName where hrm_costcenter.CompanyId=".$CompanyId." order by hrm_state.StateName ASC", $con); while($ResCC=mysql_fetch_array($SqlCC)) { 
-       //$SqlCC1=mysql_query("select * from hrm_state where StateId=".$ResCC['CostCenterName'], $con); $ResCC1=mysql_fetch_array($SqlCC1); ?>
-	   <option value="<?php echo $ResCC['StateId']; ?>"><?php echo $ResCC['StateName']; ?></option><?php } ?></select></td>
-</tr>
-
-<?php //****************************************// ?>
-<tr>
-  <td class="All_100" valign="top">Region :&nbsp;</td>
-  <td class="All_125" valign="top"><select class="All_120" name="RegionId" id="RegionId" class="tdinput" style="width:99%;" disabled>
-  <option value="0" <?php if($resRat['RegionId']==0){echo 'selected';}?>>&nbsp;Select</option>
-  <?php $sqlRat2=mysql_query("select VHqId,rh.RegionId,RegionName from hrm_sales_verhq rh inner join hrm_sales_region r on rh.RegionId=r.RegionId where HqId=".$ResEmp['HqId']." AND Vertical=".$ResEmp['EmpVertical']." AND DeptId=".$ResEmp['DepartmentId']." AND CompanyId=".$CompanyId, $con); 
-	  $resRat2=mysql_fetch_assoc($sqlRat2);
- 
-  $sqlReg=mysql_query("select r.*,ZoneName from hrm_sales_region r inner join hrm_sales_zone z on r.ZoneId=z.ZoneId where sts='A' order by RegionName ASC", $con); 
-      while($resReg=mysql_fetch_array($sqlReg)){ ?><option value="<?=$resReg['RegionId']?>" <?php if($resRat2['RegionId']==$resReg['RegionId']){echo 'selected';}?>>&nbsp;<?=$resReg['RegionName'].' - '.$resReg['ZoneName']?></option><?php } ?>
-  </select> 
-  </td>
- 
-  <td class="All_100" valign="top">Sub Location :</td>
-  <td class="All_125"> <input class="All_120" name="SubLocation" id="SubLocation" value="<?=$ResEmp['SubLocation']?>" disabled></td>  
-  
-  <td class="All_100" valign="top">Section :&nbsp;</td><td class="All_125"><select name="EmpSection" id="EmpSection" class="All_120"> <?php if($ResEmp['EmpSection']==0){ ?><option value="0">Select</option><?php } $sCat=mysql_query("select * from hrm_department_section where ComId=".$CompanyId." AND DeptId=".$ResEmp['DepartmentId']." order by SectionName ASC"); while($rCat=mysql_fetch_assoc($sCat)){ ?><option value="<?=$rCat['SectionId']?>" <?=($ResEmp['EmpSection']==$rCat['SectionId'])?'selected':'';?>><?=$rCat['SectionName']?></option><?php } ?>
-  <option value="0">Blank</option>
-  </select> </td>
-</tr>
-<?php //****************************************// ?>
 
 <?php //$timestamp_start = strtotime($ResEmp['DOB']);  $timestamp_end = strtotime(date("Y-m-d")); 
       //$difference = abs($timestamp_end - $timestamp_start); 
@@ -539,29 +539,33 @@ $months = floor(($diff-$years*365*60*60*24)/(30*60*60*24));
 $days = floor(($diff-$years*365*60*60*24-$months*30*60*60*24)/(60*60*24)); 
 $AgeMain=$years.'.'.$months;		
 
-	  ?>
+?>
 <tr>
-  <td class="All_100">Age :</td><td class="All_125"><input  class="All_120" value="<?php echo $AgeMain.'   Year'; ?>" readonly></td>
-  <td class="All_100" valign="top">Official Mob-1 :</td><td class="All_125"><input class="All_120" maxlength="10" name="OffiMobileNo" id="OffiMobileNo" value="<?php if($ResEmp['MobileNo_Vnr']==0) echo ''; else {echo $ResEmp['MobileNo_Vnr'];} ?>" readonly></td>
-  <td class="All_100" valign="top">Official Mob-2 :</td><td class="All_125"><input class="All_120" maxlength="10" name="MobileNo2_Vnr" id="MobileNo2_Vnr" value="<?php if($ResEmp['MobileNo2_Vnr']==0) echo ''; else {echo $ResEmp['MobileNo2_Vnr'];} ?>" readonly></td> 
-</tr>
-
-<tr>
-  <td class="All_100" valign="top">Offi. EmailId :&nbsp;<font color="#FF0000"></font></td><td class="All_125"><input maxlength="50" name="OffiEmialId" id="OffiEmialId" class="All_120" value="<?php echo $ResEmp['EmailId_Vnr']; ?>" readonly></td>
-   <td class="All_100" valign="top">Vertical :&nbsp;</td><td class="All_125"><select name="EmpVertical" id="EmpVertical" class="All_120"> <?php if($ResEmp['EmpVertical']==0){ ?><option value="0">Select</option><?php } $sCat=mysql_query("select * from hrm_department_vertical where ComId=".$CompanyId." AND DeptId=".$ResEmp['DepartmentId']." order by VerticalName ASC"); while($rCat=mysql_fetch_assoc($sCat)){ ?><option value="<?=$rCat['VerticalId']?>" <?=($ResEmp['EmpVertical']==$rCat['VerticalId'])?'selected':'';?>><?=$rCat['VerticalName']?></option><?php } ?><option value="0">Blank</option>
-  </select> </td>
-   <td class="All_100" valign="top">Skill :&nbsp;</td><td class="All_125"><select name="BWageCategory" id="BWageCategory" class="All_120"><?php if($ResEmp['BWageId']==0){ ?><option value="0">Select</option><?php } $sBat=mysql_query("select * from hrm_bonus_wages where BWageStatus!='De' AND CompanyId=".$CompanyId." group by BWageId ASC order by BWageId ASC"); while($rBat=mysql_fetch_assoc($sBat)){ ?>
+  <td class="All_100" valign="top">Date Of Birth :</td><td class="All_125"><input name="DOB" id="DOB" class="All_90" value="<?php echo date("d-m-Y",strtotime($ResEmp['DOB'])); ?>" readonly><button id="f_btn3" class="CalenderButton" disabled></button>
+  <script type="text/javascript">  var cal = Calendar.setup({ onSelect:  function(cal) { cal.hide()}, showTime: true }); 
+  cal.manageFields("f_btn3", "DOB", "%d-%m-%Y");</script></td>
+  <td class="All_100">Age :</td><td class="All_125"><input class="All_120" value="<?php echo $AgeMain.'   Year'; ?>" readonly></td>
+  <td class="All_100" valign="top">Skill :&nbsp;</td><td class="All_125"><select name="BWageCategory" id="BWageCategory" class="All_120" disabled><?php if($ResEmp['BWageId']==0){ ?><option value="0">Select</option><?php } $sBat=mysql_query("select * from hrm_bonus_wages where BWageStatus!='De' AND CompanyId=".$CompanyId." group by BWageId ASC order by BWageId ASC"); while($rBat=mysql_fetch_assoc($sBat)){ ?>
    <option value="<?php echo $rBat['BWageId'];?>" <?=($ResEmp['BWageId']==$rBat['BWageId'])?'selected':'';?>><?php echo $rBat['Category'];?></option>
   <?php }  ?>
   </select></td>
 </tr>
+
+
+<tr>
+  <td class="All_100" valign="top">Offi. EmailId :&nbsp;<font color="#FF0000"></font></td><td class="All_125"><input maxlength="50" name="OffiEmialId" id="OffiEmialId" class="All_120" value="<?php echo $ResEmp['EmailId_Vnr']; ?>" readonly></td>
+  <td class="All_100" valign="top">Official Mob-1 :</td><td class="All_125"><input class="All_120" maxlength="10" name="OffiMobileNo" id="OffiMobileNo" value="<?php if($ResEmp['MobileNo_Vnr']==0) echo ''; else {echo $ResEmp['MobileNo_Vnr'];} ?>" readonly></td>
+  <td class="All_100" valign="top">Official Mob-2 :</td><td class="All_125"><input class="All_120" maxlength="10" name="MobileNo2_Vnr" id="MobileNo2_Vnr" value="<?php if($ResEmp['MobileNo2_Vnr']==0) echo ''; else {echo $ResEmp['MobileNo2_Vnr'];} ?>" readonly></td> 
+</tr>
+
+
 
 <tr>
   <td class="All_100" valign="top">Position Code :&nbsp;<font color="#FF0000"></font></td><td class="All_125"><input maxlength="50" name="PositionCode" id="PositionCode" class="All_120" value="<?php echo $ResEmp['PositionCode']; ?>" readonly></td>
   
   <td class="All_100" valign="top">Hiring Mode : &nbsp;</td>
     <td class="All_125">
-        <select name="hiring_mode" id="hiring_mode" class="All_120">
+        <select name="hiring_mode" id="hiring_mode" class="All_120" disabled>
             <option value="">Select</option>
             <option value="Campus" <?php if($ResEmp['Hiring_Mode']=='Campus'){echo 'selected';} ?> >Campus</option>
             <option value="Non Campus" <?php if($ResEmp['Hiring_Mode']=='Non Campus'){echo 'selected';}?>>Non Campus</option>
@@ -570,9 +574,204 @@ $AgeMain=$years.'.'.$months;
 	
   <td class="All_100" valign="top">ESSL Code : &nbsp;</td>
     <td class="All_125">
-        <input class="All_120" type="text" id="EsslCode" name="EsslCode" value="<?php echo $ResEmp['EsslCode'];  ?>" />
+        <input class="All_120" type="text" id="EsslCode" name="EsslCode" value="<?php echo $ResEmp['EsslCode'];  ?>" readonly/>
     </td>	
 </tr>
+
+ </table>
+ </fieldset>
+</td>
+</tr> 
+
+
+<?php /*********************************-----------------***************************************/?>
+<?php /*********************************-----------------***************************************/?>
+<tr>
+<td colspan="6" style="font-size:11px;">
+ <fieldset align="center"><legend><b>Core Details</b></legend> 
+ <table style="width:100%;">
+ <tr>
+<td class="All_100" valign="top">Function :&nbsp;</td>
+<td class="All_125">
+ <span id="FunSpan"> 
+ <select name="Fun" id="Fun" onChange="ApplyFilter(this.value,'Fun','EmpFun','Ver','VerSpan','Ver','EmpVer','Dept','DeptSpan')" class="All_120" disabled>
+<?php if($ResEmp['EmpFunction']==0 || $ResEmp['EmpFunction']=='') { ?><option value="0">Select</option><?php } ?>    
+<?php $sFun=mysql_query("select * from core_functions where is_active=1 order by function_name ASC",$con); while($rFun=mysql_fetch_assoc($sFun)){ ?><option value="<?=$rFun['id']?>" <?php if($ResEmp['EmpFunction']==$rFun['id']){echo 'selected';}?>><?=$rFun['function_name']?></option><?php } ?></select>
+ </span> 
+ <input type="hidden" id="EmpFun" name="EmpFun" value="<?php if($ResEmp['EmpFunction']==''){echo 0;}else{echo $ResEmp['EmpFunction']; }?>" />
+</td>
+
+<td class="All_100" valign="top">Vertical :&nbsp;</td>
+<td class="All_125">
+ <span id="VerSpan"> 
+ <select name="Ver" id="Ver" onChange="ApplyFilter(this.value,'Ver','EmpVer','Dept','DeptSpan','Dept','EmpDept','SubDept','SubDeptSpan')" class="All_120" disabled> 
+<?php if($ResEmp['EmpVertical']==0 || $ResEmp['EmpVertical']=='') { ?><option value="0">Select</option><?php }else{ ?> 
+      <option value="<?=$ResEmp['EmpVertical']?>"><?=$ResEmp['vertical_name']?></option><?php } ?></select>
+ </span>      
+<input type="hidden" id="EmpVer" name="EmpVer" value="<?php if($ResEmp['EmpVertical']==''){echo 0;}else{echo $ResEmp['EmpVertical']; }?>" />
+</td>
+
+<td class="All_100" valign="top">Department :&nbsp;<font color="#FF0000">*</font></td>
+<td class="All_125">
+ <span id="DeptSpan">
+ <select class="All_120" name="Dept" id="Dept" onChange="ApplyFilter(this.value,'Dept','EmpDept','SubDept','SubDeptSpan','SubDept','EmpSubDept','Section','SectionSpan')" style="text-transform:uppercase;" disabled>
+ <?php if($ResEmp['DepartmentId']==0 || $ResEmp['DepartmentId']=='') { ?><option value="0">Select</option><?php }else{ ?> 
+  <option value="<?=$ResEmp['DepartmentId']?>"><?=$ResEmp['department_name']?></option><?php } ?></select>
+ </span>  
+<input type="hidden" id="EmpDept" name="EmpDept" value="<?php if($ResEmp['DepartmentId']==''){echo 0;}else{echo $ResEmp['DepartmentId']; }?>" />
+</td>
+</tr>
+<tr>
+ <td class="All_100">Sub-Dept. :&nbsp;<font color="#FF0000">*</font></td>
+ <td class="All_125">
+  <span id="SubDeptSpan">
+  <?php/*onChange="ApplyFilter(this.value,'SubDept','EmpSubDept','Sec','SecSpan','Sec','EmpSec','0','0')"*/?>
+  <select class="All_120" name="SubDept" id="SubDept" onChange="ApplyFilter(this.value,'SubDept','EmpSubDept','0','0','0','0','0','0')" style="text-transform:uppercase;" disabled>
+  <?php if($ResEmp['SubDepartmentId']==0 || $ResEmp['SubDepartmentId']=='') { ?><option value="0">Select</option><?php }else{ ?> 
+    <option value="<?=$ResEmp['SubDepartmentId']?>"><?=$ResEmp['sub_department_name']?></option><?php } ?></select>
+  </span>
+  <input type="hidden" id="EmpSubDept" name="EmpSubDept" value="<?php if($ResEmp['SubDepartmentId']==''){echo 0;}else{echo $ResEmp['SubDepartmentId']; }?>" />
+</td>
+
+  <td class="All_100" valign="top">Section :&nbsp;</td>
+  <td class="All_125">
+  <span id="SecSpan">
+  <select name="Sec" id="Sec" onChange="ApplyFilter(this.value,'Sec','EmpSec','0','0','0','0','0','0')" class="All_120" disabled> 
+  <?php if($ResEmp['EmpSection']==0 || $ResEmp['EmpSection']=='') { ?><option value="0">Select</option><?php }else{ ?> 
+    <option value="<?=$ResEmp['EmpSection']?>"><?=$ResEmp['section_name']?></option><?php } ?>
+  </select>
+  </span>  <!-- End Span -->
+  <input type="hidden" id="EmpSec" name="EmpSec" value="<?php if($ResEmp['EmpSection']==''){echo 0;}else{echo $ResEmp['EmpSection']; }?>" />
+ </td> 
+
+  <td class="All_100">Designation :&nbsp;<font color="#FF0000">*</font></td>
+  <td class="All_125">
+  <span id="DesigSpan">
+  <select class="All_120" name="Desig" id="Desig" onChange="ApplyFilter(this.value,'Desig','EmpDesig','Grade','GradeSpan','Grade','EmpGrade','0','0')" style="text-transform:uppercase;" disabled>
+  <?php if($ResEmp['DesigId']==0 || $ResEmp['DesigId']=='') { ?><option value="0">Select</option><?php }else{ ?> 
+    <option value="<?=$ResEmp['DesigId']?>"><?=$ResEmp['designation_name']?></option><?php } ?></select>
+  </span>
+  <input type="hidden" id="EmpDesig" name="EmpDesig" value="<?php if($ResEmp['DesigId']==''){echo 0;}else{echo $ResEmp['DesigId']; }?>" />
+</td>
+</tr>
+<tr>
+  <td class="All_100" valign="top">Grade :</td>
+  <td class="All_125">
+  <span id="GradeSpan">
+  <select class="All_120" name="Grade" id="Grade" onChange="ApplyFilter(this.value,'Grade','EmpGrade','0','0','0','0','0','0')" style="text-transform:uppercase;" disabled>
+  <?php if($ResEmp['GradeId']==0 || $ResEmp['GradeId']=='') { ?><option value="0">Select</option><?php } ?>
+  <?php $sGrade = mysql_query("select * from core_grades WHERE is_active=1 and company_id=".$CompanyId." order by id", $con); 
+        while($rGrade=mysql_fetch_assoc($sGrade)){ ?><option value="<?=$rGrade['id']?>" <?php if($rGrade['id']==$ResEmp['GradeId']){echo 'selected';}?>><?=$rGrade['grade_name']?></option><?php } ?></select>
+  </span>
+
+  <input type="hidden" id="EmpGrade" name="EmpGrade" value="<?php if($ResEmp['GradeId']==''){echo 0;}else{echo $ResEmp['GradeId']; }?>" />
+  </td>
+  
+    <td class="All_100" valign="top">Desig. Suffix :</td>
+  <td class="All_125">
+  <span id="DesigSuffixSpan">
+  <select class="All_120" name="DesigSuffix" id="DesigSuffix"  disabled>
+  <option value="">Select</option>
+  <option value="Department" <?= $ResEmp['DesigSuffix'] =='Department'?'selected':''?> >Department</option>
+  <option value="SubDepartment" <?= $ResEmp['DesigSuffix'] =='SubDepartment'?'selected':''?> >Sub Department</option>
+  <option value="Section" <?= $ResEmp['DesigSuffix'] =='Section'?'selected':''?> >Section</option>
+  </select>
+  </span>
+
+  <input type="hidden" id="EmpDesigSuffix" name="EmpDesigSuffix" value="<?php if($ResEmp['DesigSuffix']==''){echo '';}else{echo $ResEmp['DesigSuffix']; }?>" />
+  </td>
+  
+  </tr>  
+ </table>
+ </fieldset>
+</td>
+</tr>
+
+<tr>
+<td colspan="6" style="font-size:11px;">
+ <fieldset align="center"><legend><b>Job Location</b></legend> 
+ <table style="width:100%;">
+ <tr>
+  <td class="All_100" valign="top">State :&nbsp;<font color="#FF0000"></font></td>
+  <td class="All_125">
+  <span id="StateSpan">  
+  <select class="All_120" name="State" id="State" onChange="ApplyFilter(this.value,'State','EmpState','City','CitySpan','City','EmpCity','0','0')" disabled>
+  <?php if($ResEmp['CostCenter']==0 || $ResEmp['CostCenter']=='') { ?><option value="0">Select</option><?php } ?>
+  <?php $sCostC = mysql_query("select * from core_states WHERE is_active=1 order by state_name",$con);
+while($rCostC = mysql_fetch_array($sCostC)){ ?><option value="<?=$rCostC['id']?>" <?php if($rCostC['id']==$ResEmp['CostCenter']){echo 'selected';}?>><?=$rCostC['state_name']?></option><?php }  ?></select>
+ </span>
+ <input type="hidden" id="EmpState" name="EmpState" value="<?php if($ResEmp['CostCenter']==''){echo 0;}else{echo $ResEmp['CostCenter']; }?>" />
+</td>
+
+<td class="All_100" valign="top">City :&nbsp;<font color="#FF0000">*</font></td>
+<td class="All_125" valign="top"> 
+ <span id="CitySpan">  
+ <select class="All_120" name="City" id="City" onChange="ApplyFilter(this.value,'City','EmpCity','0','0','0','0','0','0')" disabled>
+  <?php if($ResEmp['HqId']==0 || $ResEmp['HqId']=='') { ?><option value="0">Select</option><?php }else{ ?> 
+    <option value="<?=$ResEmp['HqId']?>"><?=$ResEmp['city_village_name']?></option><?php } ?></select>
+ </span>   
+<input type="hidden" id="EmpCity" name="EmpCity" value="<?php if($ResEmp['HqId']==''){echo 0;}else{echo $ResEmp['HqId']; }?>" />
+</td>
+<td class="All_100" valign="top">Sub Location :</td>
+ <td class="All_125"> 
+  <input class="All_120" name="SubLocation" id="SubLocation" value="<?=$ResEmp['SubLocation']?>" readonly>
+ </td>
+</tr> 
+ </table>
+ </fieldset>
+</td>
+</tr>
+
+<tr>
+<td colspan="6" style="font-size:11px;">
+ <fieldset align="center"><legend><b>Business Location</b></legend> 
+ <table style="width:100%;">
+ <tr>
+  <td class="All_100" valign="top">BU :&nbsp;</td>
+  <td class="All_125">
+  <span id="BUSpan">
+  <select class="All_120" name="BU" id="BU" onChange="ApplyFilter(this.value,'BU','EmpBU','Zone','ZoneSpan','Zone','EmpZone','Region','RegionSpan')" class="All_120" disabled>
+  <?php if($ResEmp['BUId']==0 || $ResEmp['BUId']=='') { ?><option value="0">Select</option><?php } ?>
+  <?php $sBu = mysql_query("select * from core_business_unit WHERE is_active=1 order by vertical_id desc, business_unit_name",$con); 
+    while($rBu = mysql_fetch_array($sBu)){ ?><option value="<?=$rBu['id']?>" <?php if($rBu['id']==$ResEmp['BUId']){echo 'selected';}?>><?=$rBu['business_unit_name']?></option><?php } ?></select>
+  </span> 
+  
+  <input type="hidden" id="EmpBU" name="EmpBU" value="<?php if($ResEmp['BUId']==''){echo 0;}else{echo $ResEmp['BUId']; }?>" />
+  </td>
+
+  <td class="All_100" valign="top">Zone :&nbsp;</td>
+  <td class="All_125">
+  <span id="ZoneSpan">  
+  <select class="All_120" name="Zone" id="Zone" class="tdinput" onChange="ApplyFilter(this.value,'Zone','EmpZone','Region','RegionSpan','Region','EmpRegion','Terr','TerrSpan')" disabled><?php if($ResEmp['ZoneId']==0 || $ResEmp['ZoneId']=='') { ?><option value="0">Select</option><?php }else{ ?><option value="<?=$ResEmp['ZoneId']?>"><?=$ResEmp['zone_name']?></option><?php } ?></select>
+  </span>
+  <input type="hidden" id="EmpZone" name="EmpZone" value="<?php if($ResEmp['ZoneId']==''){echo 0;}else{echo $ResEmp['ZoneId']; }?>" />
+  </td>
+
+  <td class="All_100" valign="top">Region :&nbsp;</td>
+  <td class="All_125" valign="top">
+  <span id="RegionSpan">  
+  <select class="All_120" name="Region" id="Region" onChange="ApplyFilter(this.value,'Region','EmpRegion','Terr','TerrSpan','Terr','EmpTerr','0','0')" class="tdinput" style="width:99%;" disabled><?php if($ResEmp['RegionId']==0 || $ResEmp['RegionId']=='') { ?><option value="0">Select</option><?php }else{ ?><option value="<?=$ResEmp['RegionId']?>"><?=$ResEmp['region_name']?></option><?php } ?></select>
+  </span>
+  <input type="hidden" id="EmpRegion" name="EmpRegion" value="<?php if($ResEmp['RegionId']==''){echo 0;}else{echo $ResEmp['RegionId']; }?>" /> 
+  </td>
+  </tr> 
+  <tr>
+   <td class="All_100" valign="top">Territory :&nbsp;</td>
+   <td class="All_125" valign="top">
+    <span id="TerrSpan">
+    <select class="All_120" name="Terr" id="Terr" onChange="ApplyFilter(this.value,'Terr','EmpTerr','0','0','0','0','0','0')" class="tdinput" disabled><?php if($ResEmp['TerrId']==0 || $ResEmp['TerrId']=='') { ?><option value="0">Select</option><?php }else{ ?><option value="<?=$ResEmp['TerrId']?>"><?=$ResEmp['territory_name']?></option><?php } ?></select> 
+    </span>
+  <input type="hidden" id="EmpTerr" name="EmpTerr" value="<?php if($ResEmp['TerrId']==''){echo 0;}else{echo $ResEmp['TerrId']; }?>" />
+  </td>
+  </tr>
+ </table>
+ </fieldset>
+</td>
+ 
+</tr>
+
+<?php /*********************************-----------------***************************************/?>
+<?php /*********************************-----------------***************************************/?>
 
 
 <tr>
@@ -652,7 +851,7 @@ $AgeMain=$years.'.'.$months;
     <option value="<?php echo $resMRep['EmployeeID']; ?>"><?php echo $resMRep['Fname'].' '.$resMRep['Sname'].' '.$resMRep['Lname']; ?></option><?php } ?>
    </select></td>
  <?php $sqlRn=mysql_query("select DesigId from hrm_employee_general where EmployeeID=".$ResEmp['RepEmployeeID'], $con); $resRn=mysql_fetch_assoc($sqlRn);
-      $SqlDeD=mysql_query("select DesigName from hrm_designation where DesigId=".$resRn['DesigId'], $con); $ResDeD=mysql_fetch_assoc($SqlDeD);?>  				
+      $SqlDeD=mysql_query("select designation_name as DesigName from core_designation where id=".$resRn['DesigId'], $con); $ResDeD=mysql_fetch_assoc($SqlDeD);?>  				
 <td class="All_100" valign="top">Designation :</td><td class="All_185"><input type="hidden" name="RepDesigF" id="RepDesigF" value="<?php echo $ResEmp['ReportingDesigId']; ?>" readonly><input class="All_180" id="RepDesigNameF" name="RefDesigNameF" value="<?php echo $ResDeD['DesigName']; ?>" readonly>
 <span id="ReportingSpan"></span>
 </td></tr>	
@@ -687,7 +886,7 @@ $AgeMain=$years.'.'.$months;
   <option value="5" <?php if($ResEmp['Bond_Year']==5){echo 'selected';}?>>5 Year</option>
   </select></td>
    <td class="All_150" style="text-align:right;">Notice Day (Probation):</td>
-   <td class="All_50"><select class="All_50" name="NoticeDay_Prob" id="NoticeDay_Prob">
+   <td class="All_50"><select class="All_50" name="NoticeDay_Prob" id="NoticeDay_Prob" disabled>
   <option value="0" <?php if($ResEmp['NoticeDay_Prob']==0){echo 'selected';}?>>Sel</option>
   <option value="15" <?php if($ResEmp['NoticeDay_Prob']==15){echo 'selected';}?>>15</option>
   <option value="30" <?php if($ResEmp['NoticeDay_Prob']==30){echo 'selected';}?>>30</option>
@@ -699,7 +898,7 @@ $AgeMain=$years.'.'.$months;
   <option value="120" <?php if($ResEmp['NoticeDay_Prob']==120){echo 'selected';}?>>120</option>
   </select></td>
    <td class="All_180" style="text-align:right;">Notice Day (Confirmation):</td>
-   <td class="All_50"><select class="All_50" name="NoticeDay_Conf" id="NoticeDay_Conf">
+   <td class="All_50"><select class="All_50" name="NoticeDay_Conf" id="NoticeDay_Conf" disabled>
   <option value="0" <?php if($ResEmp['NoticeDay_Conf']==0){echo 'selected';}?>>Sel</option>
   <option value="15" <?php if($ResEmp['NoticeDay_Conf']==15){echo 'selected';}?>>15</option>
   <option value="30" <?php if($ResEmp['NoticeDay_Conf']==30){echo 'selected';}?>>30</option>
@@ -727,17 +926,17 @@ $AgeMain=$years.'.'.$months;
 <table border="0">
  <tr>
   <td class="All_120">(1) Transfer Date:</td>
-  <td class="All_120"><input class="All_100" type="text" id="TrfDate" name="TrfDate" value="<?php if($ResEmp['Transfer_Dept_Date']!='' && $ResEmp['Transfer_Dept_Date']!='0000-00-00' && $ResEmp['Transfer_Dept_Date']!='1970-01-01'){ echo date("d-m-Y",strtotime($ResEmp['Transfer_Dept_Date'])); } ?>" /><button id="f_btnn6" class="CalenderButton"></button></td>
+  <td class="All_120"><input class="All_100" type="text" id="TrfDate" name="TrfDate" value="<?php if($ResEmp['Transfer_Dept_Date']!='' && $ResEmp['Transfer_Dept_Date']!='0000-00-00' && $ResEmp['Transfer_Dept_Date']!='1970-01-01'){ echo date("d-m-Y",strtotime($ResEmp['Transfer_Dept_Date'])); } ?>" readonly/><button id="f_btnn6" class="CalenderButton" disabled></button></td>
   <td>&nbsp;</td>
   <td class="All_50">Dept:</td>
-  <td class="120"><select class="All_120" name="TrfDept" style="text-transform:uppercase;">
-  <?php $SqlDept=mysql_query("select DepartmentId,DepartmentName from hrm_department where CompanyId=".$CompanyId." order by DepartmentName ASC", $con); while($ResDept=mysql_fetch_array($SqlDept)){ ?>
+  <td class="120"><select class="All_120" name="TrfDept" id="TrfDept" style="text-transform:uppercase;" disabled>
+  <?php $SqlDept=mysql_query("select id as DepartmentId,department_name as DepartmentName from core_departments where is_active=1 order by DepartmentName ASC", $con); while($ResDept=mysql_fetch_array($SqlDept)){ ?>
   <option value="<?=$ResDept['DepartmentName']?>" <?php if($ResEmp['Transfer_Dept_Name']==$ResDept['DepartmentName']){echo 'selected';}?>><?=$ResDept['DepartmentName']?></option><?php } ?>
   <option value="" <?php if($ResEmp['Transfer_Dept_Name']==''){echo 'selected';}?>>Select</option>
   </select></td>
   <td>&nbsp;</td>
   <td class="All_100">Location:</td>
-  <td class="120"><select class="All_120" name="TrfLoc" style="text-transform:uppercase;">
+  <td class="120"><select class="All_120" name="TrfLoc" id="TrfLoc" style="text-transform:uppercase;" disabled>
   <?php $SqlHq=mysql_query("select * from hrm_headquater where HQStatus='A' AND CompanyId=".$CompanyId." group by HqName order by HqName ASC", $con); while($ResHq=mysql_fetch_array($SqlHq)){ ?>
   <option value="<?=$ResHq['HqId']?>" <?php if($ResEmp['Transfer_location']==$ResHq['HqId']){echo 'selected';}?>><?=$ResHq['HqName']?></option><?php } ?>
   <option value="" <?php if($ResEmp['Transfer_location']==''){echo 'selected';}?>>Select</option>
@@ -745,24 +944,25 @@ $AgeMain=$years.'.'.$months;
  </tr>
  <tr>
   <td class="All_120">(2) Transfer Date:</td>
-  <td class="All_120"><input class="All_100" type="text" id="Trf2Date" name="Trf2Date" value="<?php if($ResEmp['Transfer2_Dept_Date']!='' && $ResEmp['Transfer2_Dept_Date']!='0000-00-00' && $ResEmp['Transfer2_Dept_Date']!='1970-01-01'){ echo date("d-m-Y",strtotime($ResEmp['Transfer2_Dept_Date'])); }?>" /><button id="f_btnn7" class="CalenderButton"></button>
+  <td class="All_120"><input class="All_100" type="text" id="Trf2Date" name="Trf2Date" value="<?php if($ResEmp['Transfer2_Dept_Date']!='' && $ResEmp['Transfer2_Dept_Date']!='0000-00-00' && $ResEmp['Transfer2_Dept_Date']!='1970-01-01'){ echo date("d-m-Y",strtotime($ResEmp['Transfer2_Dept_Date'])); }?>" readonly/><button id="f_btnn7" class="CalenderButton" disabled></button>
   <script type="text/javascript">  var cal = Calendar.setup({ onSelect:  function(cal) { cal.hide()}, showTime: true }); 
   cal.manageFields("f_btnn6", "TrfDate", "%d-%m-%Y");  cal.manageFields("f_btnn7", "Trf2Date", "%d-%m-%Y");</script></td>
   <td>&nbsp;</td>
   <td class="All_50">Dept:</td>
-  <td class="120"><select class="All_120" name="Trf2Dept" style="text-transform:uppercase;">
-  <?php $SqlDept=mysql_query("select DepartmentId,DepartmentName from hrm_department where CompanyId=".$CompanyId." order by DepartmentName ASC", $con); while($ResDept=mysql_fetch_array($SqlDept)){ ?>
+  <td class="120"><select class="All_120" name="Trf2Dept" id="Trf2Dept" style="text-transform:uppercase;" disabled>
+  <?php $SqlDept=mysql_query("select id as DepartmentId,department_name as DepartmentName from core_departments order by department_name ASC", $con); while($ResDept=mysql_fetch_array($SqlDept)){ ?>
   <option value="<?=$ResDept['DepartmentName']?>" <?php if($ResEmp['Transfer2_Dept_Name']==$ResDept['DepartmentName']){echo 'selected';}?>><?=$ResDept['DepartmentName']?></option><?php } ?>
   <option value="" <?php if($ResEmp['Transfer2_Dept_Name']==''){echo 'selected';}?>>Select</option>
   </select></td>
   <td>&nbsp;</td>
   <td class="All_100">Location:</td>
-  <td class="120"><select class="All_120" name="Trf2Loc" style="text-transform:uppercase;">
+  <td class="120"><select class="All_120" name="Trf2Loc" id="Trf2Loc" style="text-transform:uppercase;" disabled>
   <?php $SqlHq=mysql_query("select * from hrm_headquater where HQStatus='A' AND CompanyId=".$CompanyId." group by HqName order by HqName ASC", $con); while($ResHq=mysql_fetch_array($SqlHq)){ ?>
   <option value="<?=$ResHq['HqId']?>" <?php if($ResEmp['Transfer2_location']==$ResHq['HqId']){echo 'selected';}?>><?=$ResHq['HqName']?></option><?php } ?>
   <option value="" <?php if($ResEmp['Transfer2_location']==''){echo 'selected';}?>>Select</option>
   </select></td>
  </tr>
+ <?php /*$SqlHq=mysql_query("select * from core_city_village_by_state where is_active=1 group by city_village_name order by city_village_name ASC"*/?>
 </table>
 </fieldset>
   </td>

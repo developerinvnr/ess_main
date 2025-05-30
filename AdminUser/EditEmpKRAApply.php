@@ -96,7 +96,7 @@ function ValiDate(fform)
 
 </script>
 
-<?php $se=mysql_query("select EmpCode, Fname, Sname, Lname, DepartmentName, GradeValue from hrm_employee e inner join hrm_employee_general g on e.EmployeeID=g.EmployeeID inner join hrm_department d on g.DepartmentId=d.DepartmentId inner join hrm_grade gr on g.GradeId=gr.GradeId where e.EmployeeID=".$_REQUEST['ei'],$con);
+<?php $se=mysql_query("select EmpCode, Fname, Sname, Lname, department_name, GradeValue from hrm_employee e inner join hrm_employee_general g on e.EmployeeID=g.EmployeeID inner join core_departments d on g.DepartmentId=d.id inner join hrm_grade gr on g.GradeId=gr.GradeId where e.EmployeeID=".$_REQUEST['ei'],$con);
 $re=mysql_fetch_assoc($se); ?>
 <form name="fform" method="post" onsubmit="return ValiDate(this)"> 
 <input type="hidden" name="ei" id="ei" value="<?=$_REQUEST['ei']?>" />
@@ -106,7 +106,7 @@ $re=mysql_fetch_assoc($se); ?>
 <input type="hidden" name="ui" id="ui" value="<?=$_REQUEST['ui']?>" />
 <table style="width:100%; vertical-align:top; margin-top:5px;">
 <tr>
-<td style="text-align:center;"><b><?=$re['EmpCode'].' - '.$re['Fname'].' '.$re['Sname'].' '.$re['Lname'].' ['.$re['GradeValue'].'] - {'.$re['DepartmentName'].'}'?></b></td>
+<td style="text-align:center;"><b><?=$re['EmpCode'].' - '.$re['Fname'].' '.$re['Sname'].' '.$re['Lname'].' ['.$re['GradeValue'].'] - {'.$re['department_name'].'}'?></b></td>
 </tr>
 <tr><td>&nbsp;</td></tr>
 <tr><td style="color:#004080;">Related Employee: <input type="submit" name="SubCopyForm" value="Copy to Related Checked Employee" /></td></tr>
@@ -120,7 +120,7 @@ $re=mysql_fetch_assoc($se); ?>
 	<th style="width:5%;text-align:center;">Grade</th>
 	<th style="width:10%;text-align:center;">Check</th>
    </tr>
-   <?php $sEmp=mysql_query("select e.EmployeeID, EmpCode, Fname, Sname, Lname, GradeValue from hrm_employee e inner join hrm_employee_general g on e.EmployeeID=g.EmployeeID inner join hrm_grade gr on g.GradeId=gr.GradeId where g.DepartmentId=".$_REQUEST['di']." AND EmpStatus='A' AND e.EmployeeID!=".$_REQUEST['ei']." order by e.ECode ASC",$con); 
+   <?php $sEmp=mysql_query("select e.EmployeeID, EmpCode, Fname, Sname, Lname, GradeValue from hrm_employee e inner join hrm_employee_general g on e.EmployeeID=g.EmployeeID inner join hrm_grade gr on g.GradeId=gr.GradeId where g.DepartmentId=".$_REQUEST['di']." and e.CompanyId=".$_REQUEST['ci']." AND EmpStatus='A' AND e.EmployeeID!=".$_REQUEST['ei']." order by e.ECode ASC",$con); 
    
    //AND g.GradeId=".$_REQUEST['gi']."
    

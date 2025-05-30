@@ -25,10 +25,10 @@ if($row>0)
 {
   if($_POST['EmpInctv']==''){$_POST['EmpInctv']='N';}
   if($_POST['BasicStipend']=='B')
-  { $sqlUp= mysql_query("UPDATE hrm_employee_ctc SET INCENTIVE='".$_POST['EmpInctv']."', CHILD_EDU_ALL_Value='".$_POST['EmpChildEduAllow']."', MED_REM_Value='".$_POST['EmpMediReim']."', LTA_Value='".$_POST['EmpLeaveTraAllow']."', CONV_Value='".$_POST['EmpConAllow']."', TA_Value='".$_POST['TA']."', BAS='Y', BAS_Value=".$_POST['EmpBasic'].", STIPEND='N', STIPEND_Value=0.00, HRA_Value='".$_POST['EmpHRA']."', CAR_ALL_Value='".$_POST['CAR_ALL_Value']."', Bonus_Month='".$_POST['Bonus_Month']."', SPECIAL_ALL_Value='".$_POST['EmpSpeAllow']."',  NetMonthSalary_Value='".$_POST['EmpNetMonSalary']."', GrossSalary_PostAnualComponent_Value='".$_POST['GMS_PAC']."', EmpActPf='".$_POST['ActPFCheck']."', EmpComActPf='".$_POST['ActComPFCheck']."', EmpBSActPf='".$_POST['BSActPfCheck']."', BONUS_Value='0', GRATUITY_Value='".$_POST['EmpEstiGratuity']."', Tot_GrossMonth='".$_POST['EmpGrossMonSalary']."', Tot_Gross_Annual='".$_POST['EmpAnnGrossSalary']."', PF_Employee_Contri_Value='".$_POST['EmpProviFund']."', PF_Employee_Contri_Annul='".$_POST['EmpEmployerPFContri']."', PF_Employer_Contri_Value='".$_POST['EmpProviFund']."', PF_Employer_Contri_Annul='".$_POST['EmpEmployerPFContri']."', Mediclaim_Policy='".$_POST['EmpMediPoliPremium']."', Tot_CTC='".$_POST['EmpTotalCtc']."', VariablePay='".$Vpv."', TotCtc='".$ctcV."', EmpAddBenifit_MediInsu_value='".$_POST['EmpAddBenifit_MediInsu']."',Car_Entitlement='".$_POST['Car_Entitlement']."', ESCI='".$_POST['EmpESCI']."', AnnualESCI='".$_POST['AnnualESCI']."', NPS_Value='".$_POST['NPS_Value']."', CtcCreatedBy=".$UserId.", Remark='".$_POST['Rmkk']."', CtcCreatedDate='".date("Y-m-d",strtotime($_POST['DateCTC']))."', CtcYearId=".$YearId.", SalChangeDate='".date("Y-m-d",strtotime($_POST['DateCTC']))."', SystDate='".date("Y-m-d")."' WHERE Status='A' AND EmployeeID=".$EMPID, $con); }
+  { $sqlUp= mysql_query("UPDATE hrm_employee_ctc SET INCENTIVE='".$_POST['EmpInctv']."', CHILD_EDU_ALL_Value='".$_POST['EmpChildEduAllow']."', MED_REM_Value='".$_POST['EmpMediReim']."', LTA_Value='".$_POST['EmpLeaveTraAllow']."', CONV_Value='".$_POST['EmpConAllow']."', TA_Value='".$_POST['TA']."', BAS='Y', BAS_Value=".$_POST['EmpBasic'].", STIPEND='N', STIPEND_Value=0.00, HRA_Value='".$_POST['EmpHRA']."', CAR_ALL_Value='".$_POST['CAR_ALL_Value']."', Bonus_Month='".$_POST['Bonus_Month']."', SPECIAL_ALL_Value='".$_POST['EmpSpeAllow']."',  NetMonthSalary_Value='".$_POST['EmpNetMonSalary']."', GrossSalary_PostAnualComponent_Value='".$_POST['GMS_PAC']."', EmpActPf='".$_POST['ActPFCheck']."', EmpComActPf='".$_POST['ActComPFCheck']."', EmpBSActPf='".$_POST['BSActPfCheck']."', BONUS_Value='0', GRATUITY_Value='".$_POST['EmpEstiGratuity']."', Tot_GrossMonth='".$_POST['EmpGrossMonSalary']."', Tot_Gross_Annual='".$_POST['EmpAnnGrossSalary']."', PF_Employee_Contri_Value='".$_POST['EmpProviFund']."', PF_Employee_Contri_Annul='".$_POST['EmpEmployerPFContri']."', PF_Employer_Contri_Value='".$_POST['EmpProviFund']."', PF_Employer_Contri_Annul='".$_POST['EmpEmployerPFContri']."', Mediclaim_Policy='".$_POST['EmpMediPoliPremium']."', Tot_CTC='".$_POST['EmpTotalCtc']."', VariablePay='".$_POST['VariablePay']."', TotCtc='".$_POST['TotCtc']."', Communication_Allowance='".$_POST['CommAllow']."', Car_Allowance='".$_POST['CarAllow']."', Total_Gross_CTC='".$_POST['TotGrossCtc']."', EmpAddBenifit_MediInsu_value='".$_POST['EmpAddBenifit_MediInsu']."',Car_Entitlement='".$_POST['Car_Entitlement']."', ESCI='".$_POST['EmpESCI']."', AnnualESCI='".$_POST['AnnualESCI']."', NPS_Value='".$_POST['NPS_Value']."', CtcCreatedBy=".$UserId.", Remark='".$_POST['Rmkk']."', CtcCreatedDate='".date("Y-m-d",strtotime($_POST['DateCTC']))."', CtcYearId=".$YearId.", SalChangeDate='".date("Y-m-d",strtotime($_POST['DateCTC']))."', SystDate='".date("Y-m-d")."' WHERE Status='A' AND EmployeeID=".$EMPID, $con); }
 
   if($_POST['BasicStipend']=='S')
-  { $sqlUp= mysql_query("UPDATE hrm_employee_ctc SET INCENTIVE='".$_POST['EmpInctv']."', CHILD_EDU_ALL_Value='".$_POST['EmpChildEduAllow']."', MED_REM_Value='".$_POST['EmpMediReim']."', LTA_Value='".$_POST['EmpLeaveTraAllow']."', CONV_Value='".$_POST['EmpConAllow']."', TA_Value='".$_POST['TA']."', BAS='N', BAS_Value=0.00, STIPEND='Y', STIPEND_Value=".$_POST['EmpBasic'].", HRA_Value='".$_POST['EmpHRA']."', CAR_ALL_Value='".$_POST['CAR_ALL_Value']."', Bonus_Month='".$_POST['Bonus_Month']."', SPECIAL_ALL_Value='".$_POST['EmpSpeAllow']."',  NetMonthSalary_Value='".$_POST['EmpNetMonSalary']."', GrossSalary_PostAnualComponent_Value='".$_POST['GMS_PAC']."', EmpActPf='".$_POST['ActPFCheck']."', EmpComActPf='".$_POST['ActComPFCheck']."', EmpBSActPf='".$_POST['BSActPfCheck']."', BONUS_Value='0', GRATUITY_Value='".$_POST['EmpEstiGratuity']."', Tot_GrossMonth='".$_POST['EmpGrossMonSalary']."', Tot_Gross_Annual='".$_POST['EmpAnnGrossSalary']."', PF_Employee_Contri_Value='".$_POST['EmpProviFund']."', PF_Employee_Contri_Annul='".$_POST['EmpEmployerPFContri']."', PF_Employer_Contri_Value='".$_POST['EmpProviFund']."', PF_Employer_Contri_Annul='".$_POST['EmpEmployerPFContri']."', Mediclaim_Policy='".$_POST['EmpMediPoliPremium']."', Tot_CTC='".$_POST['EmpTotalCtc']."', VariablePay='".$Vpv."', TotCtc='".$ctcV."', EmpAddBenifit_MediInsu_value='".$_POST['EmpAddBenifit_MediInsu']."',Car_Entitlement='".$_POST['Car_Entitlement']."', ESCI='".$_POST['EmpESCI']."', BWageId='".$_POST['BWageId']."', NPS_Value='".$_POST['NPS_Value']."', AnnualESCI='".$_POST['AnnualESCI']."', CtcCreatedBy=".$UserId.", Remark='".$_POST['Rmkk']."', CtcCreatedDate='".date("Y-m-d",strtotime($_POST['DateCTC']))."', CtcYearId=".$YearId.", SalChangeDate='".date("Y-m-d",strtotime($_POST['DateCTC']))."', SystDate='".date("Y-m-d")."' WHERE Status='A' AND EmployeeID=".$EMPID, $con); } 
+  { $sqlUp= mysql_query("UPDATE hrm_employee_ctc SET INCENTIVE='".$_POST['EmpInctv']."', CHILD_EDU_ALL_Value='".$_POST['EmpChildEduAllow']."', MED_REM_Value='".$_POST['EmpMediReim']."', LTA_Value='".$_POST['EmpLeaveTraAllow']."', CONV_Value='".$_POST['EmpConAllow']."', TA_Value='".$_POST['TA']."', BAS='N', BAS_Value=0.00, STIPEND='Y', STIPEND_Value=".$_POST['EmpBasic'].", HRA_Value='".$_POST['EmpHRA']."', CAR_ALL_Value='".$_POST['CAR_ALL_Value']."', Bonus_Month='".$_POST['Bonus_Month']."', SPECIAL_ALL_Value='".$_POST['EmpSpeAllow']."',  NetMonthSalary_Value='".$_POST['EmpNetMonSalary']."', GrossSalary_PostAnualComponent_Value='".$_POST['GMS_PAC']."', EmpActPf='".$_POST['ActPFCheck']."', EmpComActPf='".$_POST['ActComPFCheck']."', EmpBSActPf='".$_POST['BSActPfCheck']."', BONUS_Value='0', GRATUITY_Value='".$_POST['EmpEstiGratuity']."', Tot_GrossMonth='".$_POST['EmpGrossMonSalary']."', Tot_Gross_Annual='".$_POST['EmpAnnGrossSalary']."', PF_Employee_Contri_Value='".$_POST['EmpProviFund']."', PF_Employee_Contri_Annul='".$_POST['EmpEmployerPFContri']."', PF_Employer_Contri_Value='".$_POST['EmpProviFund']."', PF_Employer_Contri_Annul='".$_POST['EmpEmployerPFContri']."', Mediclaim_Policy='".$_POST['EmpMediPoliPremium']."', Tot_CTC='".$_POST['EmpTotalCtc']."', VariablePay='".$_POST['VariablePay']."', TotCtc='".$_POST['TotCtc']."', Communication_Allowance='".$_POST['CommAllow']."', Car_Allowance='".$_POST['CarAllow']."', Total_Gross_CTC='".$_POST['TotGrossCtc']."', EmpAddBenifit_MediInsu_value='".$_POST['EmpAddBenifit_MediInsu']."',Car_Entitlement='".$_POST['Car_Entitlement']."', ESCI='".$_POST['EmpESCI']."', BWageId='".$_POST['BWageId']."', NPS_Value='".$_POST['NPS_Value']."', AnnualESCI='".$_POST['AnnualESCI']."', CtcCreatedBy=".$UserId.", Remark='".$_POST['Rmkk']."', CtcCreatedDate='".date("Y-m-d",strtotime($_POST['DateCTC']))."', CtcYearId=".$YearId.", SalChangeDate='".date("Y-m-d",strtotime($_POST['DateCTC']))."', SystDate='".date("Y-m-d")."' WHERE Status='A' AND EmployeeID=".$EMPID, $con); } 
 }
 if($row==0)
 { 
@@ -37,20 +37,20 @@ if($row==0)
   { 
     if($_POST['EmpInctv']==''){$_POST['EmpInctv']='N';}
     if($_POST['BasicStipend']=='B')
-  { $sqlUp= mysql_query("UPDATE hrm_employee_ctc SET INCENTIVE='".$_POST['EmpInctv']."', CHILD_EDU_ALL_Value='".$_POST['EmpChildEduAllow']."', MED_REM_Value='".$_POST['EmpMediReim']."', LTA_Value='".$_POST['EmpLeaveTraAllow']."', CONV_Value='".$_POST['EmpConAllow']."', TA_Value='".$_POST['TA']."', BAS='Y', BAS_Value=".$_POST['EmpBasic'].", STIPEND='N', STIPEND_Value=0.00, HRA_Value='".$_POST['EmpHRA']."', CAR_ALL_Value='".$_POST['CAR_ALL_Value']."', Bonus_Month='".$_POST['Bonus_Month']."', SPECIAL_ALL_Value='".$_POST['EmpSpeAllow']."',  NetMonthSalary_Value='".$_POST['EmpNetMonSalary']."', GrossSalary_PostAnualComponent_Value='".$_POST['GMS_PAC']."', EmpActPf='".$_POST['ActPFCheck']."', EmpComActPf='".$_POST['ActComPFCheck']."', EmpBSActPf='".$_POST['BSActPfCheck']."', BONUS_Value='0', GRATUITY_Value='".$_POST['EmpEstiGratuity']."', Tot_GrossMonth='".$_POST['EmpGrossMonSalary']."', Tot_Gross_Annual='".$_POST['EmpAnnGrossSalary']."', PF_Employee_Contri_Value='".$_POST['EmpProviFund']."', PF_Employee_Contri_Annul='".$_POST['EmpEmployerPFContri']."', PF_Employer_Contri_Value='".$_POST['EmpProviFund']."', PF_Employer_Contri_Annul='".$_POST['EmpEmployerPFContri']."', Mediclaim_Policy='".$_POST['EmpMediPoliPremium']."', Tot_CTC='".$_POST['EmpTotalCtc']."', VariablePay='".$Vpv."', TotCtc='".$ctcV."', EmpAddBenifit_MediInsu_value='".$_POST['EmpAddBenifit_MediInsu']."',Car_Entitlement='".$_POST['Car_Entitlement']."', ESCI='".$_POST['EmpESCI']."', BWageId='".$_POST['BWageId']."', NPS_Value='".$_POST['NPS_Value']."', AnnualESCI='".$_POST['AnnualESCI']."', Remark='".$_POST['Rmkk']."', CtcCreatedBy=".$UserId.", CtcCreatedDate='".date("Y-m-d",strtotime($_POST['DateCTC']))."', CtcYearId=".$YearId.", SalChangeDate='".date("Y-m-d",strtotime($_POST['DateCTC']))."', SystDate='".date("Y-m-d")."' WHERE Status='A' AND EmployeeID=".$EMPID, $con); }
+  { $sqlUp= mysql_query("UPDATE hrm_employee_ctc SET INCENTIVE='".$_POST['EmpInctv']."', CHILD_EDU_ALL_Value='".$_POST['EmpChildEduAllow']."', MED_REM_Value='".$_POST['EmpMediReim']."', LTA_Value='".$_POST['EmpLeaveTraAllow']."', CONV_Value='".$_POST['EmpConAllow']."', TA_Value='".$_POST['TA']."', BAS='Y', BAS_Value=".$_POST['EmpBasic'].", STIPEND='N', STIPEND_Value=0.00, HRA_Value='".$_POST['EmpHRA']."', CAR_ALL_Value='".$_POST['CAR_ALL_Value']."', Bonus_Month='".$_POST['Bonus_Month']."', SPECIAL_ALL_Value='".$_POST['EmpSpeAllow']."',  NetMonthSalary_Value='".$_POST['EmpNetMonSalary']."', GrossSalary_PostAnualComponent_Value='".$_POST['GMS_PAC']."', EmpActPf='".$_POST['ActPFCheck']."', EmpComActPf='".$_POST['ActComPFCheck']."', EmpBSActPf='".$_POST['BSActPfCheck']."', BONUS_Value='0', GRATUITY_Value='".$_POST['EmpEstiGratuity']."', Tot_GrossMonth='".$_POST['EmpGrossMonSalary']."', Tot_Gross_Annual='".$_POST['EmpAnnGrossSalary']."', PF_Employee_Contri_Value='".$_POST['EmpProviFund']."', PF_Employee_Contri_Annul='".$_POST['EmpEmployerPFContri']."', PF_Employer_Contri_Value='".$_POST['EmpProviFund']."', PF_Employer_Contri_Annul='".$_POST['EmpEmployerPFContri']."', Mediclaim_Policy='".$_POST['EmpMediPoliPremium']."', Tot_CTC='".$_POST['EmpTotalCtc']."', VariablePay='".$_POST['VariablePay']."', TotCtc='".$_POST['TotCtc']."', Communication_Allowance='".$_POST['CommAllow']."', Car_Allowance='".$_POST['CarAllow']."', Total_Gross_CTC='".$_POST['TotGrossCtc']."', EmpAddBenifit_MediInsu_value='".$_POST['EmpAddBenifit_MediInsu']."',Car_Entitlement='".$_POST['Car_Entitlement']."', ESCI='".$_POST['EmpESCI']."', BWageId='".$_POST['BWageId']."', NPS_Value='".$_POST['NPS_Value']."', AnnualESCI='".$_POST['AnnualESCI']."', Remark='".$_POST['Rmkk']."', CtcCreatedBy=".$UserId.", CtcCreatedDate='".date("Y-m-d",strtotime($_POST['DateCTC']))."', CtcYearId=".$YearId.", SalChangeDate='".date("Y-m-d",strtotime($_POST['DateCTC']))."', SystDate='".date("Y-m-d")."' WHERE Status='A' AND EmployeeID=".$EMPID, $con); }
 
   if($_POST['BasicStipend']=='S')
-  { $sqlUp= mysql_query("UPDATE hrm_employee_ctc SET INCENTIVE='".$_POST['EmpInctv']."', CHILD_EDU_ALL_Value='".$_POST['EmpChildEduAllow']."', MED_REM_Value='".$_POST['EmpMediReim']."', LTA_Value='".$_POST['EmpLeaveTraAllow']."', CONV_Value='".$_POST['EmpConAllow']."', TA_Value='".$_POST['TA']."', BAS='N', BAS_Value=0.00, STIPEND='Y', STIPEND_Value=".$_POST['EmpBasic'].", HRA_Value='".$_POST['EmpHRA']."', CAR_ALL_Value='".$_POST['CAR_ALL_Value']."', Bonus_Month='".$_POST['Bonus_Month']."', SPECIAL_ALL_Value='".$_POST['EmpSpeAllow']."',  NetMonthSalary_Value='".$_POST['EmpNetMonSalary']."', GrossSalary_PostAnualComponent_Value='".$_POST['GMS_PAC']."', EmpActPf='".$_POST['ActPFCheck']."', EmpComActPf='".$_POST['ActComPFCheck']."', EmpBSActPf='".$_POST['BSActPfCheck']."', BONUS_Value='0', GRATUITY_Value='".$_POST['EmpEstiGratuity']."', Tot_GrossMonth='".$_POST['EmpGrossMonSalary']."', Tot_Gross_Annual='".$_POST['EmpAnnGrossSalary']."', PF_Employee_Contri_Value='".$_POST['EmpProviFund']."', PF_Employee_Contri_Annul='".$_POST['EmpEmployerPFContri']."', PF_Employer_Contri_Value='".$_POST['EmpProviFund']."', PF_Employer_Contri_Annul='".$_POST['EmpEmployerPFContri']."', Mediclaim_Policy='".$_POST['EmpMediPoliPremium']."', Tot_CTC='".$_POST['EmpTotalCtc']."', VariablePay='".$Vpv."', TotCtc='".$ctcV."', EmpAddBenifit_MediInsu_value='".$_POST['EmpAddBenifit_MediInsu']."',Car_Entitlement='".$_POST['Car_Entitlement']."', ESCI='".$_POST['EmpESCI']."', BWageId='".$_POST['BWageId']."', NPS_Value='".$_POST['NPS_Value']."', AnnualESCI='".$_POST['AnnualESCI']."', Remark='".$_POST['Rmkk']."', CtcCreatedBy=".$UserId.", CtcCreatedDate='".date("Y-m-d",strtotime($_POST['DateCTC']))."', CtcYearId=".$YearId.", SalChangeDate='".date("Y-m-d",strtotime($_POST['DateCTC']))."', SystDate='".date("Y-m-d")."' WHERE Status='A' AND EmployeeID=".$EMPID, $con); } 
+  { $sqlUp= mysql_query("UPDATE hrm_employee_ctc SET INCENTIVE='".$_POST['EmpInctv']."', CHILD_EDU_ALL_Value='".$_POST['EmpChildEduAllow']."', MED_REM_Value='".$_POST['EmpMediReim']."', LTA_Value='".$_POST['EmpLeaveTraAllow']."', CONV_Value='".$_POST['EmpConAllow']."', TA_Value='".$_POST['TA']."', BAS='N', BAS_Value=0.00, STIPEND='Y', STIPEND_Value=".$_POST['EmpBasic'].", HRA_Value='".$_POST['EmpHRA']."', CAR_ALL_Value='".$_POST['CAR_ALL_Value']."', Bonus_Month='".$_POST['Bonus_Month']."', SPECIAL_ALL_Value='".$_POST['EmpSpeAllow']."',  NetMonthSalary_Value='".$_POST['EmpNetMonSalary']."', GrossSalary_PostAnualComponent_Value='".$_POST['GMS_PAC']."', EmpActPf='".$_POST['ActPFCheck']."', EmpComActPf='".$_POST['ActComPFCheck']."', EmpBSActPf='".$_POST['BSActPfCheck']."', BONUS_Value='0', GRATUITY_Value='".$_POST['EmpEstiGratuity']."', Tot_GrossMonth='".$_POST['EmpGrossMonSalary']."', Tot_Gross_Annual='".$_POST['EmpAnnGrossSalary']."', PF_Employee_Contri_Value='".$_POST['EmpProviFund']."', PF_Employee_Contri_Annul='".$_POST['EmpEmployerPFContri']."', PF_Employer_Contri_Value='".$_POST['EmpProviFund']."', PF_Employer_Contri_Annul='".$_POST['EmpEmployerPFContri']."', Mediclaim_Policy='".$_POST['EmpMediPoliPremium']."', Tot_CTC='".$_POST['EmpTotalCtc']."', VariablePay='".$_POST['VariablePay']."', TotCtc='".$_POST['TotCtc']."', Communication_Allowance='".$_POST['CommAllow']."', Car_Allowance='".$_POST['CarAllow']."', Total_Gross_CTC='".$_POST['TotGrossCtc']."', EmpAddBenifit_MediInsu_value='".$_POST['EmpAddBenifit_MediInsu']."',Car_Entitlement='".$_POST['Car_Entitlement']."', ESCI='".$_POST['EmpESCI']."', BWageId='".$_POST['BWageId']."', NPS_Value='".$_POST['NPS_Value']."', AnnualESCI='".$_POST['AnnualESCI']."', Remark='".$_POST['Rmkk']."', CtcCreatedBy=".$UserId.", CtcCreatedDate='".date("Y-m-d",strtotime($_POST['DateCTC']))."', CtcYearId=".$YearId.", SalChangeDate='".date("Y-m-d",strtotime($_POST['DateCTC']))."', SystDate='".date("Y-m-d")."' WHERE Status='A' AND EmployeeID=".$EMPID, $con); } 
   }
   if($row2==0)
   {
    $sqlU= mysql_query("UPDATE hrm_employee_ctc SET Status='D' where EmployeeID=".$EMPID, $con);
    if($_POST['EmpInctv']==''){$_POST['EmpInctv']='N';}
    if($_POST['BasicStipend']=='B')
-   { $sqlUp= mysql_query("insert into hrm_employee_ctc(EmployeeID, EC, INCENTIVE, CHILD_EDU_ALL_Value, MED_REM_Value, LTA_Value, CONV_Value, TA_Value, BAS, BAS_Value, STIPEND, STIPEND_Value, HRA_Value, CAR_ALL_Value, Bonus_Month, SPECIAL_ALL_Value, NetMonthSalary_Value, GrossSalary_PostAnualComponent_Value, EmpActPf, EmpComActPf, EmpBSActPf, BONUS_Value, GRATUITY_Value, Tot_GrossMonth, Tot_Gross_Annual, PF_Employee_Contri_Value, PF_Employee_Contri_Annul, PF_Employer_Contri_Value, PF_Employer_Contri_Annul, Mediclaim_Policy, Tot_CTC, VariablePay, TotCtc, EmpAddBenifit_MediInsu_value, Car_Entitlement, ESCI, BWageId, NPS_Value, AnnualESCI, Status, Remark, CtcCreatedBy, CtcCreatedDate, CtcYearId, SalChangeDate, SystDate) values(".$EMPID.", '".$_POST['EmpCode']."', '".$_POST['EmpInctv']."', '".$_POST['EmpChildEduAllow']."', '".$_POST['EmpMediReim']."', '".$_POST['EmpLeaveTraAllow']."', '".$_POST['EmpConAllow']."', '".$_POST['TA']."', 'Y', ".$_POST['EmpBasic'].", 'N', 0.00, '".$_POST['EmpHRA']."', '".$_POST['CAR_ALL_Value']."', '".$_POST['Bonus_Month']."', '".$_POST['EmpSpeAllow']."',  '".$_POST['EmpNetMonSalary']."', '".$_POST['GMS_PAC']."', '".$_POST['ActPFCheck']."', '".$_POST['ActComPFCheck']."', '".$_POST['BSActPfCheck']."', '0', '".$_POST['EmpEstiGratuity']."', '".$_POST['EmpGrossMonSalary']."', '".$_POST['EmpAnnGrossSalary']."', '".$_POST['EmpProviFund']."', '".$_POST['EmpEmployerPFContri']."', '".$_POST['EmpProviFund']."', '".$_POST['EmpEmployerPFContri']."', '".$_POST['EmpMediPoliPremium']."', '".$_POST['EmpTotalCtc']."', '".$Vpv."', '".$ctcV."', '".$_POST['EmpAddBenifit_MediInsu']."','".$_POST['Car_Entitlement']."', '".$_POST['EmpESCI']."', '".$_POST['BWageId']."', '".$_POST['NPS_Value']."', '".$_POST['AnnualESCI']."', 'A', '".$_POST['Rmkk']."', ".$UserId.", '".date("Y-m-d",strtotime($_POST['DateCTC']))."', ".$YearId.", '".date("Y-m-d",strtotime($_POST['DateCTC']))."', '".date("Y-m-d")."')", $con); }
+   { $sqlUp= mysql_query("insert into hrm_employee_ctc(EmployeeID, EC, INCENTIVE, CHILD_EDU_ALL_Value, MED_REM_Value, LTA_Value, CONV_Value, TA_Value, BAS, BAS_Value, STIPEND, STIPEND_Value, HRA_Value, CAR_ALL_Value, Bonus_Month, SPECIAL_ALL_Value, NetMonthSalary_Value, GrossSalary_PostAnualComponent_Value, EmpActPf, EmpComActPf, EmpBSActPf, BONUS_Value, GRATUITY_Value, Tot_GrossMonth, Tot_Gross_Annual, PF_Employee_Contri_Value, PF_Employee_Contri_Annul, PF_Employer_Contri_Value, PF_Employer_Contri_Annul, Mediclaim_Policy, Tot_CTC, VariablePay, TotCtc, Communication_Allowance, Car_Allowance, Total_Gross_CTC, EmpAddBenifit_MediInsu_value, Car_Entitlement, ESCI, BWageId, NPS_Value, AnnualESCI, Status, Remark, CtcCreatedBy, CtcCreatedDate, CtcYearId, SalChangeDate, SystDate) values(".$EMPID.", '".$_POST['EmpCode']."', '".$_POST['EmpInctv']."', '".$_POST['EmpChildEduAllow']."', '".$_POST['EmpMediReim']."', '".$_POST['EmpLeaveTraAllow']."', '".$_POST['EmpConAllow']."', '".$_POST['TA']."', 'Y', ".$_POST['EmpBasic'].", 'N', 0.00, '".$_POST['EmpHRA']."', '".$_POST['CAR_ALL_Value']."', '".$_POST['Bonus_Month']."', '".$_POST['EmpSpeAllow']."',  '".$_POST['EmpNetMonSalary']."', '".$_POST['GMS_PAC']."', '".$_POST['ActPFCheck']."', '".$_POST['ActComPFCheck']."', '".$_POST['BSActPfCheck']."', '0', '".$_POST['EmpEstiGratuity']."', '".$_POST['EmpGrossMonSalary']."', '".$_POST['EmpAnnGrossSalary']."', '".$_POST['EmpProviFund']."', '".$_POST['EmpEmployerPFContri']."', '".$_POST['EmpProviFund']."', '".$_POST['EmpEmployerPFContri']."', '".$_POST['EmpMediPoliPremium']."', '".$_POST['EmpTotalCtc']."', '".$_POST['VariablePay']."', '".$_POST['TotCtc']."', '".$_POST['CommAllow']."', '".$_POST['CarAllow']."', '".$_POST['TotGrossCtc']."', '".$_POST['EmpAddBenifit_MediInsu']."','".$_POST['Car_Entitlement']."', '".$_POST['EmpESCI']."', '".$_POST['BWageId']."', '".$_POST['NPS_Value']."', '".$_POST['AnnualESCI']."', 'A', '".$_POST['Rmkk']."', ".$UserId.", '".date("Y-m-d",strtotime($_POST['DateCTC']))."', ".$YearId.", '".date("Y-m-d",strtotime($_POST['DateCTC']))."', '".date("Y-m-d")."')", $con); }
 
   if($_POST['BasicStipend']=='S')
-  { $sqlUp= mysql_query("insert into hrm_employee_ctc(EmployeeID, EC, INCENTIVE, CHILD_EDU_ALL_Value, MED_REM_Value, LTA_Value, CONV_Value, TA_Value, BAS, BAS_Value, STIPEND, STIPEND_Value, HRA_Value, CAR_ALL_Value, Bonus_Month, SPECIAL_ALL_Value, NetMonthSalary_Value, GrossSalary_PostAnualComponent_Value, EmpActPf, EmpComActPf, EmpBSActPf, BONUS_Value, GRATUITY_Value, Tot_GrossMonth, Tot_Gross_Annual, PF_Employee_Contri_Value, PF_Employee_Contri_Annul, PF_Employer_Contri_Value, PF_Employer_Contri_Annul, Mediclaim_Policy, Tot_CTC, VariablePay, TotCtc, EmpAddBenifit_MediInsu_value, Car_Entitlement, ESCI, BWageId, NPS_Value, AnnualESCI, Status, Remark, CtcCreatedBy, CtcCreatedDate, CtcYearId, SalChangeDate, SystDate) values(".$EMPID.", '".$_POST['EmpCode']."', '".$_POST['EmpInctv']."', '".$_POST['EmpChildEduAllow']."', '".$_POST['EmpMediReim']."', '".$_POST['EmpLeaveTraAllow']."', '".$_POST['EmpConAllow']."', '".$_POST['TA']."', 'N', 0.00, 'Y', ".$_POST['EmpBasic'].", '".$_POST['EmpHRA']."', '".$_POST['CAR_ALL_Value']."', '".$_POST['Bonus_Month']."', '".$_POST['EmpSpeAllow']."',  '".$_POST['EmpNetMonSalary']."', '".$_POST['GMS_PAC']."', '".$_POST['ActPFCheck']."', '".$_POST['ActComPFCheck']."', '".$_POST['BSActPfCheck']."', '0', '".$_POST['EmpEstiGratuity']."', '".$_POST['EmpGrossMonSalary']."', '".$_POST['EmpAnnGrossSalary']."', '".$_POST['EmpProviFund']."', '".$_POST['EmpEmployerPFContri']."', '".$_POST['EmpProviFund']."', '".$_POST['EmpEmployerPFContri']."', '".$_POST['EmpMediPoliPremium']."', '".$_POST['EmpTotalCtc']."', '".$Vpv."', '".$ctcV."', '".$_POST['EmpAddBenifit_MediInsu']."','".$_POST['Car_Entitlement']."', '".$_POST['EmpESCI']."', '".$_POST['BWageId']."', '".$_POST['NPS_Value']."', '".$_POST['AnnualESCI']."', 'A', ".$UserId.", '".$_POST['Rmkk']."', '".date("Y-m-d",strtotime($_POST['DateCTC']))."', ".$YearId.", '".date("Y-m-d",strtotime($_POST['DateCTC']))."', '".date("Y-m-d")."')", $con); }
+  { $sqlUp= mysql_query("insert into hrm_employee_ctc(EmployeeID, EC, INCENTIVE, CHILD_EDU_ALL_Value, MED_REM_Value, LTA_Value, CONV_Value, TA_Value, BAS, BAS_Value, STIPEND, STIPEND_Value, HRA_Value, CAR_ALL_Value, Bonus_Month, SPECIAL_ALL_Value, NetMonthSalary_Value, GrossSalary_PostAnualComponent_Value, EmpActPf, EmpComActPf, EmpBSActPf, BONUS_Value, GRATUITY_Value, Tot_GrossMonth, Tot_Gross_Annual, PF_Employee_Contri_Value, PF_Employee_Contri_Annul, PF_Employer_Contri_Value, PF_Employer_Contri_Annul, Mediclaim_Policy, Tot_CTC, VariablePay, TotCtc, Communication_Allowance, Car_Allowance, Total_Gross_CTC, EmpAddBenifit_MediInsu_value, Car_Entitlement, ESCI, BWageId, NPS_Value, AnnualESCI, Status, Remark, CtcCreatedBy, CtcCreatedDate, CtcYearId, SalChangeDate, SystDate) values(".$EMPID.", '".$_POST['EmpCode']."', '".$_POST['EmpInctv']."', '".$_POST['EmpChildEduAllow']."', '".$_POST['EmpMediReim']."', '".$_POST['EmpLeaveTraAllow']."', '".$_POST['EmpConAllow']."', '".$_POST['TA']."', 'N', 0.00, 'Y', ".$_POST['EmpBasic'].", '".$_POST['EmpHRA']."', '".$_POST['CAR_ALL_Value']."', '".$_POST['Bonus_Month']."', '".$_POST['EmpSpeAllow']."',  '".$_POST['EmpNetMonSalary']."', '".$_POST['GMS_PAC']."', '".$_POST['ActPFCheck']."', '".$_POST['ActComPFCheck']."', '".$_POST['BSActPfCheck']."', '0', '".$_POST['EmpEstiGratuity']."', '".$_POST['EmpGrossMonSalary']."', '".$_POST['EmpAnnGrossSalary']."', '".$_POST['EmpProviFund']."', '".$_POST['EmpEmployerPFContri']."', '".$_POST['EmpProviFund']."', '".$_POST['EmpEmployerPFContri']."', '".$_POST['EmpMediPoliPremium']."', '".$_POST['EmpTotalCtc']."', '".$_POST['VariablePay']."', '".$_POST['TotCtc']."', '".$_POST['CommAllow']."', '".$_POST['CarAllow']."', '".$_POST['TotGrossCtc']."', '".$_POST['EmpAddBenifit_MediInsu']."','".$_POST['Car_Entitlement']."', '".$_POST['EmpESCI']."', '".$_POST['BWageId']."', '".$_POST['NPS_Value']."', '".$_POST['AnnualESCI']."', 'A', ".$UserId.", '".$_POST['Rmkk']."', '".date("Y-m-d",strtotime($_POST['DateCTC']))."', ".$YearId.", '".date("Y-m-d",strtotime($_POST['DateCTC']))."', '".date("Y-m-d")."')", $con); }
   }
 }
 
@@ -59,9 +59,9 @@ if($sqlUp)
 { 
   $SqlE = mysql_query("select Fname,Sname,Lname,DepartmentId,DesigId,GradeId from hrm_employee LEFT JOIN hrm_employee_general ON hrm_employee.EmployeeID=hrm_employee_general.EmployeeID where hrm_employee.EmployeeID=".$EMPID, $con); $ResE=mysql_fetch_assoc($SqlE);
   $EnameE = $ResE['Fname'].' '.$ResE['Sname'].' '.$ResE['Lname']; 
-  $sqlEDept = mysql_query("select DepartmentName from hrm_department where DepartmentId=".$ResE['DepartmentId'], $con); $resEDept=mysql_fetch_assoc($sqlEDept);
-  $sqlEDe=mysql_query("select DesigName from hrm_designation where DesigId=".$ResE['DesigId'], $con); $resEDe=mysql_fetch_assoc($sqlEDe);
-  $sqlEGr=mysql_query("select GradeValue from hrm_grade where GradeId=".$ResE['GradeId']." AND CompanyId=".$CompanyId, $con); $resEGr=mysql_fetch_assoc($sqlEGr);
+  $sqlEDept = mysql_query("select department_name as DepartmentName from core_departments where id=".$ResE['DepartmentId'], $con); $resEDept=mysql_fetch_assoc($sqlEDept);
+  $sqlEDe=mysql_query("select designation_name as DesigName from core_designation where id=".$ResE['DesigId'], $con); $resEDe=mysql_fetch_assoc($sqlEDe);
+  $sqlEGr=mysql_query("select grade_name as GradeValue from core_grades where id=".$ResE['GradeId']." AND CompanyId=".$CompanyId, $con); $resEGr=mysql_fetch_assoc($sqlEGr);
 
   $sqlHC = mysql_query("SELECT MAX(SalaryChange_Date) as SalaryChD FROM hrm_pms_appraisal_history where EmpCode='".$_POST['EmpCode']."' AND SalaryChange_Date!='".date("Y-m-d",strtotime($_POST['DateCTC']))."' AND CompanyId=".$CompanyId, $con); $resHC = mysql_fetch_assoc($sqlHC); 
   $sqlMax = mysql_query("SELECT Current_GrossSalaryPM,Proposed_GrossSalaryPM,TotalProp_GSPM FROM hrm_pms_appraisal_history where SalaryChange_Date='".$resHC['SalaryChD']."' AND EmpCode='".$_POST['EmpCode']."' AND CompanyId=".$CompanyId, $con); $resMax = mysql_fetch_assoc($sqlMax);
@@ -73,11 +73,11 @@ if($sqlUp)
   if($rowHis>0)
   { 
       
-    $sqlUhis=mysql_query("update hrm_pms_appraisal_history set EmpPmsId=0, EmpCode='".(int)$_POST['EmpCode']."', EmpName='".$EnameE."', Current_Grade='".$resEGr['GradeValue']."', Proposed_Grade='".$resEGr['GradeValue']."', Department='".$resEDept['DepartmentName']."', Current_Designation='".$resEDe['DesigName']."', Proposed_Designation='".$resEDe['DesigName']."', Salary_Basic='".$_POST['EmpBasic']."', Salary_HRA='".$_POST['EmpHRA']."', Salary_CA='".$_POST['EmpConAllow']."', Salary_TA='".$_POST['TA']."', Car_Allowance='".$_POST['CAR_ALL_Value']."', Salary_SA='".$_POST['EmpSpeAllow']."', Previous_GrossSalaryPM='".$OldGross."', Current_GrossSalaryPM='".$OldGross."', Proposed_GrossSalaryPM=0, BonusAnnual_September='".$_POST['EmpBonusExg']."', Prop_PeInc_GSPM=0, PropSalary_Correction=0, TotalProp_GSPM='".$_POST['EmpGrossMonSalary']."', TotalProp_PerInc_GSPM=0, Score=0, Rating=0, SystemDate='".date("Y-m-d")."', VariablePay='".$Vpv."', TotCtc='".$ctcV."' where EmpCode=".$_POST['EmpCode']." AND SalaryChange_Date='".date("Y-m-d",strtotime($_POST['DateCTC']))."' AND CompanyId=".$CompanyId, $con); 
+    $sqlUhis=mysql_query("update hrm_pms_appraisal_history set EmpPmsId=0, EmpCode='".(int)$_POST['EmpCode']."', EmpName='".$EnameE."', Current_Grade='".$resEGr['GradeValue']."', Proposed_Grade='".$resEGr['GradeValue']."', Department='".$resEDept['DepartmentName']."', Current_Designation='".$resEDe['DesigName']."', Proposed_Designation='".$resEDe['DesigName']."', Salary_Basic='".$_POST['EmpBasic']."', Salary_HRA='".$_POST['EmpHRA']."', Salary_CA='".$_POST['EmpConAllow']."', Salary_TA='".$_POST['TA']."', Car_Allowance='".$_POST['CAR_ALL_Value']."', Salary_SA='".$_POST['EmpSpeAllow']."', Previous_GrossSalaryPM='".$OldGross."', Current_GrossSalaryPM='".$OldGross."', Proposed_GrossSalaryPM=0, BonusAnnual_September='".$_POST['EmpBonusExg']."', Prop_PeInc_GSPM=0, PropSalary_Correction=0, TotalProp_GSPM='".$_POST['EmpGrossMonSalary']."', TotalProp_PerInc_GSPM=0, Score=0, Rating=0, SystemDate='".date("Y-m-d")."', VariablePay='".$_POST['VariablePay']."', TotCtc='".$_POST['TotCtc']."', comm_allow='".$_POST['CommAllow']."', car_allow='".$_POST['CarAllow']."', totgross_ctc='".$_POST['TotGrossCtc']."' where EmpCode=".$_POST['EmpCode']." AND SalaryChange_Date='".date("Y-m-d",strtotime($_POST['DateCTC']))."' AND CompanyId=".$CompanyId, $con); 
   }
   if($rowHis==0)
   { 
-    $sqlUhis=mysql_query("insert into hrm_pms_appraisal_history(EmpPmsId, EmpCode, EmpName, Current_Grade, Proposed_Grade, Department, Current_Designation, Proposed_Designation, SalaryChange_Date, Salary_Basic, Salary_HRA, Salary_CA, Salary_TA, Car_Allowance, Salary_SA, Previous_GrossSalaryPM, Current_GrossSalaryPM, Proposed_GrossSalaryPM, BonusAnnual_September, Prop_PeInc_GSPM, PropSalary_Correction, TotalProp_GSPM, TotalProp_PerInc_GSPM, Score, Rating, CompanyId, VariablePay, TotCtc, YearId, SystemDate) values(0, '".(int)$_POST['EmpCode']."', '".$EnameE."', '".$resEGr['GradeValue']."', '".$resEGr['GradeValue']."', '".$resEDept['DepartmentName']."', '".$resEDe['DesigName']."', '".$resEDe['DesigName']."', '".date("Y-m-d",strtotime($_POST['DateCTC']))."', '".$_POST['EmpBasic']."', '".$_POST['EmpHRA']."', '".$_POST['EmpConAllow']."', '".$_POST['TA']."', '".$_POST['CAR_ALL_Value']."', '".$_POST['EmpSpeAllow']."', '".$OldGross."', '".$OldGross."', 0, '".$_POST['EmpBonusExg']."', 0, 0, '".$_POST['EmpGrossMonSalary']."', 0, 0, 0, ".$CompanyId.", '".$Vpv."', '".$ctcV."', ".$YearId.", '".date("Y-m-d")."')", $con);
+    $sqlUhis=mysql_query("insert into hrm_pms_appraisal_history(EmpPmsId, EmpCode, EmpName, Current_Grade, Proposed_Grade, Department, Current_Designation, Proposed_Designation, SalaryChange_Date, Salary_Basic, Salary_HRA, Salary_CA, Salary_TA, Car_Allowance, Salary_SA, Previous_GrossSalaryPM, Current_GrossSalaryPM, Proposed_GrossSalaryPM, BonusAnnual_September, Prop_PeInc_GSPM, PropSalary_Correction, TotalProp_GSPM, TotalProp_PerInc_GSPM, Score, Rating, CompanyId, VariablePay, TotCtc, comm_allow, car_allow, totgross_ctc, YearId, SystemDate) values(0, '".(int)$_POST['EmpCode']."', '".$EnameE."', '".$resEGr['GradeValue']."', '".$resEGr['GradeValue']."', '".$resEDept['DepartmentName']."', '".$resEDe['DesigName']."', '".$resEDe['DesigName']."', '".date("Y-m-d",strtotime($_POST['DateCTC']))."', '".$_POST['EmpBasic']."', '".$_POST['EmpHRA']."', '".$_POST['EmpConAllow']."', '".$_POST['TA']."', '".$_POST['CAR_ALL_Value']."', '".$_POST['EmpSpeAllow']."', '".$OldGross."', '".$OldGross."', 0, '".$_POST['EmpBonusExg']."', 0, 0, '".$_POST['EmpGrossMonSalary']."', 0, 0, 0, ".$CompanyId.", '".$_POST['VariablePay']."', '".$_POST['TotCtc']."', '".$_POST['CommAllow']."', '".$_POST['CarAllow']."', '".$_POST['TotGrossCtc']."', ".$YearId.", '".date("Y-m-d")."')", $con);
   }
 }
 /********************************************************** History Close *******************************************************/
@@ -110,7 +110,11 @@ document.getElementById("BasicStipend").disabled = false; document.getElementByI
  document.getElementById("NPS_Value").readOnly=false;
  document.getElementById("Bonus_Month").readOnly = false; document.getElementById("CheckHRA").disabled = false;
  document.getElementById("CheckTA").disabled = false;
- document.getElementById("EmpESCI").readOnly=false; document.getElementById("CheckCarAllow").disabled=false; document.getElementById("CheckSA").disabled=false; document.getElementById("EmpActPf").disabled = false; document.getElementById("EmpComActPf").disabled = false; document.getElementById("EmpBSActPf").disabled = false;  document.getElementById("TA").disabled = false; document.getElementById("CBns").disabled = false; 
+ document.getElementById("EmpESCI").readOnly=false; document.getElementById("CheckCarAllow").disabled=false; document.getElementById("CheckSA").disabled=false; document.getElementById("EmpActPf").disabled = false; document.getElementById("EmpComActPf").disabled = false; document.getElementById("EmpBSActPf").disabled = false;  document.getElementById("TA").disabled = false; document.getElementById("CBns").disabled = false;
+ document.getElementById("CommAllow").readOnly = false;
+ document.getElementById("CarAllow").readOnly = false;
+ 
+ 
   
 //document.getElementById("CheckCA").disabled = false; document.getElementById("CheckMR").disabled = false;
 } 
@@ -254,6 +258,31 @@ function CheckEmpComActPf()
     var Ac_NetSal=document.getElementById("EmpNetMonSalary").value=Math.round((netsal-diffpf)*100)/100; 
     var Ac_Employer_PfContb=document.getElementById("EmpEmployerPFContri").value=Math.round((ComPfContbAnnual+(diffpf*12))*100)/100;
     var Ac_ctc=document.getElementById("EmpTotalCtc").value=Math.round((ctc+(diffpf*12))*100)/100;
+    
+    var ComId = document.getElementById("ComId").value;
+    /**************************************************/
+    if(ComId==1)
+    {
+      var EmpAnnGrossSalary = parseFloat(document.getElementById("EmpAnnGrossSalary").value);                                           
+     document.getElementById("VariablePay").value=Math.round(((EmpAnnGrossSalary*5)/100)*100)/100;
+     var VariablePay = parseFloat(document.getElementById("VariablePay").value);
+ //alert(VariablePay+"-"+EmpTotalCtc);
+ 
+     var EmpTotalCtc = parseFloat(document.getElementById("EmpTotalCtc").value);
+ 
+     document.getElementById("TotCtc").value=Math.round((EmpTotalCtc+VariablePay)*100)/100;
+ 
+     document.getElementById("CommAllow").value = document.getElementById("Elg_CommAllow").value;
+     document.getElementById("CarAllow").value = document.getElementById("Elg_CarAllow").value;
+ 
+     var TotCtc = parseFloat(document.getElementById("TotCtc").value);
+     var CommAllow = parseFloat(document.getElementById("CommAllow").value);
+     var CarAllow = parseFloat(document.getElementById("CarAllow").value);
+ 
+     var TotGrossCtc = document.getElementById("TotGrossCtc").value=Math.round((TotCtc+CommAllow+CarAllow)*100)/100;
+ }
+ /*************************************************/
+    
    } 
     
   }
@@ -313,6 +342,15 @@ function CheckEmpBSActPf()
 function GrossSalary(ci)
 {  var ComId = document.getElementById("ComId").value; 
 var VGrossSalary = parseFloat(document.getElementById("EmpGrossMonSalary").value); var VEmpBasic = parseFloat(document.getElementById("EmpBasic").value); var VEmpHRA = parseFloat(document.getElementById("EmpHRA").value); var VEmpConAllow = parseFloat(document.getElementById("EmpConAllow").value); var VEmpSpeAllow = parseFloat(document.getElementById("EmpSpeAllow").value); var VEmpProviFund = parseFloat(document.getElementById("EmpProviFund").value); var VEmpNetMonSalary = parseFloat(document.getElementById("EmpNetMonSalary").value); var VEmpMediReim = parseFloat(document.getElementById("EmpMediReim").value); var VEmpLeaveTraAllow = parseFloat(document.getElementById("EmpLeaveTraAllow").value); var VEmpChildEduAllow = parseFloat(document.getElementById("EmpChildEduAllow").value); var VEmpAnnGrossSalary = parseFloat(document.getElementById("EmpAnnGrossSalary").value); var VEmpBonusExg = parseFloat(document.getElementById("EmpBonusExg").value); var VEmpEstiGratuity = parseFloat(document.getElementById("EmpEstiGratuity").value); var VEmpEmployerPFContri = parseFloat(document.getElementById("EmpEmployerPFContri").value); var VEmpMediPoliPremium = parseFloat(document.getElementById("EmpMediPoliPremium").value); var VEmptotalCtc = parseFloat(document.getElementById("EmpTotalCtc").value); var VEmpAddBenifit_MediInsu = parseFloat(document.getElementById("EmpAddBenifit_MediInsu").value); var VPf_MaxSalPf = parseFloat(document.getElementById("Pf_MaxSalPf").value); var VGrossMonSalary_PAC = parseFloat(document.getElementById("GrossMonSalary_PAC").value); var VGMS_PAC = parseFloat(document.getElementById("GMS_PAC").value); var VB_MaxBonus = parseFloat(document.getElementById("MaxBonus").value); var VTotBasHraCon = parseFloat(document.getElementById("TotBasHraCon").value); var VTotAnnualBasic = parseFloat(document.getElementById("TotAnnualBasic").value); var VOneDayBasic = parseFloat(document.getElementById("OneDayBasic").value);  var VMaxGrtuityDay = parseFloat(document.getElementById("MaxGrtuityDay").value); var VStrBonusContri = parseFloat(document.getElementById("StrBonusContri").value); var VConvance = parseFloat(document.getElementById("Convance").value); var VEmp_MPP = parseFloat(document.getElementById("Emp_MPP").value); var VEmp_MPP_ESIC = parseFloat(document.getElementById("Emp_MPP_ESIC").value); var MCS = parseFloat(document.getElementById("MCS").value); var MCSSP = parseFloat(document.getElementById("MCSSP").value); var EmpAddBenifit_MediInsu = parseFloat(document.getElementById("EmpAddBenifit_MediInsu").value); var D2=document.getElementById("D2").value; var P2=document.getElementById("P2").value; var DeId=document.getElementById("DeId").value; var VTA = parseFloat(document.getElementById("TA").value); 
+
+   if(ComId==1)
+   {
+    var VariablePay = parseFloat(document.getElementById("VariablePay").value); 
+    var TotCtc = parseFloat(document.getElementById("TotCtc").value); 
+    var CommAllow = parseFloat(document.getElementById("CommAllow").value);
+    var CarAllow = parseFloat(document.getElementById("CarAllow").value);
+    var TotGrossCtc = parseFloat(document.getElementById("TotGrossCtc").value);
+   }
 
 if(ComId==1 || ComId==3)
 {
@@ -476,8 +514,18 @@ if(ComId==1 || ComId==3)
  else if(ComId==2){ var Cal_Emp_MPP = document.getElementById("EmpMediPoliPremium").value=0; }
  else if(ComId==3){ var Cal_Emp_MPP = document.getElementById("EmpMediPoliPremium").value=0; }
 
+ //var EmpAnnGrossSalary = parseFloat(document.getElementById("EmpAnnGrossSalary").value); 
+ //var EmpEstiGratuity = parseFloat(document.getElementById("EmpEstiGratuity").value);
+ //var EmpEmployerPFContri = parseFloat(document.getElementById("EmpEmployerPFContri").value);
+ //var AnnualESCI = parseFloat(document.getElementById("AnnualESCI").value);
+ //var EmpMediPoliPremium = parseFloat(document.getElementById("EmpMediPoliPremium").value);
+ //var Cal_EmptotalCtc = document.getElementById("EmpTotalCtc").value=Math.round((EmpAnnGrossSalary+EmpEstiGratuity+EmpEmployerPFContri+AnnualESCI+EmpMediPoliPremium)*100)/100;
+ //var Cal_EmptotalCtc2 = document.getElementById("EmpTotalCtc").value=Math.round((EmpAnnGrossSalary+EmpEstiGratuity+EmpEmployerPFContri+AnnualESCI+EmpMediPoliPremium)*100)/100;
+
  var Cal_EmptotalCtc = document.getElementById("EmpTotalCtc").value=Math.round((Cal_EmpAnnGrossSalary+Cal_EmpBonusExg+Cal_EmpEstiGratuity+Cal_EmpEmployerPFContri+Cal_Emp_MPP)*100)/100;
  var Cal_EmptotalCtc2 = document.getElementById("ETotCtc").value=Math.round((Cal_EmpAnnGrossSalary+Cal_EmpBonusExg+Cal_EmpEstiGratuity+Cal_EmpEmployerPFContri+Cal_Emp_MPP)*100)/100;
+ 
+ //alert(document.getElementById("EmpTotalCtc").value);
 
  if(D2==DeId || P2==DeId){document.getElementById("EmpAddBenifit_MediInsu").value=Math.round((MCSSP)*100)/100;}
  else if(D2!=DeId && P2!=DeId){document.getElementById("EmpAddBenifit_MediInsu").value=Math.round((MCS)*100)/100;}
@@ -487,6 +535,29 @@ if(ComId==1 || ComId==3)
  if(document.getElementById("ActPFCheck").value=='Y'){ CheckEmpActPf() /*CheckEmpComActPf();*/ }
  if(document.getElementById("ActComPFCheck").value=='Y'){ CheckEmpComActPf(); }
 
+
+ /**************************************************/
+ if(ComId==1)
+ {
+ var EmpAnnGrossSalary = parseFloat(document.getElementById("EmpAnnGrossSalary").value);                                           
+ document.getElementById("VariablePay").value=Math.round(((EmpAnnGrossSalary*5)/100)*100)/100;
+ var VariablePay = parseFloat(document.getElementById("VariablePay").value);
+ //alert(VariablePay+"-"+EmpTotalCtc);
+ 
+ var EmpTotalCtc = parseFloat(document.getElementById("EmpTotalCtc").value);
+ 
+ document.getElementById("TotCtc").value=Math.round((EmpTotalCtc+VariablePay)*100)/100;
+ 
+ document.getElementById("CommAllow").value = document.getElementById("Elg_CommAllow").value;
+ document.getElementById("CarAllow").value = document.getElementById("Elg_CarAllow").value;
+ 
+ var TotCtc = parseFloat(document.getElementById("TotCtc").value);
+ var CommAllow = parseFloat(document.getElementById("CommAllow").value);
+ var CarAllow = parseFloat(document.getElementById("CarAllow").value);
+ 
+ var TotGrossCtc = document.getElementById("TotGrossCtc").value=Math.round((TotCtc+CommAllow+CarAllow)*100)/100;
+ }
+ /*************************************************/
 
 
 } //if(ComId==1 || ComId==3)
@@ -516,6 +587,7 @@ else if(ComId==2)
   var GS_PAC = document.getElementById("GrossMonSalary_PAC").value=Math.round((VGrossSalary)*100)/100;  
   var GMS_PAC = document.getElementById("GMS_PAC").value=Math.round((VGrossSalary)*100)/100; 
   var Cal_EmpBasic = document.getElementById("EmpBasic").value = VGrossForBasic;
+  var Cal_NetSal = document.getElementById("EmpNetMonSalary").value =Math.round((VGrossSalary)*100)/100; 
   var Cal_EmpAnnGrossSalary = document.getElementById("EmpAnnGrossSalary").value=Math.round((VGrossSalary*12)*100)/100;
   var Cal_EmptotalCtc = document.getElementById("EmpTotalCtc").value=Math.round((VGrossSalary*12)*100)/100;
   var Cal_EmptotalCtc2 = document.getElementById("ETotCtc").value=Math.round((VGrossSalary*12)*100)/100;
@@ -615,6 +687,28 @@ var Cal_EmptotalCtc2 = document.getElementById("ETotCtc").value=Math.round((Cal_
 
 if(document.getElementById("ActPFCheck").value=='Y'){ CheckEmpComActPf(); }
 if(document.getElementById("ActComPFCheck").value=='Y'){ CheckEmpComActPf(); }
+ 
+ 
+ /**************************************************/
+ if(ComId==1)
+ {
+ var EmpAnnGrossSalary = parseFloat(document.getElementById("EmpAnnGrossSalary").value);
+ var EmpTotCtc = parseFloat(document.getElementById("EmpTotalCtc").value);
+ 
+ document.getElementById("VariablePay").value=Math.round(((EmpAnnGrossSalary*5)/100)*100)/100;
+ var VariablePay = parseFloat(document.getElementById("VariablePay").value);
+ document.getElementById("TotCtc").value=Math.round((EmpTotCtc+VariablePay)*100)/100;
+ 
+ document.getElementById("CommAllow").value = document.getElementById("Elg_CommAllow").value;
+ document.getElementById("CarAllow").value = document.getElementById("Elg_CarAllow").value;
+ 
+ var TotCtc = parseFloat(document.getElementById("TotCtc").value);
+ var CommAllow = parseFloat(document.getElementById("CommAllow").value);
+ var CarAllow = parseFloat(document.getElementById("CarAllow").value);
+ 
+ var TotGrossCtc = document.getElementById("TotGrossCtc").value=Math.round((TotCtc+CommAllow+CarAllow)*100)/100;
+ }
+ /*************************************************/ 
     
 }
 
@@ -985,7 +1079,6 @@ function FunCheckESCI()
   var E=parseFloat(document.getElementById("EmpBonusExg").value); 
   var F=parseFloat(document.getElementById("EmpAnnGrossSalary").value);
   document.getElementById("EmpTotalCtc").value=Math.round((A+B+C+D+E+F)*100)/100;
-  
 }	
 
 
@@ -1002,6 +1095,15 @@ function Fun2CheckESCI()
 	document.getElementById("EmpNetMonSalary").value=Math.round((GMS_PAC-TotDedNet)*100)/100;
   }
 }	
+
+
+function ChangeCommAllow()
+{
+  var TotCtc = parseFloat(document.getElementById("TotCtc").value); 
+  var CommAllow = parseFloat(document.getElementById("CommAllow").value);
+  var CarAllow = parseFloat(document.getElementById("CarAllow").value);
+  document.getElementById("TotGrossCtc").value=Math.round((TotCtc+CommAllow+CarAllow)*100)/100;
+}
 
 </script>
 </head>
@@ -1093,6 +1195,26 @@ $sqlP2=mysql_query("select DepartmentId from hrm_department where DepartmentName
   <input type="hidden" id="D2" class="All_100" value="<?php echo $resD2['DepartmentId']; ?>"/>  
   <input type="hidden" id="P2" class="All_100" value="<?php echo $resP2['DepartmentId']; ?>"/>
   <input type="hidden" id="DeId" class="All_100" value="<?php echo $ResCtc['DepartmentId']; ?>"/>
+  
+<?php 
+ $Elg_CarAllow=0; $Elg_CommAllow=0;
+ $sElig = mysql_query("SELECT VehiclePolicy FROM hrm_employee_eligibility WHERE Status='A' AND EmployeeID=".$EMPID, $con); $rElig=mysql_fetch_assoc($sElig); 
+      if($rElig['VehiclePolicy']==13)
+      { //echo 'aa='.$ResCtc['GradeId'];
+        $sCar = mysql_query("SELECT Fn36 FROM hrm_master_eligibility_policy_tbl13 WHERE GradeId=".$ResCtc['GradeId'], $con); $rowCar=mysql_num_rows($sCar);
+        $rCar=mysql_fetch_assoc($sCar);
+        if($rowCar>0 && $rCar['Fn36']>0)
+        {
+          $Elg_CarAllow=$rCar['Fn36']*12;
+        }
+      }
+  ?>  
+  <input type="hidden" id="Elg_CarAllow" value="<?=$Elg_CarAllow?>"/>
+  
+  <?php if($ResCtc['DepartmentId']==13 OR $ResCtc['DepartmentId']==15 OR $ResCtc['DepartmentId']==17) { $Elg_CommAllow=4800; }?>
+  <input type="hidden" id="Elg_CommAllow" value="<?=$Elg_CommAllow?>"/>
+  
+  
 <?php //********************************************************************************************************?>
 <?php  if($_REQUEST['Event']=='Edit' AND $resEm['mas_ctc']==1) {?>
  <td align="left" id="Ectc" valign="top">             
@@ -1560,24 +1682,47 @@ function FunChild2()
 	<?php } ?>  
 </tr>
 
-<?php if($CompanyId==1 && $ResCtc['DepartmentId']!=17){ ?>
+<?php if($CompanyId==1 && $ResCtc['DepartmentId']!=18){ ?>
 <?php /**************** Variable Pay & CTC ***************/ ?>
 <tr><td align="left" class="All_10">&nbsp;</td>
     <td align="left" class="All_300" id="mppA">&nbsp;Performance Pay :</td>
-    <td align="left" class="All_180" id="mppB">&nbsp;Rs. &nbsp;<input value="<?php $Vpv=round(($ResCtc['Tot_Gross_Annual']*5)/100); echo $Vpv.'.00'; ?>"  class="All_100" readonly/></td>
+    <td align="left" class="All_180" id="mppB">&nbsp;Rs. &nbsp;<input value="<?php echo $ResCtc['VariablePay']; ?>" class="All_100" name="VariablePay" id="VariablePay" readonly/></td>
     <?php if($ResCtc['Tot_GrossMonth']>15000 && $ResCtc['EmpActPf']=='N'){ ?>
 	<td align="right" style="width:100px;font-size:11px;background-color:#D8FB97;" id="mppB">&nbsp;&nbsp;</td>
 	<?php } ?>
+	<?php /*$Vpv=round(($ResCtc['Tot_Gross_Annual']*5)/100); VariablePay TotCtc CommAllow CarAllow TotGrossCtc */ ?>
 </tr> 
 
 <tr><td align="left" class="All_10">&nbsp;</td><td align="left" class="All_300">&nbsp;Total CTC :</td>
-    <td align="left" class="All_180">&nbsp;Rs. &nbsp;<input style="background-color:#DCEEF1;" value="<?php $ctcV=$ResCtc['Tot_CTC']+$Vpv; echo $ctcV.'.00'; ?>" class="All_100" /></td>
+    <td align="left" class="All_180">&nbsp;Rs. &nbsp;<input style="background-color:#DCEEF1;" value="<?php echo $ResCtc['TotCtc']; ?>" class="All_100" name="TotCtc" id="TotCtc" readonly/></td>
     <?php if($ResCtc['Tot_GrossMonth']>15000 && $ResCtc['EmpActPf']=='N'){ ?>
 	<td align="right" style="width:100px;font-size:11px;background-color:#D8FB97;">&nbsp;&nbsp;</td>
 	<?php } ?>  
 </tr>
+
+<tr><td align="left" class="All_10">&nbsp;</td><td align="left" class="All_300">&nbsp;Communication Allow :</td>
+    <td align="left" class="All_180">&nbsp;Rs. &nbsp;<input style="background-color:#FFFFFF;" value="<?php echo $ResCtc['Communication_Allowance']; ?>" class="All_100" name="CommAllow" id="CommAllow" onChange="ChangeCommAllow()" onKeyDown="ChangeCommAllow()"/></td>
+    <?php if($ResCtc['Tot_GrossMonth']>15000 && $ResCtc['EmpActPf']=='N'){ ?>
+	<td align="right" style="width:100px;font-size:11px;background-color:#D8FB97;">&nbsp;&nbsp;</td>
+	<?php } ?>  
+</tr>
+
+<tr><td align="left" class="All_10">&nbsp;</td><td align="left" class="All_300">&nbsp;Car Allow :</td>
+    <td align="left" class="All_180">&nbsp;Rs. &nbsp;<input style="background-color:#FFFFFF;" value="<?php echo $ResCtc['Car_Allowance']; ?>" class="All_100" name="CarAllow" id="CarAllow" readOnly/></td>
+    <?php if($ResCtc['Tot_GrossMonth']>15000 && $ResCtc['EmpActPf']=='N'){ ?>
+	<td align="right" style="width:100px;font-size:11px;background-color:#D8FB97;">&nbsp;&nbsp;</td>
+	<?php } ?>  
+</tr>
+
+<tr><td align="left" class="All_10">&nbsp;</td><td align="left" class="All_300">&nbsp;Total Gross CTC :</td>
+    <td align="left" class="All_180">&nbsp;Rs. &nbsp;<input style="background-color:#DCEEF1;" value="<?php echo $ResCtc['Total_Gross_CTC']; ?>" class="All_100" name="TotGrossCtc" id="TotGrossCtc" readonly/></td>
+    <?php if($ResCtc['Tot_GrossMonth']>15000 && $ResCtc['EmpActPf']=='N'){ ?>
+	<td align="right" style="width:100px;font-size:11px;background-color:#D8FB97;">&nbsp;&nbsp;</td>
+	<?php } ?>  
+</tr>
+
 <?php /**************** Variable Pay & CTC ***************/ ?>
-<?php } if($ResCtc['DepartmentId']==17){ ?>
+<?php } if($ResCtc['DepartmentId']==18){ ?>
 <!--- For Mgmnt------------------>
 <tr><td align="left" class="All_10">&nbsp;</td>
     <td align="left" class="All_300" id="mppA">&nbsp;Performance Pay :</td>
@@ -1601,7 +1746,7 @@ function FunMIC(d)
 }
 </script>		
 <tr><td align="left" class="All_10">&nbsp;<input type="checkbox" name="CheckMIC" id="CheckMIC" onClick="FunMIC(<?=$ResCtc['DepartmentId'];?>)" <?php if($ResCtc['EmpAddBenifit_MediInsu_value']>0){echo 'checked';} ?> disabled/></td>
-  <td align="left" class="All_300" id="micA">&nbsp;Insurance Policy Premium<?php /*Mediclaim insurance coverage for Employee, Spouse 2 children*/?> :
+  <td align="left" class="All_300" id="micA">&nbsp;Mediclaim insurance coverage <?php /*Mediclaim insurance coverage for Employee, Spouse 2 children*/?> :
   <input type="hidden" id="MCS" value="<?php if($CompanyId==1){echo $resDaily['MCS'];}elseif($CompanyId==2){echo $resDaily['MCS'];}else{echo '0';} ?>"/><input type="hidden" id="MCSSP" value="<?php if($CompanyId==1){echo $resDaily['MCSSP'];}elseif($CompanyId==2){echo $resDaily['MCSSP'];}else{echo '0';} ?>"/></td>
   <td align="left" class="All_180" id="micB">&nbsp;Rs. &nbsp;<input name="EmpAddBenifit_MediInsu" id="EmpAddBenifit_MediInsu" value="<?php echo $ResCtc['EmpAddBenifit_MediInsu_value']; ?>" class="All_100" /><input type="hidden" id="EAddBenifit_MI" value="<?php echo $ResCtc['EmpAddBenifit_MediInsu_value']; ?>" readonly/></td></tr>
   

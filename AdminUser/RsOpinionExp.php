@@ -8,7 +8,7 @@ header("Pragma: no-cache");
 header("Expires: 0");
 $sep = "\t"; 
  
-$sql="select o.*,EmpStatus,EmpCode,Fname,Sname,Lname,DepartmentName from hrm_opinion o inner join hrm_employee e on o.EmployeeID=e.EmployeeID inner join hrm_employee_general g on o.EmployeeID=g.EmployeeID inner join hrm_department d on g.DepartmentId=d.DepartmentId where o.OpenionName='".$_REQUEST['v']."' AND e.CompanyId=".$_REQUEST['c']." order by e.EmpCode ASC"; $result = mysql_query($sql);
+$sql="select o.*,EmpStatus,EmpCode,Fname,Sname,Lname,department_name as DepartmentName from hrm_opinion o inner join hrm_employee e on o.EmployeeID=e.EmployeeID inner join hrm_employee_general g on o.EmployeeID=g.EmployeeID left join core_departments d on g.DepartmentId=d.id where o.OpenionName='".$_REQUEST['v']."' AND e.CompanyId=".$_REQUEST['c']." order by e.EmpCode ASC"; $result = mysql_query($sql);
 
 echo "SNo\tCode\tName\tDepartment\tE-Status\tVoting Date\tCast\tScheme";
 print("\n");

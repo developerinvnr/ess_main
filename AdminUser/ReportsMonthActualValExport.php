@@ -34,7 +34,7 @@ if($_REQUEST['action']='ReportsMonthlyValExport')
 { 
 
   if($_REQUEST['d']>0)
-  { $sqlD=mysql_query("select DepartmentCode from hrm_department where DepartmentId=".$_REQUEST['d'], $con); $resD=mysql_fetch_assoc($sqlD); $Dept=$resD['DepartmentCode']; }
+  { $sqlD=mysql_query("select department_name as DepartmentCode from core_departments where id=".$_REQUEST['d'], $con); $resD=mysql_fetch_assoc($sqlD); $Dept=$resD['DepartmentCode']; }
   else { $Dept=''; }
 
 $csv_output .= '"SNo",'; 

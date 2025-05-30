@@ -7,7 +7,7 @@ if(!$db) die("Failed to select database!");
 
 $OldDate=date("d-m-Y",strtotime('-1 day', strtotime(date("Y-m-d"))));
 //if(date($_REQUEST['cdate'])>date('2022-09-20') && $_REQUEST['cdate']!=''){ $OldDate=date($_REQUEST['cdate']); }
-$OldDate=date("14-12-2024");
+$OldDate=date("18-03-2025");
 $json = file_get_contents('http://45.124.144.98:6868/essl/attendance/date/'.$OldDate); 
 
 

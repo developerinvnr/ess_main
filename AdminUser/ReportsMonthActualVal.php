@@ -131,11 +131,11 @@ $FFD=date("Y",strtotime($rrY['FromDate'])); $TTD=date("Y",strtotime($rrY['ToDate
 <?php if($_REQUEST['y']!=$i){ ?><option value="<?php echo $i; ?>"><?php echo $PPRD; ?></option><?php } } ?>
 </select></td>
     <td class="td1" style="font-size:14px;font-family:Times New Roman;" valign="top">&nbsp;&nbsp;<b>Department:</b>&nbsp;<select style="font-size:12px; width:150px; background-color:#DDFFBB;" name="DeptID" id="DeptID" onChange="SelectDept(this.value,<?php echo $_REQUEST['y']; ?>)">
-	<?php $sqlD=mysql_query("select DepartmentCode from hrm_department where DepartmentId=".$_REQUEST['d'], $con); $resD=mysql_fetch_assoc($sqlD); ?>
+	<?php $sqlD=mysql_query("select department_name as DepartmentCode from core_departments where id=".$_REQUEST['d'], $con); $resD=mysql_fetch_assoc($sqlD); ?>
 <?php if($_REQUEST['d']!=0){ ?><option value="<?php echo $_REQUEST['d']; ?>" selected><?php echo $resD['DepartmentCode']; ?></option>
 <?php } elseif($_REQUEST['d']==0){ ?><option value="<?php echo $_REQUEST['d']; ?>" selected><?php echo 'All Department'; ?></option><?php } ?>
-<?php $sqlD2=mysql_query("select DepartmentId,DepartmentCode from hrm_department where CompanyId=".$CompanyId, $con); while($resD2=mysql_fetch_assoc($sqlD2)){ ?>
-<option value="<?php echo $resD2['DepartmentId']; ?>"><?php echo $resD2['DepartmentCode']; ?></option><?php } ?>
+<?php $sqlD2=mysql_query("select * from core_departments where is_active=1 order by department_name", $con); while($resD2=mysql_fetch_assoc($sqlD2)){ ?>
+<option value="<?php echo $resD2['id']; ?>"><?php echo $resD2['department_name']; ?></option><?php } ?>
 <option value="0"><?php echo 'All'; ?></option>
 </select>
 

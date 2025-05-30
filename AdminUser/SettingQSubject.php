@@ -124,10 +124,10 @@ function show_Qsub3(originalRequest)
 		  <span id="DeptQSubSpan"></span>
 		  <table id="CouStateTable" style="display:block;">
 		    <tr><td style="font-size:12px; height:18px;">Department :</td>
-			    <td><select name="DeptName" id="DeptName" onChange="SelDept(this.value)" style="font-size:12px;width:120px;height:20px;">
+			    <td><select name="DeptName" id="DeptName" onChange="SelDept(this.value)" style="font-size:12px;width:150px;height:20px;">
 				<option style="background-color:#66CC33;" value="">Select</option>
-<?php $sql=mysql_query("SELECT * FROM hrm_department where CompanyId=".$CompanyId." AND DeptStatus='A' order by DepartmentCode ASC", $con);while($res=mysql_fetch_array($sql)){?>
-		  <option value="<?php echo $res['DepartmentId']; ?>">&nbsp;<?php echo $res['DepartmentCode']; ?></option><?php } ?> </td>
+<?php $sql=mysql_query("select id as DepartmentId, department_name as DepartmentName, department_code as DepartmentCode from core_departments where is_active=1 order by department_name", $con);while($res=mysql_fetch_array($sql)){?>
+		  <option value="<?php echo $res['DepartmentId']; ?>">&nbsp;<?php echo $res['DepartmentName']; ?></option><?php } ?> </td>
 		   </tr>
 		   <tr><td style="font-size:12px;height:18px;">Query Subject:</td>
 			   <td><input name="QSubName" id="QSubName" style="font-size:13px;width:180px;height:20px;" maxlength="100"/></td>

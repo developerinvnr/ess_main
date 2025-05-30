@@ -204,7 +204,6 @@ elseif(isset($_POST['Act']) && $_POST['Act']=="UpdateCoreTerrMapping")
   echo '<input type="hidden" id="TypeVal" value='.$_POST['t'].' />';
 }
 
-
 /*
 elseif(isset($_POST['Act']) && $_POST['Act']=="ProcessMapping")
 {
@@ -212,40 +211,48 @@ elseif(isset($_POST['Act']) && $_POST['Act']=="ProcessMapping")
   { 
     $Field='Employee_Masters';
     $sql=mysql_query("select * from core_ess_mapping where CompanyId=".$_POST['comid']." order by EmployeeID ASC",$con);
-    $res=mysql_fetch_assoc($sql);
+    while($res=mysql_fetch_assoc($sql))
+    {
      if($res['DepartmentId']!=0 && $res['DesigId']!=0 && $res['GradeId']!=0 && $res['CostCenter']!=0 && $res['EmpFunction']!=0 && $res['EmpVertical']!=0)
      {
-       $InsUp = mysql_query("update hrm_employee_general set DepartmentId='".$res['DepartmentId']."', DesigId='".$res['DesigId']."', GradeId='".$res['GradeId']."', CostCenter='".$res['CostCenter']."', HqId='".$res['HqId']."', SubLocation='".$res['SubLocation']."', SubDepartmentId='".$res['SubDepartmentId']."', EmpFunction='".$res['EmpFunction']."', EmpVertical='".$res['EmpVertical']."', EmpSection='".$res['EmpSection']."'  where EmployeeID=".$res['EmployeeID'], $con);
+       $InsUp = mysql_query("update hrm_employee_general set DepartmentId='".$res['DepartmentId']."', DesigId='".$res['DesigId']."', GradeId='".$res['GradeId']."', CostCenter='".$res['CostCenter']."', HqId='".$res['HqId']."', SubDepartmentId='".$res['SubDepartmentId']."', EmpFunction='".$res['EmpFunction']."', EmpVertical='".$res['EmpVertical']."', EmpSection='".$res['EmpSection']."'  where EmployeeID=".$res['EmployeeID'], $con); //SubLocation='".$res['SubLocation']."'
      }
+    } 
   }
   else if($_POST['v']=='G')
   { 
     $Field='General_Location';
-    $sql=mysql_query("select * from core_ess_mapping where CompanyId=".$_POST['comid']." order by EmployeeID ASC",$con);
-    $res=mysql_fetch_assoc($sql);
+    $sql=mysql_query("select * from core_ess_mapping where CompanyId=".$_POST['comid']." AND (BUId>0 OR ZoneId>0 OR RegionId>0 OR TerrId>0) order by EmployeeID ASC",$con);
+    while($res=mysql_fetch_assoc($sql))
+    {
      if($res['BUId']>0 || $res['ZoneId']>0 || $res['RegionId']>0 || $res['TerrId']>0)
      {
        $InsUp = mysql_query("update hrm_employee_general set BUId='".$res['BUId']."', ZoneId='".$res['ZoneId']."', RegionId='".$res['RegionId']."', TerrId='".$res['TerrId']."' where EmployeeID=".$res['EmployeeID'], $con);
+       echo "update hrm_employee_general set BUId='".$res['BUId']."', ZoneId='".$res['ZoneId']."', RegionId='".$res['RegionId']."', TerrId='".$res['TerrId']."' where EmployeeID=".$res['EmployeeID'];
      }
+    } 
   }
   else if($_POST['v']=='B')
   { 
     $Field='Business_Location';
     //FC HQ
-    $sqlf=mysql_query("select HqFC, New_HQFC from core_terr_mapping where HqFC>0 order by HqFC ASC",$con);
-    $resf=mysql_fetch_assoc($sqlf);
-     if($resf['HqFC']>0 || $resf['New_HQFC']>0)
+    $sqlf=mysql_query("select HqFC, New_HQFC from core_terr_mapping where HqFC>0 and New_HQFC>0 order by HqFC ASC",$con);
+    while($resf=mysql_fetch_assoc($sqlf))
+    {
+     if($resf['HqFC']>0 && $resf['New_HQFC']>0)
      {
-       $InsUp = mysql_query("update hrm_sales_dealer set Hq_fc='".$resf['New_HQFC']."' where Hq_fc=".$resf['HqFC'], $con);
+       $InsUp = mysql_query("update hrm_sales_dealer set Hq_fc='".$resf['New_HQFC']."' where Hq_fc_old=".$resf['HqFC'], $con);
      }
-
+    }
     //VC HQ
-    $sqlv=mysql_query("select HqVC, New_HQVC from core_terr_mapping where HqVC>0 order by HqFC ASC",$con);
-    $resv=mysql_fetch_assoc($sqlv);
-     if($resv['HqVC']>0 || $resv['New_HQVC']>0)
+    $sqlv=mysql_query("select HqVC, New_HQVC from core_terr_mapping where HqVC>0 and New_HQVC>0 order by HqVC ASC",$con);
+    while($resv=mysql_fetch_assoc($sqlv))
+    {
+     if($resv['HqVC']>0 && $resv['New_HQVC']>0)
      {
-       $InsUp = mysql_query("update hrm_sales_dealer set Hq_vc='".$resv['New_HQVC']."' where Hq_vc=".$resv['HqVC'], $con);
+       $InsUp = mysql_query("update hrm_sales_dealer set Hq_vc='".$resv['New_HQVC']."' where Hq_vc_old=".$resv['HqVC'], $con);
      }
+    } 
   }
 
 
@@ -258,6 +265,9 @@ elseif(isset($_POST['Act']) && $_POST['Act']=="ProcessMapping")
   echo '<input type="hidden" id="PrsVal" value='.$_POST['v'].' />';
 }
 */
+
+
+
 
 
 ?> 

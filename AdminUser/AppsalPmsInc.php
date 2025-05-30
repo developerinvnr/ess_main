@@ -88,7 +88,7 @@ function show_UnCheckIncAllowPMS(originalRequest)
   <table border="0">
   <tr>
    <td align="left" class="heading">Allow PMS Increment &nbsp;<span id="ReturnValue">&nbsp;</span></td>
-   <td class="td1" style="width:200px;"><select class="tdsel" name="IncAllowPMS" id="IncAllowPMS" onChange="SelectIncAllowPMS(this.value)"><option value="" style="margin-left:0px;" selected>SELECT DEPARTMENT</option><?php $SqlDept=mysql_query("select * from hrm_department where CompanyId=".$CompanyId." order by DepartmentName ASC", $con); while($ResDept=mysql_fetch_array($SqlDept)) { ?><option value="<?php echo $ResDept['DepartmentId']; ?>"><?php echo '&nbsp;'.$ResDept['DepartmentCode'];?></option><?php } ?><option value="All">&nbsp;All</option></select></td>                           
+   <td class="td1" style="width:200px;"><select class="tdsel" name="IncAllowPMS" id="IncAllowPMS" onChange="SelectIncAllowPMS(this.value)"><option value="" style="margin-left:0px;" selected>SELECT DEPARTMENT</option><?php $SqlDept=mysql_query("select * from core_departments where is_active=1 order by department_name", $con); while($ResDept=mysql_fetch_array($SqlDept)) { ?><option value="<?php echo $ResDept['id']; ?>"><?php echo '&nbsp;'.$ResDept['department_name'];?></option><?php } ?><option value="All">&nbsp;All</option></select></td>                           
 <?php } ?>					 
   </tr>
   </table>
@@ -112,11 +112,11 @@ function show_UnCheckIncAllowPMS(originalRequest)
     </tr>
 	</thead>
 	</div>
-<?php if($YearId==1){$Y=2012; $Y2=2013;}elseif($YearId==2){$Y=2013; $Y2=2014;}elseif($YearId==3){$Y=2014; $Y2=2015;}elseif($YearId==4){$Y=2015; $Y2=2016;}elseif($YearId==5){$Y=2016; $Y2=2017;}elseif($YearId==6){$Y=2017; $Y2=2018;}elseif($YearId==7){$Y=2018; $Y2=2019;}elseif($YearId==8){$Y=2019; $Y2=2020;}elseif($YearId==9){$Y=2020; $Y2=2021;}elseif($YearId==10){$Y=2021; $Y2=2022;}elseif($YearId==11){$Y=2022; $Y2=2023;}elseif($YearId==12){$Y=2023; $Y2=2024;}
+<?php if($YearId==1){$Y=2012; $Y2=2013;}elseif($YearId==2){$Y=2013; $Y2=2014;}elseif($YearId==3){$Y=2014; $Y2=2015;}elseif($YearId==4){$Y=2015; $Y2=2016;}elseif($YearId==5){$Y=2016; $Y2=2017;}elseif($YearId==6){$Y=2017; $Y2=2018;}elseif($YearId==7){$Y=2018; $Y2=2019;}elseif($YearId==8){$Y=2019; $Y2=2020;}elseif($YearId==9){$Y=2020; $Y2=2021;}elseif($YearId==10){$Y=2021; $Y2=2022;}elseif($YearId==11){$Y=2022; $Y2=2023;}elseif($YearId==12){$Y=2023; $Y2=2024;}elseif($YearId==13){$Y=2024; $Y2=2025;}elseif($YearId==14){$Y=2025; $Y2=2026;}
 if($CompanyId==1 OR $CompanyId==2){$YYear=$Y;}elseif($CompanyId==3){$YYear=$Y2;}
 
-if($_REQUEST['value']>0){$Sql=mysql_query("SELECT e.EmployeeID, EmpCode, Fname, Sname, Lname, DepartmentCode from hrm_employee e INNER JOIN hrm_employee_general g ON e.EmployeeID=g.EmployeeID INNER JOIN hrm_department d ON g.DepartmentId=d.DepartmentId WHERE e.CompanyId=".$CompanyId." AND e.EmpStatus='A' AND g.DateJoining<='".$YYear."-06-30' AND g.DepartmentId=".$_REQUEST['value']." ORDER BY e.ECode ASC", $con); }
-elseif($_REQUEST['value']=='All'){$Sql=mysql_query("SELECT e.EmployeeID, EmpCode, Fname, Sname, Lname, DepartmentCode from hrm_employee e INNER JOIN hrm_employee_general g ON e.EmployeeID=g.EmployeeID INNER JOIN hrm_department d ON g.DepartmentId=d.DepartmentId WHERE e.CompanyId=".$CompanyId." AND e.EmpStatus='A' AND g.DateJoining<='".$YYear."-06-30' ORDER BY e.ECode ASC", $con); 
+if($_REQUEST['value']>0){$Sql=mysql_query("SELECT e.EmployeeID, EmpCode, Fname, Sname, Lname, department_name as DepartmentCode from hrm_employee e INNER JOIN hrm_employee_general g ON e.EmployeeID=g.EmployeeID INNER JOIN core_departments d ON g.DepartmentId=d.id WHERE e.CompanyId=".$CompanyId." AND e.EmpStatus='A' AND g.DateJoining<='".$YYear."-06-30' AND g.DepartmentId=".$_REQUEST['value']." ORDER BY e.ECode ASC", $con); }
+elseif($_REQUEST['value']=='All'){$Sql=mysql_query("SELECT e.EmployeeID, EmpCode, Fname, Sname, Lname, department_name as DepartmentCode from hrm_employee e INNER JOIN hrm_employee_general g ON e.EmployeeID=g.EmployeeID INNER JOIN core_departments d ON g.DepartmentId=d.id WHERE e.CompanyId=".$CompanyId." AND e.EmpStatus='A' AND g.DateJoining<='".$YYear."-06-30' ORDER BY e.ECode ASC", $con); 
 }
  $no=1; while($Res=mysql_fetch_array($Sql)) { $Ename=$Res['Fname'].' '.$Res['Sname'].' '.$Res['Lname'];  
  $sqlCh=mysql_query("select * from hrm_pms_allow_inc where EmployeeID=".$Res['EmployeeID']." AND CompanyId=".$CompanyId." AND AssesmentYear=".$YearId, $con); $RowCh=mysql_num_rows($sqlCh);?>

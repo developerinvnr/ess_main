@@ -143,7 +143,7 @@ $resKey=mysql_fetch_assoc($sqlKey); ?>
 if($_REQUEST['DpId'] AND $_REQUEST['DpId']!='' AND $_REQUEST['PoId']!='' AND $_REQUEST['YeId']!='')
 { 
 	  
- $sqlDP = mysql_query("select e.EmployeeID, EmpCode, Fname, Sname, Lname, DepartmentCode from hrm_employee e INNER JOIN hrm_employee_general g ON e.EmployeeID=g.EmployeeID INNER JOIN hrm_department d ON g.DepartmentId=d.DepartmentId where e.EmpStatus='A' AND e.CompanyId=".$CompanyId." order by e.EmpCode asc ", $con); $Sno=1; while($resDP = mysql_fetch_assoc($sqlDP))
+ $sqlDP = mysql_query("select e.EmployeeID, EmpCode, Fname, Sname, Lname, department_code as DepartmentCode from hrm_employee e INNER JOIN hrm_employee_general g ON e.EmployeeID=g.EmployeeID left JOIN core_departments d ON g.DepartmentId=d.id where e.EmpStatus='A' AND e.CompanyId=".$CompanyId." order by e.EmpCode asc ", $con); $Sno=1; while($resDP = mysql_fetch_assoc($sqlDP))
 {
 
  if($_REQUEST['DpId']==1){$prd='Monthly';}

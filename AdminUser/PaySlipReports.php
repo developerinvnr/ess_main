@@ -29,7 +29,7 @@ function FunClick()
  if(document.getElementById("Month").value==''){alert("select month!"); return false;}
  else if(document.getElementById("Year").value==''){alert("select year!"); return false;}
  else if(document.getElementById("Department").value==''){alert("select department!"); return false;}
- else{ window.location='PaySlipReports.php?yy=true&g=true&vv=false&valucchk=coorect&pointval=010&ckk=234&find=001100&m='+document.getElementById("Month").value+'&D='+document.getElementById("Department").value+'&Y='+document.getElementById("Year").value+'&con='+document.getElementById("V1").value+'&car='+document.getElementById("V2").value+'&inc='+document.getElementById("V3").value+'&arr='+document.getElementById("V4").value+'&va='+document.getElementById("V5").value+'&pp='+document.getElementById("V6").value+'&cca='+document.getElementById("V7").value+'&ra='+document.getElementById("V8").value+'&vr='+document.getElementById("V9").value+'&arrbas='+document.getElementById("V10").value+'&arrhr='+document.getElementById("V11").value+'&arrcar='+document.getElementById("V12").value+'&arrsp='+document.getElementById("V13").value+'&arrcon='+document.getElementById("V14").value+'&arrpf='+document.getElementById("V15").value+'&arresic='+document.getElementById("V16").value+'&bonus='+document.getElementById("V17").value+'&lenc='+document.getElementById("V18").value+'&taxcea='+document.getElementById("V19").value+'&taxmr='+document.getElementById("V20").value+'&taxlta='+document.getElementById("V21").value+'&dedvc='+document.getElementById("V22").value+'&dedadj='+document.getElementById("V23").value+'&dedca='+document.getElementById("V24").value+'&ta='+document.getElementById("V25").value+'&arrencash='+document.getElementById("V26").value+'&Arr_Bonus='+document.getElementById("V27").value+'&Arr_LTARemb='+document.getElementById("V28").value+'&Arr_RA='+document.getElementById("V29").value+'&Arr_PerformPay='+document.getElementById("V30").value+'&NPS='+document.getElementById("V31").value+'&BA='+document.getElementById("V32").value+'&PP_Inc='+document.getElementById("V33").value+'&NtP='+document.getElementById("V34").value+'&NPSS='+document.getElementById("V35").valuee+'&RecSplAllow='+document.getElementById("V36").value+'&ppy='+document.getElementById("V37").value; }
+ else{ window.location='PaySlipReports.php?yy=true&g=true&vv=false&valucchk=coorect&pointval=010&ckk=234&find=001100&m='+document.getElementById("Month").value+'&D='+document.getElementById("Department").value+'&Y='+document.getElementById("Year").value+'&con='+document.getElementById("V1").value+'&car='+document.getElementById("V2").value+'&inc='+document.getElementById("V3").value+'&arr='+document.getElementById("V4").value+'&va='+document.getElementById("V5").value+'&pp='+document.getElementById("V6").value+'&cca='+document.getElementById("V7").value+'&ra='+document.getElementById("V8").value+'&vr='+document.getElementById("V9").value+'&arrbas='+document.getElementById("V10").value+'&arrhr='+document.getElementById("V11").value+'&arrcar='+document.getElementById("V12").value+'&arrsp='+document.getElementById("V13").value+'&arrcon='+document.getElementById("V14").value+'&arrpf='+document.getElementById("V15").value+'&arresic='+document.getElementById("V16").value+'&bonus='+document.getElementById("V17").value+'&lenc='+document.getElementById("V18").value+'&taxcea='+document.getElementById("V19").value+'&taxmr='+document.getElementById("V20").value+'&taxlta='+document.getElementById("V21").value+'&dedvc='+document.getElementById("V22").value+'&dedadj='+document.getElementById("V23").value+'&dedca='+document.getElementById("V24").value+'&ta='+document.getElementById("V25").value+'&arrencash='+document.getElementById("V26").value+'&Arr_Bonus='+document.getElementById("V27").value+'&Arr_LTARemb='+document.getElementById("V28").value+'&Arr_RA='+document.getElementById("V29").value+'&Arr_PerformPay='+document.getElementById("V30").value+'&NPS='+document.getElementById("V31").value+'&BA='+document.getElementById("V32").value+'&PP_Inc='+document.getElementById("V33").value+'&NtP='+document.getElementById("V34").value+'&NPSS='+document.getElementById("V35").valuee+'&RecSplAllow='+document.getElementById("V36").value+'&ppy='+document.getElementById("V37").value+'&RAR='+document.getElementById("V38").value+'&Deputation_Allow='+document.getElementById("V39").value+'&IDCard_Recovery='+document.getElementById("V40").value+'&comm_allow='+document.getElementById("V41").value+'&car_allow='+document.getElementById("V42").value+'&arrcomm_allow='+document.getElementById("V43").value; }
  
  
  
@@ -43,7 +43,7 @@ function FunClick()
 function PrintExportsPage()
 { var M = document.getElementById("Month").value; var Y = document.getElementById("Year").value; 
   var D = document.getElementById("Department").value; var C = document.getElementById("ComId").value;
-  window.open('PaySlipReportExp.php?m='+M+'&D='+D+'&Y='+Y+'&C='+C+'&con='+document.getElementById("V1").value+'&car='+document.getElementById("V2").value+'&inc='+document.getElementById("V3").value+'&arr='+document.getElementById("V4").value+'&va='+document.getElementById("V5").value+'&pp='+document.getElementById("V6").value+'&cca='+document.getElementById("V7").value+'&ra='+document.getElementById("V8").value+'&vr='+document.getElementById("V9").value+'&arrbas='+document.getElementById("V10").value+'&arrhr='+document.getElementById("V11").value+'&arrcar='+document.getElementById("V12").value+'&arrsp='+document.getElementById("V13").value+'&arrcon='+document.getElementById("V14").value+'&arrpf='+document.getElementById("V15").value+'&arresic='+document.getElementById("V16").value+'&bonus='+document.getElementById("V17").value+'&lenc='+document.getElementById("V18").value+'&taxcea='+document.getElementById("V19").value+'&taxmr='+document.getElementById("V20").value+'&taxlta='+document.getElementById("V21").value+'&dedvc='+document.getElementById("V22").value+'&dedadj='+document.getElementById("V23").value+'&dedca='+document.getElementById("V24").value+'&ta='+document.getElementById("V25").value+'&arrencash='+document.getElementById("V26").value+'&Arr_Bonus='+document.getElementById("V27").value+'&Arr_LTARemb='+document.getElementById("V28").value+'&Arr_RA='+document.getElementById("V29").value+'&Arr_PerformPay='+document.getElementById("V30").value+'&NPS='+document.getElementById("V31").value+'&BA='+document.getElementById("V32").value+'&PP_Inc='+document.getElementById("V33").value+'&NtP='+document.getElementById("V34").value+'&NPSS='+document.getElementById("V35").value+'&RecSplAllow='+document.getElementById("V36").value+'&ppy='+document.getElementById("V37").value,'PFRegister','scrollbars=yes,resizable=no,menubar=no,width=500,height=300'); }
+  window.open('PaySlipReportExp.php?m='+M+'&D='+D+'&Y='+Y+'&C='+C+'&con='+document.getElementById("V1").value+'&car='+document.getElementById("V2").value+'&inc='+document.getElementById("V3").value+'&arr='+document.getElementById("V4").value+'&va='+document.getElementById("V5").value+'&pp='+document.getElementById("V6").value+'&cca='+document.getElementById("V7").value+'&ra='+document.getElementById("V8").value+'&vr='+document.getElementById("V9").value+'&arrbas='+document.getElementById("V10").value+'&arrhr='+document.getElementById("V11").value+'&arrcar='+document.getElementById("V12").value+'&arrsp='+document.getElementById("V13").value+'&arrcon='+document.getElementById("V14").value+'&arrpf='+document.getElementById("V15").value+'&arresic='+document.getElementById("V16").value+'&bonus='+document.getElementById("V17").value+'&lenc='+document.getElementById("V18").value+'&taxcea='+document.getElementById("V19").value+'&taxmr='+document.getElementById("V20").value+'&taxlta='+document.getElementById("V21").value+'&dedvc='+document.getElementById("V22").value+'&dedadj='+document.getElementById("V23").value+'&dedca='+document.getElementById("V24").value+'&ta='+document.getElementById("V25").value+'&arrencash='+document.getElementById("V26").value+'&Arr_Bonus='+document.getElementById("V27").value+'&Arr_LTARemb='+document.getElementById("V28").value+'&Arr_RA='+document.getElementById("V29").value+'&Arr_PerformPay='+document.getElementById("V30").value+'&NPS='+document.getElementById("V31").value+'&BA='+document.getElementById("V32").value+'&PP_Inc='+document.getElementById("V33").value+'&NtP='+document.getElementById("V34").value+'&NPSS='+document.getElementById("V35").value+'&RecSplAllow='+document.getElementById("V36").value+'&ppy='+document.getElementById("V37").value+'&RAR='+document.getElementById("V38").value+'&Deputation_Allow='+document.getElementById("V39").value+'&IDCard_Recovery='+document.getElementById("V40").value+'&comm_allow='+document.getElementById("V41").value+'&car_allow='+document.getElementById("V42").value+'&arrcomm_allow='+document.getElementById("V43").value,'PFRegister','scrollbars=yes,resizable=no,menubar=no,width=500,height=300'); }
   
   
  
@@ -108,8 +108,8 @@ $(document).ready(function () { $("#table1").freezeHeader({ 'height': '450px' })
 	  <option value="<?php echo $_REQUEST['m']; ?>" selected><?php echo date("F",strtotime(date("Y-".$_REQUEST['m']."-d"))); ?></option><?php for($i=1; $i<=12; $i++){?><option value="<?php echo $i;?>"><?php if($i==1){echo 'January';}elseif($i==2){echo 'February';}elseif($i==3){echo 'March';}elseif($i==4){echo 'April';}elseif($i==5){echo 'May';}elseif($i==6){echo 'June';}elseif($i==7){echo 'July';}elseif($i==8){echo 'August';}elseif($i==9){echo 'September';}elseif($i==10){echo 'October';}elseif($i==11){echo 'November';}elseif($i==12){echo 'December';} ?></option><?php } ?></select>
 	  </td>
 	  <td class="td1" style="font-size:11px; width:125px;">			   
-	   <select class="selecti" style="width:120px;" name="Department" id="Department" onChange="SelectMonthDept(this.value)"><?php if($_REQUEST['D']!='All') { $sqlD=mysql_query("select DepartmentCode from hrm_department where DepartmentId=".$_REQUEST['D'], $con); $resD=mysql_fetch_assoc($sqlD); ?> 
-	  <option value="<?php echo $_REQUEST['D']; ?>" style="margin-left:0px; background-color:#84D9D5;">&nbsp;<?php echo $resD['DepartmentCode']; ?></option><?php  } else { ?>	  <option value="All" style="margin-left:0px; background-color:#84D9D5;">&nbsp;All</option><?php } ?><?php $SqlDepartment=mysql_query("select * from hrm_department where CompanyId=".$CompanyId." AND DeptStatus='A' order by DepartmentName ASC", $con); while($ResDepartment=mysql_fetch_array($SqlDepartment)) { ?><option value="<?php echo $ResDepartment['DepartmentId']; ?>"><?php echo '&nbsp;'.$ResDepartment['DepartmentCode'];?></option><?php } ?><option value="All">&nbsp;All</option></select>
+	   <select class="selecti" style="width:120px;" name="Department" id="Department" onChange="SelectMonthDept(this.value)"><?php if($_REQUEST['D']!='All') { $sqlD=mysql_query("select department_name as DepartmentCode from core_departments where id=".$_REQUEST['D'], $con); $resD=mysql_fetch_assoc($sqlD); ?> 
+	  <option value="<?php echo $_REQUEST['D']; ?>" style="margin-left:0px; background-color:#84D9D5;">&nbsp;<?php echo $resD['DepartmentCode']; ?></option><?php  } else { ?>	  <option value="All" style="margin-left:0px; background-color:#84D9D5;">&nbsp;All</option><?php } ?><?php $SqlDepartment=mysql_query("select * from core_departments where is_active=1 order by department_name", $con); while($ResDepartment=mysql_fetch_array($SqlDepartment)) { ?><option value="<?php echo $ResDepartment['id']; ?>"><?php echo '&nbsp;'.$ResDepartment['department_name'];?></option><?php } ?><option value="All">&nbsp;All</option></select>
 	   <input type="hidden" name="ComId" id="ComId" value="<?php echo $CompanyId; ?>" /> 
 	   <input type="hidden" name="YearId" id="YearId" value="<?php echo $YearId; ?>" />
 	  </td>	 	 
@@ -172,6 +172,17 @@ $(document).ready(function () { $("#table1").freezeHeader({ 'height': '450px' })
 <input type="checkbox" id="I36" onClick="F(36)" <?php if($_REQUEST['RecSplAllow']){echo 'checked';}?> /><input type="hidden" id="V36" value="<?php if($_REQUEST['RecSplAllow']>0){echo 1;}else{echo 0;}?>"/>Recovery for Special Allow &nbsp;
 
 <input type="checkbox" id="I37" onClick="F(37)" <?php if($_REQUEST['ppy']){echo 'checked';}?> /><input type="hidden" id="V37" value="<?php if($_REQUEST['ppy']>0){echo 1;}else{echo 0;}?>"/>PP-Yearly &nbsp;
+
+<input type="checkbox" id="I38" onClick="F(38)" <?php if($_REQUEST['RAR']){echo 'checked';}?> /><input type="hidden" id="V38" value="<?php if($_REQUEST['RAR']>0){echo 1;}else{echo 0;}?>"/>RA-Recovery &nbsp;
+
+<input type="checkbox" id="I39" onClick="F(39)" <?php if($_REQUEST['Deputation_Allow']){echo 'checked';}?> /><input type="hidden" id="V39" value="<?php if($_REQUEST['Deputation_Allow']>0){echo 1;}else{echo 0;}?>"/>Deputation-Allow &nbsp;
+
+<input type="checkbox" id="I40" onClick="F(40)" <?php if($_REQUEST['IDCard_Recovery']){echo 'checked';}?> /><input type="hidden" id="V40" value="<?php if($_REQUEST['IDCard_Recovery']>0){echo 1;}else{echo 0;}?>"/>IDCard-Recovery &nbsp;
+
+<input type="checkbox" id="I41" onClick="F(41)" <?php if($_REQUEST['comm_allow']){echo 'checked';}?> /><input type="hidden" id="V41" value="<?php if($_REQUEST['comm_allow']>0){echo 1;}else{echo 0;}?>"/>Comm<sup>n</sup>-Allow &nbsp;
+<input type="checkbox" id="I42" onClick="F(42)" <?php if($_REQUEST['car_allow']){echo 'checked';}?> /><input type="hidden" id="V42" value="<?php if($_REQUEST['car_allow']>0){echo 1;}else{echo 0;}?>"/>Car-Allow 
+   &nbsp;
+<input type="checkbox" id="I43" onClick="F(43)" <?php if($_REQUEST['arrcomm_allow']){echo 'checked';}?> /><input type="hidden" id="V43" value="<?php if($_REQUEST['arrcomm_allow']>0){echo 1;}else{echo 0;}?>"/>Arr-Comm<sup>n</sup>-Allow &nbsp;
 
 <?php //1-con 2-car  3-inc  4-arr  5-va  6-pp  7-cca  8-ra  9-vr  10-arrbas  11-arrhr  12-arrcar  13-arrsp 
 	  //14-arrcon  15-arrpf  16-arresic  17-bonus  18-lenc  19-taxcea  20-taxmr  21-taxlta  22-dedvc  23-dedadj  
@@ -237,6 +248,7 @@ else
 	<?php if($_REQUEST['arrencash']>0){echo '<td class="th" style="width:60px;">Arr LV<br>Encash</td>';} ?>
     <?php if($_REQUEST['arrpf']>0){echo '<td class="th" style="width:60px;">Arr<br>PF</td>';} ?>
     <?php if($_REQUEST['arresic']>0){echo '<td class="th" style="width:60px;">Arr<br>ESIC</td>';} ?>
+    <?php if($_REQUEST['arrcomm_allow']>0){echo '<td class="th" style="width:60px;">Arr<br>Comm<sup>n</sup>-Allow</td>';} ?>
     
 	<?php if($_REQUEST['bonus']>0){echo '<td class="th" style="width:60px;">Bonus</td>';} ?>
     <?php if($_REQUEST['lenc']>0){echo '<td class="th" style="width:60px;">Leave<br>EnCash</td>';} ?>
@@ -244,7 +256,13 @@ else
     <?php if($_REQUEST['taxcea']>0){echo '<td class="th" style="width:60px;">TaxSv<br>CEA</td>';} ?>
     <?php if($_REQUEST['taxmr']>0){echo '<td class="th" style="width:60px;">TaxSv<br>MR</td>';} ?>
     <?php if($_REQUEST['taxlta']>0){echo '<td class="th" style="width:60px;">TaxSv<br>LTA</td>';} ?>
+    
+     <?php if($_REQUEST['Deputation_Allow']>0){echo '<td class="th" style="width:60px;">Deputation Allow</td>';} ?>
+    
     <?php if($_REQUEST['NPSS']>0){echo '<td class="th" style="width:60px;">National pension scheme</td>';} ?>
+    
+    <?php if($_REQUEST['comm_allow']>0){echo '<td class="th" style="width:60px;">Comm<sup>n</sup> Allow</td>';} ?>
+    <?php if($_REQUEST['car_allow']>0){echo '<td class="th" style="width:60px;">Car Allow</td>';} ?>
  
     <td class="th" style="width:60px;"><b>Total<br>Earning</b></td>
 	
@@ -256,6 +274,8 @@ else
     <?php if($_REQUEST['dedca']>0){echo '<td class="th" style="width:60px;">Convey<sup>n</sup><br>Allow</td>';}?>
 	<?php if($_REQUEST['NPS']>0){echo '<td class="th" style="width:60px;">NPS</td>';}?>
 	<?php if($_REQUEST['RecSplAllow']>0){echo '<td class="th" style="width:60px;">Rec. Spl. Allow</td>';}?>
+	<?php if($_REQUEST['RAR']>0){echo '<td class="th" style="width:60px;">RA Recovery</td>';}?>
+	<?php if($_REQUEST['IDCard_Recovery']>0){echo '<td class="th" style="width:60px;">IDCard Recovery</td>';}?>
     <td class="th" style="width:60px;">Total<br>Deduct</td>
     <td class="th" style="width:60px;">Net<br>Amount</td>
     <td class="th" style="width:40px;">Pay<br>Slip</td>
@@ -325,6 +345,8 @@ $sqlSlip=mysql_query("select * from ".$PayTable." where EmployeeID=".$ResEmp['Em
     <?php if($_REQUEST['arrpf']>0){?><td class="tdr" style="background-color:#BFEBFF;"><?php if($resSlip['Arr_Pf']!=''){echo floatval($resSlip['Arr_Pf']).'&nbsp';}?></td><?php } ?>
     <?php if($_REQUEST['arresic']>0){?><td class="tdr" style="background-color:#BFEBFF;"><?php if($resSlip['Arr_Esic']!=''){echo floatval($resSlip['Arr_Esic']).'&nbsp';}?></td><?php } ?>
     
+    <?php if($_REQUEST['arrcomm_allow']>0){?><td class="tdr" style="background-color:#BFEBFF;"><?php if($resSlip['Arr_Communication_Allow']!=''){echo floatval($resSlip['Arr_Communication_Allow']).'&nbsp';}?></td><?php } ?>
+    
 	<?php if($_REQUEST['bonus']>0){?><td class="tdr"><?php if($resSlip['Bonus']!=''){echo floatval($resSlip['Bonus']).'&nbsp';}?></td><?php } ?>
     <?php if($_REQUEST['lenc']>0){?><td class="tdr"><?php if($resSlip['LeaveEncash']!=''){echo floatval($resSlip['LeaveEncash']).'&nbsp';}?></td><?php } ?>
 		
@@ -332,11 +354,16 @@ $sqlSlip=mysql_query("select * from ".$PayTable." where EmployeeID=".$ResEmp['Em
     <?php if($_REQUEST['taxmr']>0){?><td class="tdr"><?php if($resSlip['YMr']!=''){echo floatval($resSlip['YMr']).'&nbsp';}?></td><?php } ?>
     <?php if($_REQUEST['taxlta']>0){?><td class="tdr"><?php if($resSlip['YLta']!=''){echo floatval($resSlip['YLta']).'&nbsp';}?></td><?php } ?>
     
+    <?php if($_REQUEST['Deputation_Allow']>0){?><td class="tdr"><?php if($resSlip['Deputation_Allow']!=''){echo floatval($resSlip['Deputation_Allow']).'&nbsp';}?></td><?php } ?>
+    
     <?php if($_REQUEST['NPSS']>0){?><td class="tdr"><?php if($resSlip['NPS']!=''){echo floatval($resSlip['NPS']).'&nbsp';}?></td><?php } ?>
+    
+    <?php if($_REQUEST['comm_allow']>0){?><td class="tdr"><?php if($resSlip['Communication_Allow']!=''){echo floatval($resSlip['Communication_Allow']).'&nbsp';}?></td><?php } ?>
+    <?php if($_REQUEST['car_allow']>0){?><td class="tdr"><?php if($resSlip['Car_Allow']!=''){echo floatval($resSlip['Car_Allow']).'&nbsp';}?></td><?php } ?>
      
  
-<?php $TotGross=$resSlip['Tot_Gross']+$resSlip['Bonus']+$resSlip['DA']+$resSlip['Arreares']+$resSlip['LeaveEncash']+$resSlip['Incentive']+$resSlip['VariableAdjustment']+$resSlip['PerformancePay']+$resSlip['PP_year']+$resSlip['CCA']+$resSlip['RA']+$resSlip['Arr_Basic']+$resSlip['Arr_Hra']+$resSlip['Arr_Spl']+$resSlip['Arr_Conv']+$resSlip['Arr_Bonus']+$resSlip['Bonus_Adjustment']+$resSlip['Arr_LTARemb']+$resSlip['Arr_RA']+$resSlip['Arr_PP']+$resSlip['YCea']+$resSlip['YMr']+$resSlip['YLta']+$resSlip['Car_Allowance']+$resSlip['Car_Allowance_Arr']+$resSlip['VarRemburmnt']+$resSlip['TA']+$resSlip['Arr_LvEnCash']+$resSlip['PP_Inc']+$resSlip['NoticePay']+$resSlip['NPS']; 
-$TotDeduct=$resSlip['TDS']+$resSlip['Tot_Deduct']+$resSlip['Arr_Pf']+$resSlip['VolContrib']+$resSlip['Arr_Esic']+$resSlip['DeductAdjmt']+$resSlip['RecConAllow']+$resSlip['RecSplAllow']; $TotNetAmount=$TotGross-$TotDeduct; ?>
+<?php $TotGross=$resSlip['Tot_Gross']+$resSlip['Bonus']+$resSlip['DA']+$resSlip['Arreares']+$resSlip['LeaveEncash']+$resSlip['Incentive']+$resSlip['VariableAdjustment']+$resSlip['PerformancePay']+$resSlip['PP_year']+$resSlip['CCA']+$resSlip['RA']+$resSlip['Arr_Basic']+$resSlip['Arr_Hra']+$resSlip['Arr_Spl']+$resSlip['Arr_Conv']+$resSlip['Arr_Bonus']+$resSlip['Bonus_Adjustment']+$resSlip['Arr_LTARemb']+$resSlip['Arr_RA']+$resSlip['Arr_PP']+$resSlip['YCea']+$resSlip['YMr']+$resSlip['YLta']+$resSlip['Car_Allowance']+$resSlip['Car_Allowance_Arr']+$resSlip['VarRemburmnt']+$resSlip['TA']+$resSlip['Arr_LvEnCash']+$resSlip['PP_Inc']+$resSlip['NoticePay']+$resSlip['NPS']+$resSlip['Deputation_Allow']+$resSlip['Communication_Allow']+$resSlip['Car_Allow']+$resSlip['Arr_Communication_Allow']; 
+$TotDeduct=$resSlip['TDS']+$resSlip['Tot_Deduct']+$resSlip['Arr_Pf']+$resSlip['VolContrib']+$resSlip['Arr_Esic']+$resSlip['DeductAdjmt']+$resSlip['RecConAllow']+$resSlip['RecSplAllow']+$resSlip['RA_Recover']+$resSlip['IDCard_Recovery']; $TotNetAmount=$TotGross-$TotDeduct; ?>
 
     <td class="tdr" style="background-color:#B6FF6C;"><b><?php if($TotGross!=''){echo floatval($TotGross);}?></b>&nbsp;</td>
 	
@@ -348,6 +375,9 @@ $TotDeduct=$resSlip['TDS']+$resSlip['Tot_Deduct']+$resSlip['Arr_Pf']+$resSlip['V
     <?php if($_REQUEST['dedca']>0){?><td class="tdr"><?php if($resSlip['RecConAllow']!=''){echo floatval($resSlip['RecConAllow']).'&nbsp';}?></td><?php } ?>
 	<?php if($_REQUEST['NPS']>0){?><td class="tdr"><?php if($resSlip['NPS_Value']!=''){echo floatval($resSlip['NPS_Value']).'&nbsp';}?></td><?php } ?>
 	<?php if($_REQUEST['RecSplAllow']>0){?><td class="tdr"><?php if($resSlip['RecSplAllow']!=''){echo floatval($resSlip['RecSplAllow']).'&nbsp';}?></td><?php } ?>
+	
+	<?php if($_REQUEST['RAR']>0){?><td class="tdr"><?php if($resSlip['RA_Recover']!=''){echo floatval($resSlip['RA_Recover']).'&nbsp';}?></td><?php } ?>
+	<?php if($_REQUEST['IDCard_Recovery']>0){?><td class="tdr"><?php if($resSlip['IDCard_Recovery']!=''){echo floatval($resSlip['IDCard_Recovery']).'&nbsp';}?></td><?php } ?>
 	
     <td class="tdr" style="background-color:#FFFF9D;"><b><?php if($TotDeduct!=''){echo floatval($TotDeduct);}?></b>&nbsp;</td>
     <td class="tdr" style="background-color:#59FF59;"><b><?php if($TotNetAmount!=''){echo floatval($TotNetAmount);}?></b>&nbsp;</td>

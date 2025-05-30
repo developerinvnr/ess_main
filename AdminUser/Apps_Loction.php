@@ -108,8 +108,8 @@ window.open("Apps_LocationExp.php?action=Export&FD="+f+"&TD="+t+"&e="+e,"ExpForm
 						 </td>
 					   <td class="tdc" style="width:130px;"><b>Department :</b><br>
                        
-                       <select style="font-size:11px; width:120px; height:21px; background-color:#DDFFBB; display:block;" name="DepartmentE" id="DepartmentE" onChange="SelectDeptEmp(this.value)"><?php if($_REQUEST['DpId'] AND $_REQUEST['DpId']!='') { if($_REQUEST['DpId']=='All'){$DN='ALL';} else { $SqlDep=mysql_query("select * from hrm_department where CompanyId=".$CompanyId." AND DepartmentId=".$_REQUEST['DpId'], $con); $ResDep=mysql_fetch_array($SqlDep); $DN=$ResDep['DepartmentCode']; }?><option value="<?php echo $_REQUEST['DpId']; ?>"><?php echo '&nbsp;'.$DN;?></option><?php } else { ?><option value="" style="margin-left:0px; background-color:#84D9D5;" selected>Select Department</option><?php } ?>   
-<?php $SqlDepartment=mysql_query("select * from hrm_department where CompanyId=".$CompanyId." order by DepartmentName ASC", $con); while($ResDepartment=mysql_fetch_array($SqlDepartment)) { ?><option value="<?php echo $ResDepartment['DepartmentId']; ?>"><?php echo $ResDepartment['DepartmentCode'];?></option><?php } ?>
+                       <select style="font-size:11px; width:150px; height:21px; background-color:#DDFFBB; display:block;" name="DepartmentE" id="DepartmentE" onChange="SelectDeptEmp(this.value)"><?php if($_REQUEST['DpId'] AND $_REQUEST['DpId']!='') { if($_REQUEST['DpId']=='All'){$DN='ALL';} else { $SqlDep=mysql_query("select * from core_departments where id=".$_REQUEST['DpId'], $con); $ResDep=mysql_fetch_array($SqlDep); $DN=$ResDep['department_name']; }?><option value="<?php echo $_REQUEST['DpId']; ?>"><?php echo '&nbsp;'.$DN;?></option><?php } else { ?><option value="" style="margin-left:0px; background-color:#84D9D5;" selected>Select Department</option><?php } ?>   
+<?php $SqlDepartment=mysql_query("select * from core_departments where is_active=1 order by department_name", $con); while($ResDepartment=mysql_fetch_array($SqlDepartment)) { ?><option value="<?php echo $ResDepartment['id']; ?>"><?php echo $ResDepartment['department_name'];?></option><?php } ?>
 <option value="All" >ALL</option></select>
 	  <input type="hidden" name="ComId" id="ComId" value="<?php echo $CompanyId; ?>" /> 
                       </td>
@@ -122,9 +122,9 @@ window.open("Apps_LocationExp.php?action=Export&FD="+f+"&TD="+t+"&e="+e,"ExpForm
 <?php if($_REQUEST['s']=='All'){ $stsCon="e.EmpStatus!='De'"; }else{ $stsCon="e.EmpStatus='".$_REQUEST['s']."'"; }
 if($_REQUEST['DpId']=='All'){ $deptCon="1=1"; }else{ $deptCon="g.DepartmentId=".$_REQUEST['DpId']; }
 
-$sqlE = mysql_query("SELECT e.EmployeeID, EmpCode, Fname, Sname, Lname, DesigName, Gender, Married, DR FROM hrm_employee e INNER JOIN hrm_employee_general g ON e.EmployeeID=g.EmployeeID INNER JOIN hrm_employee_personal p ON e.EmployeeID=p.EmployeeID INNER JOIN hrm_designation de ON g.DesigId=de.DesigId WHERE ".$stsCon." AND ".$deptCon." AND e.CompanyId=".$CompanyId." order by e.EmpCode ASC", $con); while($resE = mysql_fetch_assoc($sqlE)){ 
+$sqlE = mysql_query("SELECT e.EmployeeID, EmpCode, Fname, Sname, Lname, designation_name, Gender, Married, DR FROM hrm_employee e INNER JOIN hrm_employee_general g ON e.EmployeeID=g.EmployeeID INNER JOIN hrm_employee_personal p ON e.EmployeeID=p.EmployeeID left join core_designation desig on g.DesigId=desig.id WHERE ".$stsCon." AND ".$deptCon." AND e.CompanyId=".$CompanyId." order by e.EmpCode ASC", $con); while($resE = mysql_fetch_assoc($sqlE)){ 
 //if($resE['DR']=='Y'){$MS='Dr.';} elseif($resE['Gender']=='M'){$MS='Mr.';} elseif($resE['Gender']=='F' AND $resE['Married']=='Y'){$MS='Mrs.';} elseif($resE['Gender']=='F' AND $resE['Married']=='N'){$MS='Miss.';} ?>
-<option value="<?=$resE['EmployeeID']?>" <?php if($resE['EmployeeID']==$_REQUEST['e']){echo 'selected';}?>><?=$resE['Fname'].' '.$resE['Sname'].' '.$resE['Lname'].' - '.ucwords(strtolower($resE['DesigName']))?></option><?php } ?>
+<option value="<?=$resE['EmployeeID']?>" <?php if($resE['EmployeeID']==$_REQUEST['e']){echo 'selected';}?>><?=$resE['Fname'].' '.$resE['Sname'].' '.$resE['Lname'].' - '.ucwords(strtolower($resE['designation_name']))?></option><?php } ?>
                       </td>
                       
                       <?php if($_REQUEST['e']>0){?>

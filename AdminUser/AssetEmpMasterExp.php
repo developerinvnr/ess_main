@@ -25,7 +25,7 @@ print("\n");
   $schema_insert .= $res['EmpCode'].$sep;
   $schema_insert .= $res['Fname'].' '.$res['Sname'].' '.$res['Lname'].$sep;		
  
-  $sD=mysql_query("select DepartmentCode from hrm_department where DepartmentId=".$res['DepartmentId'],$con); $rD=mysql_fetch_assoc($sD);
+  $sD=mysql_query("select department_name as DepartmentCode from core_departments where id=".$res['DepartmentId'],$con); $rD=mysql_fetch_assoc($sD);
  
   $schema_insert .= $rD['DepartmentCode'].$sep;
   

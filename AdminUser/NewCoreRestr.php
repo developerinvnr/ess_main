@@ -230,6 +230,8 @@ function ExportData()
 	
  </tr>
 <?php 
+if($CompanyId==1)
+{
 if($_REQUEST['d']==11){ $NewD="(1)"; }
 elseif($_REQUEST['d']==12){ $NewD="(11)"; }
 elseif($_REQUEST['d']==4 || $_REQUEST['d']==27 || $_REQUEST['d']==25){ $NewD="(11,13,16,6)"; }
@@ -242,6 +244,15 @@ elseif($_REQUEST['d']==1){ $NewD="(5)"; }
 elseif($_REQUEST['d']==9){ $NewD="(7)"; }
 elseif($_REQUEST['d']==10){ $NewD="(8)"; }
 elseif($_REQUEST['d']==7){ $NewD="(9)"; }
+}
+elseif($CompanyId==1)
+{
+  $NewD='';
+}
+elseif($CompanyId==3)
+{
+  $NewD='';  
+}
 
 if($_REQUEST['d']!='All')
 { $subQ="g.DepartmentId=".$_REQUEST['d']; $subV="vd.department_id in ".$NewD; $subD="d.id in ".$NewD; }

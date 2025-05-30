@@ -12,7 +12,7 @@ if($_REQUEST['action']='FormTfExport')
  if($_REQUEST['ee']=='Dept')
 { $name='Department Wise'; 
   if($_REQUEST['value']!=0)
-  { $sqlA=mysql_query("select DepartmentName from hrm_department where DepartmentId=".$_REQUEST['value'], $con); $resA=mysql_fetch_assoc($sqlA); $name2=$resA['DepartmentName']; }else{$name2='All_Department';}
+  { $sqlA=mysql_query("select department_code as DepartmentName from core_departments where id=".$_REQUEST['value'], $con); $resA=mysql_fetch_assoc($sqlA); $name2=$resA['DepartmentName']; }else{$name2='All_Department';}
 }
   
 $xls_filename = 'Employee_Trainig/Conference_'.$PRD.'-'.$name2.'.xls';
@@ -35,7 +35,7 @@ if($_REQUEST['ee']=='Dept' AND $_REQUEST['a']==0)
 }
  $Sno=1; while($res=mysql_fetch_array($sql)){ 
      
-     $sD=mysql_query("select DepartmentCode from hrm_department where DepartmentId=".$res['HR_Curr_DepartmentId'],$con);
+     $sD=mysql_query("select department_name as DepartmentCode from core_departments where id=".$res['HR_Curr_DepartmentId'],$con);
      $rD=mysql_fetch_assoc($sD);
  
   $D1=''; $D2=''; $D3=''; $D4='';

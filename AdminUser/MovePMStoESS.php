@@ -486,7 +486,7 @@ function FunExportV(v,ci,yi,dt)
 		  <td class="th" style="width:20%;">Department</td>
 	      <td class="th" style="width:10%;">Allow</td>
 		 </tr> 
-		 <?php $sqlA=mysql_query("select e.EmpCode, e.Fname, e.Sname, e.Lname, d.DepartmentCode, Appraiser_EmployeeID from hrm_employee_pms p inner join hrm_employee e on p.Appraiser_EmployeeID=e.EmployeeID inner join hrm_employee_general g on p.Appraiser_EmployeeID=g.EmployeeID inner join hrm_department d on g.DepartmentId=d.DepartmentId where AssessmentYear=".$resSY['CurrY']." and e.EmpStatus='A' and e.CompanyId=".$CompanyId." group by Appraiser_EmployeeID order by g.DepartmentId, e.EmpCode",$con); $n1=1; while($resA=mysql_fetch_assoc($sqlA)){ 
+		 <?php $sqlA=mysql_query("select e.EmpCode, e.Fname, e.Sname, e.Lname, d.department_code as DepartmentCode, Appraiser_EmployeeID from hrm_employee_pms p inner join hrm_employee e on p.Appraiser_EmployeeID=e.EmployeeID inner join hrm_employee_general g on p.Appraiser_EmployeeID=g.EmployeeID inner join core_departments d on g.DepartmentId=d.id where AssessmentYear=".$resSY['CurrY']." and e.EmpStatus='A' and e.CompanyId=".$CompanyId." group by Appraiser_EmployeeID order by g.DepartmentId, e.EmpCode",$con); $n1=1; while($resA=mysql_fetch_assoc($sqlA)){ 
 		 $schk=mysql_query("select * from hrm_pms_allow_letter where EmployeeID=".$resA['Appraiser_EmployeeID'],$con);
 		 $rowchk=mysql_num_rows($schk); 
 		 
@@ -516,7 +516,7 @@ function FunExportV(v,ci,yi,dt)
 		  <td class="th" style="width:20%;">Department</td>
 	      <td class="th" style="width:10%;">Allow</td>
 		 </tr> 
-		 <?php $sqlR=mysql_query("select e.EmpCode, e.Fname, e.Sname, e.Lname, d.DepartmentCode, Reviewer_EmployeeID from hrm_employee_pms p inner join hrm_employee e on p.Reviewer_EmployeeID=e.EmployeeID inner join hrm_employee_general g on p.Reviewer_EmployeeID=g.EmployeeID inner join hrm_department d on g.DepartmentId=d.DepartmentId where AssessmentYear=".$resSY['CurrY']." and e.EmpStatus='A' and e.CompanyId=".$CompanyId." group by Reviewer_EmployeeID order by g.DepartmentId, e.EmpCode",$con); $n2=1; while($resR=mysql_fetch_assoc($sqlR)){ 
+		 <?php $sqlR=mysql_query("select e.EmpCode, e.Fname, e.Sname, e.Lname, d.department_code as DepartmentCode, Reviewer_EmployeeID from hrm_employee_pms p inner join hrm_employee e on p.Reviewer_EmployeeID=e.EmployeeID inner join hrm_employee_general g on p.Reviewer_EmployeeID=g.EmployeeID inner join core_departments d on g.DepartmentId=d.id where AssessmentYear=".$resSY['CurrY']." and e.EmpStatus='A' and e.CompanyId=".$CompanyId." group by Reviewer_EmployeeID order by g.DepartmentId, e.EmpCode",$con); $n2=1; while($resR=mysql_fetch_assoc($sqlR)){ 
 		 $schk=mysql_query("select * from hrm_pms_allow_letter where EmployeeID=".$resR['Reviewer_EmployeeID'],$con); $RRev=0;
 		 $rowchk=mysql_num_rows($schk); if($rowchk>0){ $reschk=mysql_fetch_assoc($schk); $RRev=$reschk['REV']; }
 		 ?>

@@ -13,15 +13,15 @@ if($rowALA==0)
  {
   if(date("d")<=$d4)
   { $BeforeD = date("Y-m-d",strtotime('-5 day'));
-    $al=mysql_query("SELECT al.* FROM hrm_employee_applyleave al inner join hrm_employee e on al.EmployeeID=e.EmployeeID where (al.LeaveStatus=0 OR al.LeaveStatus=1) AND al.Apply_Date>='".date("Y-m-01")."' AND al.Apply_Date<='".$BeforeD."' AND al.SLHodApp='N' AND e.CompanyId=".$CompanyId." ORDER BY al.Apply_Date ASC");
+    $al=mysql_query("SELECT al.* FROM hrm_employee_applyleave al inner join hrm_employee e on al.EmployeeID=e.EmployeeID where (al.LeaveStatus=0 OR al.LeaveStatus=1) AND al.Apply_Date>='".date("Y-m-01")."' AND al.Apply_Date<='".$BeforeD."' AND al.SLHodApp='N' AND e.CompanyId=".$CompanyId." and deleted_at is NULL ORDER BY al.Apply_Date ASC");
   }
   elseif(date("d")<=$d3)
   { $BeforeD = date("Y-m-d");
-    $al=mysql_query("SELECT al.* FROM hrm_employee_applyleave al inner join hrm_employee e on al.EmployeeID=e.EmployeeID where (al.LeaveStatus=0 OR al.LeaveStatus=1) AND al.Apply_Date>='".date("Y-m-01")."' AND al.Apply_Date<='".$BeforeD."' AND al.SLHodApp='N' AND e.CompanyId=".$CompanyId." ORDER BY al.Apply_Date ASC");
+    $al=mysql_query("SELECT al.* FROM hrm_employee_applyleave al inner join hrm_employee e on al.EmployeeID=e.EmployeeID where (al.LeaveStatus=0 OR al.LeaveStatus=1) AND al.Apply_Date>='".date("Y-m-01")."' AND al.Apply_Date<='".$BeforeD."' AND al.SLHodApp='N' AND e.CompanyId=".$CompanyId." deleted_at is NULL ORDER BY al.Apply_Date ASC");
   }
   elseif(date("d")>$d3)
   { $BeforeD = date("Y-m-d");
-    $al=mysql_query("SELECT al.* FROM hrm_employee_applyleave al inner join hrm_employee e on al.EmployeeID=e.EmployeeID where (al.LeaveStatus=0 OR al.LeaveStatus=1) AND al.Apply_Date>='".date("Y-m-".$d2)."' AND al.Apply_Date<='".$BeforeD."' AND al.SLHodApp='N' AND Apply_FromDate<'".$NextMDate."' AND e.CompanyId=".$CompanyId." ORDER BY al.Apply_Date ASC");
+    $al=mysql_query("SELECT al.* FROM hrm_employee_applyleave al inner join hrm_employee e on al.EmployeeID=e.EmployeeID where (al.LeaveStatus=0 OR al.LeaveStatus=1) AND al.Apply_Date>='".date("Y-m-".$d2)."' AND al.Apply_Date<='".$BeforeD."' AND al.SLHodApp='N' AND Apply_FromDate<'".$NextMDate."' AND e.CompanyId=".$CompanyId." deleted_at is NULL ORDER BY al.Apply_Date ASC");
   }
  
   

@@ -133,10 +133,10 @@ $Sno=1; while($resDp=mysql_fetch_array($sqlDp)){
 </select>&nbsp;<span id="ReturnValue">&nbsp;</span></td>
 					  
 					  <td class="td1" style="font-size:11px; width:150px;" align="center">
-                       <select style="font-size:12px;width:160px;height:20px; font-family:Times New Roman;background-color:#DDFFBB;" name="DeptEmpprofile" id="DeptEmpprofile" onChange="SelectDeptEmpprofile(this.value)">
-<?php if($_REQUEST['value']>0){$SDept=mysql_query("select DepartmentCode from hrm_department where DepartmentId=".$_REQUEST['value'], $con);$RDept=mysql_fetch_array($SDept); ?><option value="<?php echo $_REQUEST['value']; ?>" style="margin-left:0px;" selected><?php echo '&nbsp;'.strtoupper($RDept['DepartmentCode']);?></option><?php } else {?><option value="" style="margin-left:0px;" selected>SELECT DEPARTMENT</option><?php } ?>
-<?php $SqlDept=mysql_query("select * from hrm_department where CompanyId=".$CompanyId." order by DepartmentName ASC", $con); while($ResDept=mysql_fetch_array($SqlDept)) { ?>
-                       <option value="<?php echo $ResDept['DepartmentId']; ?>"><?php echo '&nbsp;'.strtoupper($ResDept['DepartmentCode']);?></option><?php } ?>
+                       <select style="font-size:12px;width:160px;height:22px; font-family:Times New Roman;background-color:#DDFFBB;" name="DeptEmpprofile" id="DeptEmpprofile" onChange="SelectDeptEmpprofile(this.value)">
+<?php if($_REQUEST['value']>0){$SDept=mysql_query("select department_name as DepartmentCode from core_departments where id=".$_REQUEST['value'], $con);$RDept=mysql_fetch_array($SDept); ?><option value="<?php echo $_REQUEST['value']; ?>" style="margin-left:0px;" selected><?php echo '&nbsp;'.strtoupper($RDept['DepartmentCode']);?></option><?php } else {?><option value="" style="margin-left:0px;" selected>SELECT DEPARTMENT</option><?php } ?>
+<?php $SqlDept=mysql_query("select * from core_departments where is_active=1 order by department_name", $con); while($ResDept=mysql_fetch_array($SqlDept)) { ?>
+                       <option value="<?php echo $ResDept['id']; ?>"><?php echo '&nbsp;'.strtoupper($ResDept['department_name']);?></option><?php } ?>
 					   <option value="All">&nbsp;All</option>
 					   </select></td>
 					 </tr>
@@ -188,7 +188,7 @@ $no=1; while($res = mysql_fetch_array($sql)) { ?>
     <td align="center" style="" class="All_40"><?php echo $no; ?></td>
     <td align="center" style="" class="All_60"><?php echo $res['EmpCode']; ?></td>
 	<td align="" style="" class="All_180">&nbsp;<?php echo $res['Fname'].' '.$res['Sname'].' '.$res['Lname']; ?></td>
-<?php $sqlDept=mysql_query("select DepartmentCode from hrm_department where DepartmentId=".$res['DepartmentId'], $con);  $resDept=mysql_fetch_assoc($sqlDept); ?> 
+<?php $sqlDept=mysql_query("select department_code as DepartmentCode from core_departments where id=".$res['DepartmentId'], $con);  $resDept=mysql_fetch_assoc($sqlDept); ?> 
 	<td align="" style="" class="All_120">&nbsp;<?php echo $resDept['DepartmentCode']; ?></td>
 	
 <?php $sps=mysql_query("select * from hrm_employee_procertify_noc where EmployeeID=".$res['EmployeeID']." AND Month=".$_REQUEST['m']." AND Year=".$_REQUEST['y'], $con); 

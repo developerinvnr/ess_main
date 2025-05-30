@@ -12,7 +12,7 @@ if($_REQUEST['action']='FormFdBckExport')
  if($_REQUEST['ee']=='Dept')
 { $name='Department Wise'; 
   if($_REQUEST['value']!=0)
-  { $sqlA=mysql_query("select DepartmentName from hrm_department where DepartmentId=".$_REQUEST['value'], $con); $resA=mysql_fetch_assoc($sqlA); $name2=$resA['DepartmentName']; }else{$name2='All_Department';}
+  { $sqlA=mysql_query("select department_code as DepartmentName from core_departments where id=".$_REQUEST['value'], $con); $resA=mysql_fetch_assoc($sqlA); $name2=$resA['DepartmentName']; }else{$name2='All_Department';}
 }
 
 $xls_filename = 'Employee_FeedbackList_'.$PRD.'-'.$name2.'.xls';
@@ -28,8 +28,8 @@ print("\n");
 
 if($_REQUEST['a']==0){  
 		
-if($_REQUEST['value']==0){ $sql=mysql_query("SELECT w.*,Fname,Sname,Lname,DepartmentCode from hrm_employee_pms_workenvironment w INNER JOIN hrm_employee_pms p ON w.EmpPmsId=p.EmpPmsId INNER JOIN hrm_employee_general g ON p.EmployeeID=g.EmployeeID INNER JOIN hrm_employee e ON p.EmployeeID=e.EmployeeID INNER JOIN hrm_department d ON g.DepartmentId=d.DepartmentId WHERE p.CompanyId=".$_REQUEST['c']." AND p.AssessmentYear=".$_REQUEST['YI']." AND g.DateJoining<='".$Y."-06-30' AND e.EmpCode<=11000 AND w.Answer!='' order by w.WorkEnvironment ASC", $con); }
-  else{ $sql=mysql_query("SELECT w.*,Fname,Sname,Lname,DepartmentCode from hrm_employee_pms_workenvironment w INNER JOIN hrm_employee_pms p ON w.EmpPmsId=p.EmpPmsId INNER JOIN hrm_employee_general g ON p.EmployeeID=g.EmployeeID INNER JOIN hrm_employee e ON p.EmployeeID=e.EmployeeID INNER JOIN hrm_department d ON g.DepartmentId=d.DepartmentId WHERE p.CompanyId=".$_REQUEST['c']." AND p.AssessmentYear=".$_REQUEST['YI']." AND g.DateJoining<='".$Y."-06-30' AND e.EmpCode<=11000 AND w.Answer!='' AND p.HR_Curr_DepartmentId=".$_REQUEST['value']." order by w.WorkEnvironment ASC", $con); } 
+if($_REQUEST['value']==0){ $sql=mysql_query("SELECT w.*,Fname,Sname,Lname,department_name as DepartmentCode from hrm_employee_pms_workenvironment w INNER JOIN hrm_employee_pms p ON w.EmpPmsId=p.EmpPmsId INNER JOIN hrm_employee_general g ON p.EmployeeID=g.EmployeeID INNER JOIN hrm_employee e ON p.EmployeeID=e.EmployeeID core_departments d ON g.DepartmentId=d.id WHERE p.CompanyId=".$_REQUEST['c']." AND p.AssessmentYear=".$_REQUEST['YI']." AND g.DateJoining<='".$Y."-06-30' AND e.EmpCode<=11000 AND w.Answer!='' order by w.WorkEnvironment ASC", $con); }
+  else{ $sql=mysql_query("SELECT w.*,Fname,Sname,Lname,department_name as DepartmentCode from hrm_employee_pms_workenvironment w INNER JOIN hrm_employee_pms p ON w.EmpPmsId=p.EmpPmsId INNER JOIN hrm_employee_general g ON p.EmployeeID=g.EmployeeID INNER JOIN hrm_employee e ON p.EmployeeID=e.EmployeeID core_departments d ON g.DepartmentId=d.id WHERE p.CompanyId=".$_REQUEST['c']." AND p.AssessmentYear=".$_REQUEST['YI']." AND g.DateJoining<='".$Y."-06-30' AND e.EmpCode<=11000 AND w.Answer!='' AND p.HR_Curr_DepartmentId=".$_REQUEST['value']." order by w.WorkEnvironment ASC", $con); } 
   $Sno=1; while($res=mysql_fetch_array($sql)){
   
   $schema_insert = "";

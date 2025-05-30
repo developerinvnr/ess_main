@@ -76,6 +76,11 @@ function ClickHODClick(E,Y,C)
 </head>
 <body class="body">
 <input type="hidden" name="ComId" id="ComId" value="<?php echo $CompanyId; ?>" />
+<?php
+
+$YearId = 13;  //temporary change year id
+
+?>
 <input type="hidden" name="YId" id="YId" value="<?php echo $YearId; ?>" />
 <input type="hidden" name="UserId" id="UserId" value="<?php echo $UserId; ?>" />
 <input type="hidden" name="DeptValue" id="DeptValue" value="<?php echo $_REQUEST['value']; ?>" />
@@ -107,7 +112,7 @@ function ClickHODClick(E,Y,C)
   <tr>
    <td colspan="12" align="left" class="heading">Allow PMS &nbsp;<span id="ReturnValue">&nbsp;</span></td>
    <td class="td1" style="font-size:11px;width:200px;" align="center"><select class="tdsel" name="DeptAppRev" id="DeptAppRev" onChange="SelectAppRev(this.value)"><option value="" style="margin-left:0px;" selected>SELECT DEPARTMENT</option>
-<?php $SqlDept=mysql_query("select * from hrm_department where CompanyId=".$CompanyId." order by DepartmentName ASC", $con); while($ResDept=mysql_fetch_array($SqlDept)){ ?><option value="<?php echo $ResDept['DepartmentId']; ?>"><?php echo '&nbsp;'.$ResDept['DepartmentCode'];?></option><?php } ?><option value="All">&nbsp;All</option></select></td>
+<?php $SqlDept=mysql_query("select * from core_departments where is_active=1 order by department_name", $con); while($ResDept=mysql_fetch_array($SqlDept)){ ?><option value="<?php echo $ResDept['id']; ?>"><?php echo '&nbsp;'.$ResDept['department_name'];?></option><?php } ?><option value="All">&nbsp;All</option></select></td>
    <td>&nbsp;</td>
    <td class="td1" style="font-size:11px; width:200px;" align="center"><select class="tdsel" name="AppAllowPMS" id="AppAllowPMS" onChange="SelectAppAllowPMS(this.value)"><option value="" style="margin-left:0px;" selected>SELECT APP/ REV/ HOD</option><option value="App" style="margin-left:0px;">APPRAISER</option><option value="Rev" style="margin-left:0px;">REVIEWER</option><option value="Hod" style="margin-left:0px;">HOD</option>
  </select></td>
@@ -124,7 +129,7 @@ function ClickHODClick(E,Y,C)
   <div class="thead">
   <thead>
   <tr>
-   <?php if($_REQUEST['value']!='All') {$sqlA=mysql_query("select DepartmentName from hrm_department where DepartmentId=".$_REQUEST['value'], $con);  $resA=mysql_fetch_assoc($sqlA); } ?><td colspan="13" valign="top" style=" background-color:#0069D2; font-size:14px; color:#FFFFFF; font-family:Georgia; font-weight:bold;">&nbsp;Allow PMS Employee Wise :&nbsp;&nbsp;(&nbsp;Department - <?php if($_REQUEST['value']!='All') { echo $resA['DepartmentName'];  } else echo 'All';?>&nbsp;)&nbsp;&nbsp;&nbsp;</td>
+   <?php if($_REQUEST['value']!='All') {$sqlA=mysql_query("select department_name as DepartmentName from core_departments where id=".$_REQUEST['value'], $con);  $resA=mysql_fetch_assoc($sqlA); } ?><td colspan="13" valign="top" style=" background-color:#0069D2; font-size:14px; color:#FFFFFF; font-family:Georgia; font-weight:bold;">&nbsp;Allow PMS Employee Wise :&nbsp;&nbsp;(&nbsp;Department - <?php if($_REQUEST['value']!='All') { echo $resA['DepartmentName'];  } else echo 'All';?>&nbsp;)&nbsp;&nbsp;&nbsp;</td>
   </tr>
   <tr bgcolor="#7a6189">
     <td class="th" style="width:3%;">SNo</td>
@@ -142,9 +147,10 @@ function ClickHODClick(E,Y,C)
 if($CompanyId==1 OR $CompanyId==2 OR $CompanyId==4){$YYear=$Y;}elseif($CompanyId==3){$YYear=$Y2;}
 
 if($_REQUEST['value']=='All') { 
-$sql = mysql_query("SELECT e.EmployeeID, EmpCode, Fname, Sname, Lname, DepartmentCode, EmpPmsId, Appraiser_EmployeeID, Reviewer_EmployeeID, HOD_EmployeeID, Emp_PmsStatus, Appraiser_PmsStatus, Reviewer_PmsStatus, HodSubmit_IncStatus, HR_PmsStatus, ExtraAllowPMS FROM hrm_employee e INNER JOIN hrm_employee_general g ON e.EmployeeID=g.EmployeeID INNER JOIN hrm_employee_pms p ON e.EmployeeID=p.EmployeeID INNER JOIN hrm_department d ON g.DepartmentId=d.DepartmentId WHERE e.EmpStatus='A' AND g.DateJoining<='".$YYear."-06-30' AND p.AssessmentYear=".$YearId." AND e.CompanyId=".$CompanyId." AND p.Appraiser_EmployeeID!=0 order by e.ECode ASC", $con); }
+$sql = mysql_query("SELECT e.EmployeeID, EmpCode, Fname, Sname, Lname, department_name as DepartmentCode, EmpPmsId, Appraiser_EmployeeID, Reviewer_EmployeeID, HOD_EmployeeID, Emp_PmsStatus, Appraiser_PmsStatus, Reviewer_PmsStatus, HodSubmit_IncStatus, HR_PmsStatus, ExtraAllowPMS FROM hrm_employee e LEFT JOIN hrm_employee_general g ON e.EmployeeID=g.EmployeeID LEFT JOIN hrm_employee_pms p ON e.EmployeeID=p.EmployeeID LEFT JOIN core_departments d ON g.DepartmentId=d.id WHERE e.EmpStatus='A' AND g.DateJoining<='".$YYear."-09-30' AND p.AssessmentYear=".$YearId." AND e.CompanyId=".$CompanyId." AND p.Appraiser_EmployeeID!=0 order by e.ECode ASC", $con); }
       else { 
-$sql = mysql_query("SELECT e.EmployeeID, EmpCode, Fname, Sname, Lname, DepartmentCode, EmpPmsId, Appraiser_EmployeeID, Reviewer_EmployeeID, HOD_EmployeeID, Emp_PmsStatus, Appraiser_PmsStatus, Reviewer_PmsStatus, HodSubmit_IncStatus, HR_PmsStatus, ExtraAllowPMS FROM hrm_employee e INNER JOIN hrm_employee_general g ON e.EmployeeID=g.EmployeeID INNER JOIN hrm_employee_pms p ON e.EmployeeID=p.EmployeeID INNER JOIN hrm_department d ON g.DepartmentId=d.DepartmentId WHERE e.EmpStatus='A' AND g.DateJoining<='".$YYear."-06-30' AND p.AssessmentYear=".$YearId." AND e.CompanyId=".$CompanyId." AND g.DepartmentId=".$_REQUEST['value']." AND p.Appraiser_EmployeeID!=0 order by e.ECode ASC", $con); }
+          
+$sql = mysql_query("SELECT e.EmployeeID, EmpCode, Fname, Sname, Lname, department_name as DepartmentCode, EmpPmsId, Appraiser_EmployeeID, Reviewer_EmployeeID, HOD_EmployeeID, Emp_PmsStatus, Appraiser_PmsStatus, Reviewer_PmsStatus, HodSubmit_IncStatus, HR_PmsStatus, ExtraAllowPMS FROM hrm_employee e LEFT JOIN hrm_employee_general g ON e.EmployeeID=g.EmployeeID LEFT JOIN hrm_employee_pms p ON e.EmployeeID=p.EmployeeID LEFT JOIN core_departments d ON g.DepartmentId=d.id WHERE e.EmpStatus='A' AND g.DateJoining<='".$YYear."-09-30' AND p.AssessmentYear=".$YearId." AND e.CompanyId=".$CompanyId." AND g.DepartmentId=".$_REQUEST['value']." AND p.Appraiser_EmployeeID!=0 order by e.ECode ASC", $con); }
 $no=1; while($res = mysql_fetch_array($sql)) { 
 $sqlA = mysql_query("SELECT * from hrm_employee where EmployeeID=".$res['Appraiser_EmployeeID'], $con); 
 $sqlR = mysql_query("SELECT * from hrm_employee where EmployeeID=".$res['Reviewer_EmployeeID'], $con); 
@@ -188,7 +194,7 @@ $resA=mysql_fetch_assoc($sqlA); $resR=mysql_fetch_assoc($sqlR); $resH=mysql_fetc
  </tr>
  </thead>
  </div>
-<?php if($_REQUEST['value']=='App'){ $SqlAppRev=mysql_query("SELECT e.EmployeeID,EmpCode,Fname,Sname,Lname,DepartmentCode, Appraiser_EmployeeID from hrm_employee_pms p INNER JOIN hrm_employee e ON p.Appraiser_EmployeeID=e.EmployeeID INNER JOIN hrm_employee_general g ON p.Appraiser_EmployeeID=g.EmployeeID INNER JOIN hrm_department d ON g.DepartmentId=d.DepartmentId WHERE p.CompanyId=".$CompanyId." AND p.AssessmentYear=".$YearId." GROUP BY p.Appraiser_EmployeeID ORDER BY e.ECode ASC", $con); }
+<?php if($_REQUEST['value']=='App'){ $SqlAppRev=mysql_query("SELECT e.EmployeeID,EmpCode,Fname,Sname,Lname,department_code as DepartmentCode, Appraiser_EmployeeID from hrm_employee_pms p INNER JOIN hrm_employee e ON p.Appraiser_EmployeeID=e.EmployeeID INNER JOIN hrm_employee_general g ON p.Appraiser_EmployeeID=g.EmployeeID INNER JOIN core_departments d ON g.DepartmentId=d.id WHERE p.CompanyId=".$CompanyId." AND p.AssessmentYear=".$YearId." GROUP BY p.Appraiser_EmployeeID ORDER BY e.ECode ASC", $con); }
       if($_REQUEST['value']=='Rev') { $SqlAppRev=mysql_query("SELECT e.EmployeeID,EmpCode,Fname,Sname,Lname,DepartmentCode, Reviewer_EmployeeID from hrm_employee_pms p INNER JOIN hrm_employee e ON p.Reviewer_EmployeeID=e.EmployeeID INNER JOIN hrm_employee_general g ON p.Reviewer_EmployeeID=g.EmployeeID INNER JOIN hrm_department d ON g.DepartmentId=d.DepartmentId WHERE p.CompanyId=".$CompanyId." AND p.AssessmentYear=".$YearId." GROUP BY p.Reviewer_EmployeeID ORDER BY e.ECode ASC", $con); } 
 	  if($_REQUEST['value']=='Hod') { $SqlAppRev=mysql_query("SELECT e.EmployeeID,EmpCode,Fname,Sname,Lname,DepartmentCode, HOD_EmployeeID from hrm_employee_pms p INNER JOIN hrm_employee e ON p.HOD_EmployeeID=e.EmployeeID INNER JOIN hrm_employee_general g ON p.HOD_EmployeeID=g.EmployeeID INNER JOIN hrm_department d ON g.DepartmentId=d.DepartmentId WHERE p.CompanyId=".$CompanyId." AND p.AssessmentYear=".$YearId." GROUP BY p.HOD_EmployeeID ORDER BY e.ECode ASC", $con); }
 	  $no=1; while($ResAppRev=mysql_fetch_array($SqlAppRev))

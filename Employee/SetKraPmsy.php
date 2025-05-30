@@ -49,8 +49,8 @@ else{ $_SESSION['KraYear']=$kf.'-'.$kt; $_SESSION['PmsYear']=$pf.'-'.$pt; }
 //else{ $_SESSION['KraYear']=$kt2.'-'.$kf; $_SESSION['PmsYear']=$pt2.'-'.$pf; }
 $_SESSION['KraYId_Old']=$Yeark['OldY']; $_SESSION['KraYId_New']=$Yeark['NewY'];
 
-$SD=mysql_query("select EmpCode,DepartmentId,GradeId,DesigId,DateJoining,HqId,RetiStatus,RetiDate from hrm_employee_general g inner join hrm_employee e on g.EmployeeID=e.EmployeeID where g.EmployeeID=".$EmployeeId,$con); $RD=mysql_fetch_assoc($SD); 
-$_SESSION['Dept']=$RD['DepartmentId']; $_SESSION['Desig']=$RD['DesigId']; $_SESSION['Grade']=$RD['GradeId'];
+$SD=mysql_query("select EmpCode,DepartmentId,GradeId,DesigId,DateJoining,HqId,RetiStatus,RetiDate,EmpFunction from hrm_employee_general g inner join hrm_employee e on g.EmployeeID=e.EmployeeID where g.EmployeeID=".$EmployeeId,$con); $RD=mysql_fetch_assoc($SD); 
+$_SESSION['Dept']=$RD['DepartmentId']; $_SESSION['Desig']=$RD['DesigId']; $_SESSION['Grade']=$RD['GradeId']; $_SESSION['Function']=$RD['EmpFunction']; 
 $_SESSION['Hq']=$RD['HqId']; $_SESSION['Joining']=$RD['DateJoining']; $_SESSION['RetiStatus']=$RD['RetiStatus']; 
 $_SESSION['RetiDate']=$RD['RetiDate']; $_SESSION['Before31Day']=date("Y-m-d",strtotime('-30 day'));  
 $_SESSION['After31DayDoJ']=date("Y-m-d",strtotime($_SESSION['Joining'].'+31 day'));

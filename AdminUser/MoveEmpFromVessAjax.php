@@ -4,13 +4,25 @@ if(isset($_POST['Deptid']) && $_POST['Deptid']!=""){ $Deptid=$_POST['Deptid'];?>
 
       <select class="All_200" name="DesigName" id="DesigName" onchange="SelDesig(this.value)" required>
 	  <option style="background-color:#DBD3E2; " value="">Select</option>
-<?php $sql = mysql_query("select ddg.DesigId,de.DesigCode,de.DesigName from hrm_deptgradedesig ddg inner join hrm_designation de on ddg.DesigId=de.DesigId WHERE ddg.DGDStatus='A' AND ddg.DepartmentId=".$Deptid." AND ddg.DesigId!=69 GROUP BY ddg.DesigId", $con) or die(mysql_error()); 
+<?php $sql = mysql_query("select ddg.DesigId,de.designation_name as DesigName from hrm_deptgradedesig ddg inner join core_designation de on ddg.DesigId=de.id WHERE ddg.DGDStatus='A' AND ddg.DepartmentId=".$Deptid." GROUP BY ddg.DesigId", $con) or die(mysql_error()); 
       while($res = mysql_fetch_array($sql))
 	   { //$sql1 = mysql_query("select * from hrm_designation WHERE DesigId=".$res['DesigId'], $con) or die(mysql_error()); 
 	     //$res1 = mysql_fetch_array($sql1);
 	     ?>
-	  <option value="<?php echo $res['DesigId']; ?>"><?php echo $res['DesigCode'].'&nbsp;&nbsp;-&nbsp;&nbsp;'.$res['DesigName'];; ?></option><?php } ?>
+	  <option value="<?php echo $res['DesigId']; ?>"><?php echo $res['DesigName'];; ?></option><?php } ?>
       </select> <input type="hidden" name="DeptId" id="DeptId" value="<?php echo $Did; ?>" />
+	  
+<?php } 
+
+
+if(isset($_POST['stateid']) && $_POST['stateid']!=""){ $stateid=$_POST['stateid'];?>
+
+      <select class="All_200" name="HQName" id="HQName<?=$sn?>" onChange="HQSelect(this.value,<?=$_POST['sn']?>)" required>
+      <?php $sql = mysql_query("select id,city_village_name as value from core_city_village_by_state WHERE is_active=1 and state_id=".$stateid." group by city_village_name order by city_village_name",$con); while($res = mysql_fetch_array($sql)){ ?>    
+       <option value="<?=$res['id']?>"><?=$res['value']?></option><?php } ?>
+      </select>
+      
+      <input type="hidden" name="StateId" id="StateId" value="<?php echo $stateid; ?>" />
 	  
 <?php } ?>
 
@@ -21,7 +33,7 @@ if(isset($_POST['Deptid']) && $_POST['Deptid']!=""){ $Deptid=$_POST['Deptid'];?>
 if($_POST['For']=='MoveVessDatatoESS' && $_POST['ei']!='' && $_POST['vi']!='' && $_POST['ui']!='')
 { 
  
- $con2=mysql_connect('localhost','hrims_user','hrims@192');
+ $con2=mysql_connect('localhost','vnrseed2_hrims','5Az*hcHimJkE');
  $db2=mysql_select_db('hrims_movefromvess', $con2);
  
  
@@ -47,7 +59,7 @@ if($_POST['For']=='MoveVessDatatoESS' && $_POST['ei']!='' && $_POST['vi']!='' &&
 /******** -------------------------------------------------------------------------------- ********/
 
 //define('HOSTT','97.74.82.92'); define('USERR','hrims_user'); define('PASSS','hrims@192'); define('DATABASEE','hrims');
-$cnn=mysql_connect('localhost','hrims_user','hrims@192');
+$cnn=mysql_connect('localhost','vnrseed2_hrims','5Az*hcHimJkE');
 //if(!$cnn) die("Failed to connect to database!");
 //$cnn=mysql_connect('localhost','root','ajaydbajay');
 $db=mysql_select_db('hrims', $cnn);
@@ -57,7 +69,7 @@ $sChk=mysql_query("select * from hrm_employee where EmployeeID=".$_POST['ei'],$c
 if($rChk==0)
 {
  //basic
- $insE=mysql_query("insert into hrm_employee(EmployeeID, VCode, EmpCode, ECode, EsslCode, EmpPass, EmpType, EmpStatus, Fname, Sname, Lname, RetiStatus, RetiDate, RetiNewCode, RetiOldCode, Nname, TimeApply, Shift, InTime, OutTime, ChangePwd, UseApps, UseApps_Punch, UseApps_GpsTracking, Resig_Permission, ProfileCertify, ScalateKRA, SubmitSelfAsset, EmpGen_Status, EmpPer_Status, EmpCon_Status, EmpEdu_Status, EmpFam_Status, EmpExp_Status, EmpLang_Status, EmpAss_Status, EmpGen_Noc, EmpPer_Noc, EmpCon_Noc, EmpEdu_Noc, EmpFam_Noc, EmpExp_Noc, EmpLang_Noc, EmpAss_Noc, ExtraChangeStatus, ExtraChange, tokenid, CompanyId, CreatedBy, CreatedDate, SysDate) values('".$_POST['ei']."', '".$res['VCode']."', '".$EC."', '".$_POST['ei']."', '".$res['EsslCode']."', '".$res['EmpPass']."', '".$res['EmpType']."', '".$res['EmpStatus']."', '".$res['Fname']."', '".$res['Sname']."', '".$res['Lname']."', '".$res['RetiStatus']."', '".$res['RetiDate']."', '".$res['RetiNewCode']."', '".$res['RetiOldCode']."', '".$res['Nname']."', '".$res['TimeApply']."', '".$res['Shift']."', '".$res['InTime']."', '".$res['OutTime']."', '".$res['ChangePwd']."', '".$res['UseApps']."', '".$res['UseApps_Punch']."', '".$res['UseApps_GpsTracking']."', '".$res['Resig_Permission']."',  '".$res['ProfileCertify']."', '".$res['ScalateKRA']."', '".$res['SubmitSelfAsset']."', '".$res['EmpGen_Status']."', '".$res['EmpPer_Status']."', '".$res['EmpCon_Status']."', '".$res['EmpEdu_Status']."', '".$res['EmpFam_Status']."', '".$res['EmpExp_Status']."', '".$res['EmpLang_Status']."', '".$res['EmpAss_Status']."', '".$res['EmpGen_Noc']."', '".$res['EmpPer_Noc']."', '".$res['EmpCon_Noc']."', '".$res['EmpEdu_Noc']."', '".$res['EmpFam_Noc']."', '".$res['EmpExp_Noc']."', '".$res['EmpLang_Noc']."', '".$res['EmpAss_Noc']."', '".$res['ExtraChangeStatus']."', '".$res['ExtraChange']."', '".$res['tokenid']."', '1', '".$_POST['ui']."', '".$resEc['DOE']."', '".date("Y-m-d")."')",$cnn);
+ $insE=mysql_query("insert into hrm_employee(EmployeeID, VCode, EmpCode,EmpCode_New, ECode, EsslCode, EmpPass, EmpType, EmpStatus, Fname, Sname, Lname, RetiStatus, RetiDate, RetiNewCode, RetiOldCode, Nname, TimeApply, Shift, InTime, OutTime, ChangePwd, UseApps, UseApps_Punch, UseApps_GpsTracking, Resig_Permission, ProfileCertify, ScalateKRA, SubmitSelfAsset, EmpGen_Status, EmpPer_Status, EmpCon_Status, EmpEdu_Status, EmpFam_Status, EmpExp_Status, EmpLang_Status, EmpAss_Status, EmpGen_Noc, EmpPer_Noc, EmpCon_Noc, EmpEdu_Noc, EmpFam_Noc, EmpExp_Noc, EmpLang_Noc, EmpAss_Noc, ExtraChangeStatus, ExtraChange, tokenid, CompanyId, CreatedBy, CreatedDate, SysDate) values('".$_POST['ei']."', '".$res['VCode']."', '".$EC."','".$EC."', '".$_POST['ei']."', '".$res['EsslCode']."', '".$res['EmpPass']."', '".$res['EmpType']."', '".$res['EmpStatus']."', '".$res['Fname']."', '".$res['Sname']."', '".$res['Lname']."', '".$res['RetiStatus']."', '".$res['RetiDate']."', '".$res['RetiNewCode']."', '".$res['RetiOldCode']."', '".$res['Nname']."', '".$res['TimeApply']."', '".$res['Shift']."', '".$res['InTime']."', '".$res['OutTime']."', '".$res['ChangePwd']."', '".$res['UseApps']."', '".$res['UseApps_Punch']."', '".$res['UseApps_GpsTracking']."', '".$res['Resig_Permission']."',  '".$res['ProfileCertify']."', '".$res['ScalateKRA']."', '".$res['SubmitSelfAsset']."', '".$res['EmpGen_Status']."', '".$res['EmpPer_Status']."', '".$res['EmpCon_Status']."', '".$res['EmpEdu_Status']."', '".$res['EmpFam_Status']."', '".$res['EmpExp_Status']."', '".$res['EmpLang_Status']."', '".$res['EmpAss_Status']."', '".$res['EmpGen_Noc']."', '".$res['EmpPer_Noc']."', '".$res['EmpCon_Noc']."', '".$res['EmpEdu_Noc']."', '".$res['EmpFam_Noc']."', '".$res['EmpExp_Noc']."', '".$res['EmpLang_Noc']."', '".$res['EmpAss_Noc']."', '".$res['ExtraChangeStatus']."', '".$res['ExtraChange']."', '".$res['tokenid']."', '1', '".$_POST['ui']."', '".$resEc['DOE']."', '".date("Y-m-d")."')",$cnn);
  
  //DateOfResignation, DateOfSepration, '".$res['DateOfResignation']."', '".$res['DateOfSepration']."',
  
@@ -70,7 +82,7 @@ if($rChk==0)
  
  if($insE && $insEg && $insEp)
  { 
-   $con2=mysql_connect('localhost','hrims_user','hrims@192');
+   $con2=mysql_connect('localhost','vnrseed2_hrims','5Az*hcHimJkE');
    $db2=mysql_select_db('hrims_movefromvess', $con2);
    $Du=mysql_query("update hrm_employee set ".$_POST['vi']."=1 where EmployeeID=".$_POST['ei'],$con2); 
    echo '<input type="hidden"  id="ChkVrst" value="1"  />'; 
@@ -100,7 +112,7 @@ if($rChk==0)
 /******** -------------------------------------------------------------------------------- ********/
 /******** -------------------------------------------------------------------------------- ********/
 //define('HOSTT','97.74.82.92'); define('USERR','hrims_user'); define('PASSS','hrims@192'); define('DATABASEE','hrims');
-$cnn=mysql_connect('localhost','hrims_user','hrims@192');
+$cnn=mysql_connect('localhost','vnrseed2_hrims','5Az*hcHimJkE');
 //$cnn=mysql_connect('localhost','root','ajaydbajay');
 $db=mysql_select_db('hrims', $cnn);
 
@@ -117,7 +129,7 @@ if($rChk==0)
   
   if($insEc && $insEf)
   { 
-   $con2=mysql_connect('localhost','hrims_user','hrims@192');
+   $con2=mysql_connect('localhost','vnrseed2_hrims','5Az*hcHimJkE');
    $db2=mysql_select_db('hrims_movefromvess', $con2);
    $Du=mysql_query("update hrm_employee set ".$_POST['vi']."=1 where EmployeeID=".$_POST['ei'],$con2); 
    echo '<input type="hidden"  id="ChkVrst" value="1"  />'; 
@@ -146,7 +158,7 @@ if($rChk==0)
 /******** -------------------------------------------------------------------------------- ********/
 /******** -------------------------------------------------------------------------------- ********/ 
 //define('HOSTT','97.74.82.92'); define('USERR','hrims_user'); define('PASSS','hrims@192'); define('DATABASEE','hrims');
-$cnn=mysql_connect('localhost','hrims_user','hrims@192');
+$cnn=mysql_connect('localhost','vnrseed2_hrims','5Az*hcHimJkE');
 //$cnn=mysql_connect('localhost','root','ajaydbajay');
 $db=mysql_select_db('hrims', $cnn);
 
@@ -161,7 +173,7 @@ if($rChk==0)
   
   if($insEq)
   { 
-   $con2=mysql_connect('localhost','hrims_user','hrims@192');
+   $con2=mysql_connect('localhost','vnrseed2_hrims','5Az*hcHimJkE');
    $db2=mysql_select_db('hrims_movefromvess', $con2);
    $Du=mysql_query("update hrm_employee set ".$_POST['vi']."=1 where EmployeeID=".$_POST['ei'],$con2); 
    echo '<input type="hidden"  id="ChkVrst" value="1"  />'; 
@@ -199,7 +211,7 @@ if($rChkCF==0)
 /******** -------------------------------------------------------------------------------- ********/
 /******** -------------------------------------------------------------------------------- ********/ 
 //define('HOSTT','97.74.82.92'); define('USERR','hrims_user'); define('PASSS','hrims@192'); define('DATABASEE','hrims');
-$cnn=mysql_connect('localhost','hrims_user','hrims@192');
+$cnn=mysql_connect('localhost','vnrseed2_hrims','5Az*hcHimJkE');
 //$cnn=mysql_connect('localhost','root','ajaydbajay');
 $db=mysql_select_db('hrims', $cnn);
 
@@ -213,14 +225,14 @@ if($rChk==0)
   
   if($insEf)
   { 
-   $con2=mysql_connect('localhost','hrims_user','hrims@192');
+   $con2=mysql_connect('localhost','vnrseed2_hrims','5Az*hcHimJkE');
    $db2=mysql_select_db('hrims_movefromvess', $con2);
    $Du=mysql_query("update hrm_employee set ".$_POST['vi']."=1 where EmployeeID=".$_POST['ei'],$con2); 
    echo '<input type="hidden"  id="ChkVrst" value="1"  />'; 
   } 
   else
   { 
-      $con2=mysql_connect('localhost','hrims_user','hrims@192');
+      $con2=mysql_connect('localhost','vnrseed2_hrims','5Az*hcHimJkE');
       $db2=mysql_select_db('hrims_movefromvess', $con2);
       $Du=mysql_query("update hrm_employee set ".$_POST['vi']."=1 where EmployeeID=".$_POST['ei'],$con2); 
       echo '<input type="hidden"  id="ChkVrst" value="1"  />'; 
@@ -248,7 +260,7 @@ if($rChk==0)
 /******** -------------------------------------------------------------------------------- ********/
 /******** -------------------------------------------------------------------------------- ********/ 
 //define('HOSTT','97.74.82.92'); define('USERR','hrims_user'); define('PASSS','hrims@192'); define('DATABASEE','hrims');
-$cnn=mysql_connect('localhost','hrims_user','hrims@192');
+$cnn=mysql_connect('localhost','vnrseed2_hrims','5Az*hcHimJkE');
 //$cnn=mysql_connect('localhost','root','ajaydbajay');
 $db=mysql_select_db('hrims', $cnn);
 
@@ -262,7 +274,7 @@ if($rChk==0)
   
   if($insEx)
   { 
-   $con2=mysql_connect('localhost','hrims_user','hrims@192');
+   $con2=mysql_connect('localhost','vnrseed2_hrims','5Az*hcHimJkE');
    $db2=mysql_select_db('hrims_movefromvess', $con2);
    $Du=mysql_query("update hrm_employee set ".$_POST['vi']."=1 where EmployeeID=".$_POST['ei'],$con2); 
    echo '<input type="hidden"  id="ChkVrst" value="1"  />'; 
@@ -291,7 +303,7 @@ if($rChk==0)
 
 
 //define('HOSTT','97.74.82.92'); define('USERR','hrims_user'); define('PASSS','hrims@192'); define('DATABASEE','hrims');
-$cnn=mysql_connect('localhost','hrims_user','hrims@192');
+$cnn=mysql_connect('localhost','vnrseed2_hrims','5Az*hcHimJkE');
 //$cnn=mysql_connect('localhost','root','ajaydbajay');
 $db=mysql_select_db('hrims', $cnn);
 
@@ -329,7 +341,7 @@ if($rChkLvA==0)
 
   if($insEl)
   { 
-   $con2=mysql_connect('localhost','hrims_user','hrims@192');
+   $con2=mysql_connect('localhost','vnrseed2_hrims','5Az*hcHimJkE');
    $db2=mysql_select_db('hrims_movefromvess', $con2);      
    $Du=mysql_query("update hrm_employee set ".$_POST['vi']."=1 where EmployeeID=".$_POST['ei'],$con2); 
    echo '<input type="hidden"  id="ChkVrst" value="1"  />'; 
@@ -361,7 +373,7 @@ if($rChkLvA==0)
 	{
 
 //define('HOSTT','97.74.82.92'); define('USERR','hrims_user'); define('PASSS','hrims@192'); define('DATABASEE','hrims');
-$cnn=mysql_connect('localhost','hrims_user','hrims@192');
+$cnn=mysql_connect('localhost','vnrseed2_hrims','5Az*hcHimJkE');
 //$cnn=mysql_connect('localhost','root','ajaydbajay');
 $db=mysql_select_db('hrims', $cnn);
 
@@ -397,7 +409,7 @@ if($rChkps==0)
 
   if($insPayS)
   { 
-   $con2=mysql_connect('localhost','hrims_user','hrims@192');
+   $con2=mysql_connect('localhost','vnrseed2_hrims','5Az*hcHimJkE');
    $db2=mysql_select_db('hrims_movefromvess', $con2);
    $Du=mysql_query("update hrm_employee set ".$_POST['vi']."=1 where EmployeeID=".$_POST['ei'],$con2); 
    echo '<input type="hidden"  id="ChkVrst" value="1"  />';  
@@ -431,7 +443,7 @@ if($rChkps==0)
 /******** -------------------------------------------------------------------------------- ********/
 /******** -------------------------------------------------------------------------------- ********/ 
 //define('HOSTT','97.74.82.92'); define('USERR','hrims_user'); define('PASSS','hrims@192'); define('DATABASEE','hrims');
-$cnn=mysql_connect('localhost','hrims_user','hrims@192');
+$cnn=mysql_connect('localhost','vnrseed2_hrims','5Az*hcHimJkE');
 //$cnn=mysql_connect('localhost','root','ajaydbajay');
 $db=mysql_select_db('hrims', $cnn);
 
@@ -449,7 +461,7 @@ if($rChk==0)
   
   if($insEh)
   { 
-   $con2=mysql_connect('localhost','hrims_user','hrims@192');
+   $con2=mysql_connect('localhost','vnrseed2_hrims','5Az*hcHimJkE');
    $db2=mysql_select_db('hrims_movefromvess', $con2);
    $Du=mysql_query("update hrm_employee set ".$_POST['vi']."=1 where EmployeeID=".$_POST['ei'],$con2); 
    echo '<input type="hidden"  id="ChkVrst" value="1"  />'; 
@@ -483,7 +495,7 @@ if($rChk==0)
 /******** -------------------------------------------------------------------------------- ********/
 /******** -------------------------------------------------------------------------------- ********/ 
 //define('HOSTT','97.74.82.92'); define('USERR','hrims_user'); define('PASSS','hrims@192'); define('DATABASEE','hrims');
-$cnn=mysql_connect('localhost','hrims_user','hrims@192');
+$cnn=mysql_connect('localhost','vnrseed2_hrims','5Az*hcHimJkE');
 //$cnn=mysql_connect('localhost','root','ajaydbajay');
 $db=mysql_select_db('hrims', $cnn);
 
@@ -509,7 +521,7 @@ if($rChk==0)
   
   if($insEck)
   { 
-   $con2=mysql_connect('localhost','hrims_user','hrims@192');
+   $con2=mysql_connect('localhost','vnrseed2_hrims','5Az*hcHimJkE');
    $db2=mysql_select_db('hrims_movefromvess', $con2);
    $Du=mysql_query("update hrm_employee set ".$_POST['vi']."=1 where EmployeeID=".$_POST['ei'],$con2); 
    echo '<input type="hidden"  id="ChkVrst" value="1"  />'; 
@@ -532,7 +544,7 @@ if($rChk==0)
  echo '<input type="hidden"  id="ChkVei" value='.$_POST['ei'].'  />';
  echo '<input type="hidden"  id="ChkVvn" value='.$_POST['vn'].'  />';
  
- $con2=mysql_connect('localhost','hrims_user','hrims@192');
+ $con2=mysql_connect('localhost','vnrseed2_hrims','5Az*hcHimJkE');
  $db2=mysql_select_db('hrims_movefromvess', $con2);
  $SckV=mysql_query("select Mv_b, Mv_c, Mv_ed, Mv_ex, Mv_f, Mv_l, Mv_cp, Mv_h from hrm_employee where EmployeeID=".$_POST['ei'],$con2); $RckV=mysql_fetch_assoc($SckV); 
 if($RckV['Mv_b']==1 && $RckV['Mv_c']==1 && $RckV['Mv_ed']==1 && $RckV['Mv_ex']==1 && $RckV['Mv_f']==1 && $RckV['Mv_l']==1 && $RckV['Mv_ct']==1 && $RckV['Mv_cp']==1 && $RckV['Mv_h']==1)
@@ -547,7 +559,7 @@ else { echo '<input type="hidden" id="FinalSts" value="0"  />'; }
 
 elseif($_POST['For']=='FinalDataSubmission' && $_POST['ei']!='' && $_POST['ui']!='')
 {
- $con2=mysql_connect('localhost','hrims_user','hrims@192');
+ $con2=mysql_connect('localhost','vnrseed2_hrims','5Az*hcHimJkE');
  $db2=mysql_select_db('hrims_movefromvess', $con2);
  $UpFinal=mysql_query("update hrm_employee set DataMoved_toESS='Y', MovedBy=".$_POST['ui'].", MovedDate='".date("Y-m-d")."' where EmployeeID=".$_POST['ei'],$con2);
  

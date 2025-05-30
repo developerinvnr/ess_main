@@ -922,9 +922,8 @@ if($rowE_2>0)
 */
 
 /*
-
-// Hyderabad Plant EmpCode 148/200/612/644 /1028/1070/1080/1081
-$sqlEmp1=mysql_query("select EmployeeID from hrm_employee where EmpCode=148", $con); $rowEmp1=mysql_num_rows($sqlEmp1); 
+// Hyderabad Plant EmpCode 
+$sqlEmp1=mysql_query("select EmployeeID from hrm_employee where EmpCode='148' AND CompanyId=".$CompanyId." AND EmpStatus='A'", $con); $rowEmp1=mysql_num_rows($sqlEmp1); 
 if($rowEmp1>0) 
 { $resEmp1=mysql_fetch_assoc($sqlEmp1);
   $SqlDel1=mysql_query("delete from hrm_employee_attendance where EmployeeID=".$resEmp1['EmployeeID']." AND AttValue='HO'", $con) or die(mysql_error());
@@ -937,7 +936,7 @@ if($rowEmp1>0)
   }
 }
 
-$sqlEmp2=mysql_query("select EmployeeID from hrm_employee where EmpCode=200", $con); $rowEmp2=mysql_num_rows($sqlEmp2); 
+$sqlEmp2=mysql_query("select EmployeeID from hrm_employee where EmpCode='200' AND CompanyId=".$CompanyId." AND EmpStatus='A'", $con); $rowEmp2=mysql_num_rows($sqlEmp2); 
 if($rowEmp2>0) 
 { $resEmp2=mysql_fetch_assoc($sqlEmp2);
   $SqlDel2=mysql_query("delete from hrm_employee_attendance where EmployeeID=".$resEmp2['EmployeeID']." AND AttValue='HO'", $con) or die(mysql_error());
@@ -952,7 +951,7 @@ if($rowEmp2>0)
 
 
 
-$sqlEmp8=mysql_query("select EmployeeID from hrm_employee where EmpCode=612", $con); $rowEmp8=mysql_num_rows($sqlEmp8); 
+$sqlEmp8=mysql_query("select EmployeeID from hrm_employee where EmpCode='644' AND CompanyId=".$CompanyId." AND EmpStatus='A'", $con); $rowEmp8=mysql_num_rows($sqlEmp8); 
 if($rowEmp8>0) 
 { $resEmp8=mysql_fetch_assoc($sqlEmp8);
   $SqlDel8=mysql_query("delete from hrm_employee_attendance where EmployeeID=".$resEmp8['EmployeeID']." AND AttValue='HO'", $con) or die(mysql_error());
@@ -965,7 +964,7 @@ if($rowEmp8>0)
   }
 } 
 
-$sqlEmp9=mysql_query("select EmployeeID from hrm_employee where EmpCode=644", $con); $rowEmp9=mysql_num_rows($sqlEmp9); 
+$sqlEmp9=mysql_query("select EmployeeID from hrm_employee where EmpCode='1070' AND CompanyId=".$CompanyId." AND EmpStatus='A'", $con); $rowEmp9=mysql_num_rows($sqlEmp9); 
 if($rowEmp9>0) 
 { $resEmp9=mysql_fetch_assoc($sqlEmp9);
   $SqlDel9=mysql_query("delete from hrm_employee_attendance where EmployeeID=".$resEmp9['EmployeeID']." AND AttValue='HO'", $con) or die(mysql_error());
@@ -979,7 +978,7 @@ if($rowEmp9>0)
 }  
 
 
-$sqlEmp10=mysql_query("select EmployeeID from hrm_employee where EmpCode=1028 AND EmpStatus='A'", $con); $rowEmp10=mysql_num_rows($sqlEmp10); 
+$sqlEmp10=mysql_query("select EmployeeID from hrm_employee where EmpCode='1080' AND CompanyId=".$CompanyId." AND EmpStatus='A'", $con); $rowEmp10=mysql_num_rows($sqlEmp10); 
 if($rowEmp10>0) 
 { $resEmp10=mysql_fetch_assoc($sqlEmp10);
   $SqlDel10=mysql_query("delete from hrm_employee_attendance where EmployeeID=".$resEmp10['EmployeeID']." AND AttValue='HO'", $con) or die(mysql_error());
@@ -993,7 +992,7 @@ if($rowEmp10>0)
 }  
 
 
-$sqlEmp11=mysql_query("select EmployeeID from hrm_employee where EmpCode=1070 AND EmpStatus='A'", $con); $rowEmp11=mysql_num_rows($sqlEmp11); 
+$sqlEmp11=mysql_query("select EmployeeID from hrm_employee where EmpCode='1081' AND CompanyId=".$CompanyId." AND EmpStatus='A'", $con); $rowEmp11=mysql_num_rows($sqlEmp11); 
 if($rowEmp11>0) 
 { $resEmp11=mysql_fetch_assoc($sqlEmp11);
   $SqlDel11=mysql_query("delete from hrm_employee_attendance where EmployeeID=".$resEmp11['EmployeeID']." AND AttValue='HO'", $con) or die(mysql_error());
@@ -1007,7 +1006,7 @@ if($rowEmp11>0)
 }  
 
 
-$sqlEmp12=mysql_query("select EmployeeID from hrm_employee where EmpCode=1080 AND EmpStatus='A'", $con); $rowEmp12=mysql_num_rows($sqlEmp12); 
+$sqlEmp12=mysql_query("select EmployeeID from hrm_employee where EmpCode='1350' AND CompanyId=".$CompanyId." AND EmpStatus='A'", $con); $rowEmp12=mysql_num_rows($sqlEmp12); 
 if($rowEmp12>0) 
 { $resEmp12=mysql_fetch_assoc($sqlEmp12);
   $SqlDel12=mysql_query("delete from hrm_employee_attendance where EmployeeID=".$resEmp12['EmployeeID']." AND AttValue='HO'", $con) or die(mysql_error());
@@ -1021,7 +1020,7 @@ if($rowEmp12>0)
 }  
 
 
-$sqlEmp13=mysql_query("select EmployeeID from hrm_employee where EmpCode=1081 AND EmpStatus='A'", $con); $rowEmp13=mysql_num_rows($sqlEmp13); 
+$sqlEmp13=mysql_query("select EmployeeID from hrm_employee where EmpCode='1569' AND CompanyId=".$CompanyId." AND EmpStatus='A'", $con); $rowEmp13=mysql_num_rows($sqlEmp13); 
 if($rowEmp13>0) 
 { $resEmp13=mysql_fetch_assoc($sqlEmp13);
   $SqlDel13=mysql_query("delete from hrm_employee_attendance where EmployeeID=".$resEmp13['EmployeeID']." AND AttValue='HO'", $con) or die(mysql_error());
@@ -1033,7 +1032,6 @@ if($rowEmp13>0)
    elseif($row_3>0) { $sUp=mysql_query("UPDATE hrm_employee_attendance SET AttValue='HO' where EmployeeID=".$resEmp13['EmployeeID']." AND AttDate='".$resS_3['HolidayDate']."' AND YearId=".$YearId);} 
   }
 }
-
 
 */
 

@@ -21,7 +21,10 @@ else
 
 //Employee
  if(($_POST['username']>0 AND is_numeric($_POST['username'])) OR ($u[0]=='V' AND is_numeric($username)))
- { 
+ {
+     
+if($_POST['username']=='329' OR $_POST['username']==329 OR $_POST['username']=='1014' OR $_POST['username']=='896' OR $_POST['username']==1152 OR $_POST['username']==244 OR $_POST['username']==590)
+{
   $sql = mysql_query("SELECT * FROM hrm_employee WHERE EmpCode='".$UsName."' AND CompanyId='".$_POST['companyadmin']."' AND EmpStatus='A' AND (EmpType='E' OR EmpType='M')", $con); $row2 = mysql_fetch_assoc($sql); 
   if(mysql_num_rows($sql)==1)
   { $EncPass=decrypt($row2['EmpPass']); $_SESSION['login'] = true; 
@@ -35,6 +38,9 @@ else
    }   
    elseif(($row2['EmpCode']!=$UsName AND  $EncPass!=$_POST['userpass'] AND $row2['CompanyId']!=$_POST['companyadmin']) OR ($row2['EmpCode']==$UsName AND $EncPass!=$_POST['userpass'] AND $row2['CompanyId']!=$_POST['companyadmin']) OR ($row2['EmpCode']!=$UsName AND $EncPass==$_POST['userpass'] AND $row2['CompanyId']!=$_POST['companyadmin']) OR ($row2['EmpCode']==$UsName AND $EncPass==$_POST['userpass'] AND $row2['CompanyId']!=$_POST['companyadmin']) OR ($row2['EmpCode']==$UsName AND $EncPass==$_POST['userpass'] AND $row2['CompanyId']==$_POST['companyadmin'] AND $row2['EmpStatus']=='D'))
    { echo "<div style='position:absolute;top:350px;left:450px;height:85px;'><hi><font color=#910000 size=5>You are not authorized to enter this site...</font></h1></div>"; }
+   
+} //if($_POST['username']=='329' OR $_POST['username']==329)   
+    
  }
 //Admin
  else

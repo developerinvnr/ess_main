@@ -93,7 +93,7 @@ function validate(formEdit)
  <td align="center" class="tdf"><?php echo $SNo; ?></td>
  <td align="center" class="tdf"><input class="tdf" style="width:80px;text-align:center;" name="CountDate" id="CountDate" value="<?php echo date("d-m-Y"); ?>"/><button id="f_btn1" class="CalenderButton"></button><script type="text/javascript">  var cal = Calendar.setup({ onSelect:  function(cal) { cal.hide()}, showTime: true }); cal.manageFields("f_btn1", "CountDate", "%d-%m-%Y");</script></td>
  <td align="center" class="tdf"><select class="tdf" style="width:150px;" name="Dept" id="Dept">
- <option value="" selected>SELECT</option><?php $SqlDept=mysql_query("select DepartmentCode from hrm_department where CompanyId=".$CompanyId." order by DepartmentName ASC", $con); while($ResDept=mysql_fetch_array($SqlDept)) { ?><option value="<?php echo $ResDept['DepartmentCode']; ?>"><?php echo strtoupper($ResDept['DepartmentCode']); ?></option><?php } ?></select>
+ <option value="" selected>SELECT</option><?php $SqlDept=mysql_query("select * from core_departments where is_active=1 order by department_name", $con); while($ResDept=mysql_fetch_array($SqlDept)) { ?><option value="<?php echo $ResDept['department_code']; ?>"><?php echo strtoupper($ResDept['department_code']); ?></option><?php } ?></select>
  </td>
  <td align="center" class="tdf"><select class="tdf" style="width:100px;" name="Timeio">
  <option value="In">In</option><option value="Out">Out</option><option value="In-Out">In-Out</option></select>
@@ -117,7 +117,7 @@ if(isset($_REQUEST['action']) && $_REQUEST['action']=="edit" && $_REQUEST['eid']
  <td align="center" class="tdf"><input  class="tdf" name="CountDate" id="CountDate" value="<?php echo date("d-m-Y",strtotime($res['CountDate'])); ?>" style="width:80px;"/><button id="f_btn1" class="CalenderButton"></button><script type="text/javascript">  var cal = Calendar.setup({ onSelect:  function(cal) { cal.hide()}, showTime: true }); cal.manageFields("f_btn1", "CountDate", "%d-%m-%Y");</script></td>
  <td align="center" class="tdf"><select class="tdf" style="width:150px;" name="Dept">
   <option value="<?php echo $res['Dept']; ?>"><?php echo strtoupper($res['Dept']); ?></option>
-  <?php $SqlDept=mysql_query("select DepartmentCode from hrm_department where CompanyId=".$CompanyId." order by DepartmentName ASC", $con); while($ResDept=mysql_fetch_array($SqlDept)) { ?><option value="<?php echo $ResDept['DepartmentCode']; ?>"><?php echo strtoupper($ResDept['DepartmentCode']); ?></option><?php } ?>
+  <?php $SqlDept=mysql_query("select * from core_departments where is_active=1 order by department_name", $con); while($ResDept=mysql_fetch_array($SqlDept)) { ?><option value="<?php echo $ResDept['department_code']; ?>"><?php echo strtoupper($ResDept['department_code']); ?></option><?php } ?>
   <option value="All">ALL</option></select>
  </td>
  <td align="center" class="tdf"><select class="tdf" style="width:100px;" name="Timeio">

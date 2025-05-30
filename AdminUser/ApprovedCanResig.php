@@ -103,7 +103,13 @@ function Export(d)
 	  <td valign="top" align="center"  width="100%" id="MainWindow">
 <?php //******************************************************************************?>
 <?php //***************START*****START*****START******START******START*******************************?>
-<?php //******************************************************************************?>	  
+<?php //******************************************************************************?>	
+<?php
+ function remote_file_exists($url) {
+        $headers = @get_headers($url);
+        return $headers && strpos($headers[0], '200') !== false;
+    }
+?>
 <table border="0" style="margin-top:0px; width:100%; height:300px;">
  <tr>
   <td align="left" height="20" valign="top" colspan="3">
@@ -112,7 +118,7 @@ function Export(d)
 	  <td width="250" class="heading">&nbsp;Approved Resignation</td>
 	  <td class="td1" style="width:180px;"><select class="tdsel" style="background-color:#DDFFBB; width:100%;" name="Dept" id="Dept" onChange="SelectDept(this.value)">
 	  <option value="" <?php if(!$_REQUEST['DPid']){echo 'selected';}?>>SELECT DEPARTMENT</option>
-	  <?php $SqlDept=mysql_query("select * from hrm_department where CompanyId=".$CompanyId." order by DepartmentName ASC", $con); while($ResDept=mysql_fetch_array($SqlDept)) { ?><option value="<?php echo $ResDept['DepartmentId'];?>" <?php if($_REQUEST['DPid']==$ResDept['DepartmentId']){echo 'selected';}?>><?php echo $ResDept['DepartmentCode'];?></option><?php } ?>
+	  <?php $SqlDept=mysql_query("select * from core_departments where is_active=1 order by department_name", $con); while($ResDept=mysql_fetch_array($SqlDept)) { ?><option value="<?php echo $ResDept['id'];?>" <?php if($_REQUEST['DPid']==$ResDept['id']){echo 'selected';}?>><?php echo $ResDept['department_name'];?></option><?php } ?>
 	  <option value="All" <?php if($_REQUEST['DPid']=='All'){echo 'selected';}?>>All</option>
 	  </select></td>
 	  <td><font style="font-family:Times New Roman;color:#005500;font-size:15px; font-weight:bold;"><?php echo $Msg; ?></font></td>
@@ -156,7 +162,7 @@ function Export(d)
   		  
 <?php if($_REQUEST['DPid']>0){ $sqry='g.DepartmentId='.$_REQUEST['DPid'];}else{ $sqry='1=1'; }
 
-$sql=mysql_query("select s.*,e.EmpCode,e.Fname,e.Sname,e.Lname,d.DepartmentCode from hrm_employee_separation s INNER JOIN hrm_employee e ON s.EmployeeID=e.EmployeeID INNER JOIN hrm_employee_general g ON s.EmployeeID=g.EmployeeID INNER JOIN hrm_department d ON g.DepartmentId=d.DepartmentId where (s.ResignationStatus=4 OR s.Rep_Approved='C' OR s.Hod_Approved='C' OR s.HR_Approved='C') AND e.CompanyId=".$CompanyId." AND ".$sqry." order by s.Emp_ResignationDate DESC", $con); 
+$sql=mysql_query("select s.*,e.EmpCode,e.Fname,e.Sname,e.Lname,d.department_code as DepartmentCode from hrm_employee_separation s INNER JOIN hrm_employee e ON s.EmployeeID=e.EmployeeID INNER JOIN hrm_employee_general g ON s.EmployeeID=g.EmployeeID INNER JOIN core_departments d ON g.DepartmentId=d.id where (s.ResignationStatus=4 OR s.Rep_Approved='C' OR s.Hod_Approved='C' OR s.HR_Approved='C') AND e.CompanyId=".$CompanyId." AND ".$sqry." order by s.Emp_ResignationDate DESC", $con); 
 $Sno=1; while($res=mysql_fetch_array($sql)){ 
 ?>	
  <div class="tbody">
@@ -180,7 +186,21 @@ $Sno=1; while($res=mysql_fetch_array($sql)){
   <td class="tdc"><a href="javascript:OpenEmpWindow(<?php echo $res['EmployeeID'];?>)">CLICK</a></td>
   <td class="tdc"><a href="javascript:OpenHRWindow(<?php echo $res['EmpSepId'];?>)">CLICK</a></td>
   
-  <td class="tdc"><?php if($res['SprUploadFile']!='' && file_exists('../Employee/SprUploadFile/'.$res['SprUploadFile'])){ echo '<font color="#006600"><u><a href="../Employee/SprUploadFile/'.$res["SprUploadFile"].'" target="_blank"/>Click</u></font>'; } ?></td>
+<td class="tdc">
+    <?php
+   
+
+    $localPath = '../Employee/SprUploadFile/' . $res['SprUploadFile'];
+    $remotePath = 'https://vnrseeds.co.in/Employee/SprUploadFile/' . $res['SprUploadFile'];
+
+    if (!empty($res['SprUploadFile']) && file_exists($localPath)) {
+        echo '<font color="#006600"><u><a href="'.$localPath.'" target="_blank">Click</a></u></font>';
+    } elseif (!empty($res['SprUploadFile']) && remote_file_exists($remotePath)) {
+        echo '<font color="#006600"><u><a href="'.$remotePath.'" target="_blank">Click</a></u></font>';
+    }
+    ?>
+</td>
+
 
   <td class="tdc" style="color:<?php if($res['Rep_Approved']=='N' OR $res['Rep_Approved']=='P'){echo '#0080FF';}elseif($res['Rep_Approved']=='Y'){echo '#006400';}elseif($res['Rep_Approved']=='C'){echo '#804000';} ?>;"><?php if($res['Rep_Approved']=='N' OR $res['Rep_Approved']=='P'){echo 'PENDING';}elseif($res['Rep_Approved']=='Y'){ echo 'APPROVED'; }elseif($res['Rep_Approved']=='C'){echo 'REJECT';} ?></td>
   

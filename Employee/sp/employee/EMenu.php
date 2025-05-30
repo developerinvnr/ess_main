@@ -49,7 +49,7 @@ if(date("m")==4 OR date("m")==5 OR date("m")==6){$qtr=1;}elseif(date("m")==7 OR 
 elseif(date("m")==10 OR date("m")==11 OR date("m")==12){$qtr=3;}
 elseif(date("m")==1 OR date("m")==2 OR date("m")==3){$qtr=4;} 
 
-if($_SESSION['EmpStatus']=='A' AND ($_SESSION['DepartmentId']==6 OR $_SESSION['DepartmentId']==17 OR $_SESSION['DepartmentId']==18 OR $_SESSION['DepartmentId']==23 OR $EmployeeId==1315)){  ?>
+if($_SESSION['EmpStatus']=='A' AND ($_SESSION['DepartmentId']==6 OR $_SESSION['DepartmentId']==17 OR $_SESSION['DepartmentId']==18 OR $_SESSION['DepartmentId']==23 OR $EmployeeId==1772)){  ?>
 
 <ul id="nav">
  <li class="top">&nbsp;&nbsp;</li>
@@ -97,7 +97,7 @@ if($_SESSION['EmpStatus']=='A' AND ($_SESSION['DepartmentId']==6 OR $_SESSION['D
 
 <li class="top"><a href="#" id="privacy" class="top_link"><span class="down">Field Assistant<font color="#FFFFFF">(FA)</font></span></a>
  <ul class="sub">
- <?php if($_SESSION['rowEq']>0 OR $EmployeeId==1315)
+ <?php if($_SESSION['rowEq']>0 OR $EmployeeId==1772)
  { ?>  
   <li style="text-align:center;font-family:Times New Roman;"><b style="color:#8000FF;font-size:14px;">Process</b></li>
   <li><a href="f_request.php?ern1=r114&ern2w=234&ern3y=10234&a=1&b=1&c=1&d=1&e=1&f=1&s=0">FA Request</a></li>
@@ -108,7 +108,7 @@ if($_SESSION['EmpStatus']=='A' AND ($_SESSION['DepartmentId']==6 OR $_SESSION['D
   
  <?php $sqlEr=mysql_query("select * from hrm_employee_reporting where (AppraiserId=".$EmployeeId." OR ReviewerId=".$EmployeeId." OR HodId=".$EmployeeId.")",$con); $rowRr=mysql_num_rows($sqlEr); ?>
  
- <?php if($rowRr>0 OR $EmployeeId==1315)
+ <?php if($rowRr>0 OR $EmployeeId==1772)
  { ?>
   <li style="text-align:center;font-family:Times New Roman;"><b style="color:#8000FF;font-size:14px;">Approval</b></li>
   <li><a href="f_request_approval.php?ern1=r114&ern2w=234&ern3y=10234&p=0&a=0&r=0">New-FA Request App.</a></li>
@@ -124,7 +124,7 @@ if($_SESSION['EmpStatus']=='A' AND ($_SESSION['DepartmentId']==6 OR $_SESSION['D
  <?php } //if($rowRr>0) ?>
  
  
- <?php if($_SESSION['rowEq']>0 OR $rowRr>0 OR $_SESSION['GradeId']==76 OR $_SESSION['GradeId']==77 OR $EmployeeId==1315)
+ <?php if($_SESSION['rowEq']>0 OR $rowRr>0 OR $_SESSION['GradeId']==76 OR $_SESSION['GradeId']==77 OR $EmployeeId==1772)
  { ?> 
   <li style="text-align:center;font-family:Times New Roman;"><b style="color:#8000FF;font-size:14px;">Reports</b></li>
   <li><a href="f_profile.php?ac=2441&ee=2421&der=true2&c=false&trht=FTF%%F1&tt=valuased&m=<?php echo date("m"); ?>&y=<?php echo date("Y"); ?>&filter=zero&s=0&hq=0&dis=0&rsts=0&md=4">FA Profile</a></li>

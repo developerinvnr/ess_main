@@ -112,8 +112,8 @@ function Export(d)
 					   <td style="width:250px;"></td>
 	                   <td style="font-size:14px; font-family:Times New Roman; width:150px;"><b>Select Department :</b></td>
                        <td class="td1" style="font-size:11px; width:150px;">
-                       <select style="font-size:11px; width:150px; height:18px; background-color:#DDFFBB; display:block;" name="DepartmentE" id="DepartmentE" onChange="SelectDeptEmp(this.value)"><?php if($_REQUEST['DpId']=='all'){?><option value="all" selected>&nbsp;ALL</option><?php } elseif($_REQUEST['DpId']!='' AND $_REQUEST['DpId']!='all') { $SqlDep=mysql_query("select * from hrm_department where CompanyId=".$CompanyId." AND DepartmentId=".$_REQUEST['DpId'], $con); $ResDep=mysql_fetch_array($SqlDep);?><option value="<?php echo $_REQUEST['DpId']; ?>"><?php echo '&nbsp;'.$ResDep['DepartmentCode'];?></option><?php } else { ?><option value="" style="margin-left:0px; background-color:#84D9D5;" selected>Select Department</option><?php } ?>   
-<?php $SqlDepartment=mysql_query("select * from hrm_department where CompanyId=".$CompanyId." order by DepartmentName ASC", $con); while($ResDepartment=mysql_fetch_array($SqlDepartment)) { ?><option value="<?php echo $ResDepartment['DepartmentId']; ?>"><?php echo '&nbsp;'.$ResDepartment['DepartmentCode'];?></option><?php } ?><option value="all">&nbsp;ALL</option></select>
+                       <select style="font-size:11px; width:150px; height:22px; background-color:#DDFFBB; display:block;" name="DepartmentE" id="DepartmentE" onChange="SelectDeptEmp(this.value)"><?php if($_REQUEST['DpId']=='all'){?><option value="all" selected>&nbsp;ALL</option><?php } elseif($_REQUEST['DpId']!='' AND $_REQUEST['DpId']!='all') { $SqlDep=mysql_query("select * from core_departments where id=".$_REQUEST['DpId'], $con); $ResDep=mysql_fetch_array($SqlDep);?><option value="<?php echo $_REQUEST['DpId']; ?>"><?php echo '&nbsp;'.$ResDep['department_name'];?></option><?php } else { ?><option value="" style="margin-left:0px; background-color:#84D9D5;" selected>Select Department</option><?php } ?>   
+<?php $SqlDepartment=mysql_query("select * from core_departments where is_active=1 order by department_name", $con); while($ResDepartment=mysql_fetch_array($SqlDepartment)) { ?><option value="<?php echo $ResDepartment['id']; ?>"><?php echo '&nbsp;'.$ResDepartment['department_name'];?></option><?php } ?><option value="all">&nbsp;ALL</option></select>
 	  <input type="hidden" name="ComId" id="ComId" value="<?php echo $CompanyId; ?>" /> 
                       </td>
                       <td><a href="#" onClick="Export('<?php echo $_REQUEST['DpId']; ?>')" style="font-size:12px;">Confirmation Deviation Report</a></td>
@@ -151,8 +151,22 @@ function Export(d)
  </div>
 <?php if($_REQUEST['DpId'] AND $_REQUEST['DpId']!='') { 
     
-  if($_REQUEST['DpId']!='all'){ $sqlDP = mysql_query("SELECT e.EmployeeID,EmpCode,Fname,Sname,Lname,EmpStatus,HqName,g.DepartmentId,DepartmentName,DesigName,Gender,Married,DR FROM hrm_employee e INNER JOIN hrm_employee_general g ON e.EmployeeID=g.EmployeeID INNER JOIN hrm_employee_personal p ON e.EmployeeID=p.EmployeeID INNER JOIN hrm_department d ON g.DepartmentId=d.DepartmentId INNER JOIN hrm_headquater hq ON g.HqId=hq.HqId INNER JOIN hrm_designation de ON g.DesigId=de.DesigId WHERE e.EmpStatus='A' AND e.CompanyId=".$CompanyId." AND g.DepartmentId=".$_REQUEST['DpId']." order by ECode DESC", $con); }
-  else { $sqlDP = mysql_query("SELECT e.EmployeeID,EmpCode,Fname,Sname,Lname,EmpStatus,HqName,g.DepartmentId,DepartmentName,DesigName,Gender,Married,DR FROM hrm_employee e INNER JOIN hrm_employee_general g ON e.EmployeeID=g.EmployeeID INNER JOIN hrm_employee_personal p ON e.EmployeeID=p.EmployeeID INNER JOIN hrm_department d ON g.DepartmentId=d.DepartmentId INNER JOIN hrm_headquater hq ON g.HqId=hq.HqId INNER JOIN hrm_designation de ON g.DesigId=de.DesigId WHERE e.EmpStatus='A' AND e.CompanyId=".$CompanyId." order by ECode DESC", $con); }
+  if($_REQUEST['DpId']!='all'){ $sqlDP = mysql_query("SELECT e.EmployeeID,EmpCode,Fname,Sname,Lname,EmpStatus,g.HqId, g.TerrId, department_name, sub_department_name, section_name, designation_name, grade_name, state_name, city_village_name, territory_name,Gender,Married,DR FROM hrm_employee e INNER JOIN hrm_employee_general g ON e.EmployeeID=g.EmployeeID INNER JOIN hrm_employee_personal p ON e.EmployeeID=p.EmployeeID left join core_departments dept on g.DepartmentId=dept.id
+  left join core_sub_department_master subdept on g.SubDepartmentId=subdept.id
+  left join core_section sec on g.EmpSection=sec.id
+  left join core_designation desig on g.DesigId=desig.id
+  left join core_grades gr on g.GradeId=gr.id
+  left join core_states st on g.CostCenter=st.id
+  left join core_city_village_by_state vlg on g.HqId=vlg.id
+  left join core_territory Tr on g.TerrId=Tr.id WHERE e.EmpStatus='A' AND e.CompanyId=".$CompanyId." AND g.DepartmentId=".$_REQUEST['DpId']." order by ECode DESC", $con); }
+  else { $sqlDP = mysql_query("SELECT e.EmployeeID,EmpCode,Fname,Sname,Lname,EmpStatus,g.HqId, g.TerrId, department_name, sub_department_name, section_name, designation_name, grade_name, state_name, city_village_name, territory_name,Gender,Married,DR FROM hrm_employee e INNER JOIN hrm_employee_general g ON e.EmployeeID=g.EmployeeID INNER JOIN hrm_employee_personal p ON e.EmployeeID=p.EmployeeID left join core_departments dept on g.DepartmentId=dept.id
+  left join core_sub_department_master subdept on g.SubDepartmentId=subdept.id
+  left join core_section sec on g.EmpSection=sec.id
+  left join core_designation desig on g.DesigId=desig.id
+  left join core_grades gr on g.GradeId=gr.id
+  left join core_states st on g.CostCenter=st.id
+  left join core_city_village_by_state vlg on g.HqId=vlg.id
+  left join core_territory Tr on g.TerrId=Tr.id WHERE e.EmpStatus='A' AND e.CompanyId=".$CompanyId." order by ECode DESC", $con); }
 
 	  
       $Sno=1;  while($resDP = mysql_fetch_assoc($sqlDP)) { 
@@ -166,9 +180,10 @@ function Export(d)
 		<td class="tdc"><?php echo $Sno; ?></td>
 		<td class="tdc"><?php echo $EC; ?></td>
 		<td class="tdl">&nbsp;<?php echo strtoupper($Name); ?></td>
-		<td class="tdl">&nbsp;<?php echo strtoupper($resDP['HqName']);?></td>
-		<td class="tdl">&nbsp;<?php echo strtoupper($resDP['DepartmentName']);?></td>
-		<td class="tdl">&nbsp;<?php echo strtoupper($resDP['DesigName']);?></td>
+		<?php if($resDP['TerrId']>0){$Hq=$resDP['territory_name'];}else{$Hq=$resDP['city_village_name']; } ?>
+		<td class="tdl">&nbsp;<?php echo strtoupper($Hq);?></td>
+		<td class="tdl">&nbsp;<?php echo strtoupper($resDP['department_name']);?></td>
+		<td class="tdl">&nbsp;<?php echo strtoupper($resDP['designation_name']);?></td>
 	<td class="tdc" bgcolor="<?php if($resDP['EmpStatus']=='D'){echo '#FBE4BB';}?>"><?php echo $resDP['EmpStatus'];?></td>
 		
 		<?php $sqChk=mysql_query("select * from hrm_employee_confletter where EmployeeID=".$resDP['EmployeeID'], $con); 

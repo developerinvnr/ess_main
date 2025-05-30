@@ -18,24 +18,27 @@
 	  $pass=encrypt($_REQUEST['EmpPass']);
 	  $Fname=ucfirst($_REQUEST['FName']);  $Sname=ucfirst($_REQUEST['SName']);  $Lname=ucfirst($_REQUEST['LName']);
 	  
-	  //$sql2 = mysql_query("SELECT MAX(EmployeeID) as EmpID FROM hrm_employee where CompanyId=".$_REQUEST['ComId']." AND EmpCode!=11001 AND EmployeeID<=100000", $con); $res2 = mysql_fetch_assoc($sql2);
-	   // $NextEmpID = $res2['EmpID']+1;
+	  $sql2 = mysql_query("SELECT MAX(EmployeeID) as EmpID FROM hrm_employee where EmpCode!=11001 AND EmployeeID<=100000", $con); $res2 = mysql_fetch_assoc($sql2);
+	  $NextEmpID = $res2['EmpID']+1;
 	    
+	    $EC=$_REQUEST['EmpCode'];
+	    if($_REQUEST['ComId']==2){ $EC='G'.$_REQUEST['EmpCode']; }
+	    elseif($_REQUEST['ComId']==3){ $EC='N'.$_REQUEST['EmpCode']; }
 	  
-	  $sqlIns = mysql_query("insert into hrm_employee(EmpCode,ECode,EmpPass,EmpStatus,Fname,Sname,Lname,CompanyId,CreatedBy,CreatedDate,YearId)values('".$_REQUEST['EmpCode']."', '".$_REQUEST['EmpCode']."', '".$pass."', '".$_REQUEST['EmpStatus']."', '".trim(ucfirst($Fname))."', '".trim(ucfirst($Sname))."', '".trim(ucfirst($Lname))."', ".$_REQUEST['ComId'].", ".$_REQUEST['UserId'].", '".date("Y-m-d")."', ".$_REQUEST['YearId'].")", $con);
+	  $sqlIns = mysql_query("insert into hrm_employee(EmployeeID,EmpCode_New,EmpCode,ECode,EmpPass,EmpStatus,Fname,Sname,Lname,CompanyId,CreatedBy,CreatedDate,YearId)values(".$NextEmpID.",'".$EC."','".$_REQUEST['EmpCode']."', '".$_REQUEST['EmpCode']."', '".$pass."', '".$_REQUEST['EmpStatus']."', '".trim(ucfirst($Fname))."', '".trim(ucfirst($Sname))."', '".trim(ucfirst($Lname))."', ".$_REQUEST['ComId'].", ".$_REQUEST['UserId'].", '".date("Y-m-d")."', ".$_REQUEST['YearId'].")", $con);
 	  if($sqlIns) 
-       { $SqlEmpID = mysql_query("SELECT EmployeeID FROM hrm_employee where EmpCode=".$_REQUEST['EmpCode']." AND CompanyId=".$_REQUEST['ComId'], $con);  
+       { $SqlEmpID = mysql_query("SELECT EmployeeID FROM hrm_employee where EmpCode='".$_REQUEST['EmpCode']."' AND CompanyId=".$_REQUEST['ComId'], $con);  
 	     $ResEmpID=mysql_fetch_assoc($SqlEmpID);
 	     if($SqlEmpID)
-		  { $sql_1 = mysql_query("insert into hrm_employee_general(EmployeeID,EC,FileNo,DateJoining,DateConfirmationYN,ConfirmHR,DateConfirmation,DOB,DOB_dm,GradeId,CostCenter,HqId,DepartmentId,DesigId,MobileNo_Vnr,EmailId_Vnr,CreatedBy,CreatedDate,YearId)values(".$ResEmpID['EmployeeID'].", '".$_REQUEST['EmpCode']."', ".$_REQUEST['FileNo'].", '".date("Y-m-d",strtotime($_REQUEST['DOJ']))."', '".$YN."', '".$YH."', '".date("Y-m-d",strtotime($_REQUEST['DOC']))."', '".date("Y-m-d",strtotime($_REQUEST['DOB']))."', '".date("0000-m-d",strtotime($_REQUEST['DOB']))."', ".$_REQUEST['GradeName'].", '".$_REQUEST['CostCenter']."', ".$_REQUEST['HQName'].", ".$_REQUEST['DeptName'].", ".$_REQUEST['DesigName'].", ".$_REQUEST['OffiMobileNo'].", '".$_REQUEST['OffiEmialId']."', ".$_REQUEST['UserId'].", '".date("Y-m-d")."', ".$_REQUEST['YearId'].")", $con); 
-		    $sql_2 = mysql_query("insert into hrm_employee_personal(EmployeeID,EC)values(".$ResEmpID['EmployeeID'].",'".$_REQUEST['EmpCode']."')", $con); 
-            $sql_3 = mysql_query("insert into hrm_employee_photo(EmployeeID,EC)values(".$ResEmpID['EmployeeID'].",'".$_REQUEST['EmpCode']."')", $con); 
-            $sql_4 = mysql_query("insert into hrm_employee_contact(EmployeeID,EC)values(".$ResEmpID['EmployeeID'].",'".$_REQUEST['EmpCode']."')", $con);    
-            $sql_5 = mysql_query("insert into hrm_employee_family(EmployeeID,EC)values(".$ResEmpID['EmployeeID'].",'".$_REQUEST['EmpCode']."')", $con);    
-            //$sql_6 = mysql_query("insert into hrm_employee_leave(LeaveYearId,Year,EmployeeID,EC)values(".$_REQUEST['YearId'].",'".date("Y")."',".$ResEmpID['EmployeeID'].",".$_REQUEST['EmpCode'].")", $con);    
+		  { $sql_1 = mysql_query("insert into hrm_employee_general(EmployeeID,EC,FileNo,DateJoining,DateConfirmationYN,ConfirmHR,DateConfirmation,DOB,DOB_dm,GradeId,CostCenter,HqId,DepartmentId,DesigId,MobileNo_Vnr,EmailId_Vnr,CreatedBy,CreatedDate,YearId)values(".$ResEmpID['EmployeeID'].", '".$EC."', ".$_REQUEST['FileNo'].", '".date("Y-m-d",strtotime($_REQUEST['DOJ']))."', '".$YN."', '".$YH."', '".date("Y-m-d",strtotime($_REQUEST['DOC']))."', '".date("Y-m-d",strtotime($_REQUEST['DOB']))."', '".date("0000-m-d",strtotime($_REQUEST['DOB']))."', ".$_REQUEST['GradeName'].", '".$_REQUEST['CostCenter']."', ".$_REQUEST['HQName'].", ".$_REQUEST['DeptName'].", ".$_REQUEST['DesigName'].", ".$_REQUEST['OffiMobileNo'].", '".$_REQUEST['OffiEmialId']."', ".$_REQUEST['UserId'].", '".date("Y-m-d")."', ".$_REQUEST['YearId'].")", $con); 
+		    $sql_2 = mysql_query("insert into hrm_employee_personal(EmployeeID,EC)values(".$ResEmpID['EmployeeID'].",'".$EC."')", $con); 
+            $sql_3 = mysql_query("insert into hrm_employee_photo(EmployeeID,EC)values(".$ResEmpID['EmployeeID'].",'".$EC."')", $con); 
+            $sql_4 = mysql_query("insert into hrm_employee_contact(EmployeeID,EC)values(".$ResEmpID['EmployeeID'].",'".$EC."')", $con);    
+            $sql_5 = mysql_query("insert into hrm_employee_family(EmployeeID,EC)values(".$ResEmpID['EmployeeID'].",'".$EC."')", $con);    
+            //$sql_6 = mysql_query("insert into hrm_employee_leave(LeaveYearId,Year,EmployeeID,EC)values(".$_REQUEST['YearId'].",'".date("Y")."',".$ResEmpID['EmployeeID'].",".$EC.")", $con);    
             $sql_7 = mysql_query("insert into hrm_employee_eligibility(EmployeeID,EC)values(".$ResEmpID['EmployeeID'].",".$_REQUEST['EmpCode'].")", $con); 
-            $sql_8 = mysql_query("insert into hrm_employee_ctc(EmployeeID,EC)values(".$ResEmpID['EmployeeID'].",'".$_REQUEST['EmpCode'].")", $con); 
-			$sql_9 = mysql_query("insert into hrm_employee_experience(Emplo'yeeID,EC)values(".$ResEmpID['EmployeeID'].",'".$_REQUEST['EmpCode']."')", $con);
+            $sql_8 = mysql_query("insert into hrm_employee_ctc(EmployeeID,EC)values(".$ResEmpID['EmployeeID'].",'".$EC.")", $con); 
+			$sql_9 = mysql_query("insert into hrm_employee_experience(Emplo'yeeID,EC)values(".$ResEmpID['EmployeeID'].",'".$EC."')", $con);
 
 $sqlSY=mysql_query("select CurrY from hrm_pms_setting where CompanyId=".$_REQUEST['ComId']." AND Process='KRA'", $con); $SNo=1; $resSY=mysql_fetch_array($sqlSY);
                         $sql10=mysql_query("insert into hrm_employee_pms(AssessmentYear,CompanyId,EmployeeID,HR_Curr_DepartmentId,YearId) values(".$resSY['CurrY'].", ".$_REQUEST['ComId'].", ".$ResEmpID['EmployeeID'].", ".$_REQUEST['DeptName'].", ".$resSY['CurrY'].")", $con);

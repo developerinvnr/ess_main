@@ -21,8 +21,8 @@
 		<td width="50">&nbsp;</td>
 		<td width="120" class="heading">Department:&nbsp;</td>
 		<td>
-<?php $Sql=mysql_query("select * from hrm_department where DepartmentId=".$_REQUEST['D'], $con); $Res=mysql_fetch_assoc($Sql);  ?>		
-<input style="font:Times New Roman;width:200px;font-size:15px;background-color:#E0DBE3;border-style:none;font-weight:bold;" value="<?php echo $Res['DepartmentName'] ?>" />
+<?php $Sql=mysql_query("select department_name as DepartmentCode from core_departments where id=".$_REQUEST['D'], $con); $Res=mysql_fetch_assoc($Sql);  ?>		
+<input style="font:Times New Roman;width:200px;font-size:15px;background-color:#E0DBE3;border-style:none;font-weight:bold;" value="<?php echo $Res['DepartmentCode'] ?>" />
 		</td>
 	    <td style="font:Times New Roman; width:200px; color:#4A0000; font-size:12px; ">
 		<a href="#" onClick="printage()"><font style="font-family:Times New Roman; font-size:12px;">Print</font></a>	

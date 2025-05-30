@@ -95,7 +95,7 @@ function FucChk(sn)
    <td align="center" class="font" style="width:60px;">TOTAL</td>
    <td align="center" class="font" style="width:60px;">%</td>
   </tr>
-<?php $sql=mysql_query("select DepartmentId,DepartmentName from hrm_department where DeptStatus='A' AND CompanyId=".$CompanyId." order by DepartmentName ASC",$con); 
+<?php $sql=mysql_query("select id as DepartmentId,department_name as DepartmentName from core_departments where is_active=1 order by department_name",$con); 
       $SNo=1; while($res=mysql_fetch_array($sql)){ $Today=date("Y-m-d"); ?>
 <tr id="TR<?php echo $SNo; ?>">
    <td align="center" style="width:50px;"><input type="checkbox" id="Chk<?php echo $SNo; ?>" onClick="FucChk(<?php echo $SNo; ?>)" /></td>
